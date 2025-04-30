@@ -1,0 +1,207 @@
+[versions]
+# Android
+agp = "8.9.2"
+androidTools = "31.8.0"
+android-compileSdk = "35"
+android-minSdk = "24"
+android-targetSdk = "35"
+androidx-activityCompose = "1.10.1"
+androidx-appcompat = "1.7.0"
+androidx-constraintlayout = "2.2.1"
+androidx-core-ktx = "1.16.0"
+androidx-espresso-core = "3.6.1"
+androidx-test-junit = "1.2.1"
+
+# Multiplatform
+compose-multiplatform = "1.8.0-rc01"
+androidx-lifecycle = "2.9.0-alpha07"
+navigationCompose = "2.9.0-alpha17"
+adaptive = "1.1.0-rc01"
+datastoreCoreOkio = "1.1.5"
+jna = "5.17.0"
+junit = "4.13.2"
+koin = "4.0.2"
+kotlin = "2.1.20"
+core = "1.6.1"
+kotlinx-coroutines = "1.10.1"
+kotlinxCoroutinesPlayServices = "1.10.1"
+kotlinxIoCore = "0.7.0"
+ksp = "2.1.20-1.0.31"
+kuromojiIpadic = "0.9.0"
+materialKolor = "2.0.2"
+paging = "3.3.6"
+moko = "0.19.1"
+runner = "1.6.2"
+sqlite = "2.5.0"
+room = "2.7.1"
+datastore = "1.1.4"
+serialization = "1.8.0"
+wire = "5.3.1"
+
+moduleGraph = "2.8.0"
+
+# JVM only
+wanakanaCommon = "1.0.1"
+composeHotReload = "1.0.0-alpha03"
+
+# Android only
+textRecognitionJapanese = "16.0.1"
+mlkitTranslate = "17.0.3"
+navigationTesting = "2.8.9"
+uiTestJunit4Android = "1.8.0"
+cameraX = "1.5.0-alpha06"
+glance = "1.1.1"
+workRuntimeKtx = "2.10.1"
+
+# Server
+ktor = "3.1.2"
+logback = "1.5.18"
+
+[libraries]
+compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
+adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }
+
+androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "datastoreCoreOkio" }
+androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigationTesting" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "core" }
+
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
+
+
+# Testing
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
+jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
+jna-platform = { module = "net.java.dev.jna:jna-platform", version.ref = "jna" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
+# Instrumented tests
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+
+# Runtime
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
+
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+# Room
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+kuromoji-ipadic = { module = "com.atilika.kuromoji:kuromoji-ipadic", version.ref = "kuromojiIpadic" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIoCore" }
+
+# Datastore
+datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
+
+# Koin
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+# Nav
+jetbrains-compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+# Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose-multiplatform" }
+
+wanakana-common = { module = "io.github.greattusk:wanakana-common", version.ref = "wanakanaCommon" }
+
+# CameraX (Android)
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraX" }
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraX" }
+androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "cameraX" }
+androidx-camera-compose = { module = "androidx.camera:camera-compose", version.ref = "cameraX" }
+androidx-camera-video = { module = "androidx.camera:camera-video", version.ref = "cameraX" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraX" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraX" }
+
+# Google ML Kit (Android)
+text-recognition-japanese = { module = "com.google.mlkit:text-recognition-japanese", version.ref = "textRecognitionJapanese" }
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
+
+
+# Widgets (Android)
+glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
+glance-material = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
+glance-appwidget-preview = { group = "androidx.glance", name = "glance-appwidget-preview", version.ref = "glance" }
+glance-preview = { group = "androidx.glance", name = "glance-preview", version.ref = "glance" }
+
+# Work Manager (Android)
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+
+# Permission handling
+moko-core = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
+moko-camera = { module = "dev.icerock.moko:permissions-camera", version.ref = "moko" }
+moko-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
+
+# Dependencies of the included build-logic
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-gradlePlugin = { module = "org.jetbrains.compose:org.jetbrains.compose.gradle.plugin", version.ref = "compose-multiplatform" }
+compose-compiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
+# Server
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-test-host = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor" }
+
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
+module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
+squareup-wire = { id = "com.squareup.wire", version.ref = "wire" }
+
+# Server
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+
+composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
+
+# Custom plugins
+f776-composeMultiplatform = { id = "com.f776.composeMultiplatform" }
+f776-glanceWidget = { id = "com.f776.glanceWidget" }
+f776-kotlinMultiplatform = { id = "com.f776.kotlinMultiplatform" }
+f776-androidLibrary = { id = "com.f776.androidLibrary" }
+f776-androidOnly = { id = "com.f776.androidOnly" }
+f776-androidApplication = { id = "com.f776.androidApplication" }
+f776-desktopApplication = { id = "com.f776.desktopApplication" }
+f776-roomMultiplatform = { id = "com.f776.roomMultiplatform" }
+
+[bundles]
+camerax = [
+    "androidx-camera-core",
+    "androidx-camera-lifecycle",
+    "androidx-camera-camera2"
+]
