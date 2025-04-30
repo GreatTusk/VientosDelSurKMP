@@ -1,5 +1,4 @@
 
-import com.f776.convention.configureNativeLibs
 import com.f776.convention.getVersionCodeAndNameProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -10,18 +9,17 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 class DesktopApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
-        configureNativeLibs()
         extensions.configure<ComposeExtension> {
             extensions.configure<DesktopExtension> {
                 val (_, versionNameProperty) = getVersionCodeAndNameProperty()
                 application {
-                    mainClass = "com.f776.japanesedictionary.MainKt"
+                    mainClass = "com.portafolio.vientos_del_sur.MainKt"
 
                     nativeDistributions {
                         targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-                        packageName = "Japanese Dictionary"
+                        packageName = "Vientos del Sur"
                         packageVersion = versionNameProperty
-                        description = "Japanese Dictionary by GreatTusk"
+                        description = "Vientos del Sur"
                         copyright = "Copyright (c) 2025, GreatTusk"
 
                         windows {
@@ -34,7 +32,7 @@ class DesktopApplicationConventionPlugin : Plugin<Project> {
                         }
 
                         macOS {
-                            dockName = "Japanese Dictionary"
+                            dockName = "Vientos del Sur"
                             entitlementsFile.set(project.file("default.entitlements"))
                             iconFile.set(project.file("ic_launcher-playstore.icns"))
                         }
