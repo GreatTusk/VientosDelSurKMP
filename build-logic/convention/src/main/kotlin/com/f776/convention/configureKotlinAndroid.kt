@@ -16,9 +16,9 @@ internal fun Project.configureKotlinAndroid(
     namespace =
         if (moduleName.isNotEmpty()) {
             if (moduleName == "composeApp") {
-                "com.f776.japanesedictionary"
+                "com.portafolio.vientos_del_sur"
             } else {
-                "com.f776.japanesedictionary.$moduleName"
+                "com.portafolio.vientos_del_sur.$moduleName"
             }
         } else "com.f776"
 

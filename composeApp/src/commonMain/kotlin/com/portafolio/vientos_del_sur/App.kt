@@ -3,8 +3,13 @@ package com.portafolio.vientos_del_sur
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -28,7 +33,7 @@ fun App(darkTheme: Boolean) {
     VientosDelSurTheme(darkTheme = darkTheme) {
         var showContent by remember { mutableStateOf(false) }
         Surface(Modifier.fillMaxSize()) {
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(Modifier.fillMaxWidth().padding(WindowInsets.statusBars.asPaddingValues()), horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = { showContent = !showContent }) {
                     Text("Click me!")
                 }
