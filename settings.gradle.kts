@@ -1,5 +1,6 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 includeBuild("build-logic")
+includeBuild("server")
 
 pluginManagement {
 
@@ -33,7 +34,7 @@ plugins {
 
 rootProject.name = "VientosDelSur"
 include(":composeApp")
-include(":server")
+include(":shared")
 include(":core:common")
 include(":core:ui")
 include(":core:network")
@@ -42,3 +43,4 @@ include(":core:paging")
 include(":data:imageAnalysis")
 include(":domain:imageAnalysis")
 include(":feature:imageAnalysis")
+include(":feature:staff")
