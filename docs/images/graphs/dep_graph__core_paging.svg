@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92pt" height="44pt" viewBox="0 0 91.5 44">
+    <g class="graph">
+        <path fill="#fff" d="M0 44V0h91.5v44z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M87.5 4H4v36h83.5z"/>
+            <text x="41.75" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:core:paging</text>
+        </g>
+    </g>
+</svg>

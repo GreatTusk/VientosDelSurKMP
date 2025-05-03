@@ -6,7 +6,6 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(projects.core.common)
             api(projects.domain.imageAnalysis)
             implementation(libs.koin.core)
         }

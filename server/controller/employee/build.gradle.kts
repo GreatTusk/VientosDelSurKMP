@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     implementation(projects.server.data.employee)
-    implementation(projects.core.common)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)

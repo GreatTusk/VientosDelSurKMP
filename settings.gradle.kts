@@ -32,9 +32,10 @@ plugins {
 }
 
 rootProject.name = "VientosDelSur"
+include(":shared")
+
 // Client
 include(":composeApp")
-include(":shared")
 include(":core:common")
 include(":core:ui")
 include(":core:network")

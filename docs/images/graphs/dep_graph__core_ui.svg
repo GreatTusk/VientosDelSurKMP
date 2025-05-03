@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="65pt" height="44pt" viewBox="0 0 65.25 44">
+    <g class="graph">
+        <path fill="#fff" d="M0 44V0h65.25v44z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M61.25 4H4v36h57.25z"/>
+            <text x="28.62" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:core:ui</text>
+        </g>
+    </g>
+</svg>

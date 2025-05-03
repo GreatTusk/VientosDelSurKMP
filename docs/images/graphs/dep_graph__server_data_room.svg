@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="44pt" viewBox="0 0 120 44">
+    <g class="graph">
+        <path fill="#fff" d="M0 44V0h120v44z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M116 4H4v36h112z"/>
+            <text x="56" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:server:data:room</text>
+        </g>
+    </g>
+</svg>
