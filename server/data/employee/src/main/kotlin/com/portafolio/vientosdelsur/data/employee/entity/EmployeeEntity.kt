@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur.data.employee.entity
+package com.portafolio.vientosdelsur.data.employee.entity
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

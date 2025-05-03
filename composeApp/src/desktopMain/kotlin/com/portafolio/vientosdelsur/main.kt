@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur
+package com.portafolio.vientosdelsur
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.window.Window

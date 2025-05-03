@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur
+package com.portafolio.vientosdelsur
 
 import android.graphics.Color.TRANSPARENT
 import android.os.Bundle

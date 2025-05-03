@@ -1,7 +1,7 @@
-package com.portafolio.vientos_del_sur
+package com.portafolio.vientosdelsur
 
 import android.app.Application
-import com.portafolio.vientos_del_sur.di.initKoin
+import com.portafolio.vientosdelsur.di.initKoin
 import org.koin.android.ext.koin.androidContext
 
 class VientosDelSurApplication: Application() {

@@ -9,7 +9,7 @@ internal fun Project.configureAndroidApplication(
     versionNameProperty: String
 ) = extension.apply {
     defaultConfig {
-        applicationId = "com.portafolio.vientos_del_sur"
+        applicationId = "com.portafolio.vientosdelsur"
         targetSdk = libs.findVersion("android-targetSdk").get().requiredVersion.toInt()
         versionCode = versionCodeProperty
         versionName = versionNameProperty

@@ -13,7 +13,7 @@ class DesktopApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<DesktopExtension> {
                 val (_, versionNameProperty) = getVersionCodeAndNameProperty()
                 application {
-                    mainClass = "com.portafolio.vientos_del_sur.MainKt"
+                    mainClass = "com.portafolio.vientosdelsur.MainKt"
 
                     nativeDistributions {
                         targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

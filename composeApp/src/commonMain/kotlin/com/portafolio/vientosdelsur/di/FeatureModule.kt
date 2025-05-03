@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur.di
+package com.portafolio.vientosdelsur.di
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

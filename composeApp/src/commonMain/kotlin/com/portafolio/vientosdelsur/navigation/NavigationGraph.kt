@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur.navigation
+package com.portafolio.vientosdelsur.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur
+package com.portafolio.vientosdelsur
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*

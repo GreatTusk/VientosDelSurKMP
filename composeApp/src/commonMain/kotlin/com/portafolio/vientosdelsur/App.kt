@@ -1,4 +1,4 @@
-package com.portafolio.vientos_del_sur
+package com.portafolio.vientosdelsur
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
