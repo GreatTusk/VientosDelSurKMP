@@ -2,14 +2,13 @@ package com.portafolio.vientosdelsur.data
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import org.jetbrains.exposed.sql.Database
 
-internal object DatabaseFactory {
+internal class DatabaseFactory(private val applicationEnvironment: ApplicationEnvironment) {
     private fun getHikariConfig(): HikariConfig {
-        val env = applicationEnvironment().config
-
-        env.keys().forEach(::println)
+        val env = applicationEnvironment.config
 
         return HikariConfig().apply {
             jdbcUrl = checkNotNull(env.propertyOrNull("database.jdbcUrl")?.getString()) { "DB URL is not provided" }
@@ -26,5 +25,5 @@ internal object DatabaseFactory {
 
     private val dataSource = HikariDataSource(getHikariConfig())
 
-    val connectToDb = { Database.connect(datasource = dataSource) }
+    fun connectToDb() = Database.connect(datasource = dataSource)
 }

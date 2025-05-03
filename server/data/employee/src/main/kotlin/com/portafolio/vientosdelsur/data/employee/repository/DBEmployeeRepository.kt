@@ -13,6 +13,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
         return@suspendTransaction try {
             Result.Success(EmployeeDao.all().map { it.toEmployeeDto() })
         } catch (e: Exception) {
+            println(e.message)
             Result.Error(DataError.Remote.UNKNOWN)
         }
     }

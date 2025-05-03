@@ -1,6 +1,8 @@
 package com.portafolio.vientosdelsur.controller.employee.route
 
-import com.f776.core.common.takeOrDefault
+import com.f776.core.common.onEmpty
+import com.f776.core.common.onError
+import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.data.employee.repository.EmployeeRepository
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -13,7 +15,14 @@ fun Application.employeeRoute() {
     routing {
         route("/employee") {
             get {
-                call.respond(employeeRepository.allEmployees().takeOrDefault(emptyList()))
+                employeeRepository.allEmployees()
+                    .onSuccess {
+                        call.respond(it)
+                    }.onError {
+                        call.respond("Something happened: $it")
+                    }.onEmpty {
+                        call.respond("Nothing")
+                    }
             }
         }
     }

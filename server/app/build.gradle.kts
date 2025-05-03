@@ -25,10 +25,13 @@ dependencies {
     implementation(libs.ktor.server.config.yaml)
 
 
+
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
 
+    implementation(libs.hikaricp)
+    implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
     implementation(libs.h2database.h2)
 

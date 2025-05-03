@@ -4,7 +4,9 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
+import org.jetbrains.exposed.sql.transactions.transaction
 
 internal object EmployeeEntity: IntIdTable("employee") {
     val firstName = varchar("first_name", 50)
@@ -13,6 +15,12 @@ internal object EmployeeEntity: IntIdTable("employee") {
     val dayOff = varchar("day_off", 50).nullable()
     val hireDate = datetime("hire_date")
     val occupation = varchar("occupation", 50)
+
+    init {
+        transaction {
+            SchemaUtils.create(this@EmployeeEntity)
+        }
+    }
 }
 
 internal class EmployeeDao(id: EntityID<Int>): IntEntity(id) {
