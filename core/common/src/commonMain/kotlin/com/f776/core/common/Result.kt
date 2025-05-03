@@ -49,4 +49,18 @@ inline fun <T, E : Error> Result<T, E>.onEmpty(action: () -> Unit): Result<T, E>
     }
 }
 
+fun <T, E : Error> Result<T, E>.takeOrNull(): T? {
+    return when (this) {
+        is Result.Success -> data
+        else -> null
+    }
+}
+
+fun <T, E : Error> Result<T, E>.takeOrDefault(defaultValue: T): T {
+    return when (this) {
+        is Result.Success -> data
+        else -> defaultValue
+    }
+}
+
 typealias EmptyResult<E> = Result<Unit, E>

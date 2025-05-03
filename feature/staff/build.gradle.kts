@@ -8,7 +8,6 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-//            implementation(projects.shared)
             implementation(projects.core.ui)
 
             implementation(libs.jetbrains.compose.navigation)

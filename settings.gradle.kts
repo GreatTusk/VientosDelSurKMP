@@ -47,6 +47,7 @@ include(":feature:staff")
 
 // Server
 include(":server:app")
+include(":server:core:data")
 include(":server:data:employee")
 include(":server:data:room")
 include(":server:data:user")

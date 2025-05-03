@@ -14,18 +14,21 @@ application {
 }
 
 dependencies {
+    implementation(projects.server.controller.employee)
+
     implementation(libs.logback)
+
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
-
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.config.yaml)
 
 
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)
-    implementation(libs.exposed.core)
+    implementation(libs.koin.logger.slf4j)
+
     implementation(libs.exposed.jdbc)
     implementation(libs.h2database.h2)
 

@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
-object EmployeeEntity: IntIdTable("employee") {
+internal object EmployeeEntity: IntIdTable("employee") {
     val firstName = varchar("first_name", 50)
     val lastName = varchar("last_name", 50)
     val phoneNumber = varchar("phone_number", 9)
@@ -15,7 +15,7 @@ object EmployeeEntity: IntIdTable("employee") {
     val occupation = varchar("occupation", 50)
 }
 
-class EmployeeDao(id: EntityID<Int>): IntEntity(id) {
+internal class EmployeeDao(id: EntityID<Int>): IntEntity(id) {
     companion object : IntEntityClass<EmployeeDao>(EmployeeEntity)
 
     var firstName by EmployeeEntity.firstName

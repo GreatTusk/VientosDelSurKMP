@@ -4,6 +4,9 @@ plugins {
 
 dependencies {
     implementation(projects.shared)
+    implementation(projects.core.common)
+    implementation(projects.server.core.data)
+
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)

@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres
+    container_name: vientos-del-sur-db
+    environment:
+      POSTGRES_DB: vientosdelsur
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
