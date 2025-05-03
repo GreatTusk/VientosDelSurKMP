@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.shared)
+    api(projects.shared)
     implementation(projects.core.common)
     implementation(projects.server.core.data)
 

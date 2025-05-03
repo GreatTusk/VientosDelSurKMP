@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.core.data
+package com.portafolio.vientosdelsur.data
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource

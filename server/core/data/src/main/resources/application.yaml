@@ -1,0 +1,5 @@
+database:
+  jdbcUrl: "jdbc:postgresql://localhost:5432/vientosdelsur"
+  driverClassName: "org.postgresql.Driver"
+  username: "postgres"
+  password: "password"
