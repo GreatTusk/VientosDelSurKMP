@@ -10,3 +10,4 @@ database:
   driverClassName: "org.postgresql.Driver"
   username: "postgres"
   password: "password"
+  maximumPoolSize: 7
