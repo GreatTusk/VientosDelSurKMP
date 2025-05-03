@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.shared)
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)
