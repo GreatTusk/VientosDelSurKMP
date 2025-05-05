@@ -10,6 +10,5 @@ data class EmployeeDto(
     val phoneNumber: String,
     val dayOff: Int,
     val hireDate: String,
-    val occupation: String,
-
+    val occupation: String
 )
