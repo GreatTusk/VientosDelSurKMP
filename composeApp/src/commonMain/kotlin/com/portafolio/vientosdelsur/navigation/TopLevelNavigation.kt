@@ -3,19 +3,40 @@ package com.portafolio.vientosdelsur.navigation
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.navigation.isRouteInHierarchy
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
     val backStackEntry by navController.currentBackStackEntryAsState()
+    val adaptiveInfo = currentWindowAdaptiveInfo()
+    val navigationSuiteType = with(adaptiveInfo) {
+        if (
+            windowPosture.isTabletop ||
+            windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
+        ) {
+            NavigationSuiteType.NavigationRail
+        } else if (
+            windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
+        ) {
+            NavigationSuiteType.NavigationRail
+        } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
+            NavigationSuiteType.NavigationDrawer
+        } else {
+            NavigationSuiteType.NavigationBar
+        }
+    }
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -40,7 +61,8 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
                     onClick = { destination.navigateToTopLevelDestination(navController) }
                 )
             }
-        }
+        },
+        layoutType = navigationSuiteType
     ) {
         NavigationGraph(navController = navController)
     }

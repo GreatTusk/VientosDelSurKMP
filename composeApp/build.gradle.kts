@@ -33,5 +33,5 @@ kotlin {
 }
 
 tasks.register<ComposeHotRun>("runHot") {
-    mainClass.set("com.f776.japanesedictionary.MainKt")
+    mainClass.set("com.portafolio.vientosdelsur.MainKt")
 }

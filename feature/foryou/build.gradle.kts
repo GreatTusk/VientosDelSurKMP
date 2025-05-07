@@ -9,6 +9,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.ui)
+            implementation(libs.kotlinx.datetime)
 
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.adaptive.navigation)

@@ -14,14 +14,8 @@ actual fun VientosDelSurTheme(
     dynamicColor: Boolean,
     content: @Composable () -> Unit
 ) {
-    val accentColor = remember { getAccentColor() }
-    val colorScheme = if (accentColor != null) {
-        rememberDynamicColorScheme(accentColor, isDark = darkTheme, isAmoled = false)
-    } else {
-        if (darkTheme) darkScheme else lightScheme
-    }
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = if (darkTheme) darkScheme else lightScheme,
         typography = AppTypography(),
         content = content
     )
