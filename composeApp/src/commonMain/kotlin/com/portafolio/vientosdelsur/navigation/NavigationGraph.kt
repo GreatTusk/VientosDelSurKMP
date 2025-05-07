@@ -1,9 +1,19 @@
 package com.portafolio.vientosdelsur.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.portafolio.vientosdelsur.foryou.navigation.ForYou
+import com.portafolio.vientosdelsur.foryou.navigation.forYouGraph
+import com.portafolio.vientosdelsur.room.navigation.roomGraph
 
-//@Composable
-//internal expect fun NavigationGraph(
-//    navController: NavHostController
-//)
+@Composable
+fun NavigationGraph(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
+    // Hard coded for now, may replace later
+    NavHost(modifier = modifier, navController = navController, startDestination = ForYou) {
+        forYouGraph()
+        roomGraph()
+    }
+}

@@ -1,0 +1,48 @@
+package com.portafolio.vientosdelsur.navigation
+
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.f776.core.ui.navigation.isRouteInHierarchy
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+
+    NavigationSuiteScaffold(
+        navigationSuiteItems = {
+            TopLevelDestination.entries.forEach { destination ->
+                val isSelected = backStackEntry?.destination?.isRouteInHierarchy(destination.route) == true
+                item(
+                    icon = {
+                        if (isSelected) {
+                            Icon(
+                                imageVector = destination.selectedIcon,
+                                contentDescription = null
+                            )
+                        } else {
+                            Icon(
+                                imageVector = destination.unselectedIcon,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    label = { Text(stringResource(destination.iconText)) },
+                    selected = isSelected,
+                    onClick = { destination.navigateToTopLevelDestination(navController) }
+                )
+            }
+        }
+    ) {
+        NavigationGraph(navController = navController)
+    }
+}
+

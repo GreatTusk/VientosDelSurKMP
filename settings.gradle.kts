@@ -45,6 +45,8 @@ include(":data:imageAnalysis")
 include(":domain:imageAnalysis")
 include(":feature:imageAnalysis")
 include(":feature:staff")
+include(":feature:foryou")
+include(":feature:room")
 
 // Server
 include(":server:app")

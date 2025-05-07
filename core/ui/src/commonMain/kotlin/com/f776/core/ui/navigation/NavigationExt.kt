@@ -9,6 +9,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.reflect.KClass
 
 @Composable
 inline fun <reified T : ViewModel> NavBackStackEntry.sharedKoinViewModel(
@@ -44,3 +45,8 @@ fun <T> isTabSelected(
     }
     return currentDestination.hierarchy.any { it.hasRoute(topLevelRoute!!::class) }
 }
+
+fun NavDestination?.isRouteInHierarchy(route: KClass<*>) =
+    this?.hierarchy?.any {
+        it.hasRoute(route)
+    } ?: false

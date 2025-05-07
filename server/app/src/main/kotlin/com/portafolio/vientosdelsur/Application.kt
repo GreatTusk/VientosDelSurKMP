@@ -37,7 +37,7 @@ private fun Application.setupCronJob() {
 
             if (now.dayOfMonth == 1) {
                 log.info("It's the first day of ${now.month} ${now.year}! Performing monthly tasks...")
-                // Place your first-day-of-month specific code here
+                // First-day-of-month specific code here
             }
 
             // Calculate time until first day of next month
