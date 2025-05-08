@@ -10,7 +10,7 @@ import org.jetbrains.compose.resources.Font
 
 
 @Composable
-internal fun InterFontFamily() = FontFamily(
+internal fun interFontFamily() = FontFamily(
     Font(Res.font.Inter_24pt_Regular, weight = FontWeight.Normal),
     Font(Res.font.Inter_24pt_Italic, weight = FontWeight.Normal, style = FontStyle.Italic),
     Font(Res.font.Inter_24pt_SemiBold, weight = FontWeight.SemiBold),
@@ -24,16 +24,16 @@ internal fun InterFontFamily() = FontFamily(
 )
 
 @Composable
-internal fun MPLUS1FontFamily() = FontFamily(
-    Font(Res.font.MPLUS1_Regular, weight = FontWeight.Normal),
-    Font(Res.font.MPLUS1_SemiBold, weight = FontWeight.SemiBold),
-    Font(Res.font.MPLUS1_Bold, weight = FontWeight.Bold)
+internal fun robotoFontFamily() = FontFamily(
+    Font(Res.font.Roboto_Regular, weight = FontWeight.Normal),
+    Font(Res.font.Roboto_SemiBold, weight = FontWeight.SemiBold),
+    Font(Res.font.Roboto_Bold, weight = FontWeight.Bold)
 )
 
 @Composable
-internal fun AppTypography() = Typography().run {
-    val displayFontFamily = MPLUS1FontFamily()
-    val bodyFontFamily = InterFontFamily()
+internal fun appTypography() = Typography().run {
+    val displayFontFamily = robotoFontFamily()
+    val bodyFontFamily = interFontFamily()
 
     copy(
         displayLarge = displayLarge.copy(fontFamily = displayFontFamily),
@@ -42,10 +42,9 @@ internal fun AppTypography() = Typography().run {
         headlineLarge = headlineLarge.copy(fontFamily = displayFontFamily),
         headlineMedium = headlineMedium.copy(fontFamily = displayFontFamily),
         headlineSmall = headlineSmall.copy(fontFamily = displayFontFamily),
-        // Overriding default family
-        titleLarge = titleLarge.copy(fontFamily = bodyFontFamily),
-        titleMedium = titleMedium.copy(fontFamily = bodyFontFamily),
-        titleSmall = titleSmall.copy(fontFamily = bodyFontFamily),
+        titleLarge = titleLarge.copy(fontFamily = displayFontFamily),
+        titleMedium = titleMedium.copy(fontFamily = displayFontFamily),
+        titleSmall = titleSmall.copy(fontFamily = displayFontFamily),
         bodyLarge = bodyLarge.copy(fontFamily = bodyFontFamily),
         bodyMedium = bodyMedium.copy(fontFamily = bodyFontFamily),
         bodySmall = bodySmall.copy(fontFamily = bodyFontFamily),

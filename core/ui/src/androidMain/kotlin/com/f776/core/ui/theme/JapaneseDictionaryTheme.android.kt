@@ -25,7 +25,7 @@ actual fun VientosDelSurTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = AppTypography(),
+        typography = appTypography(),
         content = content
     )
 }

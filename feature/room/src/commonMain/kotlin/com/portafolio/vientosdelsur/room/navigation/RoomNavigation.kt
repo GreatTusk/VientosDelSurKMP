@@ -2,7 +2,7 @@ package com.portafolio.vientosdelsur.room.navigation
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.portafolio.vientosdelsur.room.screens.RoomScreenRoot
+import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.RoomScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable
