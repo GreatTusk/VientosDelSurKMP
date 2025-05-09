@@ -17,6 +17,7 @@ import org.jetbrains.compose.resources.StringResource
 import vientosdelsur.composeapp.generated.resources.Res
 import vientosdelsur.composeapp.generated.resources.app_name
 import vientosdelsur.composeapp.generated.resources.for_you_title
+import vientosdelsur.composeapp.generated.resources.rooms_title
 import kotlin.reflect.KClass
 
 enum class TopLevelDestination(
@@ -37,7 +38,7 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Default.Bed,
         unselectedIcon = Icons.Outlined.Bed,
         title = Res.string.app_name,
-        iconText = Res.string.for_you_title,
+        iconText = Res.string.rooms_title,
         route = Room::class
     );
 

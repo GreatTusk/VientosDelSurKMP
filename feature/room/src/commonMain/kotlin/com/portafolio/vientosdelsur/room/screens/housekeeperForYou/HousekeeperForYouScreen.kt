@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -16,6 +17,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
@@ -34,7 +37,9 @@ import kotlinx.datetime.format.DateTimeFormat
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
+import vientosdelsur.feature.room.generated.resources.*
 import vientosdelsur.feature.room.generated.resources.Res
+import vientosdelsur.feature.room.generated.resources.cleaning_guest
 import vientosdelsur.feature.room.generated.resources.cleaning_state
 import vientosdelsur.feature.room.generated.resources.cleaning_type
 
@@ -49,17 +54,85 @@ internal fun RoomScreenRoot(
 
 @Composable
 private fun RoomScreen(modifier: Modifier = Modifier) {
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Adaptive(200.dp),
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(SampleRoomStates.sampleRoomStates.size) { index ->
-            RoomStateCard(SampleRoomStates.getRoomStateByIndex(index).toRoomUi())
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = "Vientos del Sur")
+                },
+                actions = {
+                    IconButton(onClick = { /* do something */ }) {
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { innerPadding ->
+        val layoutDirection = LocalLayoutDirection.current
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(200.dp),
+            contentPadding = PaddingValues(
+                start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
+                top = innerPadding.calculateTopPadding() + 16.dp,
+                bottom = innerPadding.calculateBottomPadding() + 16.dp
+            ),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Column {
+                    Text(
+                        text = "Hola, Flor",
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Habitaciones de hoy", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.secondary)
+                }
+            }
+
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                var selectedIndex by remember { mutableIntStateOf(0) }
+
+                val options = listOf(
+                    stringResource(Res.string.cleaning_guest),
+                    stringResource(Res.string.cleaning_checkout),
+                    stringResource(Res.string.cleaning_out_of_order)
+                )
+
+                SingleChoiceSegmentedButtonRow {
+                    options.forEachIndexed { index, label ->
+                        SegmentedButton(
+                            shape = SegmentedButtonDefaults.itemShape(
+                                index = index,
+                                count = options.size
+                            ),
+                            onClick = {
+                                selectedIndex = if (selectedIndex == index) {
+                                    -1
+                                } else {
+                                    index
+                                }
+                            },
+                            selected = index == selectedIndex,
+                            label = { Text(label) }
+                        )
+                    }
+                }
+            }
+            items(SampleRoomStates.sampleRoomStates.size) { index ->
+                RoomStateCard(SampleRoomStates.getRoomStateByIndex(index).toRoomUi())
+            }
         }
     }
+
 }
 
 @Composable

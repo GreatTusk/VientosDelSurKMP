@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="cleaning_state">Limpieza</string>
+    <string name="pending_state">Pendiente</string>
+    <string name="in_cleaning_state">En progreso</string>
+    <string name="in_revision_state">En revisión</string>
+    <string name="done_state">En revisión</string>
+
+    <string name="cleaning_type">Estado</string>
+    <string name="cleaning_guest">Huésped</string>
+    <string name="cleaning_out_of_order">Avería</string>
+    <string name="cleaning_checkout">Salida</string>
+</resources>
