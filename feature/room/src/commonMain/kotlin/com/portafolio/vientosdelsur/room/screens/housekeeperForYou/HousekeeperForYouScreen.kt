@@ -26,11 +26,17 @@ import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.room.RoomCleaningStatus
 import com.portafolio.vientosdelsur.domain.room.RoomCleaningType
 import com.portafolio.vientosdelsur.domain.room.RoomState
+import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.RoomStateUi
+import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.toRoomUi
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.DateTimeFormat
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
+import vientosdelsur.feature.room.generated.resources.Res
+import vientosdelsur.feature.room.generated.resources.cleaning_state
+import vientosdelsur.feature.room.generated.resources.cleaning_type
 
 
 @Composable
@@ -51,20 +57,13 @@ private fun RoomScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(SampleRoomStates.sampleRoomStates.size) { index ->
-            RoomStateCard(SampleRoomStates.getRoomStateByIndex(index))
+            RoomStateCard(SampleRoomStates.getRoomStateByIndex(index).toRoomUi())
         }
     }
 }
 
 @Composable
-fun RoomStateCard(roomState: RoomState) {
-    val formatter = remember {
-        LocalTime.Format {
-            hour()
-            chars(":")
-            minute()
-        }
-    }
+fun RoomStateCard(roomState: RoomStateUi) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -75,13 +74,13 @@ fun RoomStateCard(roomState: RoomState) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = roomState.room.number.toString(),
+                    text = roomState.roomNumber,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = roomState.room.roomType.ordinal.plus(1).toString(),
+                    text = roomState.bedCount,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -92,12 +91,12 @@ fun RoomStateCard(roomState: RoomState) {
             Spacer(modifier = Modifier.height(4.dp))
             Column {
                 Text(
-                    "Limpieza",
+                    text = stringResource(Res.string.cleaning_state),
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    roomState.roomCleaningType.toString(),
+                    text = stringResource(roomState.cleaningType),
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleMedium
                 )
@@ -105,63 +104,24 @@ fun RoomStateCard(roomState: RoomState) {
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             Column {
                 Text(
-                    "Estado",
+                    text = stringResource(Res.string.cleaning_type),
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.bodySmall
                 )
                 Row {
-                    when (val state = roomState.roomCleaningStatus) {
-                        RoomCleaningStatus.Pending -> {
-                            Text(
-                                state.toString(),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-
-                        is RoomCleaningStatus.Done -> {
-                            Text(
-                                state.toString(),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                            Text(
-                                formatter.format(state.changedAt.time),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-
-                        is RoomCleaningStatus.InCleaning -> {
-                            Text(
-                                state.toString(),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                            Text(
-                                formatter.format(state.changedAt.time),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-
-                        is RoomCleaningStatus.InRevision -> {
-                            Text(
-                                state.toString(),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                            Text(
-                                formatter.format(state.changedAt.time),
-                                fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
+                    Text(
+                        text = stringResource(roomState.state),
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    roomState.updatedAt?.let {
+                        Text(
+                            text = it,
+                            fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
-
                 }
             }
         }
