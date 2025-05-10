@@ -15,6 +15,9 @@ object RoomTypeEntity : IntIdTable("room_type") {
 
     init {
         transaction {
+            if (SchemaUtils.listTables()
+                    .any { it.contains(this@RoomTypeEntity.tableName) }
+            ) return@transaction
             SchemaUtils.create(this@RoomTypeEntity)
 
             // Batch insert all room types with their respective work units

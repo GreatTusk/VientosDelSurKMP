@@ -49,6 +49,7 @@ include(":feature:imageAnalysis")
 include(":feature:staff")
 include(":feature:foryou")
 include(":feature:room")
+include(":feature:hotel")
 
 // Server
 include(":server:app")

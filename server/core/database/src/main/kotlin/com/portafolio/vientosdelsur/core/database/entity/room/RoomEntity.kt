@@ -15,6 +15,10 @@ object RoomEntity : IntIdTable("room") {
 
     init {
         transaction {
+            if (SchemaUtils.listTables()
+                    .any { it.contains(this@RoomEntity.tableName) }
+            ) return@transaction
+
             SchemaUtils.create(this@RoomEntity)
 
             val roomData = listOf(
