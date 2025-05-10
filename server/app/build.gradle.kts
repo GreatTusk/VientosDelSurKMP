@@ -15,6 +15,7 @@ application {
 
 dependencies {
     implementation(projects.server.controller.employee)
+    implementation(projects.server.controller.room)
 
     implementation(libs.logback)
 

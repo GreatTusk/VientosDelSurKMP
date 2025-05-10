@@ -2,9 +2,9 @@ package com.portafolio.vientosdelsur.data.employee.repository
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
-import com.portafolio.vientosdelsur.core.data.util.suspendTransaction
-import com.portafolio.vientosdelsur.data.employee.entity.EmployeeDao
-import com.portafolio.vientosdelsur.data.employee.entity.EmployeeEntity
+import com.portafolio.vientosdelsur.core.database.util.suspendTransaction
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeDao
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
 import com.portafolio.vientosdelsur.data.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.EmployeeDto
 

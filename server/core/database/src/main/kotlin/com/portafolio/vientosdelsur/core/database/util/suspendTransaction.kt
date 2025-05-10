@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.core.data.util
+package com.portafolio.vientosdelsur.core.database.util
 
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Transaction

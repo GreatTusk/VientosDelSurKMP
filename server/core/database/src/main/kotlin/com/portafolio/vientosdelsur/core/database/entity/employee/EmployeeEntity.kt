@@ -8,10 +8,10 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 import org.jetbrains.exposed.sql.transactions.transaction
 
-internal object EmployeeEntity : IntIdTable("employee") {
+object EmployeeEntity : IntIdTable("employee") {
     val firstName = varchar("first_name", 50)
     val lastName = varchar("last_name", 50)
-    val email = varchar("email", 50)
+    val email = varchar("email", 50).uniqueIndex()
     val phoneNumber = varchar("phone_number", 9)
     val hireDate = datetime("hire_date")
     val dayOff = integer("day_off").nullable()
@@ -24,7 +24,7 @@ internal object EmployeeEntity : IntIdTable("employee") {
     }
 }
 
-internal class EmployeeDao(id: EntityID<Int>) : IntEntity(id) {
+class EmployeeDao(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<EmployeeDao>(EmployeeEntity)
 
     var firstName by EmployeeEntity.firstName

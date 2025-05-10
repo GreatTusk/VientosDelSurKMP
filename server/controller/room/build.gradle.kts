@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.server.data.room)
+
+
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)

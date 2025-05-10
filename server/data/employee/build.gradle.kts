@@ -5,9 +5,9 @@ plugins {
 dependencies {
     api(projects.shared)
     api(projects.core.common)
-    implementation(projects.server.core.data)
 
-    implementation(libs.postgresql)
+    implementation(projects.server.core.database)
+
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)
     implementation(libs.exposed.kotlin.datetime)
