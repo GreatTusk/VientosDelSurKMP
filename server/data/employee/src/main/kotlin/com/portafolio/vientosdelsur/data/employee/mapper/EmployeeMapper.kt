@@ -8,9 +8,9 @@ internal fun EmployeeDao.toEmployeeDto() = EmployeeDto(
     firstName = firstName,
     lastName = lastName,
     phoneNumber = phoneNumber,
-    dayOff = dayOff?.toDayOfWeek() ?: 7,
+    dayOff = dayOff ?: 7,
     hireDate = hireDate.toString(),
-    occupation = occupation
+    occupation = occupation.name
 )
 
 private fun String.toDayOfWeek(): Int {
