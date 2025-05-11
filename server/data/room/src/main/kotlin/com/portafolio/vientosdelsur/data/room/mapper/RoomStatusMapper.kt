@@ -6,7 +6,7 @@ import com.portafolio.vientosdelsur.shared.domain.RoomState
 internal fun RoomStatusEntity.toRoomStatus() {
     RoomState(
         room = room.toRoom(),
-        roomCleaningType = ,
-        roomCleaningStatus =roomStatus
+        roomCleaningType = TODO(),
+        roomCleaningStatus = TODO()
     )
 }

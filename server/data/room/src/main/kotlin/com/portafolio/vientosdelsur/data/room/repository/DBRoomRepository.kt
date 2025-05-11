@@ -6,6 +6,8 @@ import com.f776.core.common.map
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomStatusEntity
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomStatusTable
+import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
+import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.suspendTransaction
@@ -14,9 +16,9 @@ import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
 import com.portafolio.vientosdelsur.shared.domain.Room
 import com.portafolio.vientosdelsur.shared.domain.RoomState
 import kotlinx.datetime.LocalDate
-import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.*
 
-object DBRoomRepository : RoomRepository {
+internal object DBRoomRepository : RoomRepository {
     override suspend fun getAllRooms(): Result<List<Room>, DataError.Remote> = suspendTransaction {
         return@suspendTransaction try {
             Result.Success(RoomEntity.all().map { it.toRoom() })
@@ -34,7 +36,12 @@ object DBRoomRepository : RoomRepository {
             .find { WorkShiftTable.employeeId eq housekeeperId and (WorkShiftTable.date eq date) }
             .firstOrNull() ?: return@suspendTransaction Result.Empty
 
-
+        val latestState = wrapAsExpression<RoomStatusTable>(
+            RoomStatusTable.selectAll()
+                .where { RoomStatusTable.roomId eq RoomTable.id }
+                .orderBy(RoomStatusTable.updatedAt, SortOrder.DESC)
+                .limit(1)
+        )
 
 
         TODO("Not yet implemented")

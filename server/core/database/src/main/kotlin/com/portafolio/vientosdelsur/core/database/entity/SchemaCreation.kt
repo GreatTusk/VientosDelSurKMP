@@ -13,6 +13,7 @@ import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.room
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.workUnit
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
+import com.portafolio.vientosdelsur.shared.domain.RoomType
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.selectAll

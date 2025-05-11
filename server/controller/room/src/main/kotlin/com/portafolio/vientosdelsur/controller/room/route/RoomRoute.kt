@@ -3,7 +3,7 @@ package com.portafolio.vientosdelsur.controller.room.route
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
-import com.portafolio.vientosdelsur.data.room.repository.RoomRepository
+import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*

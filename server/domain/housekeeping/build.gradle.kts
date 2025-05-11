@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.shared)
-    implementation(projects.core.common)
+    api(projects.shared)
+    api(projects.core.common)
 
     implementation(libs.kotlinx.datetime)
 }
