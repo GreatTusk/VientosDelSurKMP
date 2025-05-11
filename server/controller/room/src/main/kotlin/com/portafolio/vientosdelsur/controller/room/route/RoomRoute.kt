@@ -8,6 +8,9 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.ktor.ext.inject
 
 fun Application.roomRoute() {
@@ -24,6 +27,24 @@ fun Application.roomRoute() {
                     }.onEmpty {
                         call.respond(HttpStatusCode.NotFound, "Nothing")
                     }
+            }
+        }
+
+        route("/room-status/{housekeeperId}") {
+            get {
+                val id = call.parameters["housekeeperId"]?.toIntOrNull()
+                    ?: return@get call.respond(HttpStatusCode.BadRequest)
+
+                roomRepository.getRoomDistributionForHousekeeperOn(
+                    housekeeperId = id,
+                    date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                ).onSuccess {
+                    call.respond(it)
+                }.onEmpty {
+                    call.respond(HttpStatusCode.NotFound)
+                }.onError {
+                    call.respond(HttpStatusCode.InternalServerError, it)
+                }
             }
         }
     }

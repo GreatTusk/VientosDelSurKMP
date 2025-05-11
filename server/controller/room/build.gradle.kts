@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.server.data.room)
-
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.content.negotiation)
