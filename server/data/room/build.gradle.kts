@@ -3,8 +3,6 @@ plugins {
 }
 
 dependencies {
-    api(projects.core.common)
-
     implementation(projects.server.core.database)
     api(projects.server.domain.housekeeping)
 

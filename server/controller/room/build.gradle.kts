@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.core.common)
     implementation(projects.server.service.housekeeping)
     implementation(libs.kotlinx.datetime)
 

@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     api(projects.shared)
+    api(projects.core.common)
     implementation(projects.server.data.room)
     implementation(libs.koin.ktor)
     implementation(libs.kotlinx.datetime)
