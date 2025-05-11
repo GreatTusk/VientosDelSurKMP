@@ -16,4 +16,4 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Desktop, Server.
   The most important subfolder is `commonMain`. If preferred, you can add code to the platform-specific folders here too.
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+docker exec -t vientos-del-sur-db pg_dump -U postgres -d vientosdelsur -s -F p -E UTF-8 > backup.sql

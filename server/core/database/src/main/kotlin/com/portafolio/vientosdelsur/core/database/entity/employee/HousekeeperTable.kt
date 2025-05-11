@@ -7,8 +7,6 @@ import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
 
 object HousekeeperTable : IdTable<Int>("housekeeper") {
     val employeeId = reference("employee_id", EmployeeTable)
@@ -16,12 +14,6 @@ object HousekeeperTable : IdTable<Int>("housekeeper") {
 
     override val id: Column<EntityID<Int>> = employeeId
     override val primaryKey = PrimaryKey(employeeId)
-
-    init {
-        transaction {
-            SchemaUtils.create(this@HousekeeperTable)
-        }
-    }
 }
 
 class HousekeeperEntity(id: EntityID<Int>) : Entity<Int>(id) {

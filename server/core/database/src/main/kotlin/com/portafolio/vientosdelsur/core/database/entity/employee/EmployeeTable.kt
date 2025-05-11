@@ -18,12 +18,6 @@ object EmployeeTable : IntIdTable("employee") {
     val hireDate = datetime("hire_date")
     val dayOff = integer("day_off").nullable()
     val occupation = enumeration<Occupation>("occupation")
-
-    init {
-        transaction {
-            SchemaUtils.create(this@EmployeeTable)
-        }
-    }
 }
 
 class EmployeeEntity(id: EntityID<Int>) : IntEntity(id) {

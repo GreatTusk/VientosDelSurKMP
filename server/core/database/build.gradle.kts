@@ -8,6 +8,7 @@ dependencies {
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)
+    implementation(libs.exposed.migration)
     implementation(libs.exposed.kotlin.datetime)
 
     implementation(libs.exposed.dao)

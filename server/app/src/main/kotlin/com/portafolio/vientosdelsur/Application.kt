@@ -5,6 +5,7 @@ import com.portafolio.vientosdelsur.config.configureDbConnection
 import com.portafolio.vientosdelsur.config.configureKoin
 import com.portafolio.vientosdelsur.controller.employee.route.employeeRoute
 import com.portafolio.vientosdelsur.controller.room.route.roomRoute
+import com.portafolio.vientosdelsur.core.database.entity.SchemaCreation
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -18,6 +19,9 @@ fun Application.module() {
     configureKoin()
     configureContentNegotiation()
     configureDbConnection()
+
+    SchemaCreation.initializeDatabase()
+
 
     employeeRoute()
     roomRoute()
