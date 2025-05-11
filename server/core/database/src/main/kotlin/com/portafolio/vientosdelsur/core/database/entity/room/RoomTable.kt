@@ -9,17 +9,17 @@ import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object RoomEntity : IntIdTable("room") {
+object RoomTable : IntIdTable("room") {
     val roomNumber = varchar("room_number", 3).uniqueIndex()
-    val roomTypeId = reference("room_type_id", RoomTypeEntity.id)
+    val roomTypeId = reference("room_type_id", RoomTypeTable.id)
 
     init {
         transaction {
             if (SchemaUtils.listTables()
-                    .any { it.contains(this@RoomEntity.tableName) }
+                    .any { it.contains(this@RoomTable.tableName) }
             ) return@transaction
 
-            SchemaUtils.create(this@RoomEntity)
+            SchemaUtils.create(this@RoomTable)
 
             val roomData = listOf(
                 // First floor
@@ -59,11 +59,11 @@ object RoomEntity : IntIdTable("room") {
                 "429" to RoomType.DOUBLE
             )
 
-            val roomTypeMap = RoomTypeEntity.selectAll()
-                .associate { it[RoomTypeEntity.roomType] to it[RoomTypeEntity.id] }
+            val roomTypeMap = RoomTypeTable.selectAll()
+                .associate { it[RoomTypeTable.roomType] to it[RoomTypeTable.id] }
 
             // Batch insert all rooms
-            RoomEntity.batchInsert(roomData) { (number, type) ->
+            RoomTable.batchInsert(roomData) { (number, type) ->
                 this[roomNumber] = number
                 this[roomTypeId] = roomTypeMap[type] ?: error("RoomType $type not found in database")
             }
@@ -72,9 +72,9 @@ object RoomEntity : IntIdTable("room") {
 }
 
 
-class RoomDao(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<RoomDao>(RoomEntity)
+class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<RoomEntity>(RoomTable)
 
-    var roomNumber by RoomEntity.roomNumber
-    var roomType by RoomTypeDao referencedOn RoomEntity.roomTypeId
+    var roomNumber by RoomTable.roomNumber
+    var roomType by RoomTypeEntity referencedOn RoomTable.roomTypeId
 }

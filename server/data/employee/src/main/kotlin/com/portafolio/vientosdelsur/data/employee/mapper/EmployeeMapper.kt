@@ -1,9 +1,9 @@
 package com.portafolio.vientosdelsur.data.employee.mapper
 
-import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeDao
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
 import com.portafolio.vientosdelsur.shared.dto.EmployeeDto
 
-internal fun EmployeeDao.toEmployeeDto() = EmployeeDto(
+internal fun EmployeeEntity.toEmployeeDto() = EmployeeDto(
     id = id.value,
     firstName = firstName,
     lastName = lastName,

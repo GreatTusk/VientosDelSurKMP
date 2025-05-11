@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object EmployeeEntity : IntIdTable("employee") {
+object EmployeeTable : IntIdTable("employee") {
     val firstName = varchar("first_name", 50)
     val lastName = varchar("last_name", 50)
     val email = varchar("email", 50).uniqueIndex()
@@ -19,19 +19,19 @@ object EmployeeEntity : IntIdTable("employee") {
 
     init {
         transaction {
-            SchemaUtils.create(this@EmployeeEntity)
+            SchemaUtils.create(this@EmployeeTable)
         }
     }
 }
 
-class EmployeeDao(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<EmployeeDao>(EmployeeEntity)
+class EmployeeEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<EmployeeEntity>(EmployeeTable)
 
-    var firstName by EmployeeEntity.firstName
-    var lastName by EmployeeEntity.lastName
-    var email by EmployeeEntity.email
-    var phoneNumber by EmployeeEntity.phoneNumber
-    var dayOff by EmployeeEntity.dayOff
-    var hireDate by EmployeeEntity.hireDate
-    var occupation by EmployeeEntity.occupation
+    var firstName by EmployeeTable.firstName
+    var lastName by EmployeeTable.lastName
+    var email by EmployeeTable.email
+    var phoneNumber by EmployeeTable.phoneNumber
+    var dayOff by EmployeeTable.dayOff
+    var hireDate by EmployeeTable.hireDate
+    var occupation by EmployeeTable.occupation
 }
