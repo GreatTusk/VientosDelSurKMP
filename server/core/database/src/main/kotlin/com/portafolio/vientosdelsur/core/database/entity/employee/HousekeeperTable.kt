@@ -11,6 +11,7 @@ import org.jetbrains.exposed.sql.Column
 object HousekeeperTable : IdTable<Int>("housekeeper") {
     val employeeId = reference("employee_id", EmployeeTable)
     val housekeeperRole = enumeration<HousekeeperRole>("housekeeper_role")
+    val preferredFloor = char("preferred_floor").nullable()
 
     override val id: Column<EntityID<Int>> = employeeId
     override val primaryKey = PrimaryKey(employeeId)
@@ -21,6 +22,7 @@ class HousekeeperEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
     val employee by EmployeeEntity backReferencedOn HousekeeperTable.employeeId
     var housekeeperRole by HousekeeperTable.housekeeperRole
+    var preferredFloor by HousekeeperTable.preferredFloor
 
     val shifts by WorkShiftEntity referrersOn WorkShiftTable.employeeId
 }

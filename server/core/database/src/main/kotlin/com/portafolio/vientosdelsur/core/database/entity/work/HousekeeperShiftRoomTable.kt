@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.core.database.entity.work
 
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningType
 import org.jetbrains.exposed.dao.id.CompositeIdTable
 
 object HousekeeperShiftRoomTable : CompositeIdTable("housekeeper_shift") {

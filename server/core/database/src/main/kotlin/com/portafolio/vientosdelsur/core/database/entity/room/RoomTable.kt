@@ -16,4 +16,5 @@ class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
 
     var roomNumber by RoomTable.roomNumber
     val roomType by RoomTypeEntity referencedOn RoomTable.roomTypeId
+    val roomStatus by RoomStatusEntity referrersOn RoomStatusTable.roomId
 }

@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.domain.room
+package com.portafolio.vientosdelsur.shared.domain
 
 data class RoomState(
     val room: Room,

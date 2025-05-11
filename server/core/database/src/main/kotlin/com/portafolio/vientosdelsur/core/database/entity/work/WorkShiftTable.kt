@@ -13,6 +13,10 @@ object WorkShiftTable : IntIdTable("work_shift") {
     val date = date("date")
     val employeeId = reference("employee_id", EmployeeTable.id)
     val shift = enumeration<Shift>("shift")
+
+    init {
+        uniqueIndex(date, employeeId, shift)
+    }
 }
 
 class WorkShiftEntity(id: EntityID<Int>) : IntEntity(id) {

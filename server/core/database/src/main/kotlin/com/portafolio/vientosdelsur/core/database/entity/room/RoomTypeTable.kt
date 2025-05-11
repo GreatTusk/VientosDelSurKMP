@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.core.database.entity.room
 
+import com.portafolio.vientosdelsur.shared.domain.RoomType
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

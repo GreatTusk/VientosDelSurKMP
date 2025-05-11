@@ -3,10 +3,7 @@ package com.portafolio.vientosdelsur.room.screens.housekeeperForYou
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
-import com.portafolio.vientosdelsur.domain.room.RoomCleaningStatus
-import com.portafolio.vientosdelsur.domain.room.RoomCleaningType
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
-import com.portafolio.vientosdelsur.domain.room.RoomState
 import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.toRoomUi
 import kotlinx.coroutines.flow.*
 import kotlin.time.Duration.Companion.seconds
