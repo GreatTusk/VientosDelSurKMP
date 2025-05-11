@@ -8,11 +8,16 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.date
 
-object RoomBookingTable: IntIdTable("room_booking") {
+object RoomBookingTable : IntIdTable("room_booking") {
     val startDate = date("start_date")
     val endDate = date("end_date")
     val roomId = reference("room_id", RoomTable)
     val guestId = reference("guest_id", GuestTable)
+
+    init {
+        check { endDate greater startDate }
+        uniqueIndex(roomId, startDate, endDate)
+    }
 }
 
 class RoomBookingEntity(id: EntityID<Int>) : IntEntity(id) {

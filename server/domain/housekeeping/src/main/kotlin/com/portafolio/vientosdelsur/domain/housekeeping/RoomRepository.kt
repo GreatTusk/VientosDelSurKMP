@@ -15,5 +15,4 @@ interface RoomRepository {
     ): Result<List<RoomState>, DataError.Remote>
 
     suspend fun getAllRoomStatusOn(date: LocalDate): Result<List<RoomState>, DataError.Remote>
-
 }
