@@ -12,6 +12,7 @@ import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.suspendTransaction
 import com.portafolio.vientosdelsur.data.room.mapper.toRoom
+import com.portafolio.vientosdelsur.data.room.mapper.toRoomStatus
 import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
 import com.portafolio.vientosdelsur.shared.domain.Room
 import com.portafolio.vientosdelsur.shared.domain.RoomState
@@ -36,12 +37,7 @@ internal object DBRoomRepository : RoomRepository {
             .find { WorkShiftTable.employeeId eq housekeeperId and (WorkShiftTable.date eq date) }
             .firstOrNull() ?: return@suspendTransaction Result.Empty
 
-        val latestState = wrapAsExpression<RoomStatusTable>(
-            RoomStatusTable.selectAll()
-                .where { RoomStatusTable.roomId eq RoomTable.id }
-                .orderBy(RoomStatusTable.updatedAt, SortOrder.DESC)
-                .limit(1)
-        )
+        shift.rooms.map { it.roomStatus.first() to it.roomCleaningType }.map { it.toRoomStatus() }
 
 
         TODO("Not yet implemented")

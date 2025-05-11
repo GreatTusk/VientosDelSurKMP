@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="264" height="44pt" viewBox="0 0 198.25 44">
+    <g class="graph">
+        <path fill="#fff" d="M0 44V0h198.25v44z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M101 4H4v36h97z"/>
+            <text x="48.5" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:feature:foryou</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M194.25 4H137v36h57.25z"/>
+            <text x="161.62" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:core:ui</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M101.27 22h24.12"/>
+            <path d="m125.26 18.5 10 3.5-10 3.5z"/>
+        </g>
+    </g>
+</svg>

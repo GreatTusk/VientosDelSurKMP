@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="98pt" viewBox="0 0 269.5 98">
+    <g class="graph">
+        <path fill="#fff" d="M0 98V0h269.5v98z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M134 31H4v36h130z"/>
+            <text x="65" y="-39.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 94)">:server:core:database</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M265.5 4H170v36h95.5z"/>
+            <text x="213.75" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 94)">:core:common</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M134.37 37.16c7.96-1.47 16.08-2.96 23.95-4.41"/>
+            <path d="m157.68 29.31 10.47 1.63-9.2 5.25z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M245.25 58h-55v36h55z"/>
+            <text x="213.75" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 94)">:shared</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M134.37 60.84c15.13 2.79 30.77 5.67 44.31 8.16"/>
+            <path d="m179.29 65.55 9.2 5.25-10.47 1.63z"/>
+        </g>
+    </g>
+</svg>

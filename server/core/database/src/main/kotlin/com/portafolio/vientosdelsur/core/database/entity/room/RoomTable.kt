@@ -4,6 +4,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.SortOrder
 
 object RoomTable : IntIdTable("room") {
     val roomNumber = varchar("room_number", 3).uniqueIndex()
@@ -16,5 +17,7 @@ class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
 
     var roomNumber by RoomTable.roomNumber
     val roomType by RoomTypeEntity referencedOn RoomTable.roomTypeId
-    val roomStatus by RoomStatusEntity referrersOn RoomStatusTable.roomId
+    val roomStatus by RoomStatusEntity referrersOn RoomStatusTable.roomId orderBy listOf(
+        RoomStatusTable.updatedAt to SortOrder.DESC
+    )
 }
