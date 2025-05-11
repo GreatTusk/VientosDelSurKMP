@@ -3,7 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.server.data.room)
+    implementation(projects.core.common)
+    implementation(projects.server.service.housekeeping)
     implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.server.core)

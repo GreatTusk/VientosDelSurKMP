@@ -16,7 +16,7 @@ inline fun <T, E : Error, R> Result<T, E>.map(map: (T) -> R): Result<R, E> {
     }
 }
 
-inline fun <T, E : Error, R> Result<List<T>, E>.flatMap(map: (T) -> R): Result<List<R>, E> {
+inline fun <T, E : Error, R> Result<Iterable<T>, E>.flatMap(map: (T) -> R): Result<List<R>, E> {
     return when (this) {
         is Result.Error -> Result.Error(error)
         is Result.Success -> Result.Success(data.map(map))

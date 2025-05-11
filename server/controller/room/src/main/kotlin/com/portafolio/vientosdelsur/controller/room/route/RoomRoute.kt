@@ -3,7 +3,7 @@ package com.portafolio.vientosdelsur.controller.room.route
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
+import com.portafolio.vientosdelsur.service.housekeeping.RoomService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -14,12 +14,12 @@ import kotlinx.datetime.toLocalDateTime
 import org.koin.ktor.ext.inject
 
 fun Application.roomRoute() {
-    val roomRepository by inject<RoomRepository>()
+    val roomService by inject<RoomService>()
 
     routing {
         route("/room") {
             get {
-                roomRepository.getAllRooms()
+                roomService.getAllRooms()
                     .onSuccess {
                         call.respond(it)
                     }.onError {
@@ -35,7 +35,7 @@ fun Application.roomRoute() {
                 val id = call.parameters["housekeeperId"]?.toIntOrNull()
                     ?: return@get call.respond(HttpStatusCode.BadRequest)
 
-                roomRepository.getRoomDistributionForHousekeeperOn(
+                roomService.getRoomDistributionForHousekeeperOn(
                     housekeeperId = id,
                     date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                 ).onSuccess {
