@@ -12,6 +12,7 @@ object DBRoomRepository: RoomRepository {
         return@suspendTransaction try {
             Result.Success(RoomEntity.all().map { it.toRoomDto() })
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.Error(DataError.Remote.UNKNOWN)
         }
     }
