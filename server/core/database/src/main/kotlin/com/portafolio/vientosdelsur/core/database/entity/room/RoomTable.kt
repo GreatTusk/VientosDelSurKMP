@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object RoomTable : IntIdTable("room") {
     val roomNumber = varchar("room_number", 3).uniqueIndex()
-    val roomTypeId = reference("room_type_id", RoomTypeTable.id)
+    val roomTypeId = reference("room_type_id", RoomTypeTable)
 
     init {
         transaction {
@@ -76,5 +76,5 @@ class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<RoomEntity>(RoomTable)
 
     var roomNumber by RoomTable.roomNumber
-    var roomType by RoomTypeEntity referencedOn RoomTable.roomTypeId
+    val roomType by RoomTypeEntity backReferencedOn RoomTable.roomTypeId
 }

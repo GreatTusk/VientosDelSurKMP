@@ -46,4 +46,6 @@ class RoomTypeEntity(id: EntityID<Int>) : IntEntity(id) {
     var roomType by RoomTypeTable.roomType
     var workUnit by RoomTypeTable.workUnit
     var checkOutWorkUnit by RoomTypeTable.checkOutWorkUnit
+
+    val rooms by RoomEntity referrersOn RoomTable.roomTypeId
 }

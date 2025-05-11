@@ -19,4 +19,5 @@ class GuestEntity(id: EntityID<Int>) : IntEntity(id) {
     var lastName by GuestTable.lastName
     var email by GuestTable.email
     var phoneNumber by GuestTable.phoneNumber
+    val bookings by RoomBookingEntity referencedOn RoomBookingTable.guestId
 }

@@ -1,16 +1,34 @@
 package com.portafolio.vientosdelsur.core.database.entity.employee
 
-import org.jetbrains.exposed.dao.id.IntIdTable
+import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
+import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
+import org.jetbrains.exposed.dao.Entity
+import org.jetbrains.exposed.dao.EntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object HousekeeperTable : IntIdTable("housekeeper") {
-    val employeeId = reference("employee_id", EmployeeTable.id)
+object HousekeeperTable : IdTable<Int>("housekeeper") {
+    val employeeId = reference("employee_id", EmployeeTable)
     val housekeeperRole = enumeration<HousekeeperRole>("housekeeper_role")
+
+    override val id: Column<EntityID<Int>> = employeeId
+    override val primaryKey = PrimaryKey(employeeId)
 
     init {
         transaction {
             SchemaUtils.create(this@HousekeeperTable)
         }
     }
+}
+
+class HousekeeperEntity(id: EntityID<Int>) : Entity<Int>(id) {
+    companion object : EntityClass<Int, HousekeeperEntity>(HousekeeperTable)
+
+    val employee by EmployeeEntity backReferencedOn HousekeeperTable.employeeId
+    var housekeeperRole by HousekeeperTable.housekeeperRole
+
+    val shifts by WorkShiftEntity referrersOn WorkShiftTable.employeeId
 }

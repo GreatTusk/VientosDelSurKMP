@@ -11,8 +11,8 @@ import org.jetbrains.exposed.sql.kotlin.datetime.date
 object RoomBookingTable: IntIdTable("room_booking") {
     val startDate = date("start_date")
     val endDate = date("end_date")
-    val roomId = reference("room_id", RoomTable.id)
-    val guestId = reference("guest_id", GuestTable.id)
+    val roomId = reference("room_id", RoomTable)
+    val guestId = reference("guest_id", GuestTable)
 }
 
 class RoomBookingEntity(id: EntityID<Int>) : IntEntity(id) {

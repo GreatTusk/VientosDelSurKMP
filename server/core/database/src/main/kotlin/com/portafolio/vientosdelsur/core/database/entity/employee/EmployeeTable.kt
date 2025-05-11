@@ -1,5 +1,7 @@
 package com.portafolio.vientosdelsur.core.database.entity.employee
 
+import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
+import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -34,4 +36,6 @@ class EmployeeEntity(id: EntityID<Int>) : IntEntity(id) {
     var dayOff by EmployeeTable.dayOff
     var hireDate by EmployeeTable.hireDate
     var occupation by EmployeeTable.occupation
+
+    val workShifts by WorkShiftEntity referrersOn WorkShiftTable.employeeId
 }
