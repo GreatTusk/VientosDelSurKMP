@@ -28,7 +28,8 @@ object SchemaCreation {
             GuestTable,
             RoomBookingTable,
             WorkShiftTable,
-            HousekeeperShiftRoomTable
+            HousekeeperShiftRoomTable,
+            RoomStatusTable
         ).forEach(::exec)
 
         if (RoomTypeEntity.count() == 0L) {
