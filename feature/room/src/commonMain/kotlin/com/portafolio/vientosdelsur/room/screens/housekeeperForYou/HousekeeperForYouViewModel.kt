@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.toRoomUi
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningStatus
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningType
+import com.portafolio.vientosdelsur.shared.domain.RoomState
 import kotlinx.coroutines.flow.*
 import kotlin.time.Duration.Companion.seconds
 

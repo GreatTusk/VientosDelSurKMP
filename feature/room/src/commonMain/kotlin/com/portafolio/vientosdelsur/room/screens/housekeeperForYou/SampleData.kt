@@ -1,6 +1,10 @@
 package com.portafolio.vientosdelsur.room.screens.housekeeperForYou
 
 import com.portafolio.vientosdelsur.domain.room.*
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningStatus
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningType
+import com.portafolio.vientosdelsur.shared.domain.RoomState
+import com.portafolio.vientosdelsur.shared.domain.RoomType
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

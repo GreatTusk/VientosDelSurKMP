@@ -2,6 +2,10 @@ package com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model
 
 import com.portafolio.vientosdelsur.domain.room.*
 import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.util.HourFormatter
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningStatus
+import com.portafolio.vientosdelsur.shared.domain.RoomCleaningType
+import com.portafolio.vientosdelsur.shared.domain.RoomState
+import com.portafolio.vientosdelsur.shared.domain.RoomType
 import org.jetbrains.compose.resources.StringResource
 import vientosdelsur.feature.room.generated.resources.*
 import vientosdelsur.feature.room.generated.resources.Res
@@ -29,7 +33,7 @@ fun RoomState.toRoomUi(): RoomStateUi {
     return RoomStateUi(
         id = room.id,
         roomNumber = room.number.toString(),
-        bedCount = when (room.roomType) {
+        bedCount = when (room.roomType.roomType) {
             RoomType.SINGLE -> 1
             RoomType.DOUBLE -> 2
             RoomType.TRIPLE -> 3
@@ -38,7 +42,6 @@ fun RoomState.toRoomUi(): RoomStateUi {
         cleaningType = when(roomCleaningType) {
             RoomCleaningType.ROOM -> Res.string.cleaning_checkout
             RoomCleaningType.GUEST -> Res.string.cleaning_guest
-            RoomCleaningType.OUT_OF_ORDER -> Res.string.cleaning_out_of_order
         },
         state = state,
         updatedAt = hour?.let { HourFormatter.hourFormatter.format(it.time) }
