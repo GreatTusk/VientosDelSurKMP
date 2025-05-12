@@ -8,9 +8,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 import org.koin.ktor.ext.inject
 
 fun Application.roomRoute() {
@@ -28,22 +26,50 @@ fun Application.roomRoute() {
                         call.respond(HttpStatusCode.NotFound, "Nothing")
                     }
             }
-        }
 
-        route("/room-status/{housekeeperId}") {
-            get {
-                val id = call.parameters["housekeeperId"]?.toIntOrNull()
-                    ?: return@get call.respond(HttpStatusCode.BadRequest)
+            route("/distribution") {
+                get("/{housekeeperId}") {
+                    val housekeeperId = call.parameters["housekeeperId"]?.toIntOrNull()
+                        ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid housekeeper ID")
 
-                roomService.getRoomDistributionForHousekeeperOn(
-                    housekeeperId = id,
-                    date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-                ).onSuccess {
-                    call.respond(it)
-                }.onEmpty {
-                    call.respond(HttpStatusCode.NotFound)
-                }.onError {
-                    call.respond(HttpStatusCode.InternalServerError, it)
+                    val date = call.request.queryParameters["date"]?.let {
+                        try {
+                            LocalDate.parse(it)
+                        } catch (e: Exception) {
+                            return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                        }
+                    } ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+                    roomService.getRoomDistributionForHousekeeperOn(
+                        housekeeperId = housekeeperId,
+                        date = date
+                    ).onSuccess {
+                        call.respond(it)
+                    }.onEmpty {
+                        call.respond(HttpStatusCode.NotFound, "No room distribution found")
+                    }.onError {
+                        call.respond(HttpStatusCode.InternalServerError, it)
+                    }
+                }
+
+                get {
+                    val date = call.request.queryParameters["date"]?.let {
+                        try {
+                            LocalDate.parse(it)
+                        } catch (e: Exception) {
+                            return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                        }
+                    } ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+                    roomService.getAllRoomStatusOn(
+                        date = date
+                    ).onSuccess {
+                        call.respond(it)
+                    }.onEmpty {
+                        call.respond(HttpStatusCode.NotFound, "No room distribution found")
+                    }.onError {
+                        call.respond(HttpStatusCode.InternalServerError, it)
+                    }
                 }
             }
         }

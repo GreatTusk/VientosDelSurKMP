@@ -26,12 +26,12 @@
             <text x="284.5" y="-120.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:network</text>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M467 27h-95.5v36H467z"/>
-            <text x="415.25" y="-97.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:common</text>
+            <path fill="#add8e6" stroke="#000" d="M467 31h-95.5v36H467z"/>
+            <text x="415.25" y="-93.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:common</text>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M334.17 29.98c8.28 1.48 17.04 3.04 25.66 4.58"/>
-            <path fill="#999" d="m360.31 31.09 9.23 5.21-10.46 1.69z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M334.17 31.37c8.28 1.73 17.04 3.57 25.66 5.38"/>
+            <path fill="#999" d="m360.48 33.31 9.07 5.48-10.51 1.37z"/>
         </g>
         <g stroke="#ccc" class="edge">
             <path fill="none" stroke-dasharray="5,2" d="M205.76 59.21c9.79-4.46 20.54-9.35 30.94-14.08"/>
@@ -46,20 +46,16 @@
             <path fill="#ccc" d="m229.49 72.5 10 3.5-10 3.5z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M446.75 104h-55v36h55z"/>
-            <text x="415.25" y="-20.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:shared</text>
+            <path fill="#add8e6" stroke="#000" d="M316 112h-55v36h55z"/>
+            <text x="284.5" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:shared</text>
         </g>
         <g stroke="#ccc" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M205.65 91.69c11.31 4.28 23.94 8.5 35.85 11.31 46.82 11.04 102.16 15.68 138.28 17.62"/>
-            <path fill="#ccc" d="m379.92 117.12 9.82 3.99-10.16 3z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M205.76 92.79c14.2 6.46 30.41 13.84 44.63 20.32"/>
+            <path fill="#ccc" d="m251.78 109.9 7.65 7.32-10.55-.95z"/>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M335.98 64.81c7.92-1.91 16.24-3.91 24.42-5.88"/>
-            <path fill="#999" d="m359.39 55.57 10.54 1.06-8.9 5.75z"/>
-        </g>
-        <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M335.98 92.61c14.67 5.24 30.67 10.96 44.64 15.95"/>
-            <path fill="#999" d="m381.65 105.21 8.24 6.66-10.59-.07z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M335.98 66.25c7.92-1.66 16.24-3.4 24.42-5.12"/>
+            <path fill="#999" d="m359.42 57.76 10.5 1.37-9.07 5.48z"/>
         </g>
     </g>
 </svg>
