@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     api(projects.core.common)
-    api(projects.shared)
 
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)

@@ -11,7 +11,7 @@ import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.suspendTransaction
 import com.portafolio.vientosdelsur.data.room.mapper.toRoom
 import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
-import com.portafolio.vientosdelsur.shared.domain.Room
+import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
 import com.portafolio.vientosdelsur.shared.domain.RoomCleaningStatus
 import com.portafolio.vientosdelsur.shared.domain.RoomState
 import kotlinx.datetime.LocalDate

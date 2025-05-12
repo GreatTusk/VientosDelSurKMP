@@ -13,8 +13,6 @@ import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.room
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.workUnit
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
-import com.portafolio.vientosdelsur.shared.domain.RoomType
-import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -42,7 +40,7 @@ object SchemaCreation {
         }
     }
 
-    private fun Transaction.initializeRoomTypeData() {
+    private fun initializeRoomTypeData() {
         // Batch insert all room types with their respective work units
         RoomTypeTable.batchInsert(RoomType.entries) { roomTypeValue ->
             this[roomType] = roomTypeValue
@@ -61,7 +59,7 @@ object SchemaCreation {
         }
     }
 
-    private fun Transaction.initializeRoomData() {
+    private fun initializeRoomData() {
         val roomData = listOf(
             // First floor
             "101" to RoomType.TRIPLE,

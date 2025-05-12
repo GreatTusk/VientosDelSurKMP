@@ -1,6 +1,6 @@
 package com.portafolio.vientosdelsur.domain.housekeeping
 
-import com.portafolio.vientosdelsur.shared.domain.Floor
+import com.portafolio.vientosdelsur.domain.housekeeping.model.Floor
 
 data class Housekeeper(
     val id: Int,

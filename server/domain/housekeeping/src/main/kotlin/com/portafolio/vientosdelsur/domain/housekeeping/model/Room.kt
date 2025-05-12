@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.shared.domain
+package com.portafolio.vientosdelsur.domain.housekeeping.model
 
 data class Room(
     val id: Int,

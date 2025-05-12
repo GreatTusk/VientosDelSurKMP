@@ -1,6 +1,6 @@
 package com.portafolio.vientosdelsur.service.housekeeping.mapper
 
-import com.portafolio.vientosdelsur.shared.domain.Room
+import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
 import com.portafolio.vientosdelsur.shared.domain.RoomCleaningStatus
 import com.portafolio.vientosdelsur.shared.domain.RoomState
 import com.portafolio.vientosdelsur.shared.dto.RoomCleaningStatusDto

@@ -1,25 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="420" height="98pt" viewBox="0 0 315.25 98">
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="44pt" viewBox="0 0 315.25 44">
     <g class="graph">
-        <path fill="#fff" d="M0 98V0h315.25v98z"/>
+        <path fill="#fff" d="M0 44V0h315.25v44z"/>
         <g class="node">
-            <path fill="#90ee90" stroke="#000" d="M179.75 31H4v36h175.75z"/>
-            <text x="87.88" y="-39.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 94)">:server:domain:housekeeping</text>
+            <path fill="#90ee90" stroke="#000" d="M179.75 4H4v36h175.75z"/>
+            <text x="87.88" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:server:domain:housekeeping</text>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M291 4h-55v36h55z"/>
-            <text x="259.5" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 94)">:shared</text>
+            <path fill="#add8e6" stroke="#000" d="M311.25 4h-95.5v36h95.5z"/>
+            <text x="259.5" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:core:common</text>
         </g>
         <g stroke="#000" class="edge">
-            <path fill="none" d="M180.17 35.1c15.7-2.49 31.28-4.97 44.6-7.09"/>
-            <path d="m223.91 24.6 10.43 1.88-9.33 5.03z"/>
-        </g>
-        <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M311.25 58h-95.5v36h95.5z"/>
-            <text x="259.5" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 94)">:core:common</text>
-        </g>
-        <g stroke="#000" class="edge">
-            <path fill="none" d="M180.17 62.9c8.18 1.3 16.33 2.59 24.15 3.84"/>
-            <path d="m204.67 63.25 9.33 5.03-10.43 1.88z"/>
+            <path fill="none" d="M180.17 22h23.87"/>
+            <path d="m203.98 18.5 10 3.5-10 3.5z"/>
         </g>
     </g>
 </svg>

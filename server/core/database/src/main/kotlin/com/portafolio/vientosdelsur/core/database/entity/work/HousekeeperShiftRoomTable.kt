@@ -2,7 +2,6 @@ package com.portafolio.vientosdelsur.core.database.entity.work
 
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
-import com.portafolio.vientosdelsur.shared.domain.RoomCleaningType
 import org.jetbrains.exposed.dao.CompositeEntity
 import org.jetbrains.exposed.dao.CompositeEntityClass
 import org.jetbrains.exposed.dao.id.CompositeID

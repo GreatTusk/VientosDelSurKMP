@@ -2,8 +2,8 @@ package com.portafolio.vientosdelsur.domain.housekeeping
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
-import com.portafolio.vientosdelsur.shared.domain.Room
-import com.portafolio.vientosdelsur.shared.domain.RoomState
+import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
+import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomState
 import kotlinx.datetime.LocalDate
 
 interface RoomRepository {

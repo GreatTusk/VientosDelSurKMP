@@ -1,113 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1010pt" height="304" viewBox="0 0 1010 227.76">
+<svg xmlns="http://www.w3.org/2000/svg" width="1010pt" height="304" viewBox="0 0 1010 227.57">
     <g class="graph">
-        <path fill="#fff" d="M0 227.76V0h1010v227.76z"/>
+        <path fill="#fff" d="M0 227.57V0h1010v227.57z"/>
         <g class="node">
-            <path fill="#90ee90" stroke="#000" d="M80 131.46H4v36h76z"/>
-            <text x="38" y="-69.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:app</text>
+            <path fill="#90ee90" stroke="#000" d="M80 96.45H4v36h76z"/>
+            <text x="38" y="-104.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:app</text>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M282 177.46H116v36h166z"/>
-            <text x="195" y="-23.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:controller:employee</text>
+            <path fill="#add8e6" stroke="#000" d="M282 50.45H116v36h166z"/>
+            <text x="195" y="-150.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:controller:employee</text>
         </g>
         <g stroke="#000" class="edge">
-            <path fill="none" d="M80.13 160.48c13.53 4.02 29.35 8.71 44.91 13.33"/>
-            <path d="m125.71 170.36 8.59 6.2-10.58.51z"/>
+            <path fill="none" d="M80.13 103.43c13.53-4.02 29.35-8.71 44.91-13.33"/>
+            <path d="m123.72 86.84 10.58.51-8.59 6.2z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M851.62 131.46h-130v36h130z"/>
-            <text x="782.62" y="-69.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:core:database</text>
+            <path fill="#add8e6" stroke="#000" d="M851.62 96.45h-130v36h130z"/>
+            <text x="782.62" y="-104.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:core:database</text>
         </g>
         <g stroke="#000" class="edge">
-            <path fill="none" d="M80.34 149.46h629.38"/>
-            <path d="m709.63 145.96 10 3.5-10 3.5z"/>
+            <path fill="none" d="M80.34 114.45h629.38"/>
+            <path d="m709.63 110.95 10 3.5-10 3.5z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M270 85.46H128v36h142z"/>
-            <text x="195" y="-115.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:controller:room</text>
+            <path fill="#add8e6" stroke="#000" d="M270 142.45H128v36h142z"/>
+            <text x="195" y="-58.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:controller:room</text>
         </g>
         <g stroke="#000" class="edge">
-            <path fill="none" d="M80.13 138.45c13.53-4.02 29.35-8.72 44.91-13.34"/>
-            <path d="m123.72 121.86 10.58.51-8.59 6.2z"/>
+            <path fill="none" d="M80.13 125.46c13.53 4.02 29.35 8.71 44.91 13.33"/>
+            <path d="m125.71 135.34 8.59 6.2-10.58.51z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M490.75 77.46H318v36h172.75z"/>
-            <text x="400.38" y="-123.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:service:housekeeping</text>
+            <path fill="#add8e6" stroke="#000" d="M490.75 142.45H318v36h172.75z"/>
+            <text x="400.38" y="-58.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:service:housekeeping</text>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M1006 77.46h-95.5v36h95.5z"/>
-            <text x="954.25" y="-123.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:core:common</text>
+            <path fill="#add8e6" stroke="#000" d="M1006 96.45h-95.5v36h95.5z"/>
+            <text x="954.25" y="-104.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:core:common</text>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M432.91 77.25c23.74-14.54 59.51-33.76 93.84-41.79 150.5-35.16 200.74-47.69 347.75 0 21.02 6.82 41.18 21.21 56.33 34.19"/>
-            <path fill="#999" d="m932.88 66.78 5.14 9.27-9.8-4.04z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M457.35 178.93c89.12 28.57 275.17 74.44 417.15 16.52 26.43-10.79 49-34.53 63.86-53.54"/>
+            <path fill="#999" d="m935.51 139.88 8.8-5.9-3.2 10.1z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M650.75 77.46h-112v36h112z"/>
-            <text x="590.75" y="-123.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:data:room</text>
+            <path fill="#add8e6" stroke="#000" d="M650.75 142.45h-112v36h112z"/>
+            <text x="590.75" y="-58.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:data:room</text>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M491.02 95.46h36.06"/>
-            <path fill="#999" d="m527 91.96 10 3.5-10 3.5z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M491.02 160.45h36.06"/>
+            <path fill="#999" d="m527 156.95 10 3.5-10 3.5z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M985.75 131.46h-55v36h55z"/>
-            <text x="954.25" y="-69.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:shared</text>
+            <path fill="#add8e6" stroke="#000" d="M985.75 12.45h-55v36h55z"/>
+            <text x="954.25" y="-188.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:shared</text>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M476.18 76.98c16.48-3.54 34.05-6.7 50.57-8.52 76.82-8.44 279.62-36.46 347.75 0 25.43 13.61 14.96 34.27 36 54 3.22 3.02 6.83 5.84 10.58 8.43"/>
-            <path fill="#999" d="m922.68 127.76 6.6 8.29-10.33-2.37z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M417.29 142.23c19.24-27.59 60.02-79.06 109.46-100.78C660.71-17.4 841.44 7.3 919.15 22.2"/>
+            <path fill="#999" d="m919.67 18.73 9.13 5.38-10.49 1.49z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M662.75 177.46h-136v36h136z"/>
-            <text x="590.75" y="-23.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:data:employee</text>
+            <path fill="#add8e6" stroke="#000" d="M662.75 50.45h-136v36h136z"/>
+            <text x="590.75" y="-150.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:data:employee</text>
         </g>
         <g stroke="#ccc" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M282.06 195.46h233.03"/>
-            <path fill="#ccc" d="m514.99 191.96 10 3.5-10 3.5z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M282.06 68.45h233.03"/>
+            <path fill="#ccc" d="m514.99 64.95 10 3.5-10 3.5z"/>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M662.93 197.57c70.84 1.06 176.9-1 211.57-21.11 24.95-14.46 14.96-34.27 36-54q.93-.855 1.89-1.71"/>
-            <path fill="#999" d="m910.06 118.13 10.05-3.33-5.78 8.88z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M663.09 68.39c56.84 1.06 140.1 5.21 211.41 19.06 8.06 1.56 16.42 3.68 24.6 6.04"/>
+            <path fill="#999" d="m900.09 90.13 8.55 6.26-10.59.44z"/>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M663.23 179.12c15.18-3.68 31.39-7.61 46.87-11.36"/>
-            <path fill="#999" d="m709.21 164.37 10.55 1.05-8.9 5.76z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M663.23 84.79c15.18 3.68 31.39 7.61 46.87 11.36"/>
+            <path fill="#999" d="m710.86 92.73 8.9 5.76-10.55 1.05z"/>
         </g>
         <g stroke="#999" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M663.13 212.05c57.58 11.09 141.89 19.95 211.37-2.59 21.02-6.82 41.18-21.2 56.33-34.18"/>
-            <path fill="#999" d="m928.22 172.92 9.8-4.04-5.14 9.26z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M663.02 58.88c11.89-1.57 24.17-3.11 35.73-4.43 78.15-8.94 169.87-16.84 220.35-20.97"/>
+            <path fill="#999" d="m918.66 30 10.25 2.68-9.69 4.3z"/>
         </g>
         <g stroke="#666" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M847.48 130.98c9.06-2.83 18.29-5.74 27.02-8.52 8.01-2.55 16.45-5.27 24.74-7.96"/>
-            <path fill="#666" d="m897.99 111.23 10.6.24-8.43 6.42z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M851.75 114.45h47.13"/>
+            <path fill="#666" d="m898.7 110.95 10 3.5-10 3.5z"/>
         </g>
         <g stroke="#666" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M851.75 149.46h67.19"/>
-            <path fill="#666" d="m918.78 145.96 10 3.5-10 3.5z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M824.85 96.01c28.28-14 66.99-33.17 95.25-47.17"/>
+            <path fill="#666" d="m918.5 45.73 10.52-1.3-7.41 7.57z"/>
         </g>
         <g class="node">
-            <path fill="#add8e6" stroke="#000" d="M874.5 77.46H698.75v36H874.5z"/>
-            <text x="782.62" y="-123.25" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.76)">:server:domain:housekeeping</text>
+            <path fill="#add8e6" stroke="#000" d="M874.5 150.45H698.75v36H874.5z"/>
+            <text x="782.62" y="-50.07" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 223.57)">:server:domain:housekeeping</text>
         </g>
         <g stroke="#333" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M874.92 95.46h23.87"/>
-            <path fill="#333" d="m898.73 91.96 10 3.5-10 3.5z"/>
-        </g>
-        <g stroke="#333" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M847.48 113.94c9.06 2.84 18.29 5.74 27.02 8.52 14.77 4.71 30.99 9.98 45.13 14.6"/>
-            <path fill="#333" d="m920.6 133.7 8.41 6.44-10.59.21z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M847.48 149.96c9.06-2.83 18.29-5.73 27.02-8.51 8.01-2.56 16.45-5.27 24.74-7.96"/>
+            <path fill="#333" d="m897.99 130.21 10.6.24-8.43 6.42z"/>
         </g>
         <g stroke="#666" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M651.18 111.23c18.56 5.28 39.58 11.25 59.39 16.89"/>
-            <path fill="#666" d="m711.31 124.69 8.66 6.1-10.58.63z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M651.18 147.02c18.48-4.48 39.39-9.54 59.11-14.32"/>
+            <path fill="#666" d="m709.41 129.31 10.54 1.05-8.89 5.75z"/>
         </g>
         <g stroke="#666" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M651.18 95.46h35.85"/>
-            <path fill="#666" d="m686.81 91.96 10 3.5-10 3.5z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M651.18 162.78c11.31.48 23.54.99 35.85 1.51"/>
+            <path fill="#666" d="m686.97 160.79 9.85 3.91-10.14 3.08z"/>
         </g>
         <g stroke="#ccc" class="edge">
-            <path fill="none" stroke-dasharray="5,2" d="M270.27 100.7c11.7-.46 24-.95 36.21-1.43"/>
-            <path fill="#ccc" d="m306.01 95.79 10.13 3.1-9.85 3.9z"/>
+            <path fill="none" stroke-dasharray="5,2" d="M270.27 160.45h36.21"/>
+            <path fill="#ccc" d="m306.14 156.95 10 3.5-10 3.5z"/>
         </g>
     </g>
 </svg>

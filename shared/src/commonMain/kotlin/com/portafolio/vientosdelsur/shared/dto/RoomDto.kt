@@ -1,7 +1,5 @@
 package com.portafolio.vientosdelsur.shared.dto
 
-import com.portafolio.vientosdelsur.shared.domain.RoomCleaningType
-import com.portafolio.vientosdelsur.shared.domain.RoomType
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
@@ -9,13 +7,13 @@ import kotlinx.serialization.Serializable
 data class RoomDto(
     val id: Int,
     val roomNumber: String,
-    val roomType: RoomType
+    val roomType: String
 )
 
 @Serializable
 data class RoomStateDto(
     val room: RoomDto,
-    val cleaningType: RoomCleaningType,
+    val cleaningType: String,
     val currentStatus: RoomCleaningStatusDto
 )
 

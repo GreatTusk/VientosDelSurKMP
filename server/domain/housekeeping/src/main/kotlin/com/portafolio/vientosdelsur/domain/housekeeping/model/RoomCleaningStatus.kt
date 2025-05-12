@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.shared.domain
+package com.portafolio.vientosdelsur.domain.housekeeping.model
 
 import kotlinx.datetime.LocalDateTime
 

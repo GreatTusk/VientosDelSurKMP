@@ -2,8 +2,8 @@ package com.portafolio.vientosdelsur.data.room.mapper
 
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeEntity
-import com.portafolio.vientosdelsur.shared.domain.Room
-import com.portafolio.vientosdelsur.shared.domain.RoomTypeDetails
+import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
+import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomTypeDetails
 
 internal fun RoomEntity.toRoom() = Room(
     id = id.value,
