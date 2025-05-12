@@ -1,10 +1,8 @@
-package com.portafolio.vientosdelsur.shared.dto
+package com.portafolio.vientosdelsur.domain.employee
 
 import kotlinx.datetime.LocalDate
-import kotlinx.serialization.Serializable
 
-@Serializable
-data class EmployeeDto(
+data class Employee(
     val id: Int,
     val firstName: String,
     val lastName: String,

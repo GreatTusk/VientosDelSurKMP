@@ -6,10 +6,11 @@ import com.portafolio.vientosdelsur.core.database.util.suspendTransaction
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.data.employee.mapper.toEmployeeDto
-import com.portafolio.vientosdelsur.shared.dto.EmployeeDto
+import com.portafolio.vientosdelsur.domain.employee.Employee
+import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepository
 
 internal object DBEmployeeRepository : EmployeeRepository {
-    override suspend fun allEmployees(): Result<List<EmployeeDto>, DataError.Remote> = suspendTransaction {
+    override suspend fun allEmployees(): Result<List<Employee>, DataError.Remote> = suspendTransaction {
         return@suspendTransaction try {
             Result.Success(EmployeeEntity.all().map { it.toEmployeeDto() })
         } catch (e: Exception) {
@@ -17,7 +18,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
         }
     }
 
-    override suspend fun getEmployeeById(id: Int): Result<EmployeeDto, DataError.Remote> = suspendTransaction {
+    override suspend fun getEmployeeById(id: Int): Result<Employee, DataError.Remote> = suspendTransaction {
         return@suspendTransaction try {
             val employee = EmployeeEntity.find { (EmployeeTable.id eq id) }
                 .limit(1)

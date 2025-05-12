@@ -1,0 +1,32 @@
+package com.portafolio.vientosdelsur.service.employee
+
+import com.f776.core.common.DataError
+import com.f776.core.common.Result
+import com.f776.core.common.flatMap
+import com.f776.core.common.map
+import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepository
+import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
+import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
+
+internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepository) : EmployeeService {
+    override suspend fun getAllEmployees(): Result<EmployeeListResponse, DataError.Remote> {
+        return employeeRepository.allEmployees()
+            .flatMap { it.toEmployeeDto() }
+            .map {
+                BaseResponseDto(
+                    message = "Retrieved successfully",
+                    data = it
+                )
+            }
+    }
+
+    override suspend fun getEmployeeById(id: Int): Result<EmployeeResponse, DataError.Remote> {
+        return employeeRepository.getEmployeeById(id = id)
+            .map {
+                BaseResponseDto(
+                    message = "Retrieved successfully",
+                    data = it.toEmployeeDto()
+                )
+            }
+    }
+}

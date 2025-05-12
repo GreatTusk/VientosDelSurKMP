@@ -7,13 +7,14 @@ import com.portafolio.vientosdelsur.core.database.entity.room.RoomStatus
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomStatusTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
+import com.portafolio.vientosdelsur.core.database.entity.work.RoomCleaningType
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.suspendTransaction
 import com.portafolio.vientosdelsur.data.room.mapper.toRoom
 import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
 import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
-import com.portafolio.vientosdelsur.shared.domain.RoomCleaningStatus
-import com.portafolio.vientosdelsur.shared.domain.RoomState
+import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningStatus
+import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomState
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
@@ -62,7 +63,10 @@ internal object DBRoomRepository : RoomRepository {
                                 RoomStatus.DONE -> RoomCleaningStatus.Done(updatedAt)
                             }
                         } ?: RoomCleaningStatus.Pending,
-                        roomCleaningType = row[HousekeeperShiftRoomTable.roomCleaningType]
+                        roomCleaningType = when (row[HousekeeperShiftRoomTable.roomCleaningType]) {
+                            RoomCleaningType.ROOM -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.ROOM
+                            RoomCleaningType.GUEST -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.GUEST
+                        }
                     )
                 }
             Result.Success(rooms)

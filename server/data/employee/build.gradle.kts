@@ -3,10 +3,8 @@ plugins {
 }
 
 dependencies {
-    api(projects.shared)
-    api(projects.core.common)
-
     implementation(projects.server.core.database)
+    api(projects.server.domain.employee)
 
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)

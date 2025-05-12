@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.data.room.mapper
 
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
+import com.portafolio.vientosdelsur.core.database.entity.room.RoomType
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeEntity
 import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
 import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomTypeDetails
@@ -12,7 +13,12 @@ internal fun RoomEntity.toRoom() = Room(
 )
 
 private fun RoomTypeEntity.toRoomTypeDetails() = RoomTypeDetails(
-    roomType = roomType,
+    roomType = when(roomType){
+        RoomType.SINGLE -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomType.SINGLE
+        RoomType.DOUBLE -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomType.DOUBLE
+        RoomType.TRIPLE -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomType.TRIPLE
+        RoomType.QUAD -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomType.QUAD
+    },
     workUnit = workUnit,
     checkOutWorkUnit = checkOutWorkUnit
 )
