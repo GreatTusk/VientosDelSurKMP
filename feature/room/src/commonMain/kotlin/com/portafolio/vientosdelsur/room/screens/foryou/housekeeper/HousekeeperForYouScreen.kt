@@ -2,10 +2,12 @@
 
 package com.portafolio.vientosdelsur.room.screens.foryou.housekeeper
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -23,6 +25,7 @@ import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
 import com.portafolio.vientosdelsur.room.screens.foryou.components.RoomStateCard
+import com.portafolio.vientosdelsur.room.screens.foryou.components.forYouHeader
 import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model.RoomStateUi
 import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
@@ -80,11 +83,39 @@ private fun RoomScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>, 
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { },
-                icon = { Icon(imageVector = Icons.Filled.CameraAlt, stringResource(Res.string.photo_fab_cd)) },
-                text = { Text(text = stringResource(Res.string.photo_fab_message)) },
-            )
+            when (employee?.role) {
+                EmployeeRole.HOUSEKEEPER -> {
+                    ExtendedFloatingActionButton(
+                        onClick = { /* housekeeper action */ },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.CameraAlt,
+                                contentDescription = stringResource(Res.string.photo_fab_cd)
+                            )
+                        },
+                        text = { Text(text = stringResource(Res.string.photo_fab_message)) },
+                    )
+                }
+
+                EmployeeRole.SUPERVISOR -> {
+                    ExtendedFloatingActionButton(
+                        onClick = { /* supervisor action */ },
+                        icon = { Icon(Icons.Default.ImageSearch, contentDescription = "Supervisor action") },
+                        text = { Text("Revisar") },
+                    )
+                }
+
+                EmployeeRole.ADMIN -> {
+                    ExtendedFloatingActionButton(
+                        onClick = { /* admin action */ },
+                        icon = { Icon(Icons.Default.Person, contentDescription = "Admin action") },
+                        text = { Text("Manage Rooms") },
+                    )
+                }
+
+                null -> {
+                }
+            }
         }
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
@@ -137,35 +168,6 @@ private fun RoomScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>, 
         }
     }
 }
-
-private fun LazyGridScope.forYouHeader(employee: Employee?) {
-    item(span = { GridItemSpan(maxLineSpan) }) {
-        employee?.let {
-            Column {
-                Text(
-                    text = stringResource(Res.string.greeting, "${employee.firstName} ${employee.lastName}"),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(
-                        when (employee.role) {
-                            EmployeeRole.HOUSEKEEPER -> Res.string.housekeeper_room_header
-                            EmployeeRole.SUPERVISOR -> Res.string.supervisor_header
-                            EmployeeRole.ADMIN -> Res.string.admin_header
-                        }
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
-        } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    }
-}
-
 
 @Composable
 @Preview
