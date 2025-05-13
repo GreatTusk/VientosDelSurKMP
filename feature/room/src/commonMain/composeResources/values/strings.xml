@@ -8,6 +8,9 @@
 
     <string name="cleaning_type">Estado</string>
     <string name="cleaning_guest">Huésped</string>
-    <string name="cleaning_out_of_order">Avería</string>
     <string name="cleaning_checkout">Salida</string>
+
+    <string name="greeting">Hola, %1$s</string>
+    <string name="housekeeper_room_header">Tus habitaciones hoy</string>
+
 </resources>

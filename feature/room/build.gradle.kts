@@ -9,6 +9,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.ui)
+            implementation(projects.core.resource)
             implementation(projects.data.room)
 
             implementation(libs.jetbrains.compose.navigation)

@@ -5,6 +5,11 @@ plugins {
 
 kotlin {
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.play.services)
+            api(libs.bundles.camerax)
+        }
+
         commonMain.dependencies {
             api(projects.domain.imageAnalysis)
             implementation(libs.koin.core)

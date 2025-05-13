@@ -8,6 +8,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 suspend fun <T> safeSuspendTransaction(block: Transaction.() -> T): Result<T, DataError.Remote> = try {
     Result.Success(newSuspendedTransaction(Dispatchers.IO, statement = block))
-} catch (_: Exception) {
+} catch (e: Exception) {
+    e.printStackTrace()
     Result.Error(DataError.Remote.UNKNOWN)
 }

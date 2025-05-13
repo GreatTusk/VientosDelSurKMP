@@ -3,14 +3,11 @@
 package com.portafolio.vientosdelsur.room.screens.housekeeperForYou
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bed
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +16,10 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.f776.japanesedictionary.core.resource.app_name
+import com.portafolio.vientosdelsur.room.screens.components.RoomStateCard
 import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.RoomStateUi
 import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
@@ -40,12 +40,29 @@ internal fun RoomScreenRoot(
 @Composable
 private fun RoomScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    var selectedIndex by remember { mutableIntStateOf(-1) }
+
+    val options = listOf(
+        stringResource(Res.string.cleaning_guest),
+        stringResource(Res.string.cleaning_checkout),
+    )
+
+    val filteredRooms by remember(selectedIndex, rooms) {
+        derivedStateOf {
+            when (selectedIndex) {
+                0 -> rooms.filter { it.cleaningType == Res.string.cleaning_guest }
+                1 -> rooms.filter { it.cleaningType == Res.string.cleaning_checkout }
+                else -> rooms
+            }
+        }
+    }
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Vientos del Sur")
+                    Text(text = stringResource(com.f776.japanesedictionary.core.resource.Res.string.app_name))
                 },
                 actions = {
                     IconButton(onClick = { /* do something */ }) {
@@ -60,6 +77,7 @@ private fun RoomScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>) 
         }
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
+        val currentSize = currentWindowAdaptiveInfo()
         LazyVerticalGrid(
             columns = GridCells.Adaptive(200.dp),
             contentPadding = PaddingValues(
@@ -71,32 +89,18 @@ private fun RoomScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>) 
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Column {
-                    Text(
-                        text = "Hola, Flor",
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Habitaciones de hoy",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                }
-            }
+            forYouHeader()
 
             item(span = { GridItemSpan(maxLineSpan) }) {
-                var selectedIndex by remember { mutableIntStateOf(0) }
-
-                val options = listOf(
-                    stringResource(Res.string.cleaning_guest),
-                    stringResource(Res.string.cleaning_checkout),
-                    stringResource(Res.string.cleaning_out_of_order)
-                )
-
-                SingleChoiceSegmentedButtonRow {
+                SingleChoiceSegmentedButtonRow(
+                    modifier = Modifier.then(
+                        if (currentSize.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
+                            Modifier
+                        else Modifier.wrapContentWidth(
+                            Alignment.Start
+                        )
+                    )
+                ) {
                     options.forEachIndexed { index, label ->
                         SegmentedButton(
                             shape = SegmentedButtonDefaults.itemShape(
@@ -116,76 +120,27 @@ private fun RoomScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>) 
                     }
                 }
             }
-            items(rooms, key = { it.id }) { room ->
+            items(items = filteredRooms, key = { it.id }) { room ->
                 RoomStateCard(room)
             }
         }
     }
-
 }
 
-@Composable
-fun RoomStateCard(roomState: RoomStateUi) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = roomState.roomNumber,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = roomState.bedCount,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(imageVector = Icons.Default.Bed, contentDescription = null)
-
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            Column {
-                Text(
-                    text = stringResource(Res.string.cleaning_state),
-                    color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Text(
-                    text = stringResource(roomState.cleaningType),
-                    fontWeight = FontWeight.SemiBold,
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Column {
-                Text(
-                    text = stringResource(Res.string.cleaning_type),
-                    color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Row {
-                    Text(
-                        text = stringResource(roomState.state),
-                        fontWeight = FontWeight.SemiBold,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    roomState.updatedAt?.let {
-                        Text(
-                            text = it,
-                            fontWeight = FontWeight.SemiBold,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
-            }
+private fun LazyGridScope.forYouHeader() {
+    item(span = { GridItemSpan(maxLineSpan) }) {
+        Column {
+            Text(
+                text = stringResource(Res.string.greeting, "Flor"),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(Res.string.housekeeper_room_header),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.secondary
+            )
         }
     }
 }
