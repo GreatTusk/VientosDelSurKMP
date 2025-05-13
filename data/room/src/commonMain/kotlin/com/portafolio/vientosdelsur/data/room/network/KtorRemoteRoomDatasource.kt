@@ -4,6 +4,7 @@ import com.f776.core.common.DataError
 import com.f776.core.common.Result
 import com.f776.core.common.map
 import com.f776.core.network.safeCall
+import com.portafolio.vientosdelsur.network.BuildConfig
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.RoomDto
 import com.portafolio.vientosdelsur.shared.dto.RoomStateDto
@@ -14,13 +15,13 @@ import kotlinx.datetime.LocalDate
 internal class KtorRemoteRoomDatasource(private val httpClient: HttpClient) : RemoteRoomDatasource {
     override suspend fun getAllRooms(): Result<List<RoomDto>, DataError.Remote> =
         safeCall<BaseResponseDto<List<RoomDto>>> {
-            httpClient.get("http://localhost:8080/room")
+            httpClient.get("${BuildConfig.BASE_URL}/room")
         }.map { it.data }
 
 
     override suspend fun getAllRoomsState(date: LocalDate): Result<List<RoomStateDto>, DataError.Remote> =
         safeCall<BaseResponseDto<List<RoomStateDto>>> {
-            httpClient.get("http://localhost:8080/room/distribution") {
+            httpClient.get("${BuildConfig.BASE_URL}/room/distribution") {
                 parameter("date", date)
             }
         }.map { it.data }
@@ -30,7 +31,7 @@ internal class KtorRemoteRoomDatasource(private val httpClient: HttpClient) : Re
         date: LocalDate
     ): Result<List<RoomStateDto>, DataError.Remote> =
         safeCall<BaseResponseDto<List<RoomStateDto>>> {
-            httpClient.get("http://localhost:8080/room/distribution/$housekeeperId") {
+            httpClient.get("${BuildConfig.BASE_URL}/room/distribution/$housekeeperId") {
                 parameter("date", date)
             }
         }.map { it.data }
