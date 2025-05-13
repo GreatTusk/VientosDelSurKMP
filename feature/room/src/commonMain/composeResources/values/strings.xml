@@ -12,5 +12,9 @@
 
     <string name="greeting">Hola, %1$s</string>
     <string name="housekeeper_room_header">Tus habitaciones hoy</string>
+    <string name="admin_header">Estado actual del hotel</string>
+    <string name="supervisor_header">Estado actual del hotel</string>
+    <string name="photo_fab_cd">Presiona para sacar una foto de la habitación</string>
+    <string name="photo_fab_message">Reportar</string>
 
 </resources>

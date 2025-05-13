@@ -11,8 +11,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
 import com.portafolio.vientosdelsur.foryou.navigation.ForYou
 import com.portafolio.vientosdelsur.foryou.navigation.navigateToForYou
-import com.portafolio.vientosdelsur.room.navigation.Room
-import com.portafolio.vientosdelsur.room.navigation.navigateToRoom
+import com.portafolio.vientosdelsur.room.navigation.ForYouHousekeeper
+import com.portafolio.vientosdelsur.room.navigation.ForYouSupervisor
+import com.portafolio.vientosdelsur.room.navigation.navigateToHousekeeperForYou
+import com.portafolio.vientosdelsur.room.navigation.navigateToSupervisorForYou
 import org.jetbrains.compose.resources.StringResource
 import vientosdelsur.composeapp.generated.resources.Res
 import vientosdelsur.composeapp.generated.resources.app_name
@@ -27,19 +29,26 @@ enum class TopLevelDestination(
     val iconText: StringResource,
     val route: KClass<*>,
 ) {
-    FOR_YOU(
+    FOR_YOU_HOUSEKEEPER(
         selectedIcon = Icons.Default.Face,
         unselectedIcon = Icons.Outlined.Face,
         title = Res.string.app_name,
         iconText = Res.string.for_you_title,
-        route = ForYou::class
+        route = ForYouHousekeeper::class
     ),
-    ROOM(
+    FOR_YOU_SUPERVISOR(
+        selectedIcon = Icons.Default.Face,
+        unselectedIcon = Icons.Outlined.Face,
+        title = Res.string.app_name,
+        iconText = Res.string.for_you_title,
+        route = ForYouSupervisor::class
+    ),
+    HOTEL(
         selectedIcon = Icons.Default.Bed,
         unselectedIcon = Icons.Outlined.Bed,
         title = Res.string.app_name,
         iconText = Res.string.rooms_title,
-        route = Room::class
+        route = ForYou::class
     );
 
     fun navigateToTopLevelDestination(navController: NavHostController) {
@@ -58,8 +67,9 @@ enum class TopLevelDestination(
         }
 
         when (this) {
-            FOR_YOU -> navController.navigateToForYou(topLevelNavOptions)
-            ROOM -> navController.navigateToRoom(topLevelNavOptions)
+            FOR_YOU_HOUSEKEEPER -> navController.navigateToHousekeeperForYou(topLevelNavOptions)
+            FOR_YOU_SUPERVISOR -> navController.navigateToSupervisorForYou(topLevelNavOptions)
+            HOTEL -> navController.navigateToForYou(topLevelNavOptions)
         }
     }
 }

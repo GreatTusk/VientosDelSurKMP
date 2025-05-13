@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.room.screens.housekeeperForYou
+package com.portafolio.vientosdelsur.room.screens.foryou.housekeeper
 
 import com.portafolio.vientosdelsur.domain.room.*
 

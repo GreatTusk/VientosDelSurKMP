@@ -8,6 +8,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.domain.employee)
             implementation(projects.core.ui)
             implementation(projects.core.resource)
             implementation(projects.data.room)

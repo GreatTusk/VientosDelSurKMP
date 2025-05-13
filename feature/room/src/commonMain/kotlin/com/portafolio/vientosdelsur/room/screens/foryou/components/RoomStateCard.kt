@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.room.screens.components
+package com.portafolio.vientosdelsur.room.screens.foryou.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.portafolio.vientosdelsur.room.screens.housekeeperForYou.model.RoomStateUi
+import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model.RoomStateUi
 import org.jetbrains.compose.resources.stringResource
 import vientosdelsur.feature.room.generated.resources.Res
 import vientosdelsur.feature.room.generated.resources.cleaning_state
