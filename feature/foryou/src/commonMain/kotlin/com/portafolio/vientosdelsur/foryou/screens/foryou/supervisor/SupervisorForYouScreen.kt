@@ -1,11 +1,13 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper
+package com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
@@ -19,35 +21,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowWidthSizeClass
-import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
-import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
 import com.portafolio.vientosdelsur.foryou.screens.components.RoomStateCard
 import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
+import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.HousekeeperForYouViewModel
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.RoomStateUi
-import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-import vientosdelsur.feature.foryou.generated.resources.*
 import vientosdelsur.feature.foryou.generated.resources.Res
 import vientosdelsur.feature.foryou.generated.resources.cleaning_checkout
 import vientosdelsur.feature.foryou.generated.resources.cleaning_guest
-import vientosdelsur.feature.foryou.generated.resources.photo_fab_cd
 
 @Composable
-internal fun HousekeeperForYouScreenRoot(
+internal fun SupervisorForYouScreenRoot(
     modifier: Modifier = Modifier,
     housekeeperForYouViewModel: HousekeeperForYouViewModel = koinInject(),
     employee: Employee
 ) {
     val uiState by housekeeperForYouViewModel.uiState.collectAsStateWithLifecycle()
-    HousekeeperForYouScreen(modifier = modifier, rooms = uiState, employee = employee)
+    SupervisorForYouScreen(modifier = modifier, rooms = uiState, employee = employee)
 }
 
 @Composable
-private fun HousekeeperForYouScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>, employee: Employee?) {
+private fun SupervisorForYouScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>, employee: Employee?) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var selectedIndex by remember { mutableIntStateOf(-1) }
 
@@ -71,10 +68,7 @@ private fun HousekeeperForYouScreen(modifier: Modifier = Modifier, rooms: List<R
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(com.f776.japanesedictionary.core.resource.Res.string.app_name),
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    Text(text = stringResource(com.f776.japanesedictionary.core.resource.Res.string.app_name), fontWeight = FontWeight.SemiBold)
                 },
                 actions = {
                     IconButton(onClick = { /* do something */ }) {
@@ -89,16 +83,12 @@ private fun HousekeeperForYouScreen(modifier: Modifier = Modifier, rooms: List<R
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { /* housekeeper action */ },
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.CameraAlt,
-                        contentDescription = stringResource(Res.string.photo_fab_cd)
-                    )
-                },
-                text = { Text(text = stringResource(Res.string.photo_fab_message)) },
+                onClick = { /* supervisor action */ },
+                icon = { Icon(Icons.Default.ImageSearch, contentDescription = "Supervisor action") },
+                text = { Text("Revisar") },
             )
         }
+
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
         val currentSize = currentWindowAdaptiveInfo()
@@ -147,19 +137,6 @@ private fun HousekeeperForYouScreen(modifier: Modifier = Modifier, rooms: List<R
             items(items = filteredRooms, key = { it.id }) { room ->
                 RoomStateCard(room)
             }
-        }
-    }
-}
-
-@Composable
-@Preview
-private fun RoomScreenPreview() {
-    VientosDelSurTheme {
-        Surface {
-            HousekeeperForYouScreen(
-                rooms = SampleRoomStates.sampleRoomStates.map { it.toRoomUi() },
-                employee = Employee(1, "Flow", "Gonzals", EmployeeRole.HOUSEKEEPER)
-            )
         }
     }
 }

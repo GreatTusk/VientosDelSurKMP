@@ -12,6 +12,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
+import kotlinx.datetime.*
+import kotlinx.datetime.format.DateTimeFormat
 import org.jetbrains.compose.resources.stringResource
 import vientosdelsur.feature.foryou.generated.resources.*
 import vientosdelsur.feature.foryou.generated.resources.Res
@@ -30,20 +32,36 @@ internal fun LazyGridScope.forYouHeader(employee: Employee?) {
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(
-                        when (employee.role) {
-                            EmployeeRole.HOUSEKEEPER -> Res.string.housekeeper_room_header
-                            EmployeeRole.SUPERVISOR -> Res.string.supervisor_header
-                            EmployeeRole.ADMIN -> Res.string.admin_header
-                        }
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(
+                        text = stringResource(
+                            when (employee.role) {
+                                EmployeeRole.HOUSEKEEPER -> Res.string.housekeeper_room_header
+                                EmployeeRole.SUPERVISOR -> Res.string.supervisor_header
+                                EmployeeRole.ADMIN -> Res.string.admin_header
+                            }
+                        ),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                    Text(
+                        text = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                            .format(localeDateFormatter),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
         } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     }
+}
+
+private val localeDateFormatter = LocalDateTime.Format {
+    dayOfMonth()
+    chars("/")
+    monthNumber()
+    chars("/")
+    year()
 }
