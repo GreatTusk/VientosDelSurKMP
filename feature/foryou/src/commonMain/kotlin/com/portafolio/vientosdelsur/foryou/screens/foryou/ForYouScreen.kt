@@ -18,9 +18,9 @@ internal fun ForYouScreenRoot(modifier: Modifier = Modifier, forYouViewModel: Fo
             modifier = modifier,
             employee = employee!!
         )
-        EmployeeRole.SUPERVISOR -> TODO()
-        EmployeeRole.ADMIN -> TODO()
-        null -> TODO()
+        EmployeeRole.SUPERVISOR -> {}
+        EmployeeRole.ADMIN -> {}
+        null -> {}
     }
 }
 

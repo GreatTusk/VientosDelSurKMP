@@ -5,6 +5,4 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val RoomModule = module {
-    includes(RoomDataModule)
-    viewModelOf(::HousekeeperForYouViewModel)
 }

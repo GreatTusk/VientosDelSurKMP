@@ -7,7 +7,7 @@ import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.Housekeepe
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-val RoomModule = module {
+val ForYouModule = module {
     includes(RoomDataModule, EmployeeDataModule)
     viewModelOf(::ForYouViewModel)
     viewModelOf(::HousekeeperForYouViewModel)
