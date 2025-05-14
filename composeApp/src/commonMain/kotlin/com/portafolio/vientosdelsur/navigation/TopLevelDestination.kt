@@ -9,6 +9,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
+import com.portafolio.vientosdelsur.feature.hotel.navigation.Hotel
+import com.portafolio.vientosdelsur.feature.hotel.navigation.navigateToHotel
 import com.portafolio.vientosdelsur.foryou.navigation.ForYou
 import com.portafolio.vientosdelsur.foryou.navigation.navigateToForYou
 import org.jetbrains.compose.resources.StringResource
@@ -37,7 +39,7 @@ enum class TopLevelDestination(
         unselectedIcon = Icons.Outlined.Bed,
         title = Res.string.app_name,
         iconText = Res.string.rooms_title,
-        route = ForYou::class
+        route = Hotel::class
     );
 
     fun navigateToTopLevelDestination(navController: NavHostController) {
@@ -57,7 +59,7 @@ enum class TopLevelDestination(
 
         when (this) {
             FOR_YOU -> navController.navigateToForYou(topLevelNavOptions)
-            HOTEL -> TODO()
+            HOTEL -> navController.navigateToHotel(topLevelNavOptions)
         }
     }
 }

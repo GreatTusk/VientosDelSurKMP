@@ -2,5 +2,5 @@
 <resources>
     <string name="app_name">Vientos del Sur</string>
     <string name="for_you_title">For you</string>
-    <string name="rooms_title">Rooms</string>
+    <string name="rooms_title">Hotel</string>
 </resources>

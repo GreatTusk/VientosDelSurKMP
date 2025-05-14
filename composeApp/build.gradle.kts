@@ -21,6 +21,7 @@ kotlin {
 
             implementation(projects.feature.imageAnalysis)
             implementation(projects.feature.foryou)
+            implementation(projects.feature.hotel)
             implementation(projects.feature.room)
 
             implementation(libs.jetbrains.compose.navigation)
