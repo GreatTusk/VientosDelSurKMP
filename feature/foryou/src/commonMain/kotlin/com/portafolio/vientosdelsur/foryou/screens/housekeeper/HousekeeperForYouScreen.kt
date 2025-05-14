@@ -1,8 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.portafolio.vientosdelsur.room.screens.foryou.housekeeper
+package com.portafolio.vientosdelsur.foryou.screens.housekeeper
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -24,14 +22,18 @@ import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
-import com.portafolio.vientosdelsur.room.screens.foryou.components.RoomStateCard
-import com.portafolio.vientosdelsur.room.screens.foryou.components.forYouHeader
-import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model.RoomStateUi
-import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model.toRoomUi
+import com.portafolio.vientosdelsur.foryou.screens.components.RoomStateCard
+import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
+import com.portafolio.vientosdelsur.foryou.screens.housekeeper.model.RoomStateUi
+import com.portafolio.vientosdelsur.foryou.screens.housekeeper.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-import vientosdelsur.feature.room.generated.resources.*
+import vientosdelsur.feature.foryou.generated.resources.*
+import vientosdelsur.feature.foryou.generated.resources.Res
+import vientosdelsur.feature.foryou.generated.resources.cleaning_checkout
+import vientosdelsur.feature.foryou.generated.resources.cleaning_guest
+import vientosdelsur.feature.foryou.generated.resources.photo_fab_cd
 
 @Composable
 internal fun RoomScreenRoot(

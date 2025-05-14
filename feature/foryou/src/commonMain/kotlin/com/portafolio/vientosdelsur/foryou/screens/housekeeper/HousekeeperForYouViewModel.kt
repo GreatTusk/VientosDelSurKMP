@@ -1,15 +1,14 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.portafolio.vientosdelsur.room.screens.foryou.housekeeper
+package com.portafolio.vientosdelsur.foryou.screens.housekeeper
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.domain.employee.Employee
-import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
-import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model.toRoomUi
+import com.portafolio.vientosdelsur.foryou.screens.housekeeper.model.toRoomUi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.Clock

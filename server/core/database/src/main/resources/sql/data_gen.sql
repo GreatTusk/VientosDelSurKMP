@@ -1,7 +1,19 @@
+INSERT INTO employee (first_name, last_name, email, phone_number, hire_date, day_off, occupation)
+VALUES
+    ('Alice', 'Smith', 'alice.smith@example.com', '123456789', '2022-01-10', 1, 0),
+    ('Bob', 'Johnson', 'bob.johnson@example.com', '987654321', '2021-03-15', 0, 0),
+    ('Carlos', 'Mendez', 'carlos.mendez@example.com', '555123456', '2023-06-20', 6, 0);
+
+INSERT INTO housekeeper (employee_id, housekeeper_role, preferred_floor)
+VALUES
+    (1, 0, '1'),
+    (2, 1, '2'),
+    (3, 1, '3');
+
 DO
 $$
     DECLARE
-        start_date        DATE := CURRENT_DATE - interval '2 days';
+        start_date        DATE := CURRENT_DATE - interval '1 days';
         end_date          DATE := CURRENT_DATE + INTERVAL '29 days';
         d                 DATE := start_date;
         emp               RECORD;
@@ -10,7 +22,6 @@ $$
         room_ids          INT[];
         room_idx          INT  := 1;
         rooms_per_day     INT  := 7;
-        i                 INT;
     BEGIN
         -- Load room IDs dynamically
         SELECT array_agg(id ORDER BY id) INTO room_ids FROM room;
@@ -29,12 +40,12 @@ $$
                             RETURNING id INTO new_work_shift_id;
 
                             -- Assign up to 7 rooms
-                            FOR i IN 1..rooms_per_day
+                            FOR _ IN 1..rooms_per_day
                                 LOOP
                                     INSERT INTO housekeeper_shift (work_shift_id, room_id, room_cleaning_type)
                                     VALUES (new_work_shift_id,
                                             room_ids[room_idx],
-                                            (floor(random() * 2))::INT -- 0 or 1
+                                            (floor(random() * 2))::INT
                                            );
 
                                     -- Rotate room index

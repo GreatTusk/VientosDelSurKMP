@@ -21,7 +21,6 @@ navigationCompose = "2.9.0-beta01"
 adaptive = "1.1.0"
 exposedCore = "0.61.0"
 h2Version = "2.3.232"
-datastoreCoreOkio = "1.1.5"
 jna = "5.17.0"
 junit = "4.13.2"
 koin = "4.0.4"
@@ -80,7 +79,7 @@ compose-resources = { module = "org.jetbrains.compose.components:components-reso
 adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
 adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }
 
-androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "datastoreCoreOkio" }
+androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "datastore" }
 androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigationTesting" }

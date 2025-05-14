@@ -1,9 +1,9 @@
-package com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.model
+package com.portafolio.vientosdelsur.foryou.screens.housekeeper.model
 
 import com.portafolio.vientosdelsur.domain.room.*
-import com.portafolio.vientosdelsur.room.screens.foryou.housekeeper.util.HourFormatter
+import com.portafolio.vientosdelsur.foryou.screens.housekeeper.util.HourFormatter
 import org.jetbrains.compose.resources.StringResource
-import vientosdelsur.feature.room.generated.resources.*
+import vientosdelsur.feature.foryou.generated.resources.*
 
 data class RoomStateUi(
     val id: Int,
@@ -31,7 +31,7 @@ fun RoomState.toRoomUi(): RoomStateUi {
             RoomType.TRIPLE -> 3
             RoomType.QUAD -> 4
         }.toString(),
-        cleaningType = when(cleaningType) {
+        cleaningType = when (cleaningType) {
             RoomCleaningType.ROOM -> Res.string.cleaning_checkout
             RoomCleaningType.GUEST -> Res.string.cleaning_guest
         },

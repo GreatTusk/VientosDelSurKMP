@@ -34,8 +34,5 @@ buildkonfig {
         create("android") {
             buildConfigField(FieldSpec.Type.STRING, "BASE_URL", "${secretKeyProperties["BASE_URL_ANDROID"]}")
         }
-        create("ios") {
-            buildConfigField(FieldSpec.Type.STRING, "BASE_URL", "native")
-        }
     }
 }
