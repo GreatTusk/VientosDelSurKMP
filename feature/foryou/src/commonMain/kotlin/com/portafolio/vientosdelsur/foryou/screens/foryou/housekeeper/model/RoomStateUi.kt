@@ -1,7 +1,7 @@
-package com.portafolio.vientosdelsur.foryou.screens.housekeeper.model
+package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model
 
 import com.portafolio.vientosdelsur.domain.room.*
-import com.portafolio.vientosdelsur.foryou.screens.housekeeper.util.HourFormatter
+import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.util.HourFormatter
 import org.jetbrains.compose.resources.StringResource
 import vientosdelsur.feature.foryou.generated.resources.*
 

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.portafolio.vientosdelsur.foryou.screens.housekeeper
+package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -24,8 +24,8 @@ import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
 import com.portafolio.vientosdelsur.foryou.screens.components.RoomStateCard
 import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
-import com.portafolio.vientosdelsur.foryou.screens.housekeeper.model.RoomStateUi
-import com.portafolio.vientosdelsur.foryou.screens.housekeeper.model.toRoomUi
+import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.RoomStateUi
+import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
@@ -42,7 +42,6 @@ internal fun RoomScreenRoot(
     employee: Employee
 ) {
     val uiState by housekeeperForYouViewModel.uiState.collectAsStateWithLifecycle()
-//    val employee by housekeeperForYouViewModel.user.collectAsStateWithLifecycle()
     RoomScreen(modifier = modifier, rooms = uiState, employee = employee)
 }
 

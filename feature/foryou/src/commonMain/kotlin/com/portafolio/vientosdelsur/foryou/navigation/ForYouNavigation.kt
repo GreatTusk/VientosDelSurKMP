@@ -2,7 +2,7 @@ package com.portafolio.vientosdelsur.foryou.navigation
 
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.portafolio.vientosdelsur.foryou.screens.ForYouScreenRoot
+import com.portafolio.vientosdelsur.foryou.screens.foryou.ForYouScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.foryou.screens.housekeeper.util
+package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.util
 
 import kotlinx.datetime.LocalTime
 

@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.portafolio.vientosdelsur.foryou.screens.housekeeper.model.RoomStateUi
+import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.RoomStateUi
 import org.jetbrains.compose.resources.stringResource
 import vientosdelsur.feature.foryou.generated.resources.Res
 import vientosdelsur.feature.foryou.generated.resources.cleaning_state
