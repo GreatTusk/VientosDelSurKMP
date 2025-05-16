@@ -37,11 +37,9 @@ class ScheduleShiftUseCase(
 
         employeeShifts.map { employee ->
             async {
-                employee to month.workingDays.map { date ->
-                    async {
-                        assignShift(employee, date)?.let { ShiftDate(it, date) }
-                    }
-                }.toList().awaitAll().filterNotNull()
+                employee to month.workingDays.mapNotNull { date ->
+                    assignShift(employee, date)?.let { ShiftDate(it, date) }
+                }.toList()
             }
         }.awaitAll().toMap()
     }

@@ -10,7 +10,9 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-internal class ShiftServiceImpl(private val scheduleShiftUseCase: ScheduleShiftUseCase) : ShiftService {
+internal class ShiftServiceImpl(
+    private val scheduleShiftUseCase: ScheduleShiftUseCase,
+) : ShiftService {
     override suspend fun scheduleShifts(): Result<MonthlyShiftDistributionResponse, DataError.Remote> {
         return scheduleShiftUseCase(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
             .map { shifts ->
