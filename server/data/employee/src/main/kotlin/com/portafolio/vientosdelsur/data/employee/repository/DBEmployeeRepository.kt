@@ -6,19 +6,20 @@ import com.f776.core.common.emptyError
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
-import com.portafolio.vientosdelsur.data.employee.mapper.toEmployeeDto
+import com.portafolio.vientosdelsur.core.database.entity.employee.HousekeeperEntity
+import com.portafolio.vientosdelsur.core.database.entity.employee.HousekeeperTable
+import com.portafolio.vientosdelsur.data.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepository
+import org.jetbrains.exposed.sql.selectAll
 
 internal object DBEmployeeRepository : EmployeeRepository {
     override suspend fun allEmployees(): Result<List<Employee>, DataError.Remote> = safeSuspendTransaction {
-        EmployeeEntity.all().map { it.toEmployeeDto() }
+        EmployeeEntity.all().map { it.toEmployee() }
     }
 
     override suspend fun getEmployeeById(id: Int): Result<Employee, DataError.Remote> = safeSuspendTransaction {
         EmployeeEntity.find { (EmployeeTable.id eq id) }
-            .limit(1)
-            .map { it.toEmployeeDto() }
-            .firstOrNull() ?: emptyError("Employee not found")
+            .firstOrNull()?.toEmployee() ?: emptyError("Employee not found")
     }
 }

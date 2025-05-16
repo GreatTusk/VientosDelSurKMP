@@ -11,10 +11,10 @@ import kotlinx.datetime.plus
 
 class ScheduleShiftUseCase {
     fun scheduleMonthlyShifts(month: LocalDate, employees: List<Employee>) {
-        val employeeShift = assignSundaysOff(month, employees)
+        val employeeShifts = assignSundaysOff(month, employees)
 
-        month.workingDays.map {
-
+        month.workingDays.map { date ->
+            employeeShifts.map { assignShift(it, date) }
         }
     }
 
@@ -31,5 +31,14 @@ class ScheduleShiftUseCase {
                 )
             )
         }
+    }
+
+    fun assignShift(employeeShift: EmployeeShift, date: LocalDate): Int? {
+        if (date in employeeShift.sundaysOff.daysOff || date.dayOfWeek == employeeShift.employee.dayOff) return null
+
+        when(employeeShift.employee.occupation) {
+
+        }
+        TODO()
     }
 }

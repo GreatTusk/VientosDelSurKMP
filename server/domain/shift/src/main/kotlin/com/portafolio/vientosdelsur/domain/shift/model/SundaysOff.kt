@@ -5,4 +5,6 @@ import kotlinx.datetime.LocalDate
 data class SundaysOff(
     val first: LocalDate,
     val second: LocalDate
-)
+) {
+    val daysOff = setOf(first, second)
+}
