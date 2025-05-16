@@ -19,9 +19,9 @@ kotlin {
             implementation(projects.core.resource)
             implementation(projects.core.ui)
 
-            implementation(projects.feature.imageAnalysis)
             implementation(projects.feature.foryou)
             implementation(projects.feature.hotel)
+            implementation(projects.feature.imageAnalysis)
             implementation(projects.feature.room)
 
             implementation(libs.jetbrains.compose.navigation)
