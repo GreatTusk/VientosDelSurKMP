@@ -12,27 +12,38 @@ import com.portafolio.vientosdelsur.domain.shift.model.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.model.SundaysOff
 import com.portafolio.vientosdelsur.domain.shift.sundays
 import com.portafolio.vientosdelsur.domain.shift.workingDays
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
-class ScheduleShiftUseCase(private val employeeRepository: EmployeeRepository) {
+class ScheduleShiftUseCase(
+    private val employeeRepository: EmployeeRepository,
+    private val defaultDispatcher: CoroutineDispatcher
+) {
     suspend operator fun invoke(date: LocalDate): Result<Map<EmployeeDaysOff, List<ShiftDate>>, DataError.Remote> {
-        val employees = employeeRepository.allEmployees()
-        return employees.map { scheduleMonthlyShifts(month = date, employees = it) }
+        val employeeResult = employeeRepository.allEmployees()
+        return employeeResult.map { scheduleMonthlyShifts(month = date, employees = it) }
     }
 
-    private fun scheduleMonthlyShifts(
+    private suspend fun scheduleMonthlyShifts(
         month: LocalDate,
         employees: List<Employee>
-    ): Map<EmployeeDaysOff, List<ShiftDate>> {
+    ): Map<EmployeeDaysOff, List<ShiftDate>> = withContext(defaultDispatcher) {
         val employeeShifts = assignSundaysOff(month, employees)
 
-        return employeeShifts.associateWith { employee ->
-            month.workingDays.mapNotNull { date ->
-                assignShift(employee, date)?.let { ShiftDate(it, date) }
-            }.toList()
-        }
+        employeeShifts.map { employee ->
+            async {
+                employee to month.workingDays.map { date ->
+                    async {
+                        assignShift(employee, date)?.let { ShiftDate(it, date) }
+                    }
+                }.toList().awaitAll().filterNotNull()
+            }
+        }.awaitAll().toMap()
     }
 
     fun assignSundaysOff(month: LocalDate, employees: List<Employee>): List<EmployeeDaysOff> {
@@ -62,6 +73,7 @@ class ScheduleShiftUseCase(private val employeeRepository: EmployeeRepository) {
                     HousekeeperRole.ON_CALL -> null
                 }
             }
+
             else -> Shift.GENERAL_DUTY
 
         }

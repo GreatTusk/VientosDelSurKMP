@@ -14,7 +14,7 @@ object EmployeeTable : IntIdTable("employee") {
     val email = varchar("email", 50).uniqueIndex()
     val phoneNumber = varchar("phone_number", 9)
     val hireDate = datetime("hire_date")
-    val dayOff = integer("day_off").nullable()
+    val dayOff = integer("day_off").nullable().check { it.between(1, 6) }
     val occupation = enumeration<Occupation>("occupation")
 }
 
@@ -30,5 +30,7 @@ class EmployeeEntity(id: EntityID<Int>) : IntEntity(id) {
     var occupation by EmployeeTable.occupation
 
     val workShifts by WorkShiftEntity referrersOn WorkShiftTable.employeeId
-    val housekeeper by HousekeeperEntity optionalReferencedOn HousekeeperTable
+
+    val housekeeper: HousekeeperEntity?
+        get() = HousekeeperEntity.findById(this.id)
 }

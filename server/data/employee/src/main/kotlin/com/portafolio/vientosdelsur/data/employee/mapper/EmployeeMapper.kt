@@ -21,6 +21,7 @@ internal fun EmployeeEntity.toEmployee(): Employee {
     return when (occupation) {
         Occupation.HOUSEKEEPER -> {
             val housekeeper = requireNotNull(housekeeper) { "Invalid state. Housekeepers must be on HousekeeperTable" }
+            println(housekeeper.preferredFloor)
             Employee.Housekeeper(
                 data = baseEmployee,
                 housekeeperRole = when (housekeeper.housekeeperRole) {
@@ -28,11 +29,12 @@ internal fun EmployeeEntity.toEmployee(): Employee {
                     HousekeeperRole.KITCHEN_SUPPORT -> com.portafolio.vientosdelsur.domain.employee.HousekeeperRole.KITCHEN_SUPPORT
                     HousekeeperRole.ON_CALL -> com.portafolio.vientosdelsur.domain.employee.HousekeeperRole.ON_CALL
                 },
-                preferredFloor = housekeeper.preferredFloor?.let { Floor(it.code) }
+                preferredFloor = housekeeper.preferredFloor?.digitToIntOrNull()?.let { Floor(it) }
             )
         }
 
-        else -> Employee.Supervisor(baseEmployee)
+        Occupation.COOK -> Employee.Cook(data = baseEmployee)
+        Occupation.HOUSEKEEPER_SUPERVISOR -> Employee.HousekeeperSupervisor(data = baseEmployee)
+        Occupation.ADMIN -> Employee.Admin(data = baseEmployee)
     }
-
 }

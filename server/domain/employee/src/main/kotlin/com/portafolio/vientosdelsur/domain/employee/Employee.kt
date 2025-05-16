@@ -7,7 +7,7 @@ import kotlinx.datetime.LocalDate
 sealed interface Employee {
     val data: BaseEmployee
 
-    data class Supervisor(override val data: BaseEmployee) : Employee
+    data class HousekeeperSupervisor(override val data: BaseEmployee) : Employee
     data class Admin(override val data: BaseEmployee) : Employee
     data class Cook(override val data: BaseEmployee) : Employee
 

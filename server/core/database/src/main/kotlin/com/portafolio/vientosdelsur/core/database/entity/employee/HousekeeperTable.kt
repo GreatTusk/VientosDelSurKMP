@@ -20,7 +20,7 @@ object HousekeeperTable : IdTable<Int>("housekeeper") {
 class HousekeeperEntity(id: EntityID<Int>) : Entity<Int>(id) {
     companion object : EntityClass<Int, HousekeeperEntity>(HousekeeperTable)
 
-    val employee by EmployeeEntity backReferencedOn HousekeeperTable.employeeId
+    val employee by EmployeeEntity referencedOn HousekeeperTable.employeeId
     var housekeeperRole by HousekeeperTable.housekeeperRole
     var preferredFloor by HousekeeperTable.preferredFloor
 

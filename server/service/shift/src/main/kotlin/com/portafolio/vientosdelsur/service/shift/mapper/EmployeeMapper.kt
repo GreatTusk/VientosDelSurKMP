@@ -11,7 +11,7 @@ fun Employee.toEmployeeDto() = EmployeeDto(
     dayOff = data.dayOff,
     hireDate = data.hireDate,
     occupation = when(this) {
-        is Employee.Supervisor -> "Supervisor"
+        is Employee.HousekeeperSupervisor -> "Supervisor"
         is Employee.Housekeeper -> "Housekeeper"
         is Employee.Admin -> "Admin"
         is Employee.Cook -> "Cook"
