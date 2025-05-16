@@ -32,7 +32,7 @@ internal fun EmployeeEntity.toEmployee(): Employee {
             )
         }
 
-        else -> Employee.Generic(baseEmployee)
+        else -> Employee.Supervisor(baseEmployee)
     }
 
 }
