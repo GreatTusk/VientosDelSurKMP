@@ -5,6 +5,7 @@ import com.portafolio.vientosdelsur.config.configureDbConnection
 import com.portafolio.vientosdelsur.config.configureKoin
 import com.portafolio.vientosdelsur.controller.employee.route.employeeRoute
 import com.portafolio.vientosdelsur.controller.room.route.roomRoute
+import com.portafolio.vientosdelsur.controller.shift.route.shiftRoute
 import com.portafolio.vientosdelsur.core.database.entity.SchemaCreation
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -25,6 +26,7 @@ fun Application.module() {
 
     employeeRoute()
     roomRoute()
+    shiftRoute()
 
     setupCronJob()
 
