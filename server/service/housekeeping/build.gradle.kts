@@ -8,5 +8,5 @@ dependencies {
     implementation(projects.server.data.shift)
     implementation(projects.server.data.room)
     implementation(libs.koin.ktor)
-    implementation(libs.kotlinx.datetime)
+    api(libs.kotlinx.datetime)
 }

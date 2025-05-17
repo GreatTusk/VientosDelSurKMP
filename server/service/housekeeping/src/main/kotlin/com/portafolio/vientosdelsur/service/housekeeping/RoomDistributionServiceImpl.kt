@@ -20,11 +20,11 @@ internal class RoomDistributionServiceImpl(
 ) : RoomDistributionService {
     override suspend fun distributeRoomsMonth(): Result<MonthlyRoomDistributionDto, DataError.Remote> {
         return distributeRoomsUseCase(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
-            .map {
+            .map { distribution ->
                 coroutineScope.launch {
-
+                    housekeeperShiftRepository.saveAll(distribution)
                 }
-                it.toRoomDistributionDto()
+                distribution.toRoomDistributionDto()
             }
 
     }
