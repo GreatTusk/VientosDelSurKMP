@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="608" height="120" viewBox="0 0 455.75 90">
+    <g class="graph">
+        <path fill="#fff" d="M0 90V0h455.75v90z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M129.5 27H4v36h125.5z"/>
+            <text x="62.75" y="-35.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 86)">:server:domain:shift</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M320.25 4H165.5v36h154.75z"/>
+            <text x="238.88" y="-58.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 86)">:server:domain:employee</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="m129.63 36.83 24.41-3.23"/>
+            <path d="m153.39 30.16 10.37 2.16-9.46 4.78z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M451.75 50h-95.5v36h95.5z"/>
+            <text x="400" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 86)">:core:common</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M129.63 49.25c61.41 4.21 154.82 10.62 214.98 14.74"/>
+            <path d="m344.57 60.48 9.73 4.18-10.21 2.81z"/>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M307.68 40.44c12.31 3.56 25.15 7.28 37.27 10.78"/>
+            <path fill="#ccc" d="m345.75 47.81 8.64 6.14-10.58.58z"/>
+        </g>
+    </g>
+</svg>
