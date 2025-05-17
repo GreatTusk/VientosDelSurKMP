@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.controller.room.route
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
+import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
 import com.portafolio.vientosdelsur.service.housekeeping.RoomService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -13,6 +14,7 @@ import org.koin.ktor.ext.inject
 
 fun Application.roomRoute() {
     val roomService by inject<RoomService>()
+    val roomDistributionService by inject<RoomDistributionService>()
 
     routing {
         route("/room") {
@@ -67,6 +69,16 @@ fun Application.roomRoute() {
                         call.respond(it)
                     }.onEmpty {
                         call.respond(HttpStatusCode.NotFound, "No room distribution found")
+                    }.onError {
+                        call.respond(HttpStatusCode.InternalServerError, it)
+                    }
+                }
+
+                post("/generate") {
+                    roomDistributionService.distributeRoomsMonth().onSuccess {
+                        call.respond(it)
+                    }.onEmpty {
+                        call.respond(HttpStatusCode.NotFound, "No data to work with")
                     }.onError {
                         call.respond(HttpStatusCode.InternalServerError, it)
                     }

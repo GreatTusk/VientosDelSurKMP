@@ -1,6 +1,6 @@
 package com.portafolio.vientosdelsur.domain.housekeeping.usecase
 
-import com.f776.core.common.takeOrDefault
+import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.employee.Floor
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.housekeeping.RoomBookingRepository
@@ -17,32 +17,33 @@ class DistributeRoomsUseCase(
     private val roomBookingRepository: RoomBookingRepository,
     private val shiftRepository: ShiftRepository
 ) {
-    suspend operator fun invoke(month: LocalDate) = coroutineScope {
-        val days = month.workingDays
-        val first = days.first()
-        val last = days.last()
-        val rooms = days.toList().associateWith {
-            async {
-                roomBookingRepository.getBookedRoomsOn(it)
-            }
-        }.mapValues { (_, values) -> values.await().takeOrDefault(emptyList()) }
+    suspend operator fun invoke(month: LocalDate): Result<Map<LocalDate, Map<HousekeeperShift, Set<RoomBooking>>>, DataError.Remote> =
+        coroutineScope {
+            val days = month.workingDays
+            val first = days.first()
+            val last = days.last()
+            val rooms = days.toList().associateWith {
+                async {
+                    roomBookingRepository.getBookedRoomsOn(it)
+                }
+            }.mapValues { (_, values) -> values.await().takeOrNull() ?: emptyError("No rooms to work with") }
 
-        val shifts = async {
-            shiftRepository.getMonthlyShifts(
-                startDate = first,
-                endDate = last,
-                occupation = Occupation.HOUSEKEEPER
+            val shifts = async {
+                shiftRepository.getMonthlyShifts(
+                    startDate = first,
+                    endDate = last,
+                    occupation = Occupation.HOUSEKEEPER
+                )
+            }
+
+            Result.Success(
+                getRoomsMonthlyDistribution(
+                    range = first..last,
+                    rooms = rooms,
+                    shifts = shifts.await().takeOrNull() ?: emptyError("No shifts to work with")
+                )
             )
         }
-
-
-
-        getRoomsMonthlyDistribution(
-            range = first..last,
-            rooms = rooms,
-            shifts = shifts.await().takeOrDefault(emptyMap())
-        )
-    }
 
     private suspend fun getRoomsMonthlyDistribution(
         range: ClosedRange<LocalDate>,
@@ -59,7 +60,7 @@ class DistributeRoomsUseCase(
                         var remainingQuota = housekeeper.workMinutes
                         val housekeeperRooms = mutableSetOf<RoomBooking>()
 
-                        while (remainingQuota >= 0) {
+                        while (remainingQuota >= 0 && roomBookings.isNotEmpty()) {
                             val room = findPreferredRoom(housekeeper.employee.preferredFloor, roomBookings)
                             roomBookings.remove(room)
                             housekeeperRooms.add(room)

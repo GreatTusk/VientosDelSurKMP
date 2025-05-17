@@ -59,7 +59,9 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
             (WorkShiftTable.date.between(
                 startDate,
                 endDate
-            )) and (EmployeeTable.occupation eq occupationEntity)
+            ))
+        }.filter {
+            it.employee.occupation == occupationEntity
         }.map {
             val shift = HousekeeperShift(
                 employee = it.employee.toEmployee() as Employee.Housekeeper,
