@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(projects.server.core.database)
     api(projects.server.domain.shift)
+    api(projects.server.domain.housekeeping)
 
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)

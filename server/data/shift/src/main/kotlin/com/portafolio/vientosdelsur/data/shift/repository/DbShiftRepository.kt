@@ -21,7 +21,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.batchInsert
 
 internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatcher) : ShiftRepository {
@@ -64,6 +63,7 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
             it.employee.occupation == occupationEntity
         }.map {
             val shift = HousekeeperShift(
+                workShiftId = it.id.value,
                 employee = it.employee.toEmployee() as Employee.Housekeeper,
                 workMinutes = when (it.shift) {
                     Shift.GENERAL_DUTY -> FULL_TIME_HOURS * 60

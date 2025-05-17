@@ -2,10 +2,12 @@ package com.portafolio.vientosdelsur.domain.housekeeping.model
 
 data class RoomBooking(
     val room: Room,
-    val workUnits: Int
+    val workUnits: Int,
+    val cleaningType: RoomCleaningType
 )
 
 data class RoomBookingId(
     val roomId: Int,
-    val workUnits: Int
+    val workUnits: Int,
+    val cleaningType: RoomCleaningType
 )

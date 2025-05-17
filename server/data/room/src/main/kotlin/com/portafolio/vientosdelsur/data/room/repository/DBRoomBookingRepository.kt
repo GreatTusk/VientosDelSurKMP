@@ -19,18 +19,29 @@ internal object DBRoomBookingRepository : RoomBookingRepository {
                 .When(RoomBookingTable.endDate eq date, RoomTypeTable.checkOutWorkUnit)
                 .Else(RoomTypeTable.workUnit).alias("workUnits")
 
+            val checkout = RoomBookingTable.endDate eq date
+
             RoomBookingTable.innerJoin(RoomTable)
                 .innerJoin(RoomTypeTable)
                 .select(
                     RoomTable.id,
                     workUnitsColumn,
+                    checkout
                 )
                 .where {
                     (RoomBookingTable.startDate lessEq date) and
                             (RoomBookingTable.endDate greaterEq date)
                 }
                 .map { row ->
-                    RoomBookingId(row[RoomTable.id].value, row[workUnitsColumn])
+                    RoomBookingId(
+                        roomId = row[RoomTable.id].value,
+                        workUnits = row[workUnitsColumn],
+                        cleaningType = if (row[checkout]) {
+                            com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.ROOM
+                        } else {
+                            com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.GUEST
+                        }
+                    )
                 }
         }
 }

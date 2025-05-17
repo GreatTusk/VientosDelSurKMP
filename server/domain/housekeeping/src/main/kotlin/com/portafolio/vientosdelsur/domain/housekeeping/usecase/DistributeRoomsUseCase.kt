@@ -50,7 +50,8 @@ class DistributeRoomsUseCase(
                                     room = checkNotNull(
                                         allRooms.await().takeOrNull()?.get(roomBookingId.roomId)
                                     ) { "Impossible state: Room was not found" },
-                                    workUnits = roomBookingId.workUnits
+                                    workUnits = roomBookingId.workUnits,
+                                    cleaningType = roomBookingId.cleaningType
                                 )
                             }
                     }
