@@ -24,11 +24,6 @@ class ScheduleShiftUseCase(
     private val defaultDispatcher: CoroutineDispatcher
 ) {
 
-    private data class DailyShiftCount(
-        var kitchenHours: Double = 0.0,
-        var housekeepingHours: Double = 0.0
-    )
-
     suspend operator fun invoke(date: LocalDate): Result<Map<EmployeeDaysOff, List<ShiftDate>>, DataError.Remote> {
         val employeeResult = employeeRepository.allEmployees()
         return employeeResult.map { scheduleMonthlyShifts(month = date, employees = it) }
@@ -39,12 +34,12 @@ class ScheduleShiftUseCase(
         employees: List<Employee>
     ): Map<EmployeeDaysOff, List<ShiftDate>> = withContext(defaultDispatcher) {
         val employeeShifts = assignSundaysOff(month, employees)
-        val shiftCountsPerDay = mutableMapOf<LocalDate, DailyShiftCount>()
+        val kitchenHours = mutableMapOf<LocalDate, Double>()
 
         employeeShifts.map { employee ->
             async {
                 employee to month.workingDays.mapNotNull { date ->
-                    assignShift(employee, date, shiftCountsPerDay)?.let { ShiftDate(it, date) }
+                    assignShift(employee, date, kitchenHours)?.let { ShiftDate(it, date) }
                 }.toList()
             }
         }.awaitAll().toMap()
@@ -68,51 +63,53 @@ class ScheduleShiftUseCase(
     private fun assignShift(
         employeeDaysOff: EmployeeDaysOff,
         date: LocalDate,
-        shiftCounts: MutableMap<LocalDate, DailyShiftCount>
+        kitchenHours: MutableMap<LocalDate, Double>
     ): Shift? {
-        if (date in employeeDaysOff.sundaysOff.daysOff || date.dayOfWeek == employeeDaysOff.employee.data.dayOff) return null
+        if (date in employeeDaysOff.sundaysOff.daysOff || date.dayOfWeek == employeeDaysOff.employee.data.dayOff)
+            return null
 
-        val count = shiftCounts.getOrPut(date) { DailyShiftCount() }
+        var count = kitchenHours.getOrPut(date) { 0.0 }
 
         return when (val employee = employeeDaysOff.employee) {
             is Employee.Housekeeper -> {
                 when (employee.housekeeperRole) {
                     HousekeeperRole.KITCHEN -> {
-                        count.kitchenHours += FULL_TIME_HOURS
-                        Shift.KITCHEN_LEAD
+                        if (count <= FULL_TIME_HOURS) {
+                            count += FULL_TIME_HOURS
+                            Shift.KITCHEN_LEAD
+                        } else {
+                            Shift.GENERAL_DUTY
+                        }
                     }
 
                     HousekeeperRole.KITCHEN_SUPPORT -> {
                         val isMixedWeek = date.isSameWeekAs(employeeDaysOff.sundaysOff.first)
                         if (isMixedWeek) {
-                            count.kitchenHours += MIXED_KITCHEN_HOURS
-                            count.housekeepingHours += MIXED_HOUSEKEEPING_HOURS
+                            count += MIXED_KITCHEN_HOURS
                             Shift.KITCHEN_ASSISTANT
                         } else {
-                            count.housekeepingHours += FULL_TIME_HOURS
                             Shift.GENERAL_DUTY
                         }
                     }
 
-                    HousekeeperRole.ON_CALL -> null
+                    HousekeeperRole.ON_CALL -> Shift.GENERAL_DUTY
                 }
             }
 
             is Employee.Cook -> {
-                count.kitchenHours += FULL_TIME_HOURS
+                count += FULL_TIME_HOURS
                 Shift.GENERAL_DUTY
             }
 
             else -> {
                 Shift.GENERAL_DUTY
             }
-        }
+        }.also { kitchenHours[date] = count }
     }
 
 
     companion object {
         private const val FULL_TIME_HOURS = 7.0
         private const val MIXED_KITCHEN_HOURS = 3.0
-        private const val MIXED_HOUSEKEEPING_HOURS = 4.0
     }
 }
