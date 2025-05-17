@@ -13,19 +13,19 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.LocalDate
 
+typealias MonthlyRoomDistribution = Map<LocalDate, Map<HousekeeperShift, Set<RoomBooking>>>
+
 class DistributeRoomsUseCase(
     private val roomBookingRepository: RoomBookingRepository,
     private val shiftRepository: ShiftRepository
 ) {
-    suspend operator fun invoke(month: LocalDate): Result<Map<LocalDate, Map<HousekeeperShift, Set<RoomBooking>>>, DataError.Remote> =
+    suspend operator fun invoke(month: LocalDate): Result<MonthlyRoomDistribution, DataError.Remote> =
         coroutineScope {
             val days = month.workingDays
             val first = days.first()
             val last = days.last()
             val rooms = days.toList().associateWith {
-                async {
-                    roomBookingRepository.getBookedRoomsOn(it)
-                }
+                async { roomBookingRepository.getBookedRoomsOn(it) }
             }.mapValues { (_, values) -> values.await().takeOrNull() ?: emptyError("No rooms to work with") }
 
             val shifts = async {
@@ -75,7 +75,6 @@ class DistributeRoomsUseCase(
             .mapValues { (_, value) -> value!! }
     }
 
-    // Remember to leave null preferred floors last and order by work unit desc
     private fun findPreferredRoom(preferredFloor: Floor?, availableRooms: Set<RoomBooking>): RoomBooking {
         if (preferredFloor == null) {
             return availableRooms.random()
