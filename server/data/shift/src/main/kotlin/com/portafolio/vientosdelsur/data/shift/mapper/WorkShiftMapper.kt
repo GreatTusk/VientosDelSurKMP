@@ -23,5 +23,5 @@ internal fun Map.Entry<EmployeeDaysOff, List<ShiftDate>>.toWorkShiftRow() = valu
 internal fun com.portafolio.vientosdelsur.domain.shift.model.Shift.toEntityShift() = when (this) {
     com.portafolio.vientosdelsur.domain.shift.model.Shift.GENERAL_DUTY -> Shift.GENERAL_DUTY
     com.portafolio.vientosdelsur.domain.shift.model.Shift.KITCHEN_ASSISTANT -> Shift.KITCHEN_ASSISTANT
-    com.portafolio.vientosdelsur.domain.shift.model.Shift.KITCHEN_LEAD -> Shift.KITCHEN_ASSISTANT
+    com.portafolio.vientosdelsur.domain.shift.model.Shift.KITCHEN_LEAD -> Shift.KITCHEN_LEAD
 }

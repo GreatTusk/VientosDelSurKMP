@@ -21,7 +21,6 @@ internal fun EmployeeEntity.toEmployee(): Employee {
     return when (occupation) {
         Occupation.HOUSEKEEPER -> {
             val housekeeper = requireNotNull(housekeeper) { "Invalid state. Housekeepers must be on HousekeeperTable" }
-            println(housekeeper.preferredFloor)
             Employee.Housekeeper(
                 data = baseEmployee,
                 housekeeperRole = when (housekeeper.housekeeperRole) {
