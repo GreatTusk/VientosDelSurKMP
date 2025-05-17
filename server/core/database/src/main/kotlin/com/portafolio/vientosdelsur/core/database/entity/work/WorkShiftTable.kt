@@ -26,4 +26,6 @@ class WorkShiftEntity(id: EntityID<Int>) : IntEntity(id) {
     var employee by EmployeeEntity referencedOn WorkShiftTable.employeeId
     var shift by WorkShiftTable.shift
     var rooms by RoomEntity via HousekeeperShiftRoomTable
+
+    val housekeeperShift by HousekeeperShiftRoomEntity optionalBackReferencedOn HousekeeperShiftRoomTable
 }

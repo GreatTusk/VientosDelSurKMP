@@ -16,9 +16,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.plus
 
 class ScheduleShiftUseCase(
     private val employeeRepository: EmployeeRepository,
@@ -44,7 +42,7 @@ class ScheduleShiftUseCase(
         }.awaitAll().toMap()
     }
 
-    fun assignSundaysOff(month: LocalDate, employees: List<Employee>): List<EmployeeDaysOff> {
+    internal fun assignSundaysOff(month: LocalDate, employees: List<Employee>): List<EmployeeDaysOff> {
         val sundays = month.sundays
 
         return employees.mapIndexed { i, employee ->
@@ -53,7 +51,7 @@ class ScheduleShiftUseCase(
                 employee = employee,
                 sundaysOff = SundaysOff(
                     first = first,
-                    second = first.plus(1, DateTimeUnit.WEEK)
+                    second = sundays[(i + 1) % sundays.size]
                 )
             )
         }
