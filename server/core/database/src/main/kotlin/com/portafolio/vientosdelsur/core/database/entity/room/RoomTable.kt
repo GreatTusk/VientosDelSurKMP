@@ -11,7 +11,6 @@ object RoomTable : IntIdTable("room") {
     val roomTypeId = reference("room_type_id", RoomTypeTable)
 }
 
-
 class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<RoomEntity>(RoomTable)
 

@@ -4,6 +4,8 @@ plugins {
 
 dependencies {
     api(projects.core.common)
-    api(projects.server.domain.employee)
+    implementation(projects.server.domain.employee)
+    implementation(projects.server.domain.shift)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.coroutines.core)
 }

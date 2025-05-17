@@ -1,16 +1,90 @@
 package com.portafolio.vientosdelsur.domain.housekeeping.usecase
 
+import com.f776.core.common.takeOrDefault
+import com.portafolio.vientosdelsur.domain.employee.Floor
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.employee.repository.HousekeeperRepository
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
+import com.portafolio.vientosdelsur.domain.housekeeping.RoomBookingRepository
+import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomBooking
+import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
+import com.portafolio.vientosdelsur.domain.shift.dateUntil
+import com.portafolio.vientosdelsur.domain.shift.model.HousekeeperShift
+import com.portafolio.vientosdelsur.domain.shift.workingDays
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.datetime.LocalDate
 
 class DistributeRoomsUseCase(
-    private val roomRepository: RoomRepository,
-    private val housekeeperRepository: HousekeeperRepository
+    private val roomBookingRepository: RoomBookingRepository,
+    private val housekeeperRepository: HousekeeperRepository,
+    private val shiftRepository: ShiftRepository
 ) {
-    suspend operator fun invoke() {
+    suspend operator fun invoke(month: LocalDate) = coroutineScope {
+        val days = month.workingDays
+        val first = days.first()
+        val last = days.last()
+        val rooms = async {
+            roomBookingRepository.getBookedRoomsOn(
+                startDate = first,
+                endDate = last
+            )
+        }
+        val shifts = async {
+            shiftRepository.getMonthlyShifts(
+                startDate = first,
+                endDate = last,
+                occupation = Occupation.HOUSEKEEPER
+            )
+        }
 
+
+
+        getRoomsMonthlyDistribution(
+            range = first..last,
+            rooms = rooms.await().takeOrDefault(emptyMap()),
+            shifts = shifts.await().takeOrDefault(emptyMap())
+        )
     }
 
-    private suspend fun getRoomsToday() {
+    private suspend fun getRoomsMonthlyDistribution(
+        range: ClosedRange<LocalDate>,
+        rooms: Map<LocalDate, List<RoomBooking>>,
+        shifts: Map<LocalDate, List<HousekeeperShift>>
+    ) = coroutineScope {
+        return@coroutineScope range.start.dateUntil(range.endInclusive)
+            .associateWith { date ->
+                async {
+                    val housekeeperShifts = shifts[date] ?: return@async null
+                    val roomBookings = rooms[date]?.ifEmpty { null }?.toMutableSet() ?: return@async null
+
+                    housekeeperShifts.associateWith { housekeeper ->
+                        var remainingQuota = housekeeper.workMinutes
+                        val housekeeperRooms = mutableSetOf<RoomBooking>()
+
+                        while (remainingQuota >= 0) {
+                            val room = findPreferredRoom(housekeeper.employee.preferredFloor, roomBookings)
+                            roomBookings.remove(room)
+                            housekeeperRooms.add(room)
+                            remainingQuota -= room.workUnits
+                        }
+
+                        housekeeperRooms
+                    }
+                }
+            }.mapValues { (_, deferred) -> deferred.await() }
+            .filterValues { it != null }
+            .mapValues { (_, value) -> value!! }
+    }
+
+    // Remember to leave null preferred floors last and order by work unit desc
+    private fun findPreferredRoom(preferredFloor: Floor?, availableRooms: Set<RoomBooking>): RoomBooking {
+        if (preferredFloor == null) {
+            return availableRooms.random()
+        }
+        return availableRooms.find { it.room.floor.number == preferredFloor.floor } ?: if (preferredFloor.floor <= 2) {
+            availableRooms.minBy { it.room.floor.number }
+        } else {
+            availableRooms.maxBy { it.room.floor.number }
+        }
     }
 }

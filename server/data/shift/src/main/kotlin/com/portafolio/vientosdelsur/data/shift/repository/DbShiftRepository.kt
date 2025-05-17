@@ -6,8 +6,10 @@ import com.f776.core.common.Result
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.data.shift.mapper.toWorkShiftRow
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import com.portafolio.vientosdelsur.domain.shift.model.EmployeeDaysOff
+import com.portafolio.vientosdelsur.domain.shift.model.HousekeeperShift
 import com.portafolio.vientosdelsur.domain.shift.model.ShiftDate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
@@ -35,14 +37,21 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
             }
         }
 
-    override suspend fun getMonthlyShifts(date: LocalDate): Result<Map<EmployeeDaysOff, List<ShiftDate>>, DataError.Remote> {
+    override suspend fun getMonthlyShifts(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        occupation: Occupation
+    ): Result<Map<LocalDate, List<HousekeeperShift>>, DataError.Remote> {
         TODO("Not yet implemented")
     }
 
+
     override suspend fun getMonthlyShiftsFor(
         employeeId: Int,
-        date: LocalDate
+        startDate: LocalDate,
+        endDate: LocalDate
     ): Result<Map<EmployeeDaysOff, List<ShiftDate>>, DataError.Remote> {
         TODO("Not yet implemented")
     }
+
 }

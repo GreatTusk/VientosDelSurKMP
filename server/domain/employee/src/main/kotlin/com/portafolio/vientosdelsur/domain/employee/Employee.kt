@@ -28,7 +28,7 @@ data class BaseEmployee(
 )
 
 @JvmInline
-value class Floor(private val floor: Int) {
+value class Floor(val floor: Int) {
     init {
         require(floor in 1..4) { "Floor must be between 1 and 4, got $floor" }
     }
