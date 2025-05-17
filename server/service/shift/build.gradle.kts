@@ -6,7 +6,7 @@ dependencies {
     api(projects.shared)
     api(projects.core.common)
     implementation(projects.server.data.employee)
-    api(projects.server.domain.shift)
+    implementation(projects.server.data.shift)
     implementation(libs.koin.ktor)
     implementation(libs.kotlinx.datetime)
 }

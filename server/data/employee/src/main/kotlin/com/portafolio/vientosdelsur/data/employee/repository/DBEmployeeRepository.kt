@@ -15,7 +15,7 @@ import org.jetbrains.exposed.sql.selectAll
 
 internal object DBEmployeeRepository : EmployeeRepository {
     override suspend fun allEmployees(): Result<List<Employee>, DataError.Remote> = safeSuspendTransaction {
-        EmployeeEntity.all().map { it.toEmployee() }
+        EmployeeEntity.all().orderBy().map { it.toEmployee() }
     }
 
     override suspend fun getEmployeeById(id: Int): Result<Employee, DataError.Remote> = safeSuspendTransaction {
