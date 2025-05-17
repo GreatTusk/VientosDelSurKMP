@@ -3,7 +3,6 @@ package com.portafolio.vientosdelsur.domain.housekeeping.usecase
 import com.f776.core.common.takeOrDefault
 import com.portafolio.vientosdelsur.domain.employee.Floor
 import com.portafolio.vientosdelsur.domain.employee.Occupation
-import com.portafolio.vientosdelsur.domain.employee.repository.HousekeeperRepository
 import com.portafolio.vientosdelsur.domain.housekeeping.RoomBookingRepository
 import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomBooking
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
@@ -16,19 +15,18 @@ import kotlinx.datetime.LocalDate
 
 class DistributeRoomsUseCase(
     private val roomBookingRepository: RoomBookingRepository,
-    private val housekeeperRepository: HousekeeperRepository,
     private val shiftRepository: ShiftRepository
 ) {
     suspend operator fun invoke(month: LocalDate) = coroutineScope {
         val days = month.workingDays
         val first = days.first()
         val last = days.last()
-        val rooms = async {
-            roomBookingRepository.getBookedRoomsOn(
-                startDate = first,
-                endDate = last
-            )
-        }
+        val rooms = days.toList().associateWith {
+            async {
+                roomBookingRepository.getBookedRoomsOn(it)
+            }
+        }.mapValues { (_, values) -> values.await().takeOrDefault(emptyList()) }
+
         val shifts = async {
             shiftRepository.getMonthlyShifts(
                 startDate = first,
@@ -41,7 +39,7 @@ class DistributeRoomsUseCase(
 
         getRoomsMonthlyDistribution(
             range = first..last,
-            rooms = rooms.await().takeOrDefault(emptyMap()),
+            rooms = rooms,
             shifts = shifts.await().takeOrDefault(emptyMap())
         )
     }
@@ -68,7 +66,7 @@ class DistributeRoomsUseCase(
                             remainingQuota -= room.workUnits
                         }
 
-                        housekeeperRooms
+                        housekeeperRooms.toSet()
                     }
                 }
             }.mapValues { (_, deferred) -> deferred.await() }

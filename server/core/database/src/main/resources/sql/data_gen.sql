@@ -80,3 +80,57 @@ $$
             END LOOP;
     END
 $$;
+
+-- Insert 10 sample guests
+INSERT INTO guest (first_name, last_name, email, phone_number)
+VALUES
+    ('John', 'Doe', 'john.doe@example.com', '123456789'),
+    ('Jane', 'Smith', 'jane.smith@example.com', '987654321'),
+    ('Michael', 'Johnson', 'michael.johnson@example.com', '555123456'),
+    ('Sarah', 'Williams', 'sarah.williams@example.com', '555987654'),
+    ('David', 'Brown', 'david.brown@example.com', '555123987'),
+    ('Emily', 'Jones', 'emily.jones@example.com', '555456789'),
+    ('Robert', 'Miller', 'robert.miller@example.com', '555234567'),
+    ('Susan', 'Davis', 'susan.davis@example.com', '555876543'),
+    ('James', 'Garcia', 'james.garcia@example.com', '555345678'),
+    ('Linda', 'Rodriguez', 'linda.rodriguez@example.com', '555765432');
+
+-- Create room bookings with random rooms
+DO $$
+DECLARE
+    start_date DATE := CURRENT_DATE - INTERVAL '10 days';
+    end_date DATE := CURRENT_DATE + INTERVAL '60 days';
+    booking_start DATE;
+    booking_end DATE;
+    stay_duration INT;
+    room_id_val INT;
+    guest_id_val INT;
+    total_rooms INT;
+    total_guests INT;
+BEGIN
+    -- Get total number of rooms and guests
+    SELECT COUNT(*) INTO total_rooms FROM room;
+    SELECT COUNT(*) INTO total_guests FROM guest;
+
+    -- Create 30 random bookings
+    FOR i IN 1..30 LOOP
+        -- Generate random stay duration between 1 and 7 days
+        stay_duration := floor(random() * 7) + 1;
+
+        -- Generate random start date within our range
+        booking_start := start_date + floor(random() * (end_date - start_date - stay_duration))::int;
+        booking_end := booking_start + stay_duration;
+
+        -- Select random room and guest
+        room_id_val := floor(random() * total_rooms) + 1;
+        guest_id_val := floor(random() * total_guests) + 1;
+
+        -- Try to insert booking, ignore if constraint fails (overlapping booking)
+        BEGIN
+            INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
+            VALUES (booking_start, booking_end, room_id_val, guest_id_val);
+        EXCEPTION WHEN unique_violation THEN
+            -- Skip this booking if there's a conflict
+        END;
+    END LOOP;
+END $$;

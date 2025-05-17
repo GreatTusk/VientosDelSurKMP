@@ -7,7 +7,6 @@ import kotlinx.datetime.LocalDate
 
 interface RoomBookingRepository {
     suspend fun getBookedRoomsOn(
-        startDate: LocalDate,
-        endDate: LocalDate
-    ): Result<Map<LocalDate, List<RoomBooking>>, DataError.Remote>
+        date: LocalDate
+    ): Result<List<RoomBooking>, DataError.Remote>
 }
