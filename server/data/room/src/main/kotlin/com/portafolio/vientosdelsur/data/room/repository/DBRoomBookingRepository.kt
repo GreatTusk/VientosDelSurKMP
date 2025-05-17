@@ -24,7 +24,12 @@ internal object DBRoomBookingRepository : RoomBookingRepository {
                 .select(
                     RoomTable.id,
                     workUnitsColumn,
-                ).map { row ->
+                )
+                .where {
+                    (RoomBookingTable.startDate lessEq date) and
+                            (RoomBookingTable.endDate greaterEq date)
+                }
+                .map { row ->
                     RoomBookingId(row[RoomTable.id].value, row[workUnitsColumn])
                 }
         }

@@ -72,25 +72,39 @@ class DistributeRoomsUseCase(
         rooms: Map<LocalDate, List<RoomBooking>>,
         shifts: Map<LocalDate, List<HousekeeperShift>>
     ) = coroutineScope {
-        return@coroutineScope range.start.dateUntil(range.endInclusive)
+        range.start.dateUntil(range.endInclusive)
             .associateWith { date ->
                 async {
                     val housekeeperShifts = shifts[date] ?: return@async null
                     val roomBookings = rooms[date]?.ifEmpty { null }?.toMutableSet() ?: return@async null
 
-                    housekeeperShifts.associateWith { housekeeper ->
-                        var remainingQuota = housekeeper.workMinutes
-                        val housekeeperRooms = mutableSetOf<RoomBooking>()
+                    val housekeeperAssignments = housekeeperShifts.associateWith { mutableSetOf<RoomBooking>() }
+                    val remainingQuotas = housekeeperShifts.associateWith { it.workMinutes }.toMutableMap()
+                    val activeHousekeepers = housekeeperShifts.toMutableList()
 
-                        while (remainingQuota >= 0 && roomBookings.isNotEmpty()) {
+                    while (roomBookings.isNotEmpty() && activeHousekeepers.isNotEmpty()) {
+                        val iterator = activeHousekeepers.iterator()
+                        while (iterator.hasNext() && roomBookings.isNotEmpty()) {
+                            val housekeeper = iterator.next()
+                            val remainingQuota = remainingQuotas[housekeeper] ?: 0
+
+                            if (remainingQuota <= 0) {
+                                iterator.remove()
+                                continue
+                            }
+
                             val room = findPreferredRoom(housekeeper.employee.preferredFloor, roomBookings)
                             roomBookings.remove(room)
-                            housekeeperRooms.add(room)
-                            remainingQuota -= room.workUnits
-                        }
+                            housekeeperAssignments[housekeeper]?.add(room)
+                            remainingQuotas[housekeeper] = remainingQuota - room.workUnits
 
-                        housekeeperRooms.toSet()
+                            if ((remainingQuotas[housekeeper] ?: 0) <= 0) {
+                                iterator.remove()
+                            }
+                        }
                     }
+
+                    housekeeperAssignments.mapValues { (_, rooms) -> rooms.toSet() }
                 }
             }
             .mapValues { (_, deferred) -> deferred.await() }
@@ -100,11 +114,12 @@ class DistributeRoomsUseCase(
 
     private fun findPreferredRoom(preferredFloor: Floor?, availableRooms: Set<RoomBooking>): RoomBooking {
         if (preferredFloor == null) {
-            return availableRooms.random()
+            return availableRooms.random().also { println("Didn't have a preference, got ${it.room.number}") }
         }
         return availableRooms.find { it.room.floor.number == preferredFloor.floor } ?: if (preferredFloor.floor <= 2) {
-            availableRooms.minBy { it.room.floor.number }
+            availableRooms.minBy { it.room.floor.number }.also { println("Wanted ${preferredFloor.floor}, but will settle for ${it.room.number}") }
         } else {
+            availableRooms.minBy { it.room.floor.number }.also { println("Wanted ${preferredFloor.floor}, but will settle for ${it.room.number}") }
             availableRooms.maxBy { it.room.floor.number }
         }
     }

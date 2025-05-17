@@ -80,7 +80,6 @@ $$
             END LOOP;
     END
 $$;
-
 -- Insert 10 sample guests
 INSERT INTO guest (first_name, last_name, email, phone_number)
 VALUES
@@ -94,43 +93,102 @@ VALUES
     ('Susan', 'Davis', 'susan.davis@example.com', '555876543'),
     ('James', 'Garcia', 'james.garcia@example.com', '555345678'),
     ('Linda', 'Rodriguez', 'linda.rodriguez@example.com', '555765432');
-
--- Create room bookings with random rooms
+-- Create room bookings with controlled occupancy rates
 DO $$
 DECLARE
-    start_date DATE := CURRENT_DATE - INTERVAL '10 days';
-    end_date DATE := CURRENT_DATE + INTERVAL '60 days';
-    booking_start DATE;
-    booking_end DATE;
+    base_start_date DATE := CURRENT_DATE;
+    full_day DATE := base_start_date + 7;  -- 100% occupancy
+    high_day DATE := base_start_date + 14; -- 75% occupancy
+    medium_day DATE := base_start_date + 21; -- 50% occupancy
+    low_day DATE := base_start_date + 28; -- 25% occupancy
+
+    total_rooms INT;
+    total_guests INT;
     stay_duration INT;
     room_id_val INT;
     guest_id_val INT;
-    total_rooms INT;
-    total_guests INT;
+    rooms_array INT[];
+    room_ids_to_book INT[];
 BEGIN
+    -- Clear existing bookings
+    DELETE FROM room_booking;
+
     -- Get total number of rooms and guests
     SELECT COUNT(*) INTO total_rooms FROM room;
     SELECT COUNT(*) INTO total_guests FROM guest;
 
-    -- Create 30 random bookings
-    FOR i IN 1..30 LOOP
-        -- Generate random stay duration between 1 and 7 days
-        stay_duration := floor(random() * 7) + 1;
+    -- Get all room IDs and store in array - fixed to use array_agg properly
+    SELECT array_agg(id ORDER BY id) INTO rooms_array FROM room;
 
-        -- Generate random start date within our range
-        booking_start := start_date + floor(random() * (end_date - start_date - stay_duration))::int;
-        booking_end := booking_start + stay_duration;
+    -- Create full occupancy day (100%)
+    stay_duration := 3; -- 3 days stay
+    FOR i IN 1..array_length(rooms_array, 1) LOOP
+        guest_id_val := (i % total_guests) + 1;
+        INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
+        VALUES (full_day - 1, full_day + stay_duration, rooms_array[i], guest_id_val);
+    END LOOP;
 
-        -- Select random room and guest
-        room_id_val := floor(random() * total_rooms) + 1;
+    -- Create high occupancy day (75%)
+    stay_duration := 2;
+    room_ids_to_book := rooms_array[1:floor(total_rooms * 0.75)::int];
+    FOR i IN 1..array_length(room_ids_to_book, 1) LOOP
+        guest_id_val := (i % total_guests) + 1;
+        INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
+        VALUES (high_day - 1, high_day + stay_duration, room_ids_to_book[i], guest_id_val);
+    END LOOP;
+
+    -- Create medium occupancy day (50%)
+    stay_duration := 4;
+    room_ids_to_book := rooms_array[1:floor(total_rooms * 0.5)::int];
+    FOR i IN 1..array_length(room_ids_to_book, 1) LOOP
+        guest_id_val := (i % total_guests) + 1;
+        INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
+        VALUES (medium_day - 1, medium_day + stay_duration, room_ids_to_book[i], guest_id_val);
+    END LOOP;
+
+    -- Create low occupancy day (25%)
+    stay_duration := 3;
+    room_ids_to_book := rooms_array[1:floor(total_rooms * 0.25)::int];
+    FOR i IN 1..array_length(room_ids_to_book, 1) LOOP
+        guest_id_val := (i % total_guests) + 1;
+        INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
+        VALUES (low_day - 1, low_day + stay_duration, room_ids_to_book[i], guest_id_val);
+    END LOOP;
+
+    -- Add some random bookings throughout other dates for variety
+    FOR i IN 1..20 LOOP
+        stay_duration := floor(random() * 5) + 1;
+        room_id_val := rooms_array[floor(random() * array_length(rooms_array, 1)) + 1];
         guest_id_val := floor(random() * total_guests) + 1;
 
-        -- Try to insert booking, ignore if constraint fails (overlapping booking)
+        -- Generate random date excluding our special occupancy days
+        DECLARE
+            booking_start DATE;
+            booking_end DATE;
+            valid_date BOOLEAN := FALSE;
         BEGIN
-            INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
-            VALUES (booking_start, booking_end, room_id_val, guest_id_val);
-        EXCEPTION WHEN unique_violation THEN
-            -- Skip this booking if there's a conflict
+            WHILE NOT valid_date LOOP
+                booking_start := base_start_date + floor(random() * 60)::int;
+                booking_end := booking_start + stay_duration;
+
+                -- Check if booking overlaps with special occupancy days
+                IF NOT (
+                    (booking_start <= full_day + 3 AND booking_end >= full_day - 1) OR
+                    (booking_start <= high_day + 2 AND booking_end >= high_day - 1) OR
+                    (booking_start <= medium_day + 4 AND booking_end >= medium_day - 1) OR
+                    (booking_start <= low_day + 3 AND booking_end >= low_day - 1)
+                ) THEN
+                    valid_date := TRUE;
+                END IF;
+            END LOOP;
+
+            -- Try to insert booking, ignore if constraint fails
+            BEGIN
+                INSERT INTO room_booking (start_date, end_date, room_id, guest_id)
+                VALUES (booking_start, booking_end, room_id_val, guest_id_val);
+            EXCEPTION WHEN unique_violation THEN
+                -- Skip this booking if there's a conflict
+            END;
         END;
     END LOOP;
 END $$;
