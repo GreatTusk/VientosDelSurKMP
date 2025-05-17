@@ -4,6 +4,7 @@ import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.employee.Floor
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.housekeeping.RoomBookingRepository
+import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
 import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomBooking
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import com.portafolio.vientosdelsur.domain.shift.dateUntil
@@ -17,6 +18,7 @@ typealias MonthlyRoomDistribution = Map<LocalDate, Map<HousekeeperShift, Set<Roo
 
 class DistributeRoomsUseCase(
     private val roomBookingRepository: RoomBookingRepository,
+    private val roomRepository: RoomRepository,
     private val shiftRepository: ShiftRepository
 ) {
     suspend operator fun invoke(month: LocalDate): Result<MonthlyRoomDistribution, DataError.Remote> =
@@ -24,9 +26,6 @@ class DistributeRoomsUseCase(
             val days = month.workingDays
             val first = days.first()
             val last = days.last()
-            val rooms = days.toList().associateWith {
-                async { roomBookingRepository.getBookedRoomsOn(it) }
-            }.mapValues { (_, values) -> values.await().takeOrNull() ?: emptyError("No rooms to work with") }
 
             val shifts = async {
                 shiftRepository.getMonthlyShifts(
@@ -35,6 +34,29 @@ class DistributeRoomsUseCase(
                     occupation = Occupation.HOUSEKEEPER
                 )
             }
+
+            val allRooms = async {
+                roomRepository.getAllRooms()
+                    .flatMap { it.id to it }
+                    .map { it.toMap() }
+            }
+
+            val rooms = days.toList()
+                .associateWith { date ->
+                    async {
+                        roomBookingRepository.getBookedRoomsOn(date)
+                            .flatMap { roomBookingId ->
+                                RoomBooking(
+                                    room = checkNotNull(
+                                        allRooms.await().takeOrNull()?.get(roomBookingId.roomId)
+                                    ) { "Impossible state: Room was not found" },
+                                    workUnits = roomBookingId.workUnits
+                                )
+                            }
+                    }
+                }
+                .mapValues { (_, values) -> values.await().takeOrNull() ?: emptyError("No rooms to work with") }
+
 
             Result.Success(
                 getRoomsMonthlyDistribution(
@@ -70,7 +92,8 @@ class DistributeRoomsUseCase(
                         housekeeperRooms.toSet()
                     }
                 }
-            }.mapValues { (_, deferred) -> deferred.await() }
+            }
+            .mapValues { (_, deferred) -> deferred.await() }
             .filterValues { it != null }
             .mapValues { (_, value) -> value!! }
     }
