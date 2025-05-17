@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.domain.shift
 
 import kotlinx.datetime.*
+import java.time.temporal.IsoFields
 
 fun LocalDate.dateUntil(endDate: LocalDate, daysStep: Int = 1): Sequence<LocalDate> {
     val startDate = this
@@ -49,3 +50,6 @@ val LocalDate.sundays: List<LocalDate>
 val LocalDate.workingDays: Sequence<LocalDate>
     get() = firstSunday.minus(6, DateTimeUnit.DAY).dateUntil(lastSunday)
 
+fun LocalDate.isSameWeekAs(other: LocalDate): Boolean {
+    return this.toJavaLocalDate().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) == other.toJavaLocalDate().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
+}
