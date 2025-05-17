@@ -13,11 +13,11 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-internal class ShiftServiceImpl(
+internal class ShiftSchedulerServiceImpl(
     private val scheduleShiftUseCase: ScheduleShiftUseCase,
     private val shiftRepository: ShiftRepository,
     private val coroutineScope: CoroutineScope
-) : ShiftService {
+) : ShiftSchedulerService {
     override suspend fun scheduleShifts(): Result<MonthlyShiftDistributionResponse, DataError.Remote> {
         return scheduleShiftUseCase(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
             .map { shifts ->

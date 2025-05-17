@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.server.controller.employee)
     implementation(projects.server.controller.shift)
     implementation(projects.server.controller.room)
+    implementation(projects.server.controller.cron)
     implementation(projects.server.core.database)
 
     implementation(libs.logback)

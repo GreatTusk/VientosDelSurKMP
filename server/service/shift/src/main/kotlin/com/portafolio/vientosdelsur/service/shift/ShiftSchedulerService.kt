@@ -7,6 +7,6 @@ import com.portafolio.vientosdelsur.shared.dto.MonthlyShiftDistributionDto
 
 typealias MonthlyShiftDistributionResponse = BaseResponseDto<List<MonthlyShiftDistributionDto>>
 
-interface ShiftService {
+interface ShiftSchedulerService {
     suspend fun scheduleShifts(): Result<MonthlyShiftDistributionResponse, DataError.Remote>
 }
