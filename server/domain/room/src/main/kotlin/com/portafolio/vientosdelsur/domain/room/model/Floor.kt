@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.domain.housekeeping.model
+package com.portafolio.vientosdelsur.domain.room.model
 
 enum class Floor(val number: Int) {
     ONE(1), TWO(2), THREE(3), FOUR(4);

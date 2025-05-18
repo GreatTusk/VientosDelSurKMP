@@ -3,12 +3,11 @@ package com.portafolio.vientosdelsur.data.shift.repository
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
-import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.work.Shift
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
-import com.portafolio.vientosdelsur.data.shift.mapper.toEmployee
+import com.portafolio.vientosdelsur.data.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.data.shift.mapper.toWorkShiftRow
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation

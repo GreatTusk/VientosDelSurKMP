@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.data.shift.mapper
+package com.portafolio.vientosdelsur.data.housekeeping.mapper
 
 import com.portafolio.vientosdelsur.core.database.entity.work.RoomCleaningType
 import com.portafolio.vientosdelsur.domain.housekeeping.usecase.MonthlyRoomDistribution
@@ -16,8 +16,8 @@ internal suspend fun MonthlyRoomDistribution.toHousekeeperShiftEntities() = coro
                         wordShiftId = workShiftId,
                         roomId = it.room.id,
                         roomCleaningType = when (it.cleaningType) {
-                            com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.ROOM -> RoomCleaningType.ROOM
-                            com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.GUEST -> RoomCleaningType.GUEST
+                            com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.ROOM -> RoomCleaningType.ROOM
+                            com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.GUEST -> RoomCleaningType.GUEST
                         }
                     )
                 }

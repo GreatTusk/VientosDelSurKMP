@@ -11,6 +11,7 @@ import kotlinx.datetime.LocalDate
 
 interface ShiftRepository {
     suspend fun saveAll(shifts: Map<EmployeeDaysOff, List<ShiftDate>>): EmptyResult<DataError.Remote>
+
     suspend fun getMonthlyShifts(
         startDate: LocalDate,
         endDate: LocalDate,

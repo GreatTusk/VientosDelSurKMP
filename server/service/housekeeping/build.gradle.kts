@@ -7,6 +7,7 @@ dependencies {
     api(projects.core.common)
     implementation(projects.server.data.shift)
     implementation(projects.server.data.room)
+    implementation(projects.server.data.housekeeping)
     implementation(libs.koin.ktor)
     api(libs.kotlinx.datetime)
 }

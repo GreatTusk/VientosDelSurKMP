@@ -4,7 +4,7 @@ import com.f776.core.common.DataError
 import com.f776.core.common.Result
 import com.f776.core.common.flatMap
 import com.f776.core.common.map
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
+import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.service.housekeeping.mapper.toRoomDto
 import com.portafolio.vientosdelsur.service.housekeeping.mapper.toRoomStateDto
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto

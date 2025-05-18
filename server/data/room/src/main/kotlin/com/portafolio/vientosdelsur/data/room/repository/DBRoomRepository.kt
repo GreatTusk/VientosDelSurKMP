@@ -9,9 +9,9 @@ import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.data.room.mapper.mapShiftRoomsToRoomState
 import com.portafolio.vientosdelsur.data.room.mapper.toRoom
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
-import com.portafolio.vientosdelsur.domain.housekeeping.model.Room
-import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomState
+import com.portafolio.vientosdelsur.domain.room.RoomRepository
+import com.portafolio.vientosdelsur.domain.room.model.Room
+import com.portafolio.vientosdelsur.domain.room.model.RoomState
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.selectAll

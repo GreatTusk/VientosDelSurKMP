@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.service.housekeeping.di
 
+import com.portafolio.vientosdelsur.data.housekeeping.di.HousekeepingDataModule
 import com.portafolio.vientosdelsur.data.room.di.RoomDataModule
 import com.portafolio.vientosdelsur.domain.housekeeping.usecase.DistributeRoomsUseCase
 import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
@@ -12,7 +13,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val RoomServiceModule = module {
-    includes(RoomDataModule)
+    includes(RoomDataModule, HousekeepingDataModule)
     factoryOf(::DistributeRoomsUseCase)
     singleOf(::RoomDistributionServiceImpl).bind<RoomDistributionService>()
     singleOf(::RoomServiceImpl).bind<RoomService>()

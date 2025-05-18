@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.domain.housekeeping.model
+package com.portafolio.vientosdelsur.domain.room.model
 
 data class RoomBooking(
     val room: Room,

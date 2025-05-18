@@ -3,9 +3,9 @@ package com.portafolio.vientosdelsur.domain.housekeeping.usecase
 import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.employee.Floor
 import com.portafolio.vientosdelsur.domain.employee.Occupation
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomBookingRepository
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomRepository
-import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomBooking
+import com.portafolio.vientosdelsur.domain.room.RoomBookingRepository
+import com.portafolio.vientosdelsur.domain.room.RoomRepository
+import com.portafolio.vientosdelsur.domain.room.model.RoomBooking
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import com.portafolio.vientosdelsur.domain.shift.dateUntil
 import com.portafolio.vientosdelsur.domain.shift.model.HousekeeperShift

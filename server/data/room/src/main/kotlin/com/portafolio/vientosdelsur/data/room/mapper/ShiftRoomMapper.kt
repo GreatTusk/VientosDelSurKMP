@@ -6,8 +6,8 @@ import com.portafolio.vientosdelsur.core.database.entity.room.RoomStatusTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.RoomCleaningType
-import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningStatus
-import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomState
+import com.portafolio.vientosdelsur.domain.room.model.RoomCleaningStatus
+import com.portafolio.vientosdelsur.domain.room.model.RoomState
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.selectAll
@@ -36,8 +36,8 @@ internal fun mapShiftRoomsToRoomState(row: ResultRow): RoomState {
             }
         } ?: RoomCleaningStatus.Pending,
         roomCleaningType = when (row[HousekeeperShiftRoomTable.roomCleaningType]) {
-            RoomCleaningType.ROOM -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.ROOM
-            RoomCleaningType.GUEST -> com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.GUEST
+            RoomCleaningType.ROOM -> com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.ROOM
+            RoomCleaningType.GUEST -> com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.GUEST
         }
     )
 }

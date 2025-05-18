@@ -1,10 +1,10 @@
-package com.portafolio.vientosdelsur.data.shift.repository
+package com.portafolio.vientosdelsur.data.housekeeping.repository
 
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
-import com.portafolio.vientosdelsur.data.shift.mapper.toHousekeeperShiftEntities
+import com.portafolio.vientosdelsur.data.housekeeping.mapper.toHousekeeperShiftEntities
 import com.portafolio.vientosdelsur.domain.housekeeping.HousekeeperShiftRepository
 import com.portafolio.vientosdelsur.domain.housekeeping.usecase.MonthlyRoomDistribution
 import kotlinx.coroutines.CoroutineDispatcher

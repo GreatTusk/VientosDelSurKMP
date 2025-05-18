@@ -6,8 +6,8 @@ import com.portafolio.vientosdelsur.core.database.entity.booking.RoomBookingTabl
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
-import com.portafolio.vientosdelsur.domain.housekeeping.RoomBookingRepository
-import com.portafolio.vientosdelsur.domain.housekeeping.model.RoomBookingId
+import com.portafolio.vientosdelsur.domain.room.RoomBookingRepository
+import com.portafolio.vientosdelsur.domain.room.model.RoomBookingId
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -37,9 +37,9 @@ internal object DBRoomBookingRepository : RoomBookingRepository {
                         roomId = row[RoomTable.id].value,
                         workUnits = row[workUnitsColumn],
                         cleaningType = if (row[checkout]) {
-                            com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.ROOM
+                            com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.ROOM
                         } else {
-                            com.portafolio.vientosdelsur.domain.housekeeping.model.RoomCleaningType.GUEST
+                            com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.GUEST
                         }
                     )
                 }
