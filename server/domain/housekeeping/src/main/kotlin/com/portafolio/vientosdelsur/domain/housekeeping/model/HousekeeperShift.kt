@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.domain.shift.model
+package com.portafolio.vientosdelsur.domain.housekeeping.model
 
 import com.portafolio.vientosdelsur.domain.employee.Employee
 

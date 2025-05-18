@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.server.core.database)
+    implementation(projects.server.data.employee)
     api(projects.server.domain.housekeeping)
 
     implementation(libs.koin.ktor)

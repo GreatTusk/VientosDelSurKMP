@@ -3,12 +3,12 @@ package com.portafolio.vientosdelsur.domain.housekeeping.usecase
 import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.employee.Floor
 import com.portafolio.vientosdelsur.domain.employee.Occupation
+import com.portafolio.vientosdelsur.domain.housekeeping.HousekeeperShiftRepository
+import com.portafolio.vientosdelsur.domain.housekeeping.model.HousekeeperShift
 import com.portafolio.vientosdelsur.domain.room.RoomBookingRepository
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.domain.room.model.RoomBooking
-import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import com.portafolio.vientosdelsur.domain.shift.dateUntil
-import com.portafolio.vientosdelsur.domain.shift.model.HousekeeperShift
 import com.portafolio.vientosdelsur.domain.shift.workingDays
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -19,7 +19,7 @@ typealias MonthlyRoomDistribution = Map<LocalDate, Map<HousekeeperShift, Set<Roo
 class DistributeRoomsUseCase(
     private val roomBookingRepository: RoomBookingRepository,
     private val roomRepository: RoomRepository,
-    private val shiftRepository: ShiftRepository
+    private val housekeeperShiftRepository: HousekeeperShiftRepository
 ) {
     suspend operator fun invoke(month: LocalDate): Result<MonthlyRoomDistribution, DataError.Remote> =
         coroutineScope {
@@ -28,7 +28,7 @@ class DistributeRoomsUseCase(
             val last = days.last()
 
             val shifts = async {
-                shiftRepository.getMonthlyShifts(
+                housekeeperShiftRepository.getMonthlyShifts(
                     startDate = first,
                     endDate = last,
                     occupation = Occupation.HOUSEKEEPER
