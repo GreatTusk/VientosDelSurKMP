@@ -78,7 +78,7 @@ internal actual fun OCRScreen(
                 )
 
                 when (state.ocrResult) {
-                    LoadingState.Empty, is LoadingState.Error, LoadingState.InProgress -> {}
+                    LoadingState.Empty, is LoadingState.Error, LoadingState.Loading -> {}
                     is LoadingState.Success -> {
                         OCRResultOverlay(
                             modifier = Modifier

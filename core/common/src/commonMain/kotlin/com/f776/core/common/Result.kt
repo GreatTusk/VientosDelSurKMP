@@ -6,6 +6,7 @@ sealed interface Result<out D, out E : Error> {
         Result<Nothing, E>
 
     data object Empty : Result<Nothing, Nothing>
+    data object Loading : Result<Nothing, Nothing>
 }
 
 inline fun <T, E : Error, R> Result<T, E>.map(map: (T) -> R): Result<R, E> {
@@ -13,6 +14,7 @@ inline fun <T, E : Error, R> Result<T, E>.map(map: (T) -> R): Result<R, E> {
         is Result.Error -> Result.Error(error)
         is Result.Success -> Result.Success(map(data))
         Result.Empty -> Result.Empty
+        Result.Loading -> Result.Loading
     }
 }
 
@@ -21,6 +23,7 @@ inline fun <T, E : Error, R> Result<Iterable<T>, E>.flatMap(map: (T) -> R): Resu
         is Result.Error -> Result.Error(error)
         is Result.Success -> Result.Success(data.map(map))
         Result.Empty -> Result.Empty
+        Result.Loading -> Result.Loading
     }
 }
 

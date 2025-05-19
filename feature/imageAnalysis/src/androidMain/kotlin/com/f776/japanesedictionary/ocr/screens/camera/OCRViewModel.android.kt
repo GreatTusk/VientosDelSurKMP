@@ -79,7 +79,7 @@ internal actual class OCRViewModel(
 
     // First the bitmap is available, then the results
     private suspend fun analyze(bitmap: Bitmap) {
-        _uiState.update { OCRUiState.ImageSubmitted(bitmap, LoadingState.InProgress) }
+        _uiState.update { OCRUiState.ImageSubmitted(bitmap, LoadingState.Loading) }
             ocrAnalyzer.analyze(bitmap = bitmap)
             .onSuccess { result ->
 //                _uiState.update { OCRUiState.ImageSubmitted(bitmap, LoadingState.Success(result)) }
