@@ -9,17 +9,15 @@ import com.portafolio.vientosdelsur.service.housekeeping.mapper.toRoomDistributi
 import com.portafolio.vientosdelsur.shared.dto.MonthlyRoomDistributionDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.LocalDate
 
 internal class RoomDistributionServiceImpl(
     private val distributeRoomsUseCase: DistributeRoomsUseCase,
     private val housekeeperShiftRepository: HousekeeperShiftRepository,
     private val coroutineScope: CoroutineScope
 ) : RoomDistributionService {
-    override suspend fun distributeRoomsMonth(): Result<MonthlyRoomDistributionDto, DataError.Remote> {
-        return distributeRoomsUseCase(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
+    override suspend fun distributeRoomsMonth(date: LocalDate): Result<MonthlyRoomDistributionDto, DataError.Remote> {
+        return distributeRoomsUseCase(date)
             .map { distribution ->
                 coroutineScope.launch {
                     housekeeperShiftRepository.saveAll(distribution)

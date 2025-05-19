@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.controller.room.route
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
+import com.portafolio.vientosdelsur.controller.room.util.parseDateFromQueryParams
 import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
 import com.portafolio.vientosdelsur.service.housekeeping.RoomService
 import io.ktor.http.*
@@ -34,13 +35,11 @@ fun Application.roomRoute() {
                     val housekeeperId = call.parameters["housekeeperId"]?.toIntOrNull()
                         ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid housekeeper ID")
 
-                    val date = call.request.queryParameters["date"]?.let {
-                        try {
-                            LocalDate.parse(it)
-                        } catch (e: Exception) {
-                            return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
-                        }
-                    } ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    val date = try {
+                        call.parseDateFromQueryParams()
+                    } catch (e: Exception) {
+                        return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                    }
 
                     roomService.getRoomDistributionForHousekeeperOn(
                         housekeeperId = housekeeperId,
@@ -55,13 +54,11 @@ fun Application.roomRoute() {
                 }
 
                 get {
-                    val date = call.request.queryParameters["date"]?.let {
-                        try {
-                            LocalDate.parse(it)
-                        } catch (e: Exception) {
-                            return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
-                        }
-                    } ?: Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    val date = try {
+                        call.parseDateFromQueryParams()
+                    } catch (e: Exception) {
+                        return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                    }
 
                     roomService.getAllRoomStatusOn(
                         date = date
@@ -75,7 +72,13 @@ fun Application.roomRoute() {
                 }
 
                 post("/generate") {
-                    roomDistributionService.distributeRoomsMonth().onSuccess {
+                    val date = try {
+                        call.parseDateFromQueryParams()
+                    } catch (e: Exception) {
+                        return@post call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                    }
+
+                    roomDistributionService.distributeRoomsMonth(date).onSuccess {
                         call.respond(it)
                     }.onEmpty {
                         call.respond(HttpStatusCode.NotFound, "No data to work with")

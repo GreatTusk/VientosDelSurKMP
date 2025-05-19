@@ -6,22 +6,23 @@ import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerService
 import io.ktor.server.application.*
 import kotlinx.coroutines.*
+import kotlinx.datetime.*
 import org.koin.ktor.ext.inject
-import java.time.Duration
-import java.time.LocalDateTime
+import kotlin.time.Duration.Companion.milliseconds
 
 fun Application.cronJob() {
     val shiftSchedulerService by inject<ShiftSchedulerService>()
     val roomDistributionService by inject<RoomDistributionService>()
+    val log = environment.log
 
     val job = CoroutineScope(Dispatchers.IO).launch {
         while (isActive) {
-            val now = LocalDateTime.now()
+            val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
             if (now.dayOfMonth == 1) {
                 shiftSchedulerService.scheduleShifts()
                     .onSuccess {
-                        roomDistributionService.distributeRoomsMonth().onError {
+                        roomDistributionService.distributeRoomsMonth(now.date).onError {
                             log.error("Something went wrong with room distribution $it")
                         }
                     }.onError {
@@ -30,16 +31,18 @@ fun Application.cronJob() {
             }
 
             // Calculate time until first day of next month
-            val nextMonth = if (now.monthValue == 12) {
-                now.withMonth(1).withYear(now.year + 1)
+            val nextMonth = if (now.month == Month.DECEMBER) {
+                LocalDateTime(now.year + 1, Month.JANUARY, 1, 0, 0, 0)
             } else {
-                now.withMonth(now.monthValue + 1)
+                LocalDateTime(now.year, now.month.next(), 1, 0, 0, 0)
             }
-            val firstDayNextMonth = nextMonth.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0)
-            val delayMillis = Duration.between(now, firstDayNextMonth).toMillis()
+
+            val nowInstant = now.toInstant(TimeZone.currentSystemDefault())
+            val nextMonthInstant = nextMonth.toInstant(TimeZone.currentSystemDefault())
+            val delayMillis = (nextMonthInstant - nowInstant).inWholeMilliseconds
 
             log.info("Delaying for $delayMillis")
-            delay(delayMillis)
+            delay(delayMillis.milliseconds)
         }
     }
 
@@ -47,4 +50,9 @@ fun Application.cronJob() {
         job.cancel()
         log.info("Cron job canceled due to application stopping")
     }
+}
+
+// Extension function to get the next month
+private fun Month.next(): Month {
+    return Month.of(ordinal + 2)
 }
