@@ -13,6 +13,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.koin.android)
+            implementation(libs.androidx.core.splashscreen)
         }
 
         commonMain.dependencies {

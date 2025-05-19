@@ -1,26 +1,18 @@
 package com.portafolio.vientosdelsur
 
-import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        val lightTransparentStyle = SystemBarStyle.light(
-            scrim = TRANSPARENT,
-            darkScrim = TRANSPARENT
-        )
-
-        enableEdgeToEdge(
-            statusBarStyle = lightTransparentStyle,
-            navigationBarStyle = lightTransparentStyle
-        )
+        enableEdgeToEdge()
 
         setContent {
             App(
