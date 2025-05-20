@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.server.service.shift)
+    implementation(projects.server.core.controller)
     implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.server.core)

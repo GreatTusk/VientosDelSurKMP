@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.controller.room.util
+package com.portafolio.vientosdelsur.core.controller.util
 
 import io.ktor.server.routing.*
 import kotlinx.datetime.Clock

@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.domain.shift
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
+import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.shift.model.EmployeeDaysOff
 import com.portafolio.vientosdelsur.domain.shift.model.ShiftDate
 import kotlinx.datetime.LocalDate
@@ -15,4 +16,6 @@ interface ShiftRepository {
         startDate: LocalDate,
         endDate: LocalDate
     ): Result<Map<EmployeeDaysOff, List<ShiftDate>>, DataError.Remote>
+
+    suspend fun getEmployeesWorkingOn(date: LocalDate): Result<List<Employee>, DataError.Remote>
 }

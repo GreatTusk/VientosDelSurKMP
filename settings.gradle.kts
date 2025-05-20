@@ -56,6 +56,7 @@ include(":feature:hotel")
 // Server
 include(":server:app")
 include(":server:core:database")
+include(":server:core:controller")
 include(":server:domain:housekeeping")
 include(":server:domain:room")
 include(":server:domain:employee")

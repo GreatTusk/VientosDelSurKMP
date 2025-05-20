@@ -3,9 +3,12 @@ package com.portafolio.vientosdelsur.data.shift.repository
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
+import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
+import com.portafolio.vientosdelsur.data.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.data.shift.mapper.toWorkShiftRow
+import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import com.portafolio.vientosdelsur.domain.shift.model.EmployeeDaysOff
 import com.portafolio.vientosdelsur.domain.shift.model.ShiftDate
@@ -42,4 +45,11 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
     ): Result<Map<EmployeeDaysOff, List<ShiftDate>>, DataError.Remote> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getEmployeesWorkingOn(date: LocalDate): Result<List<Employee>, DataError.Remote> =
+        safeSuspendTransaction {
+            WorkShiftEntity.find { WorkShiftTable.date eq date }
+                .map { it.employee }
+                .map { it.toEmployee() }
+        }
 }
