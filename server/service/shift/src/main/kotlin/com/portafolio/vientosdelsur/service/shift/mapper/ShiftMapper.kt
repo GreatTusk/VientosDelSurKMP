@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.service.shift.mapper
 import com.portafolio.vientosdelsur.domain.shift.model.EmployeeDaysOff
 import com.portafolio.vientosdelsur.domain.shift.model.Shift
 import com.portafolio.vientosdelsur.domain.shift.model.ShiftDate
+import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.MonthlyShiftDistributionDto
 import com.portafolio.vientosdelsur.shared.dto.ShiftDateDto
 import com.portafolio.vientosdelsur.shared.dto.ShiftDto

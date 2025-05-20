@@ -12,5 +12,11 @@ data class EmployeeDto(
     val phoneNumber: String,
     val dayOff: DayOfWeek,
     val hireDate: LocalDate,
-    val occupation: String
+    val occupation: String,
+    val role: RoleDataDto? = null
+)
+
+@Serializable
+data class RoleDataDto(
+    val role: String
 )
