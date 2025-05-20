@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Vientos del Sur Employee API
+  version: 1.0.0
+  description: API for managing employees
+paths:
+  /employee:
+    get:
+      summary: Get all employees
+      responses:
+        '200':
+          description: List of employees retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Employee created successfully
+        '400':
+          description: Invalid employee data
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        position:
+          type: string
+        hireDate:
+          type: string
+          format: date
+      required:
+        - name
+        - email
+        - position

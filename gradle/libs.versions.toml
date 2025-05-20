@@ -198,6 +198,8 @@ exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exp
 exposed-kotlin-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposedCore" }
 h2database-h2 = { module = "com.h2database:h2", version.ref = "h2Version" }
 hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
+ktor-server-openapi = { module = "io.ktor:ktor-server-openapi", version.ref = "ktor" }
+ktor-server-swagger = { module = "io.ktor:ktor-server-swagger", version.ref = "ktor" }
 
 
 [plugins]
@@ -211,7 +213,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 squareup-wire = { id = "com.squareup.wire", version.ref = "wire" }
-build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig"}
+build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
 
 # Server
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

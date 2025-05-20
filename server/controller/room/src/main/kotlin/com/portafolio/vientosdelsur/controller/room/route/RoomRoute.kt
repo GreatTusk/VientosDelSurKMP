@@ -8,6 +8,7 @@ import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
 import com.portafolio.vientosdelsur.service.housekeeping.RoomService
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.datetime.*
@@ -18,6 +19,7 @@ fun Application.roomRoute() {
     val roomDistributionService by inject<RoomDistributionService>()
 
     routing {
+        swaggerUI("swagger/room", swaggerFile = "openapi/documentation-room.yaml")
         route("/room") {
             get {
                 roomService.getAllRooms()

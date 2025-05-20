@@ -1,0 +1,284 @@
+openapi: "3.1.0"
+info:
+  title: "VientosDelSur Room API"
+  description: "API for managing rooms and room distributions"
+  version: "1.0.0"
+paths:
+  /room:
+    get:
+      summary: "Get all rooms"
+      description: "Returns a list of all available rooms"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<RoomDto>"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Something happened: {error message}"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Nothing"
+  /room/distribution/{housekeeperId}:
+    get:
+      summary: "Get room distribution for a specific housekeeper"
+      description: "Returns rooms assigned to a housekeeper on a specific date"
+      parameters:
+        - name: "housekeeperId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            format: "date"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid housekeeper ID"
+                Example#2:
+                  value: "Invalid date format"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RoomDistributionResponse"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "No room distribution found"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+                enum:
+                  - "REQUEST_TIMEOUT"
+                  - "NOT_FOUND"
+                  - "TOO_MANY_REQUESTS"
+                  - "NO_INTERNET"
+                  - "SERVER"
+                  - "SERIALIZATION"
+                  - "UNKNOWN"
+  /room/distribution:
+    get:
+      summary: "Get all room statuses on a specific date"
+      description: "Returns the status of all rooms on the specified date"
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            format: "date"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid date format"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<RoomStateDto>"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "No room distribution found"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+                enum:
+                  - "REQUEST_TIMEOUT"
+                  - "NOT_FOUND"
+                  - "TOO_MANY_REQUESTS"
+                  - "NO_INTERNET"
+                  - "SERVER"
+                  - "SERIALIZATION"
+                  - "UNKNOWN"
+  /room/distribution/generate:
+    post:
+      summary: "Generate room distribution for a month"
+      description: "Generates and returns room distribution for the month of the specified date"
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            format: "date"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid date format"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_LocalDate"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "No data to work with"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+                enum:
+                  - "REQUEST_TIMEOUT"
+                  - "NOT_FOUND"
+                  - "TOO_MANY_REQUESTS"
+                  - "NO_INTERNET"
+                  - "SERVER"
+                  - "SERIALIZATION"
+                  - "UNKNOWN"
+
+components:
+  schemas:
+    RoomDto:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        roomNumber:
+          type: "string"
+        roomType:
+          type: "string"
+      required:
+        - "id"
+        - "roomNumber"
+        - "roomType"
+    RoomStateDto:
+      type: "object"
+      properties:
+        roomId:
+          type: "integer"
+          format: "int32"
+        roomNumber:
+          type: "string"
+        status:
+          type: "string"
+          enum: ["CLEAN", "DIRTY", "MAINTENANCE", "OCCUPIED"]
+        assignedTo:
+          type: "integer"
+          format: "int32"
+          nullable: true
+      required:
+        - "roomId"
+        - "roomNumber"
+        - "status"
+    RoomDistributionResponse:
+      type: "object"
+      properties:
+        date:
+          type: "string"
+          format: "date"
+        rooms:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/RoomStateDto"
+      required:
+        - "date"
+        - "rooms"
+    BaseResponseDto:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+      required:
+        - "message"
+        - "timestamp"
+    BaseResponseDto_List<RoomDto>:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/RoomDto"
+    BaseResponseDto_List<RoomStateDto>:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/RoomStateDto"
+    Map_LocalDate:
+      type: "object"
+      additionalProperties:
+        type: "array"
+        items:
+          $ref: "#/components/schemas/RoomStateDto"
+      description: "Map of dates to room distributions"
