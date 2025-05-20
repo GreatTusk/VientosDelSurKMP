@@ -2,6 +2,7 @@ package com.portafolio.vientosdelsur.data.room.repository
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
+import com.f776.core.common.emptyError
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
@@ -32,6 +33,7 @@ internal object DBRoomRepository : RoomRepository {
             .selectAll()
             .where { (WorkShiftTable.employeeId eq housekeeperId) and (WorkShiftTable.date eq date) }
             .map(::mapShiftRoomsToRoomState)
+            .ifEmpty { emptyError("No data to show") }
     }
 
     override suspend fun getAllRoomStatusOn(date: LocalDate): Result<List<RoomState>, DataError.Remote> =
@@ -42,5 +44,6 @@ internal object DBRoomRepository : RoomRepository {
                 .selectAll()
                 .where { WorkShiftTable.date eq date }
                 .map(::mapShiftRoomsToRoomState)
+                .ifEmpty { emptyError("No data to show") }
         }
 }
