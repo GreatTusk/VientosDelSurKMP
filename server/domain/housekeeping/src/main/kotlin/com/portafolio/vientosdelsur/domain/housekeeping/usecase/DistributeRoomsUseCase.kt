@@ -68,7 +68,7 @@ class DistributeRoomsUseCase(
             )
         }
 
-    private suspend fun getRoomsMonthlyDistribution(
+    internal suspend fun getRoomsMonthlyDistribution(
         range: ClosedRange<LocalDate>,
         rooms: Map<LocalDate, List<RoomBooking>>,
         shifts: Map<LocalDate, List<HousekeeperShift>>
@@ -113,14 +113,13 @@ class DistributeRoomsUseCase(
             .mapValues { (_, value) -> value!! }
     }
 
-    private fun findPreferredRoom(preferredFloor: Floor?, availableRooms: Set<RoomBooking>): RoomBooking {
+    internal fun findPreferredRoom(preferredFloor: Floor?, availableRooms: Set<RoomBooking>): RoomBooking {
         if (preferredFloor == null) {
-            return availableRooms.random().also { println("Didn't have a preference, got ${it.room.number}") }
+            return availableRooms.random()
         }
         return availableRooms.find { it.room.floor.number == preferredFloor.floor } ?: if (preferredFloor.floor <= 2) {
-            availableRooms.minBy { it.room.floor.number }.also { println("Wanted ${preferredFloor.floor}, but will settle for ${it.room.number}") }
+            availableRooms.minBy { it.room.floor.number }
         } else {
-            availableRooms.minBy { it.room.floor.number }.also { println("Wanted ${preferredFloor.floor}, but will settle for ${it.room.number}") }
             availableRooms.maxBy { it.room.floor.number }
         }
     }

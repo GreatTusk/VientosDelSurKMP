@@ -8,4 +8,8 @@ dependencies {
     api(projects.server.domain.room)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.coroutines.core)
+
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.koin.test)
 }
