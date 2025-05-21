@@ -10,4 +10,6 @@ plugins {
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
     alias(libs.plugins.kotlinJvm) apply false
+
+    alias(libs.plugins.google.services) apply false
 }

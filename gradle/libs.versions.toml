@@ -11,7 +11,8 @@ androidx-constraintlayout = "2.2.1"
 androidx-core-ktx = "1.16.0"
 androidx-espresso-core = "3.6.1"
 androidx-test-junit = "1.2.1"
-
+firebaseAuth = "2.1.0"
+google-services = "4.4.2"
 # Multiplatform
 compose-multiplatform = "1.8.0"
 androidx-lifecycle = "2.9.0-beta01"
@@ -26,8 +27,8 @@ junit = "4.13.2"
 koin = "4.0.4"
 kotlin = "2.1.20"
 core = "1.6.1"
-kotlinx-coroutines = "1.10.1"
-kotlinxCoroutinesPlayServices = "1.10.1"
+kotlinx-coroutines = "1.10.2"
+kotlinxCoroutinesPlayServices = "1.10.2"
 kotlinxIoCore = "0.7.0"
 ksp = "2.1.20-1.0.31"
 kuromojiIpadic = "0.9.0"
@@ -38,8 +39,8 @@ postgresql = "42.7.5"
 runner = "1.6.2"
 sqlite = "2.5.1"
 room = "2.7.1"
-datastore = "1.1.6"
-serialization = "1.8.0"
+datastore = "1.1.7"
+serialization = "1.8.1"
 wire = "5.3.1"
 build-konfig = "0.17.1"
 
@@ -53,7 +54,7 @@ composeHotReload = "1.0.0-alpha03"
 textRecognitionJapanese = "16.0.1"
 mlkitTranslate = "17.0.3"
 navigationTesting = "2.9.0"
-uiTestJunit4Android = "1.8.1"
+uiTestJunit4Android = "1.8.2"
 cameraX = "1.5.0-beta01"
 glance = "1.1.1"
 workRuntimeKtx = "2.10.1"
@@ -93,6 +94,8 @@ androidx-paging-compose = { module = "androidx.paging:paging-compose", version.r
 
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 
+# Firebase
+firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseAuth" }
 
 # Testing
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
@@ -214,6 +217,7 @@ room = { id = "androidx.room", version.ref = "room" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 squareup-wire = { id = "com.squareup.wire", version.ref = "wire" }
 build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
+google-services= { id = "com.google.gms.google-services", version.ref = "google-services"}
 
 # Server
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
