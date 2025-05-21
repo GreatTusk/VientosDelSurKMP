@@ -13,12 +13,16 @@ import com.portafolio.vientosdelsur.feature.hotel.navigation.Hotel
 import com.portafolio.vientosdelsur.feature.hotel.navigation.navigateToHotel
 import com.portafolio.vientosdelsur.foryou.navigation.ForYou
 import com.portafolio.vientosdelsur.foryou.navigation.navigateToForYou
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.StringResource
 import vientosdelsur.composeapp.generated.resources.Res
 import vientosdelsur.composeapp.generated.resources.app_name
 import vientosdelsur.composeapp.generated.resources.for_you_title
 import vientosdelsur.composeapp.generated.resources.rooms_title
 import kotlin.reflect.KClass
+
+@Serializable
+data object TopLevelNavigation
 
 enum class TopLevelDestination(
     val selectedIcon: ImageVector,

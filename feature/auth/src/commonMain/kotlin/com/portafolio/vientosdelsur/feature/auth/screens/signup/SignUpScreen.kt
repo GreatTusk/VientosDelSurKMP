@@ -31,12 +31,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import com.f776.core.ui.theme.VientosDelSurTheme
 
 @Composable
-internal fun SignUpScreenRoot(modifier: Modifier = Modifier) {
-    SignUpScreen(modifier)
+internal fun SignUpScreenRoot(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
+    SignUpScreen(modifier, onSignIn)
 }
 
 @Composable
-internal fun SignUpScreen(modifier: Modifier = Modifier) {
+internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -113,7 +113,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier) {
             )
 
             Button(
-                onClick = { /* Handle sign up */ },
+                onClick = onSignIn,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -128,7 +128,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier) {
 private fun SignUpScreenPreview(modifier: Modifier = Modifier) {
     VientosDelSurTheme {
         Surface {
-            SignUpScreen()
+            SignUpScreen(onSignIn = {})
 
         }
     }

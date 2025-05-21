@@ -7,7 +7,9 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -21,8 +23,19 @@ import org.jetbrains.compose.resources.stringResource
 fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val adaptiveInfo = currentWindowAdaptiveInfo()
+
+    val isTopLevelDestination by remember {
+        derivedStateOf {
+            backStackEntry?.destination?.isRouteInHierarchy(
+                TopLevelNavigation::class
+            ) == true
+        }
+    }
+
     val navigationSuiteType = with(adaptiveInfo) {
-        if (
+        if (!isTopLevelDestination) {
+            NavigationSuiteType.None
+        } else if (
             windowPosture.isTabletop ||
             windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
         ) {
@@ -37,9 +50,9 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
             NavigationSuiteType.NavigationBar
         }
     }
-
     NavigationSuiteScaffold(
         navigationSuiteItems = {
+            if (!isTopLevelDestination) return@NavigationSuiteScaffold
             TopLevelDestination.entries.forEach { destination ->
                 val isSelected = backStackEntry?.destination?.isRouteInHierarchy(destination.route) == true
                 item(
