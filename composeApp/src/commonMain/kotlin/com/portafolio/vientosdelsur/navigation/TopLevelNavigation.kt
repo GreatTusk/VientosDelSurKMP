@@ -1,15 +1,12 @@
 package com.portafolio.vientosdelsur.navigation
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,18 +21,8 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
     val backStackEntry by navController.currentBackStackEntryAsState()
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
-    val isTopLevelDestination by remember {
-        derivedStateOf {
-            backStackEntry?.destination?.isRouteInHierarchy(
-                TopLevelNavigation::class
-            ) == true
-        }
-    }
-
     val navigationSuiteType = with(adaptiveInfo) {
-        if (!isTopLevelDestination) {
-            NavigationSuiteType.None
-        } else if (
+        if (
             windowPosture.isTabletop ||
             windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
         ) {
@@ -52,9 +39,8 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
     }
     NavigationSuiteScaffold(
         navigationSuiteItems = {
-            if (!isTopLevelDestination) return@NavigationSuiteScaffold
             TopLevelDestination.entries.forEach { destination ->
-                val isSelected = backStackEntry?.destination?.isRouteInHierarchy(destination.route) == true
+                val isSelected = (backStackEntry?.destination?.isRouteInHierarchy(destination.route)) ?: (destination == TopLevelDestination.FOR_YOU)
                 item(
                     icon = {
                         if (isSelected) {
@@ -77,7 +63,7 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
         },
         layoutType = navigationSuiteType
     ) {
-        NavigationGraph(navController = navController)
+        TopLevelNavigationGraph(navController = navController)
     }
 }
 
