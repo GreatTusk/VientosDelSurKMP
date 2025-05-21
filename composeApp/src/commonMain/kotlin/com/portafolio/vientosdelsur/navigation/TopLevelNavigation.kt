@@ -38,6 +38,7 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
         }
     }
     NavigationSuiteScaffold(
+        modifier = modifier,
         navigationSuiteItems = {
             TopLevelDestination.entries.forEach { destination ->
                 val isSelected = (backStackEntry?.destination?.isRouteInHierarchy(destination.route)) ?: (destination == TopLevelDestination.FOR_YOU)

@@ -68,6 +68,7 @@ hikaricp = "5.0.1"
 [libraries]
 
 exposed-migration = { module = "org.jetbrains.exposed:exposed-migration", version.ref = "exposedMigration" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 # Client
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

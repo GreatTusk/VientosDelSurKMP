@@ -29,7 +29,7 @@ class ScheduleShiftUseCase(
         return employeeResult.map { scheduleMonthlyShifts(month = date, employees = it) }
     }
 
-    private suspend fun scheduleMonthlyShifts(
+    internal suspend fun scheduleMonthlyShifts(
         month: LocalDate,
         employees: List<Employee>
     ): Map<EmployeeDaysOff, List<ShiftDate>> = withContext(defaultDispatcher) {
@@ -60,7 +60,7 @@ class ScheduleShiftUseCase(
         }
     }
 
-    private fun assignShift(
+    internal fun assignShift(
         employeeDaysOff: EmployeeDaysOff,
         date: LocalDate,
         kitchenHours: MutableMap<LocalDate, Double>
@@ -74,7 +74,7 @@ class ScheduleShiftUseCase(
             is Employee.Housekeeper -> {
                 when (employee.housekeeperRole) {
                     HousekeeperRole.KITCHEN -> {
-                        if (count <= FULL_TIME_HOURS) {
+                        if (count < FULL_TIME_HOURS) {
                             count += FULL_TIME_HOURS
                             Shift.KITCHEN_LEAD
                         } else {
@@ -108,8 +108,8 @@ class ScheduleShiftUseCase(
     }
 
 
-    companion object {
-        private const val FULL_TIME_HOURS = 7.0
-        private const val MIXED_KITCHEN_HOURS = 3.0
+    internal companion object {
+        internal const val FULL_TIME_HOURS = 7.0
+        internal const val MIXED_KITCHEN_HOURS = 3.0
     }
 }
