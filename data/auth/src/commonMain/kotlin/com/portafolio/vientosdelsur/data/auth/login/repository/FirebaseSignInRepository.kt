@@ -4,13 +4,13 @@ import com.f776.core.common.DataError
 import com.f776.core.common.Result
 import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.User
-import com.portafolio.vientosdelsur.domain.auth.login.LoginRepository
-import com.portafolio.vientosdelsur.domain.auth.login.LoginRequest
+import com.portafolio.vientosdelsur.domain.auth.login.SignInRepository
+import com.portafolio.vientosdelsur.domain.auth.login.SignInRequest
 import dev.gitlive.firebase.auth.FirebaseAuth
 
-internal class FirebaseLoginRepository(private val firebaseAuth: FirebaseAuth) : LoginRepository {
-    override suspend fun login(loginRequest: LoginRequest): Result<User, DataError> {
-        val authResult = firebaseAuth.signInWithEmailAndPassword(loginRequest.email.email, loginRequest.password)
+internal class FirebaseSignInRepository(private val firebaseAuth: FirebaseAuth) : SignInRepository {
+    override suspend fun signIn(signInRequest: SignInRequest): Result<User, DataError> {
+        val authResult = firebaseAuth.signInWithEmailAndPassword(signInRequest.email.email, signInRequest.password)
 
         return authResult.user?.let {
             Result.Success(

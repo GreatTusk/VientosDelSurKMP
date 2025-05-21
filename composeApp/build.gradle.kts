@@ -21,6 +21,7 @@ kotlin {
             implementation(projects.core.ui)
 
             implementation(projects.feature.foryou)
+            implementation(projects.feature.auth)
             implementation(projects.feature.hotel)
             implementation(projects.feature.imageAnalysis)
             implementation(projects.feature.room)
