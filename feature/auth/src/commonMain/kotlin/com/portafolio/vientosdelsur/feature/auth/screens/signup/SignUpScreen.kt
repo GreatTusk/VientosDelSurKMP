@@ -1,16 +1,6 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -19,16 +9,19 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import vientosdelsur.feature.auth.generated.resources.*
 
 @Composable
 internal fun SignUpScreenRoot(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
@@ -50,7 +43,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Create Account",
+                text = stringResource(Res.string.sign_up),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -58,8 +51,13 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
-                leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+                label = { Text(stringResource(Res.string.email)) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Email,
+                        contentDescription = stringResource(Res.string.email_content_description)
+                    )
+                },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
@@ -71,13 +69,18 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+                label = { Text(stringResource(Res.string.password)) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Lock,
+                        contentDescription = stringResource(Res.string.password_content_description)
+                    )
+                },
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = "Toggle password visibility"
+                            contentDescription = stringResource(Res.string.toggle_password_visibility)
                         )
                     }
                 },
@@ -93,13 +96,18 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
-                label = { Text("Confirm Password") },
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Confirm Password") },
+                label = { Text(stringResource(Res.string.confirm_password)) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Lock,
+                        contentDescription = stringResource(Res.string.confirm_password)
+                    )
+                },
                 trailingIcon = {
                     IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
                         Icon(
                             if (confirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = "Toggle confirm password visibility"
+                            contentDescription = stringResource(Res.string.toggle_confirm_password_visibility)
                         )
                     }
                 },
@@ -117,7 +125,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Sign Up", modifier = Modifier.padding(vertical = 4.dp))
+                Text(stringResource(Res.string.create_account), modifier = Modifier.padding(vertical = 4.dp))
             }
         }
     }

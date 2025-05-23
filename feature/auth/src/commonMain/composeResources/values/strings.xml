@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="create_account">Crear cuenta</string>
+    <string name="email">Correo electrónico</string>
+    <string name="email_content_description">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="password_content_description">Contraseña</string>
+    <string name="toggle_password_visibility">Alternar visibilidad de la contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="confirm_password_content_description">Confirmar contraseña</string>
+    <string name="toggle_confirm_password_visibility">Alternar visibilidad de la confirmación de contraseña</string>
+    <string name="sign_up">Registrarse</string>
+</resources>
