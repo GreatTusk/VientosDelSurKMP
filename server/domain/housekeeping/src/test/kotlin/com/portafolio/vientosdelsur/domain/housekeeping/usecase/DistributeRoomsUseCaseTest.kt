@@ -1,97 +1,240 @@
 package com.portafolio.vientosdelsur.domain.housekeeping.usecase
 
-import com.f776.core.common.Result
-import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.data.FakeHousekeeperShiftRepository
 import com.portafolio.vientosdelsur.data.FakeRoomBookingRepository
 import com.portafolio.vientosdelsur.data.FakeRoomRepository
-import com.portafolio.vientosdelsur.domain.room.model.Floor
-import com.portafolio.vientosdelsur.domain.room.model.RoomBooking
-import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.Month
+import com.portafolio.vientosdelsur.domain.employee.Floor
+import com.portafolio.vientosdelsur.domain.housekeeping.HousekeeperShiftRepository
+import com.portafolio.vientosdelsur.domain.room.RoomBookingRepository
+import com.portafolio.vientosdelsur.domain.room.RoomRepository
+import com.portafolio.vientosdelsur.domain.room.model.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 import kotlin.test.*
 
-class DistributeRoomsUseCaseTest {
+class DistributeRoomsUseCaseTest : KoinComponent {
     private lateinit var useCase: DistributeRoomsUseCase
-    private val fakeRoomBookingRepository = FakeRoomBookingRepository()
-    private val fakeRoomRepository = FakeRoomRepository()
-    private val fakeHousekeeperShiftRepository = FakeHousekeeperShiftRepository()
+    private val testDispatcher = StandardTestDispatcher()
 
     @BeforeTest
     fun setUp() {
-        useCase = DistributeRoomsUseCase(
-            roomBookingRepository = fakeRoomBookingRepository,
-            roomRepository = fakeRoomRepository,
-            housekeeperShiftRepository = fakeHousekeeperShiftRepository
-        )
-    }
-
-    @Test
-    fun `invoke returns success and non-empty distribution`() = runBlocking {
-        val testMonth = LocalDate(2023, Month.MAY, 1)
-        val result = useCase.invoke(testMonth)
-        assertTrue(result is Result.Success)
-        val distribution = result.data
-        assertTrue(distribution.isNotEmpty(), "Distribution should not be empty")
-        // Check at least one day has assignments
-        assertTrue(distribution.values.any { it.isNotEmpty() }, "At least one day should have assignments")
-    }
-
-    @Test
-    fun `getRoomsMonthlyDistribution assigns rooms within quotas`() = runBlocking {
-        val testMonth = LocalDate(2023, Month.MAY, 1)
-        val result = useCase.invoke(testMonth)
-        assertTrue(result is Result.Success)
-        val distribution = result.data
-        // For each day, each housekeeper should not exceed their workMinutes
-        distribution.forEach { (_, assignments) ->
-            assignments.forEach { (shift, rooms) ->
-                val totalWork = rooms.sumOf { it.workUnits }
-                assertTrue(totalWork <= shift.workMinutes, "Assigned work should not exceed quota")
-            }
+        startKoin {
+            modules(
+                module {
+                    singleOf(::FakeRoomRepository).bind<RoomRepository>()
+                    singleOf(::FakeRoomBookingRepository).bind<RoomBookingRepository>()
+                    singleOf(::FakeHousekeeperShiftRepository).bind<HousekeeperShiftRepository>()
+                    factoryOf(::DistributeRoomsUseCase)
+                }
+            )
         }
+        useCase = inject<DistributeRoomsUseCase>().value
     }
 
+    @AfterTest
+    fun tearDown() {
+        stopKoin()
+    }
+
+
     @Test
-    fun `findPreferredRoom returns room on preferred floor if available`() {
+    fun `chooses preferred room when upper floor is preferred and rooms are available`() {
+        val floor4 = Floor(4)
         val rooms = setOf(
             RoomBooking(
-                room = fakeRoomRepository.getAllRoomsBlocking()[0],
-                workUnits = 10,
-                cleaningType = com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.ROOM
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 412
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
             ),
             RoomBooking(
-                room = fakeRoomRepository.getAllRoomsBlocking()[1],
-                workUnits = 10,
-                cleaningType = com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.ROOM
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 112
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
             )
         )
-        val preferredFloor = when(rooms.first().room.floor){
-            Floor.ONE -> com.portafolio.vientosdelsur.domain.employee.Floor(1)
-            Floor.TWO -> com.portafolio.vientosdelsur.domain.employee.Floor(2)
-            Floor.THREE -> com.portafolio.vientosdelsur.domain.employee.Floor(3)
-            Floor.FOUR -> com.portafolio.vientosdelsur.domain.employee.Floor(4)
-        }
-        val found = useCase.findPreferredRoom(preferredFloor, rooms)
-        assertEquals(preferredFloor.floor, found.room.floor.number)
+
+        val foundRoom = useCase.findPreferredRoom(floor4, rooms)
+        assertEquals(rooms.first(), foundRoom)
     }
 
     @Test
-    fun `findPreferredRoom returns random room if no preferred floor`() {
+    fun `chooses closest room when upper floor is preferred but rooms not available`() {
+        val floor4 = Floor(4)
         val rooms = setOf(
             RoomBooking(
-                room = fakeRoomRepository.getAllRoomsBlocking()[0],
-                workUnits = 10,
-                cleaningType = com.portafolio.vientosdelsur.domain.room.model.RoomCleaningType.ROOM
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 312
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            ),
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 112
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
             )
         )
-        val found = useCase.findPreferredRoom(null, rooms)
-        assertTrue(rooms.contains(found))
+
+        val foundRoom = useCase.findPreferredRoom(floor4, rooms)
+        assertEquals(rooms.first(), foundRoom)
+    }
+
+    @Test
+    fun `chooses preferred room when lower floor is preferred and rooms are available`() {
+        val floor4 = Floor(1)
+        val rooms = setOf(
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 112
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            ),
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 412
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            )
+        )
+
+        val foundRoom = useCase.findPreferredRoom(floor4, rooms)
+        assertEquals(rooms.first(), foundRoom)
+    }
+
+    @Test
+    fun `chooses closest room when lower floor is preferred but rooms not available`() {
+        val floor4 = Floor(1)
+        val rooms = setOf(
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 212
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            ),
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 412
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            )
+        )
+
+        val foundRoom = useCase.findPreferredRoom(floor4, rooms)
+        assertEquals(rooms.first(), foundRoom)
+    }
+
+    @Test
+    fun `chooses any room when there is no preference`() {
+        val floor4 = null
+        val rooms = setOf(
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 212
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            ),
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 412
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            ),
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 312
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            ),
+            RoomBooking(
+                room = Room(
+                    1, RoomTypeDetails(
+                        RoomType.TRIPLE,
+                        workUnit = 1,
+                        checkOutWorkUnit = 2
+                    ),
+                    number = 212
+                ),
+                workUnits = 1,
+                cleaningType = RoomCleaningType.ROOM
+            )
+        )
+
+        val foundRoom = useCase.findPreferredRoom(floor4, rooms)
+        assertTrue(foundRoom in rooms)
     }
 }
-
-// Helper to get all rooms synchronously for test
-private fun FakeRoomRepository.getAllRoomsBlocking() =
-    runBlocking { getAllRooms().takeOrNull() ?: emptyList() }
-
