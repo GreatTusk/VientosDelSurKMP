@@ -19,20 +19,39 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.portafolio.vientosdelsur.feature.auth.screens.AuthViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import vientosdelsur.feature.auth.generated.resources.*
 
 @Composable
-internal fun SignUpScreenRoot(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
-    SignUpScreen(modifier, onSignIn)
+internal fun SignUpScreenRoot(modifier: Modifier = Modifier) {
+    val viewModel = koinViewModel<AuthViewModel>()
+
+    SignUpScreen(
+        modifier = modifier,
+        onSignUp = viewModel::onSignUp,
+        email = viewModel.email,
+        password = viewModel.password,
+        confirmPassword = viewModel.confirmPassword,
+        onEmailChange = viewModel::onEmailChanged,
+        onPasswordChange = viewModel::onPasswordChanged,
+        onConfirmPasswordChange = viewModel::onConfirmPasswordChanged
+    )
 }
 
 @Composable
-internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+internal fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    onSignUp: () -> Unit,
+    email: String,
+    password: String,
+    confirmPassword: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onConfirmPasswordChange: (String) -> Unit,
+) {
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
 
@@ -50,7 +69,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
 
             OutlinedTextField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = onEmailChange,
                 label = { Text(stringResource(Res.string.email)) },
                 leadingIcon = {
                     Icon(
@@ -68,7 +87,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
 
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = onPasswordChange,
                 label = { Text(stringResource(Res.string.password)) },
                 leadingIcon = {
                     Icon(
@@ -95,7 +114,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
 
             OutlinedTextField(
                 value = confirmPassword,
-                onValueChange = { confirmPassword = it },
+                onValueChange = onConfirmPasswordChange,
                 label = { Text(stringResource(Res.string.confirm_password)) },
                 leadingIcon = {
                     Icon(
@@ -121,7 +140,7 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
             )
 
             Button(
-                onClick = onSignIn,
+                onClick = onSignUp,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -136,8 +155,15 @@ internal fun SignUpScreen(modifier: Modifier = Modifier, onSignIn: () -> Unit) {
 private fun SignUpScreenPreview(modifier: Modifier = Modifier) {
     VientosDelSurTheme {
         Surface {
-            SignUpScreen(onSignIn = {})
-
+            SignUpScreen(
+                onSignUp = {},
+                email = "",
+                password = "",
+                confirmPassword = "",
+                onEmailChange = {},
+                onPasswordChange = {},
+                onConfirmPasswordChange = {},
+            )
         }
     }
 }

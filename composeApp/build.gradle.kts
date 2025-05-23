@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.f776.desktopApplication)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -31,6 +32,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
 
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.firebase.auth)
         }
     }
 }

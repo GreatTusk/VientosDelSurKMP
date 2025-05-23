@@ -1,8 +1,8 @@
-package com.portafolio.vientosdelsur.domain.auth.login
+package com.portafolio.vientosdelsur.domain.auth.signup
 
 import com.portafolio.vientosdelsur.domain.auth.Email
 
-data class SignInRequest(
+data class SignUpRequest(
     val email: Email,
     val password: String
 )
