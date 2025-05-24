@@ -47,6 +47,7 @@ internal class GoogleAuthServiceImpl(
         } catch (e: NoCredentialException) {
             Result.Error(GoogleAuthError.NO_ACCOUNT_ON_DEVICE)
         } catch (e: GetCredentialException) {
+            e.printStackTrace()
             Result.Error(GoogleAuthError.REMOTE)
         } catch (e: Exception) {
             Result.Error(GoogleAuthError.REMOTE)

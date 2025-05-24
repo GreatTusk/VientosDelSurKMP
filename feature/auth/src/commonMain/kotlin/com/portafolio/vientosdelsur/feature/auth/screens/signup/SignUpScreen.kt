@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.components.ObserveAsEvents
@@ -49,7 +50,8 @@ internal fun SignUpScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: (
         confirmPassword = viewModel.confirmPassword,
         onEmailChange = viewModel::onEmailChanged,
         onPasswordChange = viewModel::onPasswordChanged,
-        onConfirmPasswordChange = viewModel::onConfirmPasswordChanged
+        onConfirmPasswordChange = viewModel::onConfirmPasswordChanged,
+        onSignInWithGoogle = viewModel::signInWithGoogle
     )
 }
 
@@ -57,6 +59,7 @@ internal fun SignUpScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: (
 internal fun SignUpScreen(
     modifier: Modifier = Modifier,
     onSignUp: () -> Unit,
+    onSignInWithGoogle: () -> Unit,
     email: String,
     password: String,
     confirmPassword: String,
@@ -158,6 +161,20 @@ internal fun SignUpScreen(
             ) {
                 Text(stringResource(Res.string.create_account), modifier = Modifier.padding(vertical = 4.dp))
             }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                HorizontalDivider(modifier = Modifier.weight(1f))
+                Text("o", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                HorizontalDivider(modifier = Modifier.weight(1f))
+            }
+
+            OutlinedButton(
+                onClick = onSignInWithGoogle,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(stringResource(Res.string.sign_up_google), modifier = Modifier.padding(vertical = 4.dp))
+            }
         }
     }
 }
@@ -175,6 +192,7 @@ private fun SignUpScreenPreview(modifier: Modifier = Modifier) {
                 onEmailChange = {},
                 onPasswordChange = {},
                 onConfirmPasswordChange = {},
+                onSignInWithGoogle = {}
             )
         }
     }

@@ -7,7 +7,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-internal val PlatformModule = module {
+internal actual val PlatformModule = module {
     single { CredentialManager.create(get()) }
     singleOf(::GoogleAuthServiceImpl).bind<GoogleAuthService>()
 }

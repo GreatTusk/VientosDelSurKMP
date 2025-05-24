@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.onError
+import com.portafolio.vientosdelsur.domain.auth.GoogleAuthError
+import com.portafolio.vientosdelsur.domain.auth.GoogleAuthService
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.auth.signup.SignUpError
 import com.portafolio.vientosdelsur.domain.auth.signup.SignUpUseCase
@@ -16,7 +18,8 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class AuthViewModel(
     userRepository: UserRepository,
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val googleAuthService: GoogleAuthService
 ) : ViewModel() {
 
     private val _eventChannel = Channel<AuthEvent>()
@@ -59,6 +62,18 @@ internal class AuthViewModel(
                         SignUpError.INVALID_EMAIL -> println("Invalid email address.")
                         SignUpError.PASSWORD_MISMATCH -> println("Passwords do not match.")
                         SignUpError.REMOTE -> println("Remote error occurred during sign up.")
+                    }
+                }
+        }
+    }
+
+    fun signInWithGoogle() {
+        viewModelScope.launch {
+            googleAuthService.login()
+                .onError {
+                    when(it) {
+                        GoogleAuthError.NO_ACCOUNT_ON_DEVICE -> println("Your device has no google accounts")
+                        GoogleAuthError.REMOTE -> println("Remote error occurred during sign in with google.")
                     }
                 }
         }
