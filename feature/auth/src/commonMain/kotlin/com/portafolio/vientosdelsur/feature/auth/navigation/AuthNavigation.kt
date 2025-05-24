@@ -17,7 +17,7 @@ data object Auth
 fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
     navigation<AuthNavigation>(startDestination = Auth) {
         composable<Auth> {
-            SignUpScreenRoot(modifier = Modifier.fillMaxSize())
+            SignUpScreenRoot(modifier = Modifier.fillMaxSize(), onNavigateToHome = onSignIn)
         }
     }
 }

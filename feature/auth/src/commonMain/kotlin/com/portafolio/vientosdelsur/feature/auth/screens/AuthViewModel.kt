@@ -9,9 +9,8 @@ import com.f776.core.common.onError
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.auth.signup.SignUpError
 import com.portafolio.vientosdelsur.domain.auth.signup.SignUpUseCase
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.WhileSubscribed
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -20,11 +19,18 @@ internal class AuthViewModel(
     private val signUpUseCase: SignUpUseCase
 ) : ViewModel() {
 
-    val user = userRepository.currentUser.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(2.seconds),
-        initialValue = null
-    )
+    private val _eventChannel = Channel<AuthEvent>()
+    val events = _eventChannel.receiveAsFlow()
+
+    val user = userRepository.currentUser
+        .onEach {
+            _eventChannel.send(AuthEvent.OnUserAuthenticated)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(2.seconds),
+            initialValue = null
+        )
 
     var email by mutableStateOf("")
         private set
