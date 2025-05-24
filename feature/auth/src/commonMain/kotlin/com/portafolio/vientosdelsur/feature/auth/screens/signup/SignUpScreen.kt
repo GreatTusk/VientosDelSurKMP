@@ -19,10 +19,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.f776.core.ui.components.ObserveAsEvents
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.AuthEvent
 import com.portafolio.vientosdelsur.feature.auth.screens.AuthViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -32,15 +29,6 @@ import vientosdelsur.feature.auth.generated.resources.*
 @Composable
 internal fun SignUpScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: () -> Unit) {
     val viewModel = koinViewModel<AuthViewModel>()
-    val user by viewModel.user.collectAsStateWithLifecycle()
-
-    ObserveAsEvents(viewModel.events) {
-        when (it) {
-            AuthEvent.OnUserAuthenticated -> {
-                onNavigateToHome()
-            }
-        }
-    }
 
     SignUpScreen(
         modifier = modifier,

@@ -7,12 +7,14 @@ import dev.gitlive.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 
 internal class FirebaseUserRepository(
     private val firebaseAuth: FirebaseAuth,
     private val ioDispatcher: CoroutineDispatcher
 ) : UserRepository {
-    override val currentUser: Flow<User>
-        get() = firebaseAuth.authStateChanged.mapNotNull { it?.toUser() }.flowOn(ioDispatcher)
+    override val currentUser: Flow<User?>
+        get() = firebaseAuth.authStateChanged
+            .map { it?.toUser() }
+            .flowOn(ioDispatcher)
 }
