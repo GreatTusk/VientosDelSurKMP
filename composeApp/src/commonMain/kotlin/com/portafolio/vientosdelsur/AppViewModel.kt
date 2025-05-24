@@ -23,5 +23,4 @@ class AppViewModel(userRepository: UserRepository) : ViewModel() {
             started = SharingStarted.WhileSubscribed(2.seconds),
             initialValue = null
         )
-
 }

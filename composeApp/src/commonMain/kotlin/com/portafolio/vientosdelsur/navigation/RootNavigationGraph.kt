@@ -17,26 +17,22 @@ import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
 import com.portafolio.vientosdelsur.feature.auth.navigation.authGraph
 import org.koin.compose.viewmodel.koinViewModel
 
-val LocalUser = compositionLocalOf<User?> { null }
-
 @Composable
 fun RootNavigationGraph(navHostController: NavHostController = rememberNavController()) {
     val appViewModel = koinViewModel<AppViewModel>()
     val user by appViewModel.user.collectAsStateWithLifecycle()
 
-    CompositionLocalProvider(LocalUser provides user) {
-        ObserveAsEvents(appViewModel.events) {
-            when (it) {
-                is AuthEvent.OnUserAuthenticated -> navHostController.navigateToTopLevelNav()
-                AuthEvent.OnUserLoggedOut -> navHostController.navigateToAuth()
-            }
+    ObserveAsEvents(appViewModel.events) {
+        when (it) {
+            is AuthEvent.OnUserAuthenticated -> navHostController.navigateToTopLevelNav()
+            AuthEvent.OnUserLoggedOut -> navHostController.navigateToAuth()
         }
+    }
 
-        NavHost(navController = navHostController, startDestination = AuthNavigation) {
-            authGraph(navHostController::navigateToTopLevelNav)
-            composable<TopLevelNavigation> {
-                TopLevelNavigation(navController = rememberNavController())
-            }
+    NavHost(navController = navHostController, startDestination = AuthNavigation) {
+        authGraph(navHostController::navigateToTopLevelNav)
+        composable<TopLevelNavigation> {
+            TopLevelNavigation(navController = rememberNavController())
         }
     }
 }
