@@ -12,7 +12,10 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 
-internal class FirebaseAuthService(private val firebaseAuth: FirebaseAuth, private val ioDispatcher: CoroutineDispatcher) : AuthService {
+internal class FirebaseAuthService(
+    private val firebaseAuth: FirebaseAuth,
+    private val ioDispatcher: CoroutineDispatcher
+) : AuthService {
     override suspend fun register(signUpRequest: SignUpRequest): EmptyResult<DataError> = withContext(ioDispatcher) {
         try {
             firebaseAuth.createUserWithEmailAndPassword(signUpRequest.email.email, signUpRequest.password)
@@ -32,4 +35,13 @@ internal class FirebaseAuthService(private val firebaseAuth: FirebaseAuth, priva
             Result.Error(DataError.Remote.UNKNOWN)
         }
     }
+
+    override suspend fun logout(): EmptyResult<DataError> =
+        try {
+            firebaseAuth.signOut()
+            Result.Success(Unit)
+        } catch (_: Exception) {
+            currentCoroutineContext().ensureActive()
+            Result.Error(DataError.Remote.UNKNOWN)
+        }
 }

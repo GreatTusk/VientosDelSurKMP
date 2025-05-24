@@ -5,11 +5,13 @@ package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
+import com.portafolio.vientosdelsur.domain.auth.AuthService
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.toRoomUi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -18,7 +20,8 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class HousekeeperForYouViewModel(
     private val roomRepository: RoomRepository,
-    private val employeeRepository: EmployeeRepository
+    private val employeeRepository: EmployeeRepository,
+    private val authService: AuthService
 ) : ViewModel() {
 
     private val _selectedDate =
@@ -38,4 +41,11 @@ internal class HousekeeperForYouViewModel(
             SharingStarted.WhileSubscribed(2.seconds),
             emptyList()
         )
+
+    fun onLogout() {
+        viewModelScope.launch {
+            authService.logout()
+        }
+    }
+
 }

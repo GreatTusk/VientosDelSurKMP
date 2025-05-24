@@ -7,5 +7,6 @@ import com.portafolio.vientosdelsur.domain.auth.signup.SignUpRequest
 
 interface AuthService {
     suspend fun register(signUpRequest: SignUpRequest): EmptyResult<DataError>
-    suspend fun signIn(signInRequest: SignInRequest) : EmptyResult<DataError>
+    suspend fun signIn(signInRequest: SignInRequest): EmptyResult<DataError>
+    suspend fun logout(): EmptyResult<DataError>
 }

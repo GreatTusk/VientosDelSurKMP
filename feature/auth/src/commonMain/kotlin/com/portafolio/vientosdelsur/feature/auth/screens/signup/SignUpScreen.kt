@@ -72,109 +72,120 @@ internal fun SignUpScreen(
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Column(
-            modifier = Modifier.padding(24.dp).imePadding(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.padding(horizontal = 24.dp).imePadding()
         ) {
-            Text(
-                text = stringResource(Res.string.sign_up),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-
-            OutlinedTextField(
-                value = email,
-                onValueChange = onEmailChange,
-                label = { Text(stringResource(Res.string.email)) },
-                leadingIcon = {
-                    Icon(
-                        Icons.Default.Email,
-                        contentDescription = stringResource(Res.string.email_content_description)
-                    )
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Next
-                ),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = onPasswordChange,
-                label = { Text(stringResource(Res.string.password)) },
-                leadingIcon = {
-                    Icon(
-                        Icons.Default.Lock,
-                        contentDescription = stringResource(Res.string.password_content_description)
-                    )
-                },
-                trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = stringResource(Res.string.toggle_password_visibility)
-                        )
-                    }
-                },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next
-                ),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = confirmPassword,
-                onValueChange = onConfirmPasswordChange,
-                label = { Text(stringResource(Res.string.confirm_password)) },
-                leadingIcon = {
-                    Icon(
-                        Icons.Default.Lock,
-                        contentDescription = stringResource(Res.string.confirm_password)
-                    )
-                },
-                trailingIcon = {
-                    IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
-                        Icon(
-                            if (confirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = stringResource(Res.string.toggle_confirm_password_visibility)
-                        )
-                    }
-                },
-                visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done
-                ),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Button(
-                onClick = onSignUp,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-                shape = RoundedCornerShape(8.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(stringResource(Res.string.create_account), modifier = Modifier.padding(vertical = 4.dp))
+                Text(
+                    text = stringResource(Res.string.sign_up),
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
+                )
+
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = onEmailChange,
+                    label = { Text(stringResource(Res.string.email)) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.Email,
+                            contentDescription = stringResource(Res.string.email_content_description)
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next
+                    ),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = onPasswordChange,
+                    label = { Text(stringResource(Res.string.password)) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.Lock,
+                            contentDescription = stringResource(Res.string.password_content_description)
+                        )
+                    },
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                contentDescription = stringResource(Res.string.toggle_password_visibility)
+                            )
+                        }
+                    },
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    ),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                OutlinedTextField(
+                    value = confirmPassword,
+                    onValueChange = onConfirmPasswordChange,
+                    label = { Text(stringResource(Res.string.confirm_password)) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.Lock,
+                            contentDescription = stringResource(Res.string.confirm_password)
+                        )
+                    },
+                    trailingIcon = {
+                        IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
+                            Icon(
+                                if (confirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                contentDescription = stringResource(Res.string.toggle_confirm_password_visibility)
+                            )
+                        }
+                    },
+                    visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                HorizontalDivider(modifier = Modifier.weight(1f))
-                Text("o", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                HorizontalDivider(modifier = Modifier.weight(1f))
-            }
+            Spacer(modifier = Modifier.height(28.dp))
 
-            OutlinedButton(
-                onClick = onSignInWithGoogle,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-                shape = RoundedCornerShape(8.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(stringResource(Res.string.sign_up_google), modifier = Modifier.padding(vertical = 4.dp))
+                Button(
+                    onClick = onSignUp,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(stringResource(Res.string.create_account), modifier = Modifier.padding(vertical = 4.dp))
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                    Text("o", modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                }
+
+                OutlinedButton(
+                    onClick = onSignInWithGoogle,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(stringResource(Res.string.sign_up_google), modifier = Modifier.padding(vertical = 4.dp))
+                }
             }
+
         }
     }
 }

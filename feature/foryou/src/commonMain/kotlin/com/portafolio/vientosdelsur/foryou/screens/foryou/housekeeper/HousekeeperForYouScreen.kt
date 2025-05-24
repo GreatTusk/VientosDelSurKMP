@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -43,11 +42,21 @@ internal fun HousekeeperForYouScreenRoot(
     employee: Employee
 ) {
     val uiState by housekeeperForYouViewModel.uiState.collectAsStateWithLifecycle()
-    HousekeeperForYouScreen(modifier = modifier, rooms = uiState, employee = employee)
+    HousekeeperForYouScreen(
+        modifier = modifier,
+        rooms = uiState,
+        employee = employee,
+        onSignOut = housekeeperForYouViewModel::onLogout
+    )
 }
 
 @Composable
-private fun HousekeeperForYouScreen(modifier: Modifier = Modifier, rooms: List<RoomStateUi>, employee: Employee?) {
+private fun HousekeeperForYouScreen(
+    modifier: Modifier = Modifier,
+    rooms: List<RoomStateUi>,
+    employee: Employee?,
+    onSignOut: () -> Unit
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var selectedIndex by remember { mutableIntStateOf(-1) }
 
@@ -77,7 +86,7 @@ private fun HousekeeperForYouScreen(modifier: Modifier = Modifier, rooms: List<R
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = onSignOut) {
                         Icon(
                             imageVector = Icons.Filled.Person,
                             contentDescription = "Localized description"
@@ -158,7 +167,8 @@ private fun RoomScreenPreview() {
         Surface {
             HousekeeperForYouScreen(
                 rooms = SampleRoomStates.sampleRoomStates.map { it.toRoomUi() },
-                employee = Employee(1, "Flow", "Gonzals", EmployeeRole.HOUSEKEEPER)
+                employee = Employee(1, "Flow", "Gonzals", EmployeeRole.HOUSEKEEPER),
+                onSignOut = {},
             )
         }
     }

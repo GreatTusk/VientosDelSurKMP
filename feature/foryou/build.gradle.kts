@@ -12,6 +12,7 @@ kotlin {
             implementation(projects.core.resource)
             implementation(projects.data.employee)
             implementation(projects.data.room)
+            implementation(projects.data.auth)
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.jetbrains.compose.navigation)
