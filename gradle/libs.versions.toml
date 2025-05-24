@@ -59,6 +59,9 @@ cameraX = "1.5.0-beta01"
 glance = "1.1.1"
 workRuntimeKtx = "2.10.1"
 androidxCoreSplashscreen = "1.0.1"
+credentialsPlayServicesAuth = "1.5.0"
+googleid = "1.1.1"
+playServicesAuth = "21.3.0"
 
 # Server
 ktor = "3.1.2"
@@ -163,6 +166,12 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 # Google ML Kit (Android)
 text-recognition-japanese = { module = "com.google.mlkit:text-recognition-japanese", version.ref = "textRecognitionJapanese" }
 mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
+
+# Credentials
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentialsPlayServicesAuth" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
 
 # Widgets (Android)
