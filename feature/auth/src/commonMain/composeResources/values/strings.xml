@@ -10,5 +10,8 @@
     <string name="confirm_password_content_description">Confirmar contraseña</string>
     <string name="toggle_confirm_password_visibility">Alternar visibilidad de la confirmación de contraseña</string>
     <string name="sign_up">Registrarse</string>
+    <string name="sign_in">Iniciar sesión</string>
     <string name="sign_up_google">Iniciar sesión con Google</string>
+    <string name="sign_up_apple">Iniciar sesión con Apple</string>
+    <string name="sign_up_microsoft">Iniciar sesión con Microsoft</string>
 </resources>

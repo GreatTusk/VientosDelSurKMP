@@ -21,8 +21,8 @@ internal class ForYouViewModel(
         Result.Success(
             Employee(
                 id = it.id.toIntOrNull() ?: 2387234,
-                firstName = userName[0],
-                lastName = userName[2],
+                firstName = "",
+                lastName = "",
                 role = EmployeeRole.HOUSEKEEPER
             )
         )

@@ -1,8 +1,6 @@
 package com.portafolio.vientosdelsur.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -12,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import com.f776.core.ui.components.ObserveAsEvents
 import com.portafolio.vientosdelsur.AppViewModel
 import com.portafolio.vientosdelsur.AuthEvent
-import com.portafolio.vientosdelsur.domain.auth.User
 import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
 import com.portafolio.vientosdelsur.feature.auth.navigation.authGraph
 import org.koin.compose.viewmodel.koinViewModel
