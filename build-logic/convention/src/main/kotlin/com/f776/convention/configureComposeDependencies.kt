@@ -15,17 +15,20 @@ internal fun Project.configureComposeDependencies(
         commonMain.dependencies {
             implementation(composeDeps.runtime)
             implementation(composeDeps.foundation)
-            implementation(composeDeps.material3AdaptiveNavigationSuite)
+            implementation(composeDeps.material3)
             implementation(composeDeps.ui)
             implementation(composeDeps.components.resources)
             implementation(composeDeps.components.uiToolingPreview)
-            implementation(composeDeps.material3)
+            implementation(composeDeps.material3AdaptiveNavigationSuite)
             implementation(composeDeps.materialIconsExtended)
-            implementation(composeDeps.uiTest)
             implementation(libs.findLibrary("androidx-lifecycle-viewmodel").get())
-            implementation(libs.findLibrary("ui-backhandler").get())
             implementation(libs.findLibrary("androidx-lifecycle-runtime-compose").get())
+            implementation(libs.findLibrary("ui-backhandler").get())
             implementation(libs.findLibrary("adaptive.layout").get())
+        }
+
+        commonTest.dependencies {
+            implementation(composeDeps.uiTest)
         }
 
         findByName("androidMain")?.dependencies {

@@ -98,7 +98,7 @@ internal fun AuthScreen(
     onConfirmPasswordChanged: (String) -> Unit,
 ) {
     val windowInfo = currentWindowAdaptiveInfo()
-    val isExpanded = windowInfo.windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.EXPANDED
+    val isExpanded = windowInfo.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
 
     Row {
         AuthScreenDetail(

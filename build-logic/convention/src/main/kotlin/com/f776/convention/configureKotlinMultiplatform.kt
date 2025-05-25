@@ -1,6 +1,7 @@
 package com.f776.convention
 
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal fun Project.configureSourceSets(
@@ -33,10 +34,15 @@ internal fun Project.configureCommonSourceSets(extension: KotlinMultiplatformExt
     }
 }
 
+private const val DATABASE_MODULE_IOS_NAME = "Database"
+
 internal fun Project.configureIosTargets(
     kotlinMultiplatformExtension: KotlinMultiplatformExtension
 ) {
-    val baseNameIos = path.split(":").drop(2).joinToString()
+    val baseNameIos = path.split(":")
+        .drop(2)
+        .joinToString()
+        .uppercaseFirstChar()
 
     listOf(
         kotlinMultiplatformExtension.iosX64(),
@@ -46,6 +52,9 @@ internal fun Project.configureIosTargets(
         iosTarget.binaries.framework {
             baseName = baseNameIos
             isStatic = true
+            if (baseNameIos == DATABASE_MODULE_IOS_NAME) {
+                linkerOpts.add("-lsqlite3")
+            }
         }
     }
 }
