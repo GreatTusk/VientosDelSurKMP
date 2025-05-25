@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="already_have_account_question">¿Ya tienes una cuenta?</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="confirm_password_content_description">Confirmar contraseña</string>
     <string name="create_account">Crear cuenta</string>
     <string name="email">Correo electrónico</string>
     <string name="email_content_description">Correo electrónico</string>
+    <string name="forgot_password_question">¿Olvidaste tu contraseña?</string>
+    <string name="no_account_question">¿No tienes cuenta?</string>
+    <string name="or_sign_in_with">o inicia sesión con</string>
+    <string name="or_sign_up_with">o regístrate con</string>
     <string name="password">Contraseña</string>
     <string name="password_content_description">Contraseña</string>
-    <string name="toggle_password_visibility">Alternar visibilidad de la contraseña</string>
-    <string name="confirm_password">Confirmar contraseña</string>
-    <string name="confirm_password_content_description">Confirmar contraseña</string>
-    <string name="toggle_confirm_password_visibility">Alternar visibilidad de la confirmación de contraseña</string>
-    <string name="sign_up">Registrarse</string>
+    <string name="register_now">Regístrate</string>
     <string name="sign_in">Iniciar sesión</string>
-    <string name="sign_up_google">Iniciar sesión con Google</string>
+    <string name="sign_in_apple">Iniciar sesión con Apple</string>
+    <string name="sign_in_google">Iniciar sesión con Google</string>
+    <string name="sign_in_microsoft">Iniciar sesión con Microsoft</string>
+    <string name="sign_in_now">Inicia sesión</string>
+    <string name="sign_up">Registrarse</string>
     <string name="sign_up_apple">Iniciar sesión con Apple</string>
+    <string name="sign_up_google">Iniciar sesión con Google</string>
     <string name="sign_up_microsoft">Iniciar sesión con Microsoft</string>
+    <string name="toggle_confirm_password_visibility">Alternar visibilidad de la confirmación de contraseña</string>
+    <string name="toggle_password_visibility">Alternar visibilidad de la contraseña</string>
 </resources>

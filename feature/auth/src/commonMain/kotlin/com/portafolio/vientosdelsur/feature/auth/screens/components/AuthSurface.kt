@@ -1,6 +1,6 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.components
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -42,6 +42,7 @@ internal fun AuthSurface(
     onSignUp: () -> Unit,
     onSignInGoogle: () -> Unit,
     onConfirmPasswordChanged: (String) -> Unit,
+    onForgotPassword: () -> Unit // Added for forgot password functionality
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
@@ -114,8 +115,8 @@ internal fun AuthSurface(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            AnimatedContent(showRegister) {
-                if (it) {
+            AnimatedContent(targetState = showRegister, modifier = Modifier.align(Alignment.End)) { isRegisterMode ->
+                if (isRegisterMode) {
                     OutlinedTextField(
                         value = confirmPassword,
                         onValueChange = onConfirmPasswordChanged,
@@ -123,7 +124,7 @@ internal fun AuthSurface(
                         leadingIcon = {
                             Icon(
                                 Icons.Default.Lock,
-                                contentDescription = stringResource(Res.string.confirm_password)
+                                contentDescription = stringResource(Res.string.confirm_password_content_description)
                             )
                         },
                         trailingIcon = {
@@ -139,23 +140,27 @@ internal fun AuthSurface(
                             keyboardType = KeyboardType.Password,
                             imeAction = ImeAction.Done
                         ),
+                        keyboardActions = KeyboardActions { onSignUp() },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
                 } else {
-                    TextButton(modifier = Modifier.align(Alignment.End), onClick = {}) {
-                        Text(text = "¿Olvidaste tu contraseña?")
+                    TextButton(onClick = onForgotPassword) {
+                        Text(text = stringResource(Res.string.forgot_password_question))
                     }
                 }
             }
 
 
-            Button(modifier = Modifier.fillMaxWidth(), onClick = onSignIn) {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = if (showRegister) onSignUp else onSignIn
+            ) {
                 Text(text = stringResource(if (showRegister) Res.string.sign_up else Res.string.sign_in))
             }
 
             Text(
-                text = if (showRegister) "o registrate con" else "o inicia sesión con",
+                text = stringResource(if (showRegister) Res.string.or_sign_up_with else Res.string.or_sign_in_with),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -167,25 +172,25 @@ internal fun AuthSurface(
                 ) {
                     Image(
                         imageVector = vectorResource(Res.drawable.google_icon),
-                        contentDescription = stringResource(Res.string.sign_up_google)
+                        contentDescription = stringResource(if (showRegister) Res.string.sign_up_google else Res.string.sign_in_google)
                     )
                 }
                 OutlinedIconButton(
-                    onClick = onSignInGoogle,
+                    onClick = { /* TODO: Implement Microsoft Sign In/Up */ },
                     border = outlinedIconBorder
                 ) {
                     Image(
                         imageVector = vectorResource(Res.drawable.microsoft_icon),
-                        contentDescription = stringResource(Res.string.sign_up_microsoft)
+                        contentDescription = stringResource(if (showRegister) Res.string.sign_up_microsoft else Res.string.sign_in_microsoft)
                     )
                 }
                 OutlinedIconButton(
-                    onClick = onSignInGoogle,
+                    onClick = { /* TODO: Implement Apple Sign In/Up */ },
                     border = outlinedIconBorder
                 ) {
                     Image(
                         imageVector = vectorResource(Res.drawable.apple_icon),
-                        contentDescription = stringResource(Res.string.sign_up_apple)
+                        contentDescription = stringResource(if (showRegister) Res.string.sign_up_apple else Res.string.sign_in_apple)
                     )
                 }
             }
@@ -200,13 +205,13 @@ internal fun AuthSurface(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = if (showRegister) "¿Ya tienes una cuenta?" else "¿No tienes cuenta?",
+                    text = stringResource(if (showRegister) Res.string.already_have_account_question else Res.string.no_account_question),
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 TextButton(onClick = { showRegister = !showRegister }) {
                     Text(
-                        text = if (showRegister) "Iniciar sesión" else "Registrarse",
+                        text = stringResource(if (showRegister) Res.string.sign_in_now else Res.string.register_now),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -220,15 +225,16 @@ internal fun AuthSurface(
 private fun AuthSurfacePreview() {
     VientosDelSurTheme {
         AuthSurface(
-            email = "",
-            password = "",
+            email = "test@example.com",
+            password = "password",
+            confirmPassword = "password",
             onEmailChanged = {},
             onPasswordChanged = {},
             onSignIn = {},
+            onSignUp = {},
             onSignInGoogle = {},
-            confirmPassword = "",
             onConfirmPasswordChanged = {},
-            onSignUp = {}
+            onForgotPassword = {}
         )
     }
 }

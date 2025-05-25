@@ -3,9 +3,11 @@ package com.portafolio.vientosdelsur.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.f776.core.ui.components.ObserveAsEvents
 import com.portafolio.vientosdelsur.AppViewModel
@@ -18,11 +20,16 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RootNavigationGraph(navHostController: NavHostController = rememberNavController()) {
     val appViewModel = koinViewModel<AppViewModel>()
     val user by appViewModel.user.collectAsStateWithLifecycle()
+    val backstack by navHostController.currentBackStackEntryAsState()
 
     ObserveAsEvents(appViewModel.events) {
         when (it) {
             is AuthEvent.OnUserAuthenticated -> navHostController.navigateToTopLevelNav()
-            AuthEvent.OnUserLoggedOut -> navHostController.navigateToAuth()
+            AuthEvent.OnUserLoggedOut -> {
+                if (backstack?.destination?.hasRoute<TopLevelNavigation>() == true) {
+                    navHostController.navigateToAuth()
+                }
+            }
         }
     }
 
