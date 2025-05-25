@@ -32,7 +32,9 @@ internal fun AuthScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: () 
         onPasswordChanged = viewModel::onPasswordChanged,
         onConfirmPasswordChanged = viewModel::onConfirmPasswordChanged,
         onSignInGoogle = viewModel::onSignInWithGoogle,
-        onSignIn = viewModel::onSignIn
+        onSignIn = viewModel::onSignIn,
+        authType = viewModel.authType,
+        onAuthTypeChanged = viewModel::onAuthTypeChanged
     )
 }
 
@@ -42,12 +44,14 @@ internal fun AuthScreen(
     email: String,
     password: String,
     confirmPassword: String,
+    authType: AuthScreenType,
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onSignIn: () -> Unit,
     onSignUp: () -> Unit,
     onSignInGoogle: () -> Unit,
     onConfirmPasswordChanged: (String) -> Unit,
+    onAuthTypeChanged: () -> Unit
 ) {
     val windowInfo = currentWindowAdaptiveInfo()
     val isExpanded = windowInfo.windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
@@ -63,7 +67,9 @@ internal fun AuthScreen(
             onPasswordChanged = onPasswordChanged,
             onConfirmPasswordChanged = onConfirmPasswordChanged,
             onSignInGoogle = onSignInGoogle,
-            onSignIn = onSignIn
+            onSignIn = onSignIn,
+            authType = authType,
+            onAuthTypeChanged = onAuthTypeChanged
         )
         if (isExpanded) {
             Box(modifier = Modifier.weight(1f).fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -85,12 +91,14 @@ private fun AuthScreenDetail(
     email: String,
     password: String,
     confirmPassword: String,
+    authType: AuthScreenType,
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onSignIn: () -> Unit,
     onSignUp: () -> Unit,
     onSignInGoogle: () -> Unit,
     onConfirmPasswordChanged: (String) -> Unit,
+    onAuthTypeChanged: () -> Unit
 ) {
     Surface(modifier = modifier.statusBarsPadding()) {
         Column {
@@ -113,7 +121,9 @@ private fun AuthScreenDetail(
                 onConfirmPasswordChanged = onConfirmPasswordChanged,
                 onSignInGoogle = onSignInGoogle,
                 onSignIn = onSignIn,
-                onForgotPassword = {}
+                onForgotPassword = {},
+                authType = authType,
+                onAuthTypeChanged = onAuthTypeChanged
             )
         }
     }
@@ -134,7 +144,9 @@ private fun SignUpScreenPreview(modifier: Modifier = Modifier) {
                 onPasswordChanged = {},
                 onSignIn = {},
                 onSignInGoogle = {},
-                onConfirmPasswordChanged = {}
+                onConfirmPasswordChanged = {},
+                authType = AuthScreenType.SIGN_UP,
+                onAuthTypeChanged = {}
             )
         }
     }

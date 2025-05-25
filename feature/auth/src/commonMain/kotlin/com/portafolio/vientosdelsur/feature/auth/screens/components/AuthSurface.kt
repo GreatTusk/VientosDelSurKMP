@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.portafolio.vientosdelsur.feature.auth.screens.AuthScreenType
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -35,6 +35,7 @@ internal fun AuthSurface(
     modifier: Modifier = Modifier,
     email: String,
     password: String,
+    authType: AuthScreenType,
     confirmPassword: String,
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
@@ -42,12 +43,16 @@ internal fun AuthSurface(
     onSignUp: () -> Unit,
     onSignInGoogle: () -> Unit,
     onConfirmPasswordChanged: (String) -> Unit,
-    onForgotPassword: () -> Unit // Added for forgot password functionality
+    onForgotPassword: () -> Unit,
+    onAuthTypeChanged: () -> Unit
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
 
-    var showRegister by rememberSaveable { mutableStateOf(false) }
+    val showRegister = remember(authType) {
+        authType == AuthScreenType.SIGN_UP
+    }
+
     val borderColor = MaterialTheme.colorScheme.outline
     val outlinedIconBorder = remember { BorderStroke(1.dp, borderColor) }
 
@@ -150,7 +155,7 @@ internal fun AuthSurface(
                     }
                 }
             }
-            
+
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = if (showRegister) onSignUp else onSignIn
@@ -180,7 +185,7 @@ internal fun AuthSurface(
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                TextButton(onClick = { showRegister = !showRegister }) {
+                TextButton(onClick = onAuthTypeChanged) {
                     Text(
                         text = stringResource(if (showRegister) Res.string.sign_in_now else Res.string.register_now),
                         style = MaterialTheme.typography.bodyMedium
@@ -230,7 +235,7 @@ private fun OAuthButtonRow(
 
 @Preview
 @Composable
-private fun AuthSurfacePreview() {
+private fun SignInSurfacePreview() {
     VientosDelSurTheme {
         AuthSurface(
             email = "test@example.com",
@@ -242,7 +247,30 @@ private fun AuthSurfacePreview() {
             onSignUp = {},
             onSignInGoogle = {},
             onConfirmPasswordChanged = {},
-            onForgotPassword = {}
+            onForgotPassword = {},
+            onAuthTypeChanged = {},
+            authType = AuthScreenType.SIGN_IN
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SignUnSurfacePreview() {
+    VientosDelSurTheme {
+        AuthSurface(
+            email = "test@example.com",
+            password = "password",
+            confirmPassword = "password",
+            onEmailChanged = {},
+            onPasswordChanged = {},
+            onSignIn = {},
+            onSignUp = {},
+            onSignInGoogle = {},
+            onConfirmPasswordChanged = {},
+            onForgotPassword = {},
+            onAuthTypeChanged = {},
+            authType = AuthScreenType.SIGN_UP
         )
     }
 }

@@ -24,6 +24,8 @@ internal class AuthViewModel(
         private set
     var confirmPassword by mutableStateOf("")
         private set
+    var authType by mutableStateOf(AuthScreenType.SIGN_IN)
+        private set
 
     fun onEmailChanged(text: String) {
         email = text
@@ -35,6 +37,17 @@ internal class AuthViewModel(
 
     fun onConfirmPasswordChanged(text: String) {
         confirmPassword = text
+    }
+
+    fun onAuthTypeChanged() {
+        email = ""
+        password = ""
+        confirmPassword = ""
+
+        authType = when (authType) {
+            AuthScreenType.SIGN_IN -> AuthScreenType.SIGN_UP
+            AuthScreenType.SIGN_UP -> AuthScreenType.SIGN_IN
+        }
     }
 
     fun onSignIn() {
