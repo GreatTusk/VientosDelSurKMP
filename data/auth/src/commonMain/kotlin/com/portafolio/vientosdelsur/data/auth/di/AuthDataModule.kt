@@ -4,6 +4,7 @@ import com.portafolio.vientosdelsur.data.auth.network.FirebaseAuthService
 import com.portafolio.vientosdelsur.data.auth.network.FirebaseUserRepository
 import com.portafolio.vientosdelsur.domain.auth.AuthService
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
+import com.portafolio.vientosdelsur.domain.auth.signin.SignInUseCase
 import com.portafolio.vientosdelsur.domain.auth.signup.SignUpUseCase
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -18,6 +19,7 @@ val AuthDataModule = module {
     single { FirebaseAuthService(get(), get(named("ioDispatcher"))) }.bind<AuthService>()
     single { FirebaseUserRepository(get(), get(named("ioDispatcher"))) }.bind<UserRepository>()
     factory { SignUpUseCase(get(), get(named("defaultDispatcher"))) }
+    factory { SignInUseCase(get(), get(named("defaultDispatcher"))) }
 }
 
 internal expect val PlatformModule: Module

@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.domain.auth
+package com.portafolio.vientosdelsur.domain.auth.oauth
 
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Error

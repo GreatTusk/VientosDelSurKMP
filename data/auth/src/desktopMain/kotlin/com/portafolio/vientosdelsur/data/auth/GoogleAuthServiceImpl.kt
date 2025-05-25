@@ -2,8 +2,8 @@ package com.portafolio.vientosdelsur.data.auth
 
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthError
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthService
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthError
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthService
 
 internal class GoogleAuthServiceImpl : GoogleAuthService {
     override suspend fun login(): EmptyResult<GoogleAuthError> {

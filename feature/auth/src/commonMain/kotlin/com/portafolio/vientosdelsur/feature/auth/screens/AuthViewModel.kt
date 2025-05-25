@@ -6,14 +6,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.onError
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthError
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthService
-import com.portafolio.vientosdelsur.domain.auth.signup.SignUpError
+import com.portafolio.vientosdelsur.domain.auth.AuthError
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthError
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthService
+import com.portafolio.vientosdelsur.domain.auth.signin.SignInUseCase
 import com.portafolio.vientosdelsur.domain.auth.signup.SignUpUseCase
 import kotlinx.coroutines.launch
 
 internal class AuthViewModel(
     private val signUpUseCase: SignUpUseCase,
+    private val signInUseCase: SignInUseCase,
     private val googleAuthService: GoogleAuthService
 ) : ViewModel() {
     var email by mutableStateOf("")
@@ -35,24 +37,37 @@ internal class AuthViewModel(
         confirmPassword = text
     }
 
-    fun onSignUp() {
+    fun onSignIn() {
         viewModelScope.launch {
-            signUpUseCase.invoke(email, password, confirmPassword)
+            signInUseCase(email, password)
                 .onError {
                     when (it) {
-                        SignUpError.INVALID_EMAIL -> println("Invalid email address.")
-                        SignUpError.PASSWORD_MISMATCH -> println("Passwords do not match.")
-                        SignUpError.REMOTE -> println("Remote error occurred during sign up.")
+                        AuthError.INVALID_EMAIL -> println("Invalid email address.")
+                        AuthError.PASSWORD_MISMATCH -> println("Passwords do not match.")
+                        AuthError.REMOTE -> println("Remote error occurred during sign up.")
                     }
                 }
         }
     }
 
-    fun signInWithGoogle() {
+    fun onSignUp() {
+        viewModelScope.launch {
+            signUpUseCase(email, password, confirmPassword)
+                .onError {
+                    when (it) {
+                        AuthError.INVALID_EMAIL -> println("Invalid email address.")
+                        AuthError.PASSWORD_MISMATCH -> println("Passwords do not match.")
+                        AuthError.REMOTE -> println("Remote error occurred during sign up.")
+                    }
+                }
+        }
+    }
+
+    fun onSignInWithGoogle() {
         viewModelScope.launch {
             googleAuthService.login()
                 .onError {
-                    when(it) {
+                    when (it) {
                         GoogleAuthError.NO_ACCOUNT_ON_DEVICE -> println("Your device has no google accounts")
                         GoogleAuthError.REMOTE -> println("Remote error occurred during sign in with google.")
                     }

@@ -2,7 +2,7 @@ package com.portafolio.vientosdelsur.data.auth.di
 
 import androidx.credentials.CredentialManager
 import com.portafolio.vientosdelsur.data.auth.GoogleAuthServiceImpl
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthService
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthService
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module

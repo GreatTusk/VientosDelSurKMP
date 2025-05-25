@@ -2,8 +2,8 @@ package com.portafolio.vientosdelsur.data.auth
 
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthError
-import com.portafolio.vientosdelsur.domain.auth.GoogleAuthService
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthError
+import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthService
 import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential

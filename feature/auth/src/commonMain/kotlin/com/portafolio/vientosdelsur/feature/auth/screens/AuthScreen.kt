@@ -31,8 +31,8 @@ internal fun AuthScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: () 
         onEmailChanged = viewModel::onEmailChanged,
         onPasswordChanged = viewModel::onPasswordChanged,
         onConfirmPasswordChanged = viewModel::onConfirmPasswordChanged,
-        onSignInGoogle = viewModel::signInWithGoogle,
-        onSignIn = {}
+        onSignInGoogle = viewModel::onSignInWithGoogle,
+        onSignIn = viewModel::onSignIn
     )
 }
 

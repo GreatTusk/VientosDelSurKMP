@@ -150,8 +150,7 @@ internal fun AuthSurface(
                     }
                 }
             }
-
-
+            
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = if (showRegister) onSignUp else onSignIn
@@ -165,35 +164,7 @@ internal fun AuthSurface(
                 color = MaterialTheme.colorScheme.secondary
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                OutlinedIconButton(
-                    onClick = onSignInGoogle,
-                    border = outlinedIconBorder
-                ) {
-                    Image(
-                        imageVector = vectorResource(Res.drawable.google_icon),
-                        contentDescription = stringResource(if (showRegister) Res.string.sign_up_google else Res.string.sign_in_google)
-                    )
-                }
-                OutlinedIconButton(
-                    onClick = { /* TODO: Implement Microsoft Sign In/Up */ },
-                    border = outlinedIconBorder
-                ) {
-                    Image(
-                        imageVector = vectorResource(Res.drawable.microsoft_icon),
-                        contentDescription = stringResource(if (showRegister) Res.string.sign_up_microsoft else Res.string.sign_in_microsoft)
-                    )
-                }
-                OutlinedIconButton(
-                    onClick = { /* TODO: Implement Apple Sign In/Up */ },
-                    border = outlinedIconBorder
-                ) {
-                    Image(
-                        imageVector = vectorResource(Res.drawable.apple_icon),
-                        contentDescription = stringResource(if (showRegister) Res.string.sign_up_apple else Res.string.sign_in_apple)
-                    )
-                }
-            }
+            OAuthButtonRow(onSignInGoogle, outlinedIconBorder, showRegister)
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -216,6 +187,43 @@ internal fun AuthSurface(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun OAuthButtonRow(
+    onSignInGoogle: () -> Unit,
+    outlinedIconBorder: BorderStroke,
+    showRegister: Boolean
+) {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        OutlinedIconButton(
+            onClick = onSignInGoogle,
+            border = outlinedIconBorder
+        ) {
+            Image(
+                imageVector = vectorResource(Res.drawable.google_icon),
+                contentDescription = stringResource(if (showRegister) Res.string.sign_up_google else Res.string.sign_in_google)
+            )
+        }
+        OutlinedIconButton(
+            onClick = { /* TODO: Implement Microsoft Sign In/Up */ },
+            border = outlinedIconBorder
+        ) {
+            Image(
+                imageVector = vectorResource(Res.drawable.microsoft_icon),
+                contentDescription = stringResource(if (showRegister) Res.string.sign_up_microsoft else Res.string.sign_in_microsoft)
+            )
+        }
+        OutlinedIconButton(
+            onClick = { /* TODO: Implement Apple Sign In/Up */ },
+            border = outlinedIconBorder
+        ) {
+            Image(
+                imageVector = vectorResource(Res.drawable.apple_icon),
+                contentDescription = stringResource(if (showRegister) Res.string.sign_up_apple else Res.string.sign_in_apple)
+            )
         }
     }
 }
