@@ -1,15 +1,41 @@
-INSERT INTO employee (first_name, last_name, email, phone_number, hire_date, day_off, occupation)
-VALUES
-    ('Alice', 'Smith', 'alice.smith@example.com', '123456789', '2022-01-10', 1, 0),
-    ('Bob', 'Johnson', 'bob.johnson@example.com', '987654321', '2021-03-15', 2, 0),
-    ('Carlos', 'Mendez', 'carlos.mendez@example.com', '555123456', '2023-06-20', 6, 0),
-    ('Diana', 'Rodriguez', 'diana.rodriguez@example.com', '555987654', '2022-05-12', 3, 0),
-    ('Elena', 'Garcia', 'elena.garcia@example.com', '555123987', '2021-11-08', 4, 0),
-    ('Frank', 'Williams', 'frank.williams@example.com', '555456789', '2023-02-15', 5, 0),
-    ('Grace', 'Taylor', 'grace.taylor@example.com', '555234567', '2022-07-19', 1, 0),
-    ('Henry', 'Martinez', 'henry.martinez@example.com', '555876543', '2021-09-03', 2, 0),
-    ('Isabel', 'Lopez', 'isabel.lopez@example.com', '555345678', '2023-01-25', 4, 0),
-    ('Jack', 'Hernandez', 'jack.hernandez@example.com', '555765432', '2022-04-30', 5, 0);
+INSERT INTO "user" (
+  id,
+  email,
+  photo_url,
+  phone_number,
+  registration_completed,
+  created_at,
+  updated_at
+) VALUES
+  ('c56a4180-65aa-42ec-a945-5fd21dec0538', 'alice.smith@example.com', NULL, '900000001', FALSE, '2022-01-10 08:00:00', '2022-01-10 08:00:00'),
+  ('d290f1ee-6c54-4b01-90e6-d701748f0852', 'bob.johnson@example.com', NULL, '900000002', FALSE, '2021-03-15 09:00:00', '2021-03-15 09:00:00'),
+  ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'carlos.mendez@example.com', NULL, '900000003', FALSE, '2023-06-20 10:00:00', '2023-06-20 10:00:00'),
+  ('9a6b7f20-a3d3-4e17-8fae-1f2d3c4b5a67', 'diana.rodriguez@example.com', NULL, '900000004', FALSE, '2022-05-12 11:00:00', '2022-05-12 11:00:00'),
+  ('3b8c9d40-2e1f-4a5b-9c0d-6e7f8a9b0c12', 'elena.garcia@example.com', NULL, '900000005', FALSE, '2021-11-08 12:00:00', '2021-11-08 12:00:00'),
+  ('7e8f9a01-b2c3-4d5e-6f7a-8b9c0d1e2f34', 'frank.williams@example.com', NULL, '900000006', FALSE, '2023-02-15 13:00:00', '2023-02-15 13:00:00'),
+  ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c67', 'grace.taylor@example.com', NULL, '900000007', FALSE, '2022-07-19 14:00:00', '2022-07-19 14:00:00'),
+  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d78', 'henry.martinez@example.com', NULL, '900000008', FALSE, '2021-09-03 15:00:00', '2021-09-03 15:00:00'),
+  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e89', 'isabel.lopez@example.com', NULL, '900000009', FALSE, '2023-01-25 16:00:00', '2023-01-25 16:00:00'),
+  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f90', 'jack.hernandez@example.com', NULL, '900000010', FALSE, '2022-04-30 17:00:00', '2022-04-30 17:00:00');
+
+INSERT INTO employee (
+  first_name,
+  last_name,
+  hire_date,
+  day_off,
+  occupation,
+  user_id
+) VALUES
+  ('Alice', 'Smith', '2022-01-10', 1, 0, 'c56a4180-65aa-42ec-a945-5fd21dec0538'),
+  ('Bob', 'Johnson', '2021-03-15', 2, 0, 'd290f1ee-6c54-4b01-90e6-d701748f0852'),
+  ('Carlos', 'Mendez', '2023-06-20', 6, 0, 'f47ac10b-58cc-4372-a567-0e02b2c3d479'),
+  ('Diana', 'Rodriguez', '2022-05-12', 3, 0, '9a6b7f20-a3d3-4e17-8fae-1f2d3c4b5a67'),
+  ('Elena', 'Garcia', '2021-11-08', 4, 0, '3b8c9d40-2e1f-4a5b-9c0d-6e7f8a9b0c12'),
+  ('Frank', 'Williams', '2023-02-15', 5, 0, '7e8f9a01-b2c3-4d5e-6f7a-8b9c0d1e2f34'),
+  ('Grace', 'Taylor', '2022-07-19', 1, 0, '1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c67'),
+  ('Henry', 'Martinez', '2021-09-03', 2, 0, '2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d78'),
+  ('Isabel', 'Lopez', '2023-01-25', 4, 0, '3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e89'),
+  ('Jack', 'Hernandez', '2022-04-30', 5, 0, '4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f90');
 
 INSERT INTO housekeeper (employee_id, housekeeper_role, preferred_floor)
 VALUES

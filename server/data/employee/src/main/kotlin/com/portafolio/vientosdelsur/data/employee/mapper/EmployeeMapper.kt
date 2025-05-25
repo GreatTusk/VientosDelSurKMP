@@ -13,7 +13,7 @@ fun EmployeeEntity.toEmployee(): Employee {
         id = id.value,
         firstName = firstName,
         lastName = lastName,
-        phoneNumber = phoneNumber,
+        phoneNumber = user.phoneNumber,
         dayOff = DayOfWeek(dayOff ?: 7),
         hireDate = hireDate.date,
     )

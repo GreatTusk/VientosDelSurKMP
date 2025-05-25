@@ -11,6 +11,7 @@ import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable.roomType
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.checkOutWorkUnit
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.roomType
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable.workUnit
+import com.portafolio.vientosdelsur.core.database.entity.user.UserTable
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import org.jetbrains.exposed.sql.batchInsert
@@ -20,6 +21,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object SchemaCreation {
     fun initializeDatabase() = transaction {
         MigrationUtils.statementsRequiredForDatabaseMigration(
+            UserTable,
             RoomTypeTable,
             RoomTable,
             EmployeeTable,

@@ -10,7 +10,6 @@ class VientosDelSurApplication: Application() {
 
         initKoin {
             androidContext(this@VientosDelSurApplication)
-//            workManagerFactory()
         }
     }
 }
