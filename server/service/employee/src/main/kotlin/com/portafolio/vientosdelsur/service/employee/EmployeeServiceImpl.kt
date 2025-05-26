@@ -2,9 +2,10 @@ package com.portafolio.vientosdelsur.service.employee
 
 import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepository
+import com.portafolio.vientosdelsur.service.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
-import com.portafolio.vientosdelsur.shared.dto.employee.CreateEmployeeDto
+import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 
 internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepository) : EmployeeService {
     override suspend fun getAllEmployees(): Result<EmployeeListResponse, DataError.Remote> {
@@ -28,7 +29,7 @@ internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepos
             }
     }
 
-    override suspend fun createEmployee(employeeDto: CreateEmployeeDto): EmptyResult<DataError.Remote> {
-        TODO("Not yet implemented")
+    override suspend fun createEmployee(employeeDto: EmployeeDto.Create): EmptyResult<DataError.Remote> {
+        return employeeRepository.createEmployee(employeeDto.toEmployee())
     }
 }

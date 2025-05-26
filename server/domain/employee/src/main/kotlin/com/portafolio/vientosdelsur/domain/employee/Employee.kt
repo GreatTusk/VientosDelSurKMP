@@ -32,7 +32,7 @@ sealed interface Employee {
 }
 
 data class BaseEmployee(
-    val id: Int,
+    val id: Int? = null,
     val firstName: String,
     val lastName: String,
     val phoneNumber: String,

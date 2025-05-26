@@ -12,8 +12,9 @@ internal data class WorkShiftRow(
 )
 
 internal fun Map.Entry<EmployeeDaysOff, List<ShiftDate>>.toWorkShiftRow() = value.map { shiftDate ->
+    val id = checkNotNull(key.employee.data.id) { "Employee must have id" }
     WorkShiftRow(
-        employeeId = key.employee.data.id,
+        employeeId = id,
         date = shiftDate.date,
         shift = shiftDate.shift.toEntityShift()
     )

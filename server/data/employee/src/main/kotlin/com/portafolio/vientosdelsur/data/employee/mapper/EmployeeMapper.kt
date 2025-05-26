@@ -9,7 +9,7 @@ import com.portafolio.vientosdelsur.domain.employee.Floor
 import com.portafolio.vientosdelsur.domain.employee.User
 import kotlinx.datetime.DayOfWeek
 
-internal fun EmployeeEntity.toEmployee(): Employee {
+fun EmployeeEntity.toEmployee(): Employee {
     val baseEmployee = BaseEmployee(
         id = id.value,
         firstName = firstName,
