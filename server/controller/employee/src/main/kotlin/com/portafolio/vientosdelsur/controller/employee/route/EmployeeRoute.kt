@@ -4,9 +4,11 @@ import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.service.employee.EmployeeService
+import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
@@ -25,6 +27,24 @@ fun Application.employeeRoute() {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
                     }.onEmpty {
                         call.respond(HttpStatusCode.NotFound, "Nothing")
+                    }
+            }
+
+            post {
+                val dto = try {
+                    call.receive<EmployeeDto.Create>()
+                } catch (_: ContentTransformationException) {
+                    return@post call.respond(HttpStatusCode.BadRequest)
+                } catch (_: Exception) {
+                    return@post call.respond(HttpStatusCode.InternalServerError)
+                }
+
+                employeeService.createEmployee(dto)
+                    .onSuccess {
+                        call.respond(HttpStatusCode.Created)
+                    }
+                    .onError {
+                        call.respond(HttpStatusCode.InternalServerError)
                     }
             }
         }
