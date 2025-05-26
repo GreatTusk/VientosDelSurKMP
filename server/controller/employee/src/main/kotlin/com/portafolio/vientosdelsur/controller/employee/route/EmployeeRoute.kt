@@ -29,7 +29,7 @@ fun Application.employeeRoute() {
                     }.onError {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
                     }.onEmpty {
-                        call.respond(HttpStatusCode.NotFound, "Nothing")
+                        call.respond(HttpStatusCode.NotFound)
                     }
             }
 

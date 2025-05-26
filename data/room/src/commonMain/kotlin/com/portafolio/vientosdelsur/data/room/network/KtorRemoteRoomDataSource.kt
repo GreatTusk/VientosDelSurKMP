@@ -12,7 +12,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.datetime.LocalDate
 
-internal class KtorRemoteRoomDatasource(private val httpClient: HttpClient) : RemoteRoomDatasource {
+internal class KtorRemoteRoomDataSource(private val httpClient: HttpClient) : RemoteRoomDataSource {
     override suspend fun getAllRooms(): Result<List<RoomDto>, DataError.Remote> =
         safeCall<BaseResponseDto<List<RoomDto>>> {
             httpClient.get("${BuildConfig.BASE_URL}/room")

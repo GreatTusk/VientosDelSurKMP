@@ -5,13 +5,13 @@ import com.f776.core.common.Result
 import com.f776.core.common.flatMap
 import com.portafolio.vientosdelsur.data.room.mapper.toRoom
 import com.portafolio.vientosdelsur.data.room.mapper.toRoomState
-import com.portafolio.vientosdelsur.data.room.network.RemoteRoomDatasource
+import com.portafolio.vientosdelsur.data.room.network.RemoteRoomDataSource
 import com.portafolio.vientosdelsur.domain.room.Room
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.domain.room.RoomState
 import kotlinx.datetime.LocalDate
 
-internal class RoomRepositoryImpl(private val remoteRoomDatasource: RemoteRoomDatasource) : RoomRepository {
+internal class RoomRepositoryImpl(private val remoteRoomDatasource: RemoteRoomDataSource) : RoomRepository {
     override suspend fun getAllRooms(): Result<List<Room>, DataError.Remote> {
         return remoteRoomDatasource.getAllRooms().flatMap { it.toRoom() }
     }

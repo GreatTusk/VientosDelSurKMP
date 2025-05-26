@@ -2,19 +2,18 @@ package com.portafolio.vientosdelsur.data.employee.repository
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
+import com.f776.core.common.map
+import com.portafolio.vientosdelsur.data.employee.network.RemoteEmployeeDataSource
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
-import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
 
-internal class EmployeeRepositoryImpl : EmployeeRepository {
-    override suspend fun getEmployee(): Result<Employee, DataError> {
-        return Result.Success(
-            Employee(
-                id = 1,
-                firstName = "Flor",
-                lastName = "Muñoz",
-                role = EmployeeRole.HOUSEKEEPER
-            )
-        )
+internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: RemoteEmployeeDataSource) : EmployeeRepository {
+    override suspend fun getEmployee(userId: String): Result<Employee, DataError> {
+//        return remoteEmployeeDataSource.getEmployeeByUserId(userId)
+        TODO()
+    }
+
+    override suspend fun getEmployees(): Result<List<Employee>, DataError> {
+        TODO("Not yet implemented")
     }
 }

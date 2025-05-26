@@ -39,7 +39,7 @@ internal fun AuthScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: () 
 }
 
 @Composable
-internal fun AuthScreen(
+private fun AuthScreen(
     modifier: Modifier = Modifier,
     email: String,
     password: String,
