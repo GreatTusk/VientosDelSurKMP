@@ -13,7 +13,7 @@ object UserTable : IdTable<String>("user") {
     val email = varchar("email", 100)
     val photoUrl = varchar("photo_url", 255).nullable()
     val phoneNumber = varchar("phone_number", 9)
-    val registrationCompleted = bool("registration_completed").default(false)
+    val isEnabled = bool("registration_completed").default(false)
     val createdAt = datetime("created_at")
     val updatedAt = datetime("updated_at")
 
@@ -26,7 +26,7 @@ class UserEntity(id: EntityID<String>) : Entity<String>(id) {
     var email by UserTable.email
     var photoUrl by UserTable.photoUrl
     var phoneNumber by UserTable.phoneNumber
-    var registrationCompleted by UserTable.registrationCompleted
+    var isEnabled by UserTable.isEnabled
     var createdAt by UserTable.createdAt
     var updatedAt by UserTable.updatedAt
 

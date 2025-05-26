@@ -1,5 +1,6 @@
-package com.portafolio.vientosdelsur.shared.dto
+package com.portafolio.vientosdelsur.shared.dto.room
 
+import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.Serializable

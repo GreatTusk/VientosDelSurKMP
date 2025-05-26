@@ -3,10 +3,10 @@ package com.portafolio.vientosdelsur.service.housekeeping.mapper
 import com.portafolio.vientosdelsur.domain.room.model.Room
 import com.portafolio.vientosdelsur.domain.room.model.RoomCleaningStatus
 import com.portafolio.vientosdelsur.domain.room.model.RoomState
-import com.portafolio.vientosdelsur.shared.dto.RoomCleaningStatusDto
-import com.portafolio.vientosdelsur.shared.dto.RoomDto
-import com.portafolio.vientosdelsur.shared.dto.RoomStateDto
-import com.portafolio.vientosdelsur.shared.dto.RoomStatusDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomCleaningStatusDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomStateDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomStatusDto
 
 internal fun Room.toRoomDto() = RoomDto(
     id = id,

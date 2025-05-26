@@ -1,8 +1,8 @@
 package com.portafolio.vientosdelsur.service.employee.mapper
 
 import com.portafolio.vientosdelsur.domain.employee.Employee
-import com.portafolio.vientosdelsur.shared.dto.EmployeeDto
-import com.portafolio.vientosdelsur.shared.dto.RoleDataDto
+import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
+import com.portafolio.vientosdelsur.shared.dto.employee.RoleDataDto
 
 fun Employee.toEmployeeDto() = EmployeeDto(
     id = data.id,

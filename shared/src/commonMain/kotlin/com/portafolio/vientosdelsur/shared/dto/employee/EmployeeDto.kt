@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.shared.dto
+package com.portafolio.vientosdelsur.shared.dto.employee
 
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate

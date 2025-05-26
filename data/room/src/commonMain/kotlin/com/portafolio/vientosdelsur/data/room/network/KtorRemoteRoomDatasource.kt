@@ -6,8 +6,8 @@ import com.f776.core.common.map
 import com.f776.core.network.safeCall
 import com.portafolio.vientosdelsur.network.BuildConfig
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
-import com.portafolio.vientosdelsur.shared.dto.RoomDto
-import com.portafolio.vientosdelsur.shared.dto.RoomStateDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomStateDto
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.datetime.LocalDate

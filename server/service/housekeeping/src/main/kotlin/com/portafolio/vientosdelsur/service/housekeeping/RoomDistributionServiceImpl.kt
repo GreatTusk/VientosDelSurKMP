@@ -6,7 +6,7 @@ import com.f776.core.common.map
 import com.portafolio.vientosdelsur.domain.housekeeping.HousekeeperShiftRepository
 import com.portafolio.vientosdelsur.domain.housekeeping.usecase.DistributeRoomsUseCase
 import com.portafolio.vientosdelsur.service.housekeeping.mapper.toRoomDistributionDto
-import com.portafolio.vientosdelsur.shared.dto.MonthlyRoomDistributionDto
+import com.portafolio.vientosdelsur.shared.dto.room.MonthlyRoomDistributionDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate

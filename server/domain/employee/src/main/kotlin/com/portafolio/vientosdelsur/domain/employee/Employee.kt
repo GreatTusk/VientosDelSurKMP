@@ -1,18 +1,31 @@
 package com.portafolio.vientosdelsur.domain.employee
 
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 
 
 sealed interface Employee {
     val data: BaseEmployee
+    val userData: User
 
-    data class HousekeeperSupervisor(override val data: BaseEmployee) : Employee
-    data class Admin(override val data: BaseEmployee) : Employee
-    data class Cook(override val data: BaseEmployee) : Employee
+    data class HousekeeperSupervisor(
+        override val data: BaseEmployee,
+        override val userData: User
+    ) : Employee
+
+    data class Admin(
+        override val data: BaseEmployee,
+        override val userData: User
+    ) : Employee
+
+    data class Cook(
+        override val data: BaseEmployee,
+        override val userData: User
+    ) : Employee
 
     data class Housekeeper(
         override val data: BaseEmployee,
+        override val userData: User,
         val housekeeperRole: HousekeeperRole,
         val preferredFloor: Floor?
     ) : Employee
@@ -24,7 +37,7 @@ data class BaseEmployee(
     val lastName: String,
     val phoneNumber: String,
     val dayOff: DayOfWeek,
-    val hireDate: LocalDate,
+    val hireDate: LocalDateTime,
 )
 
 @JvmInline

@@ -3,8 +3,8 @@ package com.portafolio.vientosdelsur.data.room.mapper
 import com.portafolio.vientosdelsur.domain.room.RoomCleaningStatus
 import com.portafolio.vientosdelsur.domain.room.RoomCleaningType
 import com.portafolio.vientosdelsur.domain.room.RoomState
-import com.portafolio.vientosdelsur.shared.dto.RoomStateDto
-import com.portafolio.vientosdelsur.shared.dto.RoomStatusDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomStateDto
+import com.portafolio.vientosdelsur.shared.dto.room.RoomStatusDto
 
 fun RoomStateDto.toRoomState() = RoomState(
     room = room.toRoom(),

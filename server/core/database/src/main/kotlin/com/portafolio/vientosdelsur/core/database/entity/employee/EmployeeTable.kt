@@ -30,5 +30,5 @@ class EmployeeEntity(id: EntityID<Int>) : IntEntity(id) {
 
     val workShifts by WorkShiftEntity referrersOn WorkShiftTable.employeeId
     val housekeeper by HousekeeperEntity optionalBackReferencedOn HousekeeperTable
-    val user by UserEntity referencedOn EmployeeTable.userId
+    var user by UserEntity referencedOn EmployeeTable.userId
 }

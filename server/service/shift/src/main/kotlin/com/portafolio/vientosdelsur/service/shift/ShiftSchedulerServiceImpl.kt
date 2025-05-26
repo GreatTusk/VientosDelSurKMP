@@ -9,7 +9,7 @@ import com.portafolio.vientosdelsur.domain.shift.usecase.ScheduleShiftUseCase
 import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.service.shift.mapper.toMonthlyShiftsDto
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
-import com.portafolio.vientosdelsur.shared.dto.EmployeeDto
+import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
