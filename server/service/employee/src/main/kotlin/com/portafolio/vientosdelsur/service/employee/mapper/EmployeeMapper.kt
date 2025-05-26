@@ -9,7 +9,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-internal fun Employee.toEmployeeDto() = EmployeeDto.Get(
+fun Employee.toEmployeeDto() = EmployeeDto.Get(
     id = requireNotNull(data.id) { "Employee must have an id" },
     firstName = data.firstName,
     lastName = data.lastName,

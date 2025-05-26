@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.controller.employee.route
 
+import com.f776.core.common.DataError
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
@@ -7,8 +8,10 @@ import com.portafolio.vientosdelsur.service.employee.EmployeeService
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
+import io.ktor.server.request.ContentTransformationException
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject

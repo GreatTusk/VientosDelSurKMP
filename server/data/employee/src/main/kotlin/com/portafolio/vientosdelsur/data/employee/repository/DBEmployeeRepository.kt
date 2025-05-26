@@ -20,6 +20,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.exceptions.ExposedSQLException
 
 internal object DBEmployeeRepository : EmployeeRepository {
     override suspend fun allEmployees(): Result<List<Employee>, DataError.Remote> = safeSuspendTransaction {
@@ -34,8 +35,9 @@ internal object DBEmployeeRepository : EmployeeRepository {
     override suspend fun createEmployee(employee: Employee): EmptyResult<DataError.Remote> = safeSuspendTransaction {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-        val userEntity = UserEntity.new {
+        val userEntity = UserEntity.new(id = employee.userData.id) {
             email = employee.userData.email
+            phoneNumber = employee.userData.phoneNumber
             photoUrl = employee.userData.photoUrl
             isEnabled = employee.userData.isEnabled
             createdAt = now
@@ -51,7 +53,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
             user = userEntity
         }
 
-        when(employee) {
+        when (employee) {
             is Employee.Housekeeper -> {
                 HousekeeperEntity.new {
                     housekeeperRole = employee.housekeeperRole.toHousekeeperRoleEntity()
@@ -59,6 +61,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
                     this.employee = employeeEntity
                 }
             }
+
             else -> {}
         }
     }

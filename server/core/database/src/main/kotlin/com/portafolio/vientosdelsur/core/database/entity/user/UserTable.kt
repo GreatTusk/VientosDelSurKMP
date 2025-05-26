@@ -12,7 +12,7 @@ object UserTable : IdTable<String>("user") {
     override val id = varchar("id", 128).entityId()
     val email = varchar("email", 100)
     val photoUrl = varchar("photo_url", 255).nullable()
-    val phoneNumber = varchar("phone_number", 9)
+    val phoneNumber = varchar("phone_number", 20)
     val isEnabled = bool("registration_completed").default(false)
     val createdAt = datetime("created_at")
     val updatedAt = datetime("updated_at")
