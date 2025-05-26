@@ -2,6 +2,7 @@ package com.portafolio.vientosdelsur.shared.dto.employee
 
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,7 +12,7 @@ data class EmployeeDto(
     val lastName: String,
     val phoneNumber: String,
     val dayOff: DayOfWeek,
-    val hireDate: LocalDate,
+    val hireDate: LocalDateTime,
     val occupation: String,
     val role: RoleDataDto? = null
 )

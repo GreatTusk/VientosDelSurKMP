@@ -4,7 +4,7 @@ import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.employee.RoleDataDto
 
-fun Employee.toEmployeeDto() = EmployeeDto(
+internal fun Employee.toEmployeeDto() = EmployeeDto(
     id = data.id,
     firstName = data.firstName,
     lastName = data.lastName,
