@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="304" height="44pt" viewBox="0 0 227.5 44">
+    <g class="graph">
+        <path fill="#fff" d="M0 44V0h227.5v44z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M92 4H4v36h88z"/>
+            <text x="44" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:domain:auth</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M223.5 4H128v36h95.5z"/>
+            <text x="171.75" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 40)">:core:common</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M92.28 22h23.96"/>
+            <path d="m116.01 18.5 10 3.5-10 3.5z"/>
+        </g>
+    </g>
+</svg>

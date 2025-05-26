@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="608" height="152pt" viewBox="0 0 456 152">
+    <g class="graph">
+        <path fill="#fff" d="M0 152V0h456v152z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M88.25 85H4v36h84.25z"/>
+            <text x="42.12" y="-39.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:feature:auth</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M193.5 58h-69.25v36h69.25z"/>
+            <text x="154.88" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:data:auth</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M88.68 92.87c7.93-1.93 16.26-3.96 24.28-5.92"/>
+            <path d="m112.02 83.58 10.54 1.03-8.89 5.77z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M187.5 112h-57.25v36h57.25z"/>
+            <text x="154.88" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:ui</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M88.68 113.13c9.88 2.41 20.39 4.97 30.16 7.35"/>
+            <path d="m119.52 117.05 8.88 5.77-10.54 1.03z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M320.5 4h-91v36h91z"/>
+            <text x="271" y="-120.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:network</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M452 31h-95.5v36H452z"/>
+            <text x="400.25" y="-93.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:common</text>
+        </g>
+        <g stroke="#999" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="m320.86 31.52 24.33 5.16"/>
+            <path fill="#999" d="m345.67 33.2 9.06 5.5-10.51 1.35z"/>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M193.81 59.94c9.75-4.61 20.6-9.74 31.08-14.7"/>
+            <path fill="#ccc" d="m223.29 42.12 10.53-1.11-7.54 7.44z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M319 58h-88v36h88z"/>
+            <text x="271" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:domain:auth</text>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M193.81 76h25.52"/>
+            <path fill="#ccc" d="m219.15 72.5 10 3.5-10 3.5z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M302.5 112h-55v36h55z"/>
+            <text x="271" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:shared</text>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M193.81 92.06c13.61 6.44 29.34 13.88 43.24 20.46"/>
+            <path fill="#ccc" d="m238.35 109.26 7.54 7.44-10.54-1.11z"/>
+        </g>
+        <g stroke="#999" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M319.44 66.78c8.21-1.74 16.92-3.59 25.5-5.41"/>
+            <path fill="#999" d="m344.1 57.97 10.51 1.35-9.06 5.5z"/>
+        </g>
+    </g>
+</svg>
