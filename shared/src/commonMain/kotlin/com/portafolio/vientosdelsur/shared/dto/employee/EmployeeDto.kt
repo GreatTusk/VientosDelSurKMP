@@ -11,31 +11,60 @@ sealed interface EmployeeDto {
     val dayOff: DayOfWeek
     val hireDate: LocalDateTime
     val occupation: EmployeeOccupationDto
-    val housekeeperDto: HousekeeperDto?
 
-    @Serializable
-    data class Get(
-        val id: Int,
-        override val firstName: String,
-        override val lastName: String,
-        override val phoneNumber: String,
-        override val dayOff: DayOfWeek,
-        override val hireDate: LocalDateTime,
-        override val occupation: EmployeeOccupationDto,
-        override val housekeeperDto: HousekeeperDto?,
-    ) : EmployeeDto
+    sealed interface Get : EmployeeDto {
+        val id: Int
 
-    @Serializable
-    data class Create(
-        val userDto: UserDto,
-        override val firstName: String,
-        override val lastName: String,
-        override val phoneNumber: String,
-        override val dayOff: DayOfWeek,
-        override val hireDate: LocalDateTime,
-        override val occupation: EmployeeOccupationDto,
-        override val housekeeperDto: HousekeeperDto?,
-    ) : EmployeeDto
+        data class Housekeeper(
+            override val id: Int,
+            override val firstName: String,
+            override val lastName: String,
+            override val phoneNumber: String,
+            override val dayOff: DayOfWeek,
+            override val hireDate: LocalDateTime,
+            override val occupation: EmployeeOccupationDto,
+            val role: HousekeeperRoleDto?,
+            val preferredFloor: Int?
+        ) : Get
+
+        @Serializable
+        data class StandardEmployee(
+            override val id: Int,
+            override val firstName: String,
+            override val lastName: String,
+            override val phoneNumber: String,
+            override val dayOff: DayOfWeek,
+            override val hireDate: LocalDateTime,
+            override val occupation: EmployeeOccupationDto,
+        ) : Get
+    }
+
+    sealed interface Create : EmployeeDto {
+        val userDto: UserDto
+
+        @Serializable
+        data class Housekeeper(
+            override val userDto: UserDto,
+            override val firstName: String,
+            override val lastName: String,
+            override val phoneNumber: String,
+            override val dayOff: DayOfWeek,
+            override val hireDate: LocalDateTime,
+            override val occupation: EmployeeOccupationDto,
+            val housekeeperRoleDto: HousekeeperRoleDto
+        ) : Create
+
+        @Serializable
+        data class StandardEmployee(
+            override val userDto: UserDto,
+            override val firstName: String,
+            override val lastName: String,
+            override val phoneNumber: String,
+            override val dayOff: DayOfWeek,
+            override val hireDate: LocalDateTime,
+            override val occupation: EmployeeOccupationDto,
+        ) : Create
+    }
 }
 
 @Serializable

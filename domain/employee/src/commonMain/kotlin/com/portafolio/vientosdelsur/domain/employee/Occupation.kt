@@ -1,7 +1,8 @@
 package com.portafolio.vientosdelsur.domain.employee
 
-enum class EmployeeRole {
+enum class Occupation {
     HOUSEKEEPER,
     SUPERVISOR,
-    ADMIN
+    ADMIN,
+    OTHER
 }

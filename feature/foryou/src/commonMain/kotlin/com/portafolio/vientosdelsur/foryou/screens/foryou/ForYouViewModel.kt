@@ -7,7 +7,7 @@ import com.f776.core.common.Result
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
-import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import kotlinx.coroutines.flow.*
 import kotlin.time.Duration.Companion.seconds
 
@@ -20,10 +20,10 @@ internal class ForYouViewModel(
         val userName = it.name.split(" ")
         Result.Success(
             Employee(
-                id = it.id.toIntOrNull() ?: 2387234,
+                userId = it.id.toIntOrNull() ?: 2387234,
                 firstName = "",
                 lastName = "",
-                role = EmployeeRole.HOUSEKEEPER
+                occupation = Occupation.HOUSEKEEPER
             )
         )
     }

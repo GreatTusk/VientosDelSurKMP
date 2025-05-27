@@ -21,7 +21,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
-import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.foryou.screens.components.RoomStateCard
 import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.RoomStateUi
@@ -167,7 +167,7 @@ private fun RoomScreenPreview() {
         Surface {
             HousekeeperForYouScreen(
                 rooms = SampleRoomStates.sampleRoomStates.map { it.toRoomUi() },
-                employee = Employee(1, "Flow", "Gonzals", EmployeeRole.HOUSEKEEPER),
+                employee = Employee(1, "Flow", "Gonzals", Occupation.HOUSEKEEPER),
                 onSignOut = {},
             )
         }

@@ -3,27 +3,35 @@ package com.portafolio.vientosdelsur.service.employee.mapper
 import com.portafolio.vientosdelsur.domain.employee.*
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeOccupationDto
-import com.portafolio.vientosdelsur.shared.dto.employee.HousekeeperDto
 import com.portafolio.vientosdelsur.shared.dto.employee.HousekeeperRoleDto
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-fun Employee.toEmployeeDto() = EmployeeDto.Get(
-    id = requireNotNull(data.id) { "Employee must have an id" },
-    firstName = data.firstName,
-    lastName = data.lastName,
-    phoneNumber = data.phoneNumber,
-    dayOff = data.dayOff,
-    hireDate = data.hireDate,
-    occupation = occupationDto,
-    housekeeperDto = if (this is Employee.Housekeeper) {
-        HousekeeperDto(
+fun Employee.toEmployeeDto(): EmployeeDto.Get =
+    when (this) {
+        is Employee.Housekeeper -> EmployeeDto.Get.Housekeeper(
+            id = requireNotNull(data.id) { "Employee must have an id" },
+            firstName = data.firstName,
+            lastName = data.lastName,
+            phoneNumber = data.phoneNumber,
+            dayOff = data.dayOff,
+            hireDate = data.hireDate,
             role = housekeeperRole.toHousekeeperRoleDto(),
-            preferredFloor = preferredFloor?.floor
+            preferredFloor = preferredFloor?.floor,
+            occupation = occupationDto
         )
-    } else null
-)
+
+        else -> EmployeeDto.Get.StandardEmployee(
+            id = requireNotNull(data.id) { "Employee must have an id" },
+            firstName = data.firstName,
+            lastName = data.lastName,
+            phoneNumber = data.phoneNumber,
+            dayOff = data.dayOff,
+            hireDate = data.hireDate,
+            occupation = occupationDto
+        )
+    }
 
 private val Employee.occupationDto: EmployeeOccupationDto
     get() {
@@ -34,7 +42,6 @@ private val Employee.occupationDto: EmployeeOccupationDto
             is Employee.Cook -> EmployeeOccupationDto.Cook
         }
     }
-
 
 internal fun EmployeeDto.Create.toEmployee(): Employee {
     val baseEmployee = BaseEmployee(
@@ -56,33 +63,35 @@ internal fun EmployeeDto.Create.toEmployee(): Employee {
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     )
 
-    return when (occupation) {
-        EmployeeOccupationDto.HousekeeperSupervisor -> Employee.HousekeeperSupervisor(
+    return when (this) {
+        is EmployeeDto.Create.Housekeeper -> Employee.Housekeeper(
             data = baseEmployee,
-            userData = user
+            userData = user,
+            housekeeperRole = housekeeperRoleDto.toHousekeeperRole(),
+            preferredFloor = null
         )
 
-        EmployeeOccupationDto.Housekeeper -> {
-            val housekeeperData = requireNotNull(housekeeperDto) { "Occupation was housekeeper, DTO was null" }
-            Employee.Housekeeper(
-                data = baseEmployee,
-                userData = user,
-                housekeeperRole = housekeeperData.role.toHousekeeperRole(),
-                preferredFloor = housekeeperData.preferredFloor?.let(::Floor)
-            )
+        is EmployeeDto.Create.StandardEmployee -> {
+            when (occupation) {
+                EmployeeOccupationDto.HousekeeperSupervisor -> Employee.HousekeeperSupervisor(
+                    data = baseEmployee,
+                    userData = user,
+                )
+
+                EmployeeOccupationDto.Admin -> Employee.HousekeeperSupervisor(
+                    data = baseEmployee,
+                    userData = user,
+                )
+
+                EmployeeOccupationDto.Cook -> Employee.HousekeeperSupervisor(
+                    data = baseEmployee,
+                    userData = user,
+                )
+
+                EmployeeOccupationDto.Housekeeper -> error("Impossible")
+            }
         }
-
-        EmployeeOccupationDto.Admin -> Employee.Admin(
-            data = baseEmployee,
-            userData = user
-        )
-
-        EmployeeOccupationDto.Cook -> Employee.Cook(
-            data = baseEmployee,
-            userData = user
-        )
     }
-
 }
 
 private fun HousekeeperRoleDto.toHousekeeperRole() =

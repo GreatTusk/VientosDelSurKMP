@@ -11,9 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.portafolio.vientosdelsur.domain.employee.Employee
-import com.portafolio.vientosdelsur.domain.employee.EmployeeRole
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import kotlinx.datetime.*
-import kotlinx.datetime.format.DateTimeFormat
 import org.jetbrains.compose.resources.stringResource
 import vientosdelsur.feature.foryou.generated.resources.*
 import vientosdelsur.feature.foryou.generated.resources.Res
@@ -35,10 +34,10 @@ internal fun LazyGridScope.forYouHeader(employee: Employee?) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(
                         text = stringResource(
-                            when (employee.role) {
-                                EmployeeRole.HOUSEKEEPER -> Res.string.housekeeper_room_header
-                                EmployeeRole.SUPERVISOR -> Res.string.supervisor_header
-                                EmployeeRole.ADMIN -> Res.string.admin_header
+                            when (employee.occupation) {
+                                Occupation.HOUSEKEEPER -> Res.string.housekeeper_room_header
+                                Occupation.SUPERVISOR -> Res.string.supervisor_header
+                                Occupation.ADMIN -> Res.string.admin_header
                             }
                         ),
                         style = MaterialTheme.typography.titleMedium,
