@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.data.employee.network
 
 import com.f776.core.common.DataError
+import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
 import com.f776.core.common.map
 import com.f776.core.network.safeCall
@@ -22,4 +23,10 @@ internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) 
         safeCall<BaseResponseDto<List<EmployeeDto.Get>>> {
             httpClient.get("${BuildConfig.BASE_URL}/employee")
         }.map { it.data }
+
+    override suspend fun isUserActive(userId: String): EmptyResult<DataError.Remote> {
+        TODO("Not yet implemented")
+    }
+
+
 }

@@ -11,6 +11,10 @@ sealed interface EmployeeDto {
     val dayOff: DayOfWeek
     val hireDate: LocalDateTime
     val occupation: EmployeeOccupationDto
+    val userId: String
+    val email: String
+    val photoUrl: String?
+    val isEnabled: Boolean
 
     @Serializable
     sealed interface Get : EmployeeDto {
@@ -19,14 +23,18 @@ sealed interface EmployeeDto {
         @Serializable
         data class Housekeeper(
             override val id: Int,
+            val role: HousekeeperRoleDto?,
+            val preferredFloor: Int?,
             override val firstName: String,
             override val lastName: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
-            val role: HousekeeperRoleDto?,
-            val preferredFloor: Int?
+            override val userId: String,
+            override val email: String,
+            override val photoUrl: String?,
+            override val isEnabled: Boolean,
         ) : Get
 
         @Serializable
@@ -34,10 +42,14 @@ sealed interface EmployeeDto {
             override val id: Int,
             override val firstName: String,
             override val lastName: String,
+            override val userId: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
+            override val email: String,
+            override val photoUrl: String?,
+            override val isEnabled: Boolean,
         ) : Get
     }
 
@@ -47,14 +59,18 @@ sealed interface EmployeeDto {
 
         @Serializable
         data class Housekeeper(
+            val housekeeperRoleDto: HousekeeperRoleDto,
             override val userDto: UserDto,
             override val firstName: String,
             override val lastName: String,
+            override val userId: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
-            val housekeeperRoleDto: HousekeeperRoleDto
+            override val email: String,
+            override val photoUrl: String?,
+            override val isEnabled: Boolean,
         ) : Create
 
         @Serializable
@@ -62,10 +78,14 @@ sealed interface EmployeeDto {
             override val userDto: UserDto,
             override val firstName: String,
             override val lastName: String,
+            override val userId: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
+            override val email: String,
+            override val photoUrl: String?,
+            override val isEnabled: Boolean,
         ) : Create
     }
 }

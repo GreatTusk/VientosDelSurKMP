@@ -30,6 +30,8 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
                     navHostController.navigateToAuth()
                 }
             }
+
+            is AuthEvent.OnRegistrationPending -> TODO("Create detailed registration flow")
         }
     }
 

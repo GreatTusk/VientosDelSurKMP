@@ -167,7 +167,17 @@ private fun RoomScreenPreview() {
         Surface {
             HousekeeperForYouScreen(
                 rooms = SampleRoomStates.sampleRoomStates.map { it.toRoomUi() },
-                employee = Employee(1, "Flow", "Gonzals", Occupation.HOUSEKEEPER),
+                employee = Employee(
+                    id = 1,
+                    firstName = "Flow",
+                    lastName = "Gonzals",
+                    occupation = Occupation.HOUSEKEEPER,
+                    userId = "emp-123456",
+                    email = "flow.gonzals@vientosdelsur.com",
+                    photoUrl = "https://example.com/photos/employee1.jpg",
+                    phoneNumber = "+1234567890",
+                    isEnabled = true
+                ),
                 onSignOut = {},
             )
         }

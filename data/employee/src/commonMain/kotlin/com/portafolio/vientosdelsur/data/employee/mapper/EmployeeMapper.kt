@@ -5,25 +5,23 @@ import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeOccupationDto
 
-fun EmployeeDto.Get.toEmployee(): Employee {
+fun EmployeeDto.Get.toEmployee() =
     Employee(
         id = id,
         firstName = firstName,
         lastName = lastName,
         occupation = occupation.toOccupation(),
-        userId = TODO(),
-        email = TODO(),
-        photoUrl = TODO(),
+        userId = userId,
+        email = email,
+        photoUrl = photoUrl,
         phoneNumber = phoneNumber,
-        isEnabled = TODO()
+        isEnabled = isEnabled
     )
 
-    TODO()
-}
 
 private fun EmployeeOccupationDto.toOccupation() = when (this) {
     EmployeeOccupationDto.HousekeeperSupervisor -> Occupation.SUPERVISOR
     EmployeeOccupationDto.Housekeeper -> Occupation.HOUSEKEEPER
     EmployeeOccupationDto.Admin -> Occupation.ADMIN
-    EmployeeOccupationDto.Cook -> Occupation.OTHER
+    EmployeeOccupationDto.Cook -> TODO("Cooks won't use the app")
 }

@@ -18,6 +18,7 @@ kotlin {
 
         commonMain.dependencies {
             api(projects.domain.auth)
+            implementation(projects.domain.employee)
             implementation(libs.firebase.auth)
             implementation(projects.shared)
             implementation(projects.core.network)

@@ -6,4 +6,5 @@ import com.f776.core.common.Result
 interface EmployeeRepository {
     suspend fun getEmployee(userId: String): Result<Employee, DataError>
     suspend fun getEmployees(): Result<List<Employee>, DataError>
+    suspend fun isUserActive(userId: String): Boolean
 }

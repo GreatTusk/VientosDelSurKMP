@@ -13,19 +13,10 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class ForYouViewModel(
     private val employeeRepository: EmployeeRepository,
-    private val userRepository: UserRepository
+    userRepository: UserRepository
 ) : ViewModel() {
-    private val _user = userRepository.currentUser.map {
-        if (it == null) return@map Result.Error(DataError.Remote.UNKNOWN)
-        val userName = it.name.split(" ")
-        Result.Success(
-            Employee(
-                userId = it.id.toIntOrNull() ?: 2387234,
-                firstName = "",
-                lastName = "",
-                occupation = Occupation.HOUSEKEEPER
-            )
-        )
+    private val _user = userRepository.currentUser.mapNotNull { user ->
+        user?.let { employeeRepository.getEmployee(it.id) }
     }
 
     val user = _user.stateIn(

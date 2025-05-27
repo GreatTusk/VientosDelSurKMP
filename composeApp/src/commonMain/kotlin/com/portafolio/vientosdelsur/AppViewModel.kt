@@ -15,7 +15,13 @@ class AppViewModel(userRepository: UserRepository) : ViewModel() {
         .onEach { user ->
             when (user) {
                 null -> _eventChannel.send(AuthEvent.OnUserLoggedOut)
-                else -> _eventChannel.send(AuthEvent.OnUserAuthenticated(user))
+                else -> {
+                    if (user.isActive) {
+                        _eventChannel.send(AuthEvent.OnUserAuthenticated(user))
+                    } else {
+                        _eventChannel.send(AuthEvent.OnRegistrationPending(user.id))
+                    }
+                }
             }
         }
         .stateIn(

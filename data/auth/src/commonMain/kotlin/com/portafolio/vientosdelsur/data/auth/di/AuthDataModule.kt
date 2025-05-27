@@ -17,7 +17,13 @@ val AuthDataModule = module {
     includes(PlatformModule)
     single { Firebase.auth }
     single { FirebaseAuthService(get(), get(named("ioDispatcher"))) }.bind<AuthService>()
-    single { FirebaseUserRepository(get(), get(named("ioDispatcher"))) }.bind<UserRepository>()
+    single {
+        FirebaseUserRepository(
+            firebaseAuth = get(),
+            employeeRepository = get(),
+            ioDispatcher = get(named("ioDispatcher"))
+        )
+    }.bind<UserRepository>()
     factory { SignUpUseCase(get(), get(named("defaultDispatcher"))) }
     factory { SignInUseCase(get(), get(named("defaultDispatcher"))) }
 }
