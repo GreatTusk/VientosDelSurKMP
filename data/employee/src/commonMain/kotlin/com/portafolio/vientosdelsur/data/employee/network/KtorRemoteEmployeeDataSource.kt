@@ -24,7 +24,7 @@ internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) 
             httpClient.get("${BuildConfig.BASE_URL}/employee")
         }.map { it.data }
 
-    override suspend fun isUserActive(userId: String): EmptyResult<DataError.Remote> {
-        TODO("Not yet implemented")
+    override suspend fun isUserActive(userId: String): EmptyResult<DataError.Remote> = safeCall<Unit> {
+        httpClient.get("${BuildConfig.BASE_URL}/employee/active/$userId")
     }
 }
