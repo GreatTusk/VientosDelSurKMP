@@ -19,7 +19,11 @@ fun Employee.toEmployeeDto(): EmployeeDto.Get =
             hireDate = data.hireDate,
             role = housekeeperRole.toHousekeeperRoleDto(),
             preferredFloor = preferredFloor?.floor,
-            occupation = occupationDto
+            occupation = occupationDto,
+            userId = userData.id,
+            email = userData.email,
+            photoUrl = userData.photoUrl,
+            isEnabled = userData.isEnabled
         )
 
         else -> EmployeeDto.Get.StandardEmployee(
@@ -29,7 +33,12 @@ fun Employee.toEmployeeDto(): EmployeeDto.Get =
             phoneNumber = data.phoneNumber,
             dayOff = data.dayOff,
             hireDate = data.hireDate,
-            occupation = occupationDto
+            occupation = occupationDto,
+            userId = userData.id,
+            email = userData.email,
+            photoUrl = userData.photoUrl,
+            isEnabled = userData.isEnabled
+
         )
     }
 

@@ -10,6 +10,7 @@ import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.employee.HousekeeperEntity
 import com.portafolio.vientosdelsur.core.database.entity.employee.Occupation
 import com.portafolio.vientosdelsur.core.database.entity.user.UserEntity
+import com.portafolio.vientosdelsur.core.database.entity.user.UserTable
 import com.portafolio.vientosdelsur.data.employee.mapper.occupationEntity
 import com.portafolio.vientosdelsur.data.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.data.employee.mapper.toHousekeeperRoleEntity
@@ -21,6 +22,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.exceptions.ExposedSQLException
+import org.jetbrains.exposed.sql.exists
 
 internal object DBEmployeeRepository : EmployeeRepository {
     override suspend fun allEmployees(): Result<List<Employee>, DataError.Remote> = safeSuspendTransaction {
@@ -64,5 +66,18 @@ internal object DBEmployeeRepository : EmployeeRepository {
 
             else -> {}
         }
+    }
+
+    override suspend fun isEmployeeActive(userId: String): EmptyResult<DataError.Remote> = safeSuspendTransaction {
+        val isEnabled = UserTable.select(UserTable.isEnabled)
+            .where { UserTable.id eq userId }
+            .firstOrNull()
+            ?.let { it[UserTable.isEnabled] } == true
+
+        if (!isEnabled) {
+            emptyError("Not found")
+        }
+
+        Result.Success(Unit)
     }
 }

@@ -45,6 +45,23 @@ paths:
           description: Invalid employee data
         '500':
           description: Internal server error
+  /employee/active/{userId}:
+    get:
+      summary: Check if employee is active
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to check
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Employee is active
+        '400':
+          description: User ID is required
+        '404':
+          description: Employee not found or not active
 components:
   schemas:
     EmployeeGet:

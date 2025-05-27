@@ -27,6 +27,4 @@ internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) 
     override suspend fun isUserActive(userId: String): EmptyResult<DataError.Remote> {
         TODO("Not yet implemented")
     }
-
-
 }
