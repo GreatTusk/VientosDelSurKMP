@@ -12,9 +12,11 @@ sealed interface EmployeeDto {
     val hireDate: LocalDateTime
     val occupation: EmployeeOccupationDto
 
+    @Serializable
     sealed interface Get : EmployeeDto {
         val id: Int
 
+        @Serializable
         data class Housekeeper(
             override val id: Int,
             override val firstName: String,
@@ -39,6 +41,7 @@ sealed interface EmployeeDto {
         ) : Get
     }
 
+    @Serializable
     sealed interface Create : EmployeeDto {
         val userDto: UserDto
 
