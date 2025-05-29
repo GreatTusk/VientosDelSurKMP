@@ -1,7 +1,7 @@
 package com.portafolio.vientosdelsur.feature.auth.di
 
 import com.portafolio.vientosdelsur.data.auth.di.AuthDataModule
-import com.portafolio.vientosdelsur.feature.auth.screens.AuthViewModel
+import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 

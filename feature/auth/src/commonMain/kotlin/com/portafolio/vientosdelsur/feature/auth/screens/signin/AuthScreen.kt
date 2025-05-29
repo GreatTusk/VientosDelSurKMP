@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.feature.auth.screens
+package com.portafolio.vientosdelsur.feature.auth.screens.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.components.AuthSurface
+import com.portafolio.vientosdelsur.feature.auth.screens.signin.components.AuthSurface
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel

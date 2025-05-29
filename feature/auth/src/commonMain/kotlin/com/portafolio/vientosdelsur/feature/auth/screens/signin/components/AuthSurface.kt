@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.feature.auth.screens.components
+package com.portafolio.vientosdelsur.feature.auth.screens.signin.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.AuthScreenType
+import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthScreenType
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

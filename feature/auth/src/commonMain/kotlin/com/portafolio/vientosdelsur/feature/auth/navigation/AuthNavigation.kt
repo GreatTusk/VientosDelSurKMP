@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.portafolio.vientosdelsur.feature.auth.screens.AuthScreenRoot
+import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable

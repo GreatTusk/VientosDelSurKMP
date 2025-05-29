@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.feature.auth.screens
+package com.portafolio.vientosdelsur.feature.auth.screens.signin
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
