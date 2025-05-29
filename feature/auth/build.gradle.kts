@@ -12,6 +12,10 @@ kotlin {
             implementation(projects.data.auth)
             implementation(libs.kotlinx.datetime)
 
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.ktor.client.cio)
+
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.adaptive.navigation)
 

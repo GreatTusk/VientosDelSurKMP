@@ -63,5 +63,20 @@ fun Application.employeeRoute() {
                     }
             }
         }
+
+        route("/user") {
+            get("/{id}") {
+                val id = call.pathParameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
+
+                employeeService.getEmployeeByUserId(id)
+                    .onSuccess {
+                        call.respond(it)
+                    }.onError {
+                        call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+                    }.onEmpty {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+            }
+        }
     }
 }

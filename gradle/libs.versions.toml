@@ -44,7 +44,7 @@ datastore = "1.1.7"
 serialization = "1.8.1"
 wire = "5.3.1"
 build-konfig = "0.17.1"
-
+coil = "3.0.4"
 moduleGraph = "2.8.0"
 
 # JVM only
@@ -70,6 +70,7 @@ logback = "1.5.18"
 hikaricp = "5.0.1"
 
 [libraries]
+
 
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
@@ -100,6 +101,13 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 
 # Firebase
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseAuth" }
+
+# Coil
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+#ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+#ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+#ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 
 # Testing
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }

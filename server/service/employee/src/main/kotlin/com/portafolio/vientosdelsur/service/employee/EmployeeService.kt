@@ -12,6 +12,7 @@ typealias EmployeeResponse = BaseResponseDto<EmployeeDto.Get>
 interface EmployeeService {
     suspend fun getAllEmployees(): Result<EmployeeListResponse, DataError.Remote>
     suspend fun getEmployeeById(id: Int): Result<EmployeeResponse, DataError.Remote>
+    suspend fun getEmployeeByUserId(userId: String): Result<EmployeeResponse, DataError.Remote>
     suspend fun createEmployee(employeeDto: EmployeeDto.Create): EmptyResult<DataError.Remote>
     suspend fun isEmployeeActive(userId: String): EmptyResult<DataError.Remote>
 }

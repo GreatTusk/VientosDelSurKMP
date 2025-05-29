@@ -8,7 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthScreenRoot
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.RegistrationFlowScreenRoot
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.RegistrationFlowViewModel
 import kotlinx.serialization.Serializable
+import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
 data object AuthNavigation
@@ -17,7 +19,7 @@ data object AuthNavigation
 data object Auth
 
 @Serializable
-data object Registration
+data class Registration(val userId: String)
 
 fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
     navigation<AuthNavigation>(startDestination = Auth) {
@@ -26,11 +28,13 @@ fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
         }
 
         composable<Registration> {
-            RegistrationFlowScreenRoot()
+            val registrationFlowViewModel: RegistrationFlowViewModel = koinViewModel()
+            RegistrationFlowScreenRoot(registrationFlowViewModel = registrationFlowViewModel)
         }
     }
 }
 
-fun NavHostController.navigateToRegistration() {
-    navigate(Registration)
+fun NavHostController.navigateToRegistration(userId: String) {
+    navigate(Registration(userId = userId)) {
+    }
 }

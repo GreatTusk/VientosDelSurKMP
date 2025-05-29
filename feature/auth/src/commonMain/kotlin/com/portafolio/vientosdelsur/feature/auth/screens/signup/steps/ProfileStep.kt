@@ -16,34 +16,48 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun ProfileStep(modifier: Modifier = Modifier, paddingValues: PaddingValues, onContinue: () -> Unit) {
-    Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+internal fun ProfileStep(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    onContinue: () -> Unit,
+    initialData: Employee?
+) {
+    Box(
+        modifier = Modifier.fillMaxSize().padding(paddingValues),
+        contentAlignment = Alignment.Center
+    ) {
         Column(
-            modifier = modifier.align(Alignment.Center).imePadding(),
+            modifier = modifier.imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                modifier = Modifier.size(64.dp).clip(CircleShape),
-                imageVector = Icons.Default.Person,
-                contentDescription = "Profile picture"
-            )
+            if (initialData?.photoUrl != null) {
+                AsyncImage(
+                    modifier = Modifier.size(64.dp).clip(CircleShape),
+                    model = initialData.photoUrl,
+                    contentDescription = "Profile picture"
+                )
+            } else {
+                Icon(
+                    modifier = Modifier.size(64.dp).clip(CircleShape),
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Profile picture"
+                )
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
-                value = "",
+                value = initialData?.firstName ?: "",
                 onValueChange = {},
-                label = {
-                    Text("Nombre")
-                },
-                placeholder = {
-                    Text("Ingresa tu nombre")
-                },
+                label = { Text("Nombre") },
+                placeholder = { Text("Ingresa tu nombre") },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Person2, contentDescription = "Nombre")
                 }
@@ -52,14 +66,10 @@ internal fun ProfileStep(modifier: Modifier = Modifier, paddingValues: PaddingVa
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                value = "",
+                value = initialData?.lastName ?: "",
                 onValueChange = {},
-                label = {
-                    Text("Apellido")
-                },
-                placeholder = {
-                    Text("Ingresa tu apellido")
-                },
+                label = { Text("Apellido") },
+                placeholder = { Text("Ingresa tu apellido") },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Person3, contentDescription = "Apellido")
                 }
@@ -87,7 +97,8 @@ private fun ProfileStepPreview() {
             content = {
                 ProfileStep(
                     paddingValues = it,
-                    onContinue = {}
+                    onContinue = {},
+                    initialData = null
                 )
             }
         )

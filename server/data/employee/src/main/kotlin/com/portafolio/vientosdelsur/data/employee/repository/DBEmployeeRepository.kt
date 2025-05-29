@@ -34,6 +34,11 @@ internal object DBEmployeeRepository : EmployeeRepository {
             .firstOrNull()?.toEmployee() ?: emptyError("Employee not found")
     }
 
+    override suspend fun getEmployeeByUserId(userId: String): Result<Employee, DataError.Remote> =
+        safeSuspendTransaction {
+            UserEntity.findById(userId)?.employee?.toEmployee() ?: emptyError("Employee not found")
+        }
+
     override suspend fun createEmployee(employee: Employee): EmptyResult<DataError.Remote> = safeSuspendTransaction {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 

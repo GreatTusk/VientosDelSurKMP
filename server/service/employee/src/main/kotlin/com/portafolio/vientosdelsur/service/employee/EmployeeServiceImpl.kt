@@ -29,6 +29,16 @@ internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepos
             }
     }
 
+    override suspend fun getEmployeeByUserId(userId: String): Result<EmployeeResponse, DataError.Remote> {
+        return employeeRepository.getEmployeeByUserId(userId)
+            .map {
+                BaseResponseDto(
+                    message = "Retrieved successfully",
+                    data = it.toEmployeeDto()
+                )
+            }
+    }
+
     override suspend fun createEmployee(employeeDto: EmployeeDto.Create): EmptyResult<DataError.Remote> {
         return employeeRepository.createEmployee(employeeDto.toEmployee())
     }

@@ -32,7 +32,7 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
                 }
             }
 
-            is AuthEvent.OnRegistrationPending -> navHostController.navigateToRegistration()
+            is AuthEvent.OnRegistrationPending -> navHostController.navigateToRegistration(userId = it.userId)
         }
     }
 

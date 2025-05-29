@@ -14,9 +14,7 @@ import io.ktor.client.request.*
 internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) : RemoteEmployeeDataSource {
     override suspend fun getEmployeeByUserId(userId: String): Result<EmployeeDto.Get, DataError.Remote> =
         safeCall<BaseResponseDto<EmployeeDto.Get>> {
-            httpClient.get("${BuildConfig.BASE_URL}/employee") {
-                parameter("user-id", userId)
-            }
+            httpClient.get("${BuildConfig.BASE_URL}/user/$userId")
         }.map { it.data }
 
     override suspend fun getAllEmployees(): Result<List<EmployeeDto.Get>, DataError.Remote> =
