@@ -14,6 +14,7 @@ import com.portafolio.vientosdelsur.AppViewModel
 import com.portafolio.vientosdelsur.AuthEvent
 import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
 import com.portafolio.vientosdelsur.feature.auth.navigation.authGraph
+import com.portafolio.vientosdelsur.feature.auth.navigation.navigateToRegistration
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -31,7 +32,7 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
                 }
             }
 
-            is AuthEvent.OnRegistrationPending -> TODO("Create detailed registration flow")
+            is AuthEvent.OnRegistrationPending -> navHostController.navigateToRegistration()
         }
     }
 
