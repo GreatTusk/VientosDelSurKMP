@@ -1,5 +1,9 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,14 +20,35 @@ internal class RegistrationFlowViewModel(
 ) : ViewModel() {
     private val userId = savedStateHandle.toRoute<Registration>().userId
 
+    var progress by mutableFloatStateOf(RegistrationSteps.WEIGHT)
+        private set
+
     val employee = flow { emit(employeeRepository.getEmployee(userId).takeOrNull()) }
-        .mapNotNull { it }
-        .onEach {
-            println(it)
-        }
+        .filterNotNull()
+        .onEach { println(it) }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(2.seconds),
             null
         )
+
+
+    fun onContinue() {
+        progress = progress.plus(RegistrationSteps.WEIGHT).coerceAtMost(1f)
+    }
+
+    fun onGoBack() {
+        progress = progress.minus(RegistrationSteps.WEIGHT).coerceAtLeast(RegistrationSteps.WEIGHT)
+    }
+}
+
+enum class RegistrationSteps {
+    PROFILE,
+    EMPLOYEE_STATUS,
+    ROLE,
+    ADDITIONAL_INFO;
+
+    companion object {
+        val WEIGHT = 1f / entries.size
+    }
 }
