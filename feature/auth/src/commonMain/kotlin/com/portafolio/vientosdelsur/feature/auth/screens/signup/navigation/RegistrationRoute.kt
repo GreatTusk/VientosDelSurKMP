@@ -15,7 +15,13 @@ internal sealed interface RegistrationRoute {
     data object Occupation : RegistrationRoute {
         override val progress = 0.5f
     }
+
+    @Serializable
+    data object HireDate: RegistrationRoute {
+        override val progress = 0.75f
+    }
 }
 
 internal fun NavHostController.navigateToProfile() = navigate(RegistrationRoute.Profile)
 internal fun NavHostController.navigateToOccupation() = navigate(RegistrationRoute.Occupation)
+internal fun NavHostController.navigateToHireDate() = navigate(RegistrationRoute.HireDate)

@@ -6,22 +6,22 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Person2
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.employee.Employee
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.PhotoPicker
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -35,6 +35,12 @@ internal fun ProfileStep(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        Text(
+            text = "Cuéntanos sobre ti",
+            modifier = Modifier.align(Alignment.TopCenter).padding(top = 16.dp),
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.SemiBold
+        )
         Column(
             modifier = modifier.imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -46,10 +52,8 @@ internal fun ProfileStep(
                     contentDescription = "Profile picture"
                 )
             } else {
-                Icon(
-                    modifier = Modifier.size(64.dp).clip(CircleShape),
-                    imageVector = Icons.Default.AddAPhoto,
-                    contentDescription = "Profile picture"
+                PhotoPicker(
+                    onClick = {}
                 )
             }
 
@@ -78,6 +82,22 @@ internal fun ProfileStep(
                 placeholder = { Text("Ingresa tu apellido") },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Person2, contentDescription = "Apellido")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = initialData?.email ?: "",
+                onValueChange = {},
+                label = { Text("Email") },
+                placeholder = { Text("Ingresa tu email") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Email, contentDescription = "Email")
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
@@ -112,7 +132,8 @@ private fun ProfileStepPreview() {
             content = {
                 ProfileStep(
                     onContinue = {},
-                    initialData = null
+                    initialData = null,
+                    modifier = Modifier.padding(it)
                 )
             }
         )
