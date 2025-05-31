@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material3.Button
@@ -47,7 +48,7 @@ internal fun ProfileStep(
             } else {
                 Icon(
                     modifier = Modifier.size(64.dp).clip(CircleShape),
-                    imageVector = Icons.Default.Person,
+                    imageVector = Icons.Default.AddAPhoto,
                     contentDescription = "Profile picture"
                 )
             }

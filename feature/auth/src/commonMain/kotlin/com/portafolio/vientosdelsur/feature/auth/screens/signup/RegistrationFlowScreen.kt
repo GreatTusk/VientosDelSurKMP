@@ -44,7 +44,7 @@ private fun RegistrationFlowScreen(
 
     ProgressScaffold(
         modifier = modifier,
-        onGoBack = {},
+        onGoBack = navController::navigateUp,
         onSkipStep = null,
         progress = progressState::value,
         content = {
