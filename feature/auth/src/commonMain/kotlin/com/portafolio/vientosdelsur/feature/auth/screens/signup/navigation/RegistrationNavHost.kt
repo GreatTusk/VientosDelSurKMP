@@ -1,11 +1,9 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,29 +11,56 @@ import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.ProfileStep
 import kotlinx.serialization.Serializable
 
-@Serializable
-data object Profile
+internal sealed interface RegistrationRoute {
+    val progress: Float
 
-@Serializable
-data object Occupation
+    @Serializable
+    data object Profile : RegistrationRoute {
+        override val progress = 0.25f
+    }
+
+    @Serializable
+    data object Occupation : RegistrationRoute {
+        override val progress = 0.5f
+    }
+}
+
+private fun NavHostController.navigateToProfile() = navigate(RegistrationRoute.Profile)
+private fun NavHostController.navigateToOccupation() = navigate(RegistrationRoute.Occupation)
 
 @Composable
 internal fun RegistrationNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     user: Employee?,
-    onContinue: () -> Unit
+    onNavigationEvent: (RegistrationRoute) -> Unit
 ) {
-    NavHost(modifier = modifier, navController = navController, startDestination = Profile) {
-        composable<Profile> {
+    LaunchedEffect(Unit) {
+        navController.currentBackStackEntryFlow.collect {
+            with(it.destination) {
+                when {
+                    hasRoute<RegistrationRoute.Profile>() -> {
+                        onNavigationEvent(RegistrationRoute.Profile)
+                    }
+
+                    hasRoute<RegistrationRoute.Occupation>() -> {
+                        onNavigationEvent(RegistrationRoute.Occupation)
+                    }
+                }
+            }
+        }
+    }
+
+    NavHost(modifier = modifier, navController = navController, startDestination = RegistrationRoute.Profile) {
+        composable<RegistrationRoute.Profile> {
             ProfileStep(
-                onContinue = { onContinue(); navController.navigate(Occupation) },
+                onContinue = navController::navigateToOccupation,
                 initialData = user
             )
         }
 
-        composable<Occupation> {
-            Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.error))
+        composable<RegistrationRoute.Occupation> {
+
         }
     }
 }

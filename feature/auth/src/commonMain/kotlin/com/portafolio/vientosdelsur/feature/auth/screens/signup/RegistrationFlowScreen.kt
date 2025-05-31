@@ -9,15 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.backhandler.PredictiveBackHandler
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationNavHost
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.ProfileStep
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -30,8 +28,7 @@ internal fun RegistrationFlowScreenRoot(
         modifier = modifier,
         user = user,
         progress = registrationFlowViewModel.progress,
-        onContinue = registrationFlowViewModel::onContinue,
-        onGoBack = registrationFlowViewModel::onGoBack
+        onNavigationEvent = registrationFlowViewModel::onNavigationEvent
     )
 }
 
@@ -40,15 +37,14 @@ private fun RegistrationFlowScreen(
     modifier: Modifier = Modifier,
     progress: Float,
     user: Employee?,
-    onContinue: () -> Unit,
-    onGoBack: () -> Unit
+    onNavigationEvent: (RegistrationRoute) -> Unit
 ) {
     val progressState = animateFloatAsState(progress)
     val navController = rememberNavController()
 
     ProgressScaffold(
         modifier = modifier,
-        onGoBack = onGoBack,
+        onGoBack = {},
         onSkipStep = null,
         progress = progressState::value,
         content = {
@@ -56,7 +52,7 @@ private fun RegistrationFlowScreen(
                 modifier = Modifier.padding(it),
                 navController = navController,
                 user = user,
-                onContinue = onContinue
+                onNavigationEvent = onNavigationEvent
             )
         }
     )
@@ -70,8 +66,7 @@ private fun RegistrationFlowScreenPreview() {
             RegistrationFlowScreen(
                 user = null,
                 progress = 0.1f,
-                onContinue = {},
-                onGoBack = {}
+                onNavigationEvent = {}
             )
         }
     }
