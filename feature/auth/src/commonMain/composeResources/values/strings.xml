@@ -24,4 +24,9 @@
     <string name="sign_up_microsoft">Iniciar sesión con Microsoft</string>
     <string name="toggle_confirm_password_visibility">Alternar visibilidad de la confirmación de contraseña</string>
     <string name="toggle_password_visibility">Alternar visibilidad de la contraseña</string>
+
+
+    <string name="housekeeper_option">Mucama</string>
+    <string name="supervisor_option">Supervisora de mucamas</string>
+    <string name="admin_option">Administrador</string>
 </resources>

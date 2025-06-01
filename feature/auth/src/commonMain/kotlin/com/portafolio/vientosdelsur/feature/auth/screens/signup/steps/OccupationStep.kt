@@ -15,24 +15,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import vientosdelsur.feature.auth.generated.resources.Res
+import vientosdelsur.feature.auth.generated.resources.admin_option
+import vientosdelsur.feature.auth.generated.resources.housekeeper_option
+import vientosdelsur.feature.auth.generated.resources.supervisor_option
 
-data class OccupationOption(
-    val text: String,
-    val icon: ImageVector
-)
+internal enum class OccupationOption(val text: StringResource, val icon: ImageVector) {
+    HOUSEKEEPER(Res.string.housekeeper_option, Icons.Default.CleaningServices),
+    SUPERVISOR(Res.string.supervisor_option, Icons.Default.SupervisorAccount),
+    ADMIN(Res.string.admin_option, Icons.Default.AdminPanelSettings)
+}
 
 @Composable
 internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Unit) {
-    val options = remember {
-        listOf(
-            OccupationOption("Mucama", Icons.Default.CleaningServices),
-            OccupationOption("Supervisora de mucamas", Icons.Default.SupervisorAccount),
-            OccupationOption("Administrador", Icons.Default.AdminPanelSettings)
-        )
-    }
-
-    var selectedOption by remember { mutableStateOf(options[0]) }
+    var selectedOption by remember { mutableStateOf(OccupationOption.HOUSEKEEPER) }
 
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
@@ -46,7 +45,7 @@ internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Uni
             modifier = Modifier.align(Alignment.Center),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            options.forEach { option ->
+            OccupationOption.entries.forEach { option ->
                 Card(
                     modifier = Modifier.border(
                         width = 1.dp,
@@ -74,7 +73,7 @@ internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Uni
                             onClick = { selectedOption = option }
                         )
                         Text(
-                            text = option.text,
+                            text = stringResource(option.text),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(start = 8.dp).weight(1f)
                         )
