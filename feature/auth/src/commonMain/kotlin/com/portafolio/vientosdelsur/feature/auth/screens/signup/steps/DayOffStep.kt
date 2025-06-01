@@ -34,9 +34,12 @@ internal val DayOfWeek.displayName: StringResource
     }
 
 @Composable
-internal fun DayOffStep(modifier: Modifier = Modifier, onContinue: () -> Unit) {
-    var selectedDay by remember { mutableStateOf<DayOfWeek?>(null) }
-
+internal fun DayOffStep(
+    modifier: Modifier = Modifier,
+    onContinue: () -> Unit,
+    dayOfWeek: DayOfWeek?,
+    onDayOfWeekSelected: (DayOfWeek) -> Unit,
+) {
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
             text = "¿Qué día tienes libre?",
@@ -57,8 +60,8 @@ internal fun DayOffStep(modifier: Modifier = Modifier, onContinue: () -> Unit) {
             ) {
                 DayOfWeek.entries.forEach { day ->
                     FilterChip(
-                        selected = selectedDay == day,
-                        onClick = { selectedDay = if (selectedDay == day) null else day },
+                        selected = dayOfWeek == day,
+                        onClick = { onDayOfWeekSelected(day) },
                         label = {
                             Text(
                                 text = stringResource(day.displayName),
@@ -78,7 +81,7 @@ internal fun DayOffStep(modifier: Modifier = Modifier, onContinue: () -> Unit) {
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 24.dp)
                 .align(Alignment.BottomCenter),
-            enabled = selectedDay != null
+            enabled = dayOfWeek != null
         ) {
             Text("Continuar")
         }
@@ -96,7 +99,9 @@ private fun DayOffStepPreview() {
             content = {
                 DayOffStep(
                     onContinue = {},
-                    modifier = Modifier.padding(it)
+                    modifier = Modifier.padding(it),
+                    dayOfWeek = null,
+                    onDayOfWeekSelected = {}
                 )
             }
         )

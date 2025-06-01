@@ -56,15 +56,27 @@ internal fun RegistrationNavHost(
             popEnterTransition = TransitionAnimation.SLIDE_FADE.enterTransition,
             popExitTransition = TransitionAnimation.SLIDE_FADE.exitTransition
         ) {
-            OccupationStep(onContinue = navController::navigateToHireDate)
+            OccupationStep(
+                onContinue = navController::navigateToHireDate,
+                occupationOption = TODO(),
+                onOccupationSelected = TODO()
+            )
         }
 
         composable<RegistrationRoute.HireDate> {
-            HireDateStep(onContinue = navController::navigateToDayOff)
+            HireDateStep(
+                onContinue = navController::navigateToDayOff,
+                formattedDate = TODO(),
+                onDateSelected = TODO()
+            )
         }
 
         composable<RegistrationRoute.DayOff> {
-            DayOffStep(onContinue = {})
+            DayOffStep(
+                onContinue = {},
+                dayOfWeek = TODO(),
+                onDayOfWeekSelected = TODO()
+            )
         }
     }
 

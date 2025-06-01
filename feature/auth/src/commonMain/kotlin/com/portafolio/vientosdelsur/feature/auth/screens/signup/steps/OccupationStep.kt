@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.CleaningServices
 import androidx.compose.material.icons.filled.SupervisorAccount
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,9 +30,12 @@ internal enum class OccupationOption(val text: StringResource, val icon: ImageVe
 }
 
 @Composable
-internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Unit) {
-    var selectedOption by remember { mutableStateOf(OccupationOption.HOUSEKEEPER) }
-
+internal fun OccupationStep(
+    modifier: Modifier = Modifier,
+    occupationOption: OccupationOption?,
+    onOccupationSelected: (OccupationOption) -> Unit,
+    onContinue: () -> Unit
+) {
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
             text = "¿Cuál es tu puesto?",
@@ -49,7 +52,7 @@ internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Uni
                 Card(
                     modifier = Modifier.border(
                         width = 1.dp,
-                        color = if (option == selectedOption)
+                        color = if (option == occupationOption)
                             MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.outline,
                         shape = CardDefaults.elevatedShape
@@ -57,11 +60,11 @@ internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Uni
                     colors = CardDefaults.cardColors()
                         .copy(
                             containerColor =
-                                if (selectedOption == option)
+                                if (occupationOption == option)
                                     MaterialTheme.colorScheme.secondaryContainer
                                 else MaterialTheme.colorScheme.surfaceContainerLow
                         ),
-                    onClick = { selectedOption = option }
+                    onClick = { onOccupationSelected(option) }
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -69,8 +72,8 @@ internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Uni
                             .padding(vertical = 16.dp, horizontal = 16.dp)
                     ) {
                         RadioButton(
-                            selected = selectedOption == option,
-                            onClick = { selectedOption = option }
+                            selected = occupationOption == option,
+                            onClick = { onOccupationSelected(option) }
                         )
                         Text(
                             text = stringResource(option.text),
@@ -80,7 +83,7 @@ internal fun OccupationStep(modifier: Modifier = Modifier, onContinue: () -> Uni
                         Icon(
                             imageVector = option.icon,
                             contentDescription = null,
-                            tint = if (selectedOption == option)
+                            tint = if (occupationOption == option)
                                 MaterialTheme.colorScheme.onSecondaryContainer
                             else MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -111,7 +114,9 @@ private fun OccupationStepPreview() {
             content = {
                 OccupationStep(
                     modifier = Modifier.padding(it),
-                    onContinue = {}
+                    onContinue = {},
+                    occupationOption = OccupationOption.HOUSEKEEPER,
+                    onOccupationSelected = {}
                 )
             }
         )

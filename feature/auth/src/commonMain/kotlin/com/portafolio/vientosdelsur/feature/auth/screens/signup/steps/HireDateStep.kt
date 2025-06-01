@@ -20,25 +20,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-internal fun convertMillisToDate(millis: Long): String {
-    val instant = Instant.fromEpochMilliseconds(millis)
-    val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-    val day = localDateTime.dayOfMonth.toString().padStart(2, '0')
-    val month = localDateTime.monthNumber.toString().padStart(2, '0')
-    val year = localDateTime.year
-    return "$day/$month/$year"
-}
 
 @Composable
-internal fun HireDateStep(modifier: Modifier = Modifier, onContinue: () -> Unit) {
+internal fun HireDateStep(
+    modifier: Modifier = Modifier,
+    formattedDate: String?,
+    onDateSelected: (Long?) -> Unit,
+    onContinue: () -> Unit
+) {
     var showDatePickerDialog by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    var selectedDateMillisForDisplay by remember { mutableStateOf<Long?>(null) }
 
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
@@ -55,8 +48,8 @@ internal fun HireDateStep(modifier: Modifier = Modifier, onContinue: () -> Unit)
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             OutlinedTextField(
-                value = selectedDateMillisForDisplay?.let { convertMillisToDate(it) } ?: "",
-                onValueChange = {  },
+                value = formattedDate ?: "",
+                onValueChange = { },
                 modifier = Modifier
                     .fillMaxWidth()
                     .pointerInput(Unit) {
@@ -92,7 +85,7 @@ internal fun HireDateStep(modifier: Modifier = Modifier, onContinue: () -> Unit)
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            selectedDateMillisForDisplay = datePickerState.selectedDateMillis
+                            onDateSelected(datePickerState.selectedDateMillis)
                             showDatePickerDialog = false
                         }
                     ) {
@@ -116,7 +109,7 @@ internal fun HireDateStep(modifier: Modifier = Modifier, onContinue: () -> Unit)
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 24.dp)
                 .align(Alignment.BottomCenter),
-            enabled = selectedDateMillisForDisplay != null
+            enabled = formattedDate != null
         ) {
             Text("Continuar")
         }
@@ -134,7 +127,9 @@ private fun HireDateStepPreview() {
             content = {
                 HireDateStep(
                     onContinue = {},
-                    modifier = Modifier.padding(it)
+                    modifier = Modifier.padding(it),
+                    formattedDate = null,
+                    onDateSelected = {}
                 )
             }
         )
