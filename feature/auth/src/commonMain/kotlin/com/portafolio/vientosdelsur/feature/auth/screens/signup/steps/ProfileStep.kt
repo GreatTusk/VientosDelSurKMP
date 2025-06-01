@@ -31,18 +31,16 @@ internal fun ProfileStep(
     onContinue: () -> Unit,
     initialData: Employee?
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
+    Box(modifier = Modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
             text = "Cuéntanos sobre ti",
             modifier = Modifier.align(Alignment.TopCenter).padding(top = 16.dp),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.SemiBold
         )
+
         Column(
-            modifier = modifier.imePadding(),
+            modifier = modifier.imePadding().align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (initialData?.photoUrl != null) {
@@ -60,6 +58,7 @@ internal fun ProfileStep(
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = initialData?.firstName ?: "",
                 onValueChange = {},
                 label = { Text("Nombre") },
@@ -76,6 +75,7 @@ internal fun ProfileStep(
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = initialData?.lastName ?: "",
                 onValueChange = {},
                 label = { Text("Apellido") },
@@ -92,6 +92,7 @@ internal fun ProfileStep(
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = initialData?.email ?: "",
                 onValueChange = {},
                 label = { Text("Email") },
@@ -113,7 +114,8 @@ internal fun ProfileStep(
 
         Button(
             onClick = onContinue,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 64.dp, vertical = 24.dp)
+            modifier = Modifier.fillMaxWidth()
+                .padding(vertical = 24.dp)
                 .align(Alignment.BottomCenter)
         ) {
             Text("Continuar")
