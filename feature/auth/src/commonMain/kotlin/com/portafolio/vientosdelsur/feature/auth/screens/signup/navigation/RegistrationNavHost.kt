@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.f776.core.ui.navigation.TransitionAnimation
 import com.portafolio.vientosdelsur.domain.employee.Employee
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.DayOffStep
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.HireDateStep
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationStep
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.ProfileStep
 
@@ -58,7 +60,11 @@ internal fun RegistrationNavHost(
         }
 
         composable<RegistrationRoute.HireDate> {
+            HireDateStep(onContinue = navController::navigateToDayOff)
+        }
 
+        composable<RegistrationRoute.DayOff> {
+            DayOffStep(onContinue = {})
         }
     }
 

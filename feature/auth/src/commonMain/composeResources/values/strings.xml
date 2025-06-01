@@ -29,4 +29,12 @@
     <string name="housekeeper_option">Mucama</string>
     <string name="supervisor_option">Supervisora de mucamas</string>
     <string name="admin_option">Administrador</string>
+
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
 </resources>
