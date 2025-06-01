@@ -9,17 +9,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.f776.core.ui.navigation.TransitionAnimation
 import com.portafolio.vientosdelsur.domain.employee.Employee
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.DayOffStep
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.HireDateStep
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationStep
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.ProfileStep
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.*
+import kotlinx.datetime.DayOfWeek
 
 @Composable
 internal fun RegistrationNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     user: Employee?,
-    onNavigationEvent: (RegistrationRoute) -> Unit
+    onNavigationEvent: (RegistrationRoute) -> Unit,
+    occupationOption: OccupationOption?,
+    onOccupationSelected: (OccupationOption) -> Unit,
+    formattedDate: String?,
+    onDateSelected: (Long?) -> Unit,
+    dayOff: DayOfWeek?,
+    onDayOffSelected: (DayOfWeek) -> Unit
 ) {
     LaunchedEffect(Unit) {
         navController.currentBackStackEntryFlow.collect {
@@ -58,24 +62,24 @@ internal fun RegistrationNavHost(
         ) {
             OccupationStep(
                 onContinue = navController::navigateToHireDate,
-                occupationOption = TODO(),
-                onOccupationSelected = TODO()
+                occupationOption = occupationOption,
+                onOccupationSelected = onOccupationSelected
             )
         }
 
         composable<RegistrationRoute.HireDate> {
             HireDateStep(
                 onContinue = navController::navigateToDayOff,
-                formattedDate = TODO(),
-                onDateSelected = TODO()
+                formattedDate = formattedDate,
+                onDateSelected = onDateSelected
             )
         }
 
         composable<RegistrationRoute.DayOff> {
             DayOffStep(
                 onContinue = {},
-                dayOfWeek = TODO(),
-                onDayOfWeekSelected = TODO()
+                dayOfWeek = dayOff,
+                onDayOfWeekSelected = onDayOffSelected
             )
         }
     }

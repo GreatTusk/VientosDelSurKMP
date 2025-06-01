@@ -12,6 +12,7 @@ import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
 import kotlin.time.Duration.Companion.seconds
@@ -66,6 +67,13 @@ internal class RegistrationFlowViewModel(
 
     fun onDayOffSelected(dayOfWeek: DayOfWeek) {
         dayOff = if (dayOff == dayOfWeek) null else dayOfWeek
+    }
+
+    var occupation by mutableStateOf<OccupationOption?>(null)
+        private set
+
+    fun onOccupationSelected(selectedOccupation: OccupationOption) {
+        occupation = if (occupation == selectedOccupation) null else selectedOccupation
     }
 }
 
