@@ -36,6 +36,14 @@ internal fun RegistrationNavHost(
                     hasRoute<RegistrationRoute.Occupation>() -> {
                         onNavigationEvent(RegistrationRoute.Occupation)
                     }
+
+                    hasRoute<RegistrationRoute.HireDate>() -> {
+                        onNavigationEvent(RegistrationRoute.HireDate)
+                    }
+
+                    hasRoute<RegistrationRoute.DayOff>() -> {
+                        onNavigationEvent(RegistrationRoute.DayOff)
+                    }
                 }
             }
         }
@@ -43,10 +51,10 @@ internal fun RegistrationNavHost(
 
     NavHost(modifier = modifier, navController = navController, startDestination = RegistrationRoute.Profile) {
         composable<RegistrationRoute.Profile>(
-            enterTransition = TransitionAnimation.SLIDE_FADE.popEnterTransition,
-            exitTransition = TransitionAnimation.SLIDE_FADE.exitTransition,
-            popEnterTransition = TransitionAnimation.SLIDE_FADE.popEnterTransition,
-            popExitTransition = TransitionAnimation.SLIDE_FADE.popExitTransition
+            enterTransition = TransitionAnimation.FADE_SLIDE_RTL.enterTransition,
+            exitTransition = TransitionAnimation.FADE_SLIDE_LTR.exitTransition,
+            popEnterTransition = TransitionAnimation.FADE_SLIDE_LTR.popEnterTransition,
+            popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
         ) {
             ProfileStep(
                 onContinue = navController::navigateToOccupation,
@@ -55,10 +63,10 @@ internal fun RegistrationNavHost(
         }
 
         composable<RegistrationRoute.Occupation>(
-            enterTransition = TransitionAnimation.SLIDE_FADE.enterTransition,
-            exitTransition = TransitionAnimation.SLIDE_FADE.popExitTransition,
-            popEnterTransition = TransitionAnimation.SLIDE_FADE.enterTransition,
-            popExitTransition = TransitionAnimation.SLIDE_FADE.exitTransition
+            enterTransition = TransitionAnimation.FADE_SLIDE_RTL.enterTransition,
+            exitTransition = TransitionAnimation.FADE_SLIDE_LTR.exitTransition,
+            popEnterTransition = TransitionAnimation.FADE_SLIDE_LTR.popEnterTransition,
+            popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
         ) {
             OccupationStep(
                 onContinue = navController::navigateToHireDate,
@@ -67,7 +75,12 @@ internal fun RegistrationNavHost(
             )
         }
 
-        composable<RegistrationRoute.HireDate> {
+        composable<RegistrationRoute.HireDate>(
+            enterTransition = TransitionAnimation.FADE_SLIDE_RTL.enterTransition,
+            exitTransition = TransitionAnimation.FADE_SLIDE_LTR.exitTransition,
+            popEnterTransition = TransitionAnimation.FADE_SLIDE_LTR.popEnterTransition,
+            popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
+        ) {
             HireDateStep(
                 onContinue = navController::navigateToDayOff,
                 formattedDate = formattedDate,
@@ -75,7 +88,12 @@ internal fun RegistrationNavHost(
             )
         }
 
-        composable<RegistrationRoute.DayOff> {
+        composable<RegistrationRoute.DayOff>(
+            enterTransition = TransitionAnimation.FADE_SLIDE_RTL.enterTransition,
+            exitTransition = TransitionAnimation.FADE_SLIDE_LTR.exitTransition,
+            popEnterTransition = TransitionAnimation.FADE_SLIDE_LTR.popEnterTransition,
+            popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
+        ) {
             DayOffStep(
                 onContinue = {},
                 dayOfWeek = dayOff,
