@@ -6,11 +6,13 @@ import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.service.employee.EmployeeService
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.*
 import org.koin.ktor.ext.inject
 
 fun Application.employeeRoute() {
@@ -75,6 +77,51 @@ fun Application.employeeRoute() {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
                     }.onEmpty {
                         call.respond(HttpStatusCode.NotFound)
+                    }
+            }
+
+            get("/profile-picture/{id}") {
+                val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
+
+                employeeService.getProfilePicture(id)
+                    .onSuccess { imageBytes ->
+                        call.respondBytes(
+                            bytes = imageBytes,
+                            contentType = ContentType.Image.JPEG
+                        )
+                    }.onError {
+                        call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+                    }.onEmpty {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+            }
+
+            put("/profile-picture/{id}") {
+                val id = call.parameters["id"] ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
+
+                val multipart = call.receiveMultipart()
+                var imageBytes: ByteArray? = null
+
+                multipart.forEachPart { part ->
+                    when (part) {
+                        is PartData.FileItem -> {
+                            imageBytes = part.provider().toByteArray()
+                        }
+                        else -> {}
+                    }
+                    part.dispose()
+                }
+
+                if (imageBytes == null) {
+                    call.respond(HttpStatusCode.BadRequest, "No image found in request")
+                    return@put
+                }
+
+                employeeService.updateProfilePicture(id, imageBytes!!)
+                    .onSuccess {
+                        call.respond(HttpStatusCode.OK, "Profile picture updated successfully")
+                    }.onError {
+                        call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
                     }
             }
         }

@@ -21,19 +21,18 @@ internal class RegistrationFlowViewModel(
     savedStateHandle: SavedStateHandle,
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
-    private val userId = savedStateHandle.toRoute<Registration>().userId
+
+    val employee =
+        flow { emit(employeeRepository.getEmployee(savedStateHandle.toRoute<Registration>().userId).takeOrNull()) }
+            .filterNotNull()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(2.seconds),
+                null
+            )
 
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
-
-    val employee = flow { emit(employeeRepository.getEmployee(userId).takeOrNull()) }
-        .filterNotNull()
-        .onEach { println(it) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(2.seconds),
-            null
-        )
 
     fun onNavigationEvent(route: RegistrationRoute) {
         progress = route.progress

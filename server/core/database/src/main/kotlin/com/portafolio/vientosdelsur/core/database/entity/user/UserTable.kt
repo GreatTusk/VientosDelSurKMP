@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 object UserTable : IdTable<String>("user") {
     override val id = varchar("id", 128).entityId()
     val email = varchar("email", 100)
-    val photoUrl = varchar("photo_url", 255).nullable()
+    val profilePicture = blob("profile_picture").nullable()
     val phoneNumber = varchar("phone_number", 20)
     val isEnabled = bool("registration_completed").default(false)
     val createdAt = datetime("created_at")
@@ -24,7 +24,6 @@ class UserEntity(id: EntityID<String>) : Entity<String>(id) {
     companion object : EntityClass<String, UserEntity>(UserTable)
 
     var email by UserTable.email
-    var photoUrl by UserTable.photoUrl
     var phoneNumber by UserTable.phoneNumber
     var isEnabled by UserTable.isEnabled
     var createdAt by UserTable.createdAt

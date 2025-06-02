@@ -29,6 +29,14 @@ internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepos
             }
     }
 
+    override suspend fun getProfilePicture(userId: String): Result<ByteArray, DataError.Remote> =
+        employeeRepository.getProfilePicture(userId)
+
+    override suspend fun updateProfilePicture(
+        userId: String,
+        profilePicture: ByteArray
+    ): EmptyResult<DataError.Remote> = employeeRepository.updateProfilePicture(userId, profilePicture)
+
     override suspend fun getEmployeeByUserId(userId: String): Result<EmployeeResponse, DataError.Remote> {
         return employeeRepository.getEmployeeByUserId(userId)
             .map {
