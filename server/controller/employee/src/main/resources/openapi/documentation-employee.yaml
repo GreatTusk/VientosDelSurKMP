@@ -6,161 +6,244 @@ info:
 paths:
   /employee:
     get:
-      summary: Get all employees
+      description: ""
       responses:
-        '200':
-          description: List of employees retrieved successfully
+        "200":
+          description: "OK"
           content:
-            application/json:
+            '*/*':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeGet'
-        '404':
-          description: No employees found
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends Get>"
+        "500":
+          description: "Internal Server Error"
           content:
-            application/json:
+            '*/*':
               schema:
-                type: string
-                example: "Nothing"
-        '500':
-          description: Internal server error
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+        "404":
+          description: "Not Found"
           content:
-            application/json:
+            '*/*':
               schema:
-                type: string
-                example: "Something happened: error details"
+                type: "object"
     post:
-      summary: Create a new employee
+      description: ""
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeCreate'
+              $ref: "#/components/schemas/Create"
+        required: true
       responses:
-        '201':
-          description: Employee created successfully
-        '400':
-          description: Invalid employee data
-        '500':
-          description: Internal server error
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                type: "object"
   /employee/active/{userId}:
     get:
-      summary: Check if employee is active
+      description: ""
       parameters:
-        - name: userId
-          in: path
+        - name: "userId"
+          in: "path"
           required: true
-          description: ID of the user to check
           schema:
-            type: string
+            type: "string"
       responses:
-        '200':
-          description: Employee is active
-        '400':
-          description: User ID is required
-        '404':
-          description: Employee not found or not active
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "User ID is required"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /user/profile-picture/{id}:
+    get:
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid id"
+        "200":
+          description: "OK"
+          content:
+            image/jpeg:
+              schema:
+                type: "string"
+                format: "byte"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    put:
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "No image found in request"
+                Example#2:
+                  value: "Invalid id"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Profile picture updated successfully"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+  /user/{id}:
+    get:
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid id"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_Get"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
 components:
   schemas:
-    EmployeeGet:
-      type: object
+    Get:
+      type: "object"
+      properties: { }
+    BaseResponseDto:
+      type: "object"
       properties:
-        id:
-          type: integer
-          format: int32
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phoneNumber:
-          type: string
-        dayOff:
-          type: string
-          enum: [ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY ]
-        hireDate:
-          type: string
-          format: date-time
-        occupation:
-          $ref: '#/components/schemas/EmployeeOccupation'
-        housekeeperDto:
-          $ref: '#/components/schemas/Housekeeper'
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
       required:
-        - id
-        - firstName
-        - lastName
-        - phoneNumber
-        - dayOff
-        - hireDate
-        - occupation
-    EmployeeCreate:
-      type: object
+        - "message"
+        - "timestamp"
+    BaseResponseDto_List<? extends Get>:
+      type: "object"
       properties:
-        userDto:
-          $ref: '#/components/schemas/User'
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phoneNumber:
-          type: string
-        dayOff:
-          type: string
-          enum: [ MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY ]
-        hireDate:
-          type: string
-          format: date-time
-        occupation:
-          $ref: '#/components/schemas/EmployeeOccupation'
-        housekeeperDto:
-          $ref: '#/components/schemas/Housekeeper'
-      required:
-        - userDto
-        - firstName
-        - lastName
-        - phoneNumber
-        - dayOff
-        - hireDate
-        - occupation
-    EmployeeOccupation:
-      type: string
-      enum:
-        - HousekeeperSupervisor
-        - Housekeeper
-        - Admin
-        - Cook
-    Housekeeper:
-      type: object
-      nullable: true
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Get"
+    Create:
+      type: "object"
+      properties: { }
+    BaseResponseDto_Get:
+      type: "object"
       properties:
-        role:
-          $ref: '#/components/schemas/HousekeeperRole'
-        preferredFloor:
-          type: integer
-          nullable: true
-      required:
-        - role
-    HousekeeperRole:
-      type: string
-      enum:
-        - Kitchen
-        - KitchenSupport
-        - OnCall
-    User:
-      type: object
-      description: User information for employee creation
-      properties:
-        userId:
-          type: string
-        photoUrl:
-          type: string
-          nullable: true
-        isEnabled:
-          type: boolean
-        email:
-          type: string
-      required:
-        - userId
-        - isEnabled
-        - email
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        data:
+          $ref: "#/components/schemas/Get"

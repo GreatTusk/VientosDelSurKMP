@@ -6,6 +6,7 @@ import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 object UserTable : IdTable<String>("user") {
@@ -24,10 +25,14 @@ class UserEntity(id: EntityID<String>) : Entity<String>(id) {
     companion object : EntityClass<String, UserEntity>(UserTable)
 
     var email by UserTable.email
+    var profilePicture by UserTable.profilePicture
     var phoneNumber by UserTable.phoneNumber
     var isEnabled by UserTable.isEnabled
     var createdAt by UserTable.createdAt
     var updatedAt by UserTable.updatedAt
+
+    val hasPhoto: Boolean
+        get() = profilePicture != null
 
     val employee by EmployeeEntity optionalBackReferencedOn EmployeeTable
 }

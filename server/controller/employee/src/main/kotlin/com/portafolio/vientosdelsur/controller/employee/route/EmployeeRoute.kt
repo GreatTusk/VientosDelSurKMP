@@ -25,9 +25,11 @@ fun Application.employeeRoute() {
                 employeeService.getAllEmployees()
                     .onSuccess {
                         call.respond(it)
-                    }.onError {
+                    }
+                    .onError {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
-                    }.onEmpty {
+                    }
+                    .onEmpty {
                         call.respond(HttpStatusCode.NotFound)
                     }
             }
@@ -73,9 +75,11 @@ fun Application.employeeRoute() {
                 employeeService.getEmployeeByUserId(id)
                     .onSuccess {
                         call.respond(it)
-                    }.onError {
+                    }
+                    .onError {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
-                    }.onEmpty {
+                    }
+                    .onEmpty {
                         call.respond(HttpStatusCode.NotFound)
                     }
             }
@@ -89,9 +93,11 @@ fun Application.employeeRoute() {
                             bytes = imageBytes,
                             contentType = ContentType.Image.JPEG
                         )
-                    }.onError {
+                    }
+                    .onError {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
-                    }.onEmpty {
+                    }
+                    .onEmpty {
                         call.respond(HttpStatusCode.NotFound)
                     }
             }
@@ -101,26 +107,53 @@ fun Application.employeeRoute() {
 
                 val multipart = call.receiveMultipart()
                 var imageBytes: ByteArray? = null
+                var isValidImage = false
 
                 multipart.forEachPart { part ->
                     when (part) {
                         is PartData.FileItem -> {
-                            imageBytes = part.provider().toByteArray()
+                            // Check content type from part metadata
+                            val contentType = part.contentType
+                            if (contentType != null && contentType.contentType == "image") {
+                                imageBytes = part.provider().toByteArray()
+
+                                // Validate image by checking magic numbers
+                                if (imageBytes!!.isNotEmpty()) {
+                                    isValidImage = when {
+                                        // JPEG: starts with FF D8 FF
+                                        imageBytes!!.size >= 3 &&
+                                                imageBytes!![0] == 0xFF.toByte() &&
+                                                imageBytes!![1] == 0xD8.toByte() &&
+                                                imageBytes!![2] == 0xFF.toByte() -> true
+
+                                        // PNG: starts with 89 50 4E 47
+                                        imageBytes!!.size >= 4 &&
+                                                imageBytes!![0] == 0x89.toByte() &&
+                                                imageBytes!![1] == 0x50.toByte() &&
+                                                imageBytes!![2] == 0x4E.toByte() &&
+                                                imageBytes!![3] == 0x47.toByte() -> true
+
+                                        else -> false
+                                    }
+                                }
+                            }
                         }
+
                         else -> {}
                     }
                     part.dispose()
                 }
 
-                if (imageBytes == null) {
-                    call.respond(HttpStatusCode.BadRequest, "No image found in request")
+                if (imageBytes == null || !isValidImage) {
+                    call.respond(HttpStatusCode.BadRequest, "Invalid image format or no image found")
                     return@put
                 }
 
                 employeeService.updateProfilePicture(id, imageBytes!!)
                     .onSuccess {
                         call.respond(HttpStatusCode.OK, "Profile picture updated successfully")
-                    }.onError {
+                    }
+                    .onError {
                         call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
                     }
             }

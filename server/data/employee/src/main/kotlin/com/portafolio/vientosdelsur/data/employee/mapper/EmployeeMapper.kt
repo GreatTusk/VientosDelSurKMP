@@ -22,7 +22,7 @@ fun EmployeeEntity.toEmployee(): Employee {
     val user = User(
         id = this.user.id.value,
         email = user.email,
-        photoUrl = user.photoUrl,
+        photoUrl = if (user.hasPhoto) "/profile-picture/${this.user.id.value}" else null,
         phoneNumber = user.phoneNumber,
         isEnabled = user.isEnabled,
         createdAt = user.createdAt,
