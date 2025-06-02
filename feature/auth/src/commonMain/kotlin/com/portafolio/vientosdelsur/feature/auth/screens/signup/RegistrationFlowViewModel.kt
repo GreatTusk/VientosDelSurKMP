@@ -17,15 +17,13 @@ import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
 import kotlin.time.Duration.Companion.seconds
 
-private const val MINIMUM_PROGRESS = 0.25f
-
 internal class RegistrationFlowViewModel(
     savedStateHandle: SavedStateHandle,
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
     private val userId = savedStateHandle.toRoute<Registration>().userId
 
-    var progress by mutableFloatStateOf(MINIMUM_PROGRESS)
+    var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
 
     val employee = flow { emit(employeeRepository.getEmployee(userId).takeOrNull()) }

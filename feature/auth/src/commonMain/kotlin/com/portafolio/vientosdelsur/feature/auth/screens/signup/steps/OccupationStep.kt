@@ -96,7 +96,8 @@ internal fun OccupationStep(
             onClick = onContinue,
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 24.dp)
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomCenter),
+            enabled = occupationOption != null
         ) {
             Text("Continuar")
         }

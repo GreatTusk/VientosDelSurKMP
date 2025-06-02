@@ -19,7 +19,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import vientosdelsur.feature.auth.generated.resources.*
 
-internal val DayOfWeek.displayName: StringResource
+private val DayOfWeek.displayName: StringResource
     get() {
         return when (this) {
             DayOfWeek.MONDAY -> Res.string.monday
@@ -29,7 +29,7 @@ internal val DayOfWeek.displayName: StringResource
             DayOfWeek.FRIDAY -> Res.string.friday
             DayOfWeek.SATURDAY -> Res.string.saturday
             DayOfWeek.SUNDAY -> Res.string.sunday
-            else -> error("Invalid DayOfWeek")
+            else -> error("Expected enums must have an else branch to be considered exhaustive")
         }
     }
 
