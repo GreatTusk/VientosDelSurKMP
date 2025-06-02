@@ -16,6 +16,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -87,7 +90,9 @@ internal fun AuthSurface(
                     imeAction = ImeAction.Next
                 ),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().semantics {
+                    contentType = ContentType.EmailAddress
+                }
             )
 
             OutlinedTextField(
@@ -117,7 +122,9 @@ internal fun AuthSurface(
                     onSignIn()
                 },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().semantics {
+                    contentType = ContentType.Password
+                }
             )
 
             AnimatedContent(targetState = showRegister, modifier = Modifier.align(Alignment.End)) { isRegisterMode ->
@@ -147,7 +154,9 @@ internal fun AuthSurface(
                         ),
                         keyboardActions = KeyboardActions { onSignUp() },
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().semantics {
+                            contentType = ContentType.Password
+                        }
                     )
                 } else {
                     TextButton(onClick = onForgotPassword) {
