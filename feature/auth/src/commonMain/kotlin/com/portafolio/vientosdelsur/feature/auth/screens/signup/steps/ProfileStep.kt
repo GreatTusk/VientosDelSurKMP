@@ -31,7 +31,7 @@ internal fun ProfileStep(
     onContinue: () -> Unit,
     initialData: Employee?
 ) {
-    Box(modifier = Modifier.fillMaxSize().padding(horizontal = 32.dp)) {
+    Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
             text = "Cuéntanos sobre ti",
             modifier = Modifier.align(Alignment.TopCenter).padding(top = 16.dp),
@@ -40,9 +40,12 @@ internal fun ProfileStep(
         )
 
         Column(
-            modifier = modifier.imePadding().align(Alignment.Center),
+            modifier = Modifier.fillMaxSize().imePadding(),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.weight(0.5f))
+
             if (initialData?.photoUrl != null) {
                 AsyncImage(
                     modifier = Modifier.size(64.dp).clip(CircleShape),
@@ -85,23 +88,6 @@ internal fun ProfileStep(
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
-                )
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = initialData?.email ?: "",
-                onValueChange = {},
-                label = { Text("Email") },
-                placeholder = { Text("Ingresa tu email") },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Default.Email, contentDescription = "Email")
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
@@ -110,6 +96,8 @@ internal fun ProfileStep(
                     }
                 )
             )
+
+            Spacer(modifier = Modifier.weight(0.5f))
         }
 
         Button(

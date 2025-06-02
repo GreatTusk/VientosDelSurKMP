@@ -107,44 +107,34 @@ fun Application.employeeRoute() {
 
                 val multipart = call.receiveMultipart()
                 var imageBytes: ByteArray? = null
-                var isValidImage = false
+                val maxFileSize = 5 * 1024 * 1024
 
                 multipart.forEachPart { part ->
-                    when (part) {
-                        is PartData.FileItem -> {
-                            // Check content type from part metadata
-                            val contentType = part.contentType
-                            if (contentType != null && contentType.contentType == "image") {
-                                imageBytes = part.provider().toByteArray()
+                    if (part is PartData.FileItem) {
+                        val contentType = part.contentType
+                        if (contentType?.contentType == "image") {
+                            try {
+                                val bytes = part.provider().toByteArray()
 
-                                // Validate image by checking magic numbers
-                                if (imageBytes!!.isNotEmpty()) {
-                                    isValidImage = when {
-                                        // JPEG: starts with FF D8 FF
-                                        imageBytes!!.size >= 3 &&
-                                                imageBytes!![0] == 0xFF.toByte() &&
-                                                imageBytes!![1] == 0xD8.toByte() &&
-                                                imageBytes!![2] == 0xFF.toByte() -> true
-
-                                        // PNG: starts with 89 50 4E 47
-                                        imageBytes!!.size >= 4 &&
-                                                imageBytes!![0] == 0x89.toByte() &&
-                                                imageBytes!![1] == 0x50.toByte() &&
-                                                imageBytes!![2] == 0x4E.toByte() &&
-                                                imageBytes!![3] == 0x47.toByte() -> true
-
-                                        else -> false
-                                    }
+                                // Check file size first
+                                if (bytes.size > maxFileSize) {
+                                    part.dispose()
+                                    return@forEachPart
                                 }
+
+                                if (bytes.isValidImage()) {
+                                    imageBytes = bytes
+                                }
+                            } finally {
+                                part.dispose()
                             }
                         }
-
-                        else -> {}
+                    } else {
+                        part.dispose()
                     }
-                    part.dispose()
                 }
 
-                if (imageBytes == null || !isValidImage) {
+                if (imageBytes == null) {
                     call.respond(HttpStatusCode.BadRequest, "Invalid image format or no image found")
                     return@put
                 }
@@ -158,5 +148,17 @@ fun Application.employeeRoute() {
                     }
             }
         }
+    }
+}
+
+private fun ByteArray.isValidImage(): Boolean {
+    return when {
+        // JPEG signature
+        size >= 3 && this[0] == 0xFF.toByte() && this[1] == 0xD8.toByte() && this[2] == 0xFF.toByte() -> true
+        // PNG signature
+        size >= 4 && this[0] == 0x89.toByte() && this[1] == 0x50.toByte() &&
+                this[2] == 0x4E.toByte() && this[3] == 0x47.toByte() -> true
+
+        else -> false
     }
 }

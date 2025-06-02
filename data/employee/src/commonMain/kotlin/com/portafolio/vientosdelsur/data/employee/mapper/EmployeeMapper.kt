@@ -2,6 +2,7 @@ package com.portafolio.vientosdelsur.data.employee.mapper
 
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
+import com.portafolio.vientosdelsur.network.BuildConfig
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeOccupationDto
 
@@ -13,7 +14,7 @@ fun EmployeeDto.Get.toEmployee() =
         occupation = occupation.toOccupation(),
         userId = userId,
         email = email,
-        photoUrl = photoUrl,
+        photoUrl = photoUrl?.let { "${BuildConfig.BASE_URL}$it" },
         phoneNumber = phoneNumber,
         isEnabled = isEnabled
     )

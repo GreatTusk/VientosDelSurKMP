@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
+import kotlinx.datetime.*
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -31,7 +32,21 @@ internal fun HireDateStep(
     onContinue: () -> Unit
 ) {
     var showDatePickerDialog by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(
+        selectableDates = object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                val today = Clock.System.now().toLocalDateTime(TimeZone.UTC)
+                val date = Instant.fromEpochMilliseconds(utcTimeMillis).toLocalDateTime(TimeZone.UTC)
+
+                return date <= today
+            }
+
+            override fun isSelectableYear(year: Int): Boolean {
+                val currentYear = Clock.System.now().toLocalDateTime(TimeZone.UTC).year
+                return year <= currentYear
+            }
+        }
+    )
 
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
@@ -52,6 +67,9 @@ internal fun HireDateStep(
                 onValueChange = { },
                 modifier = Modifier
                     .fillMaxWidth()
+                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
+                    // in the Initial pass to observe events before the text field consumes them
+                    // in the Main pass.
                     .pointerInput(Unit) {
                         awaitEachGesture {
                             awaitFirstDown(pass = PointerEventPass.Initial)

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.f776.core.common.takeOrNull
+import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
@@ -22,14 +23,18 @@ internal class RegistrationFlowViewModel(
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
 
-    val employee =
-        flow { emit(employeeRepository.getEmployee(savedStateHandle.toRoute<Registration>().userId).takeOrNull()) }
-            .filterNotNull()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(2.seconds),
-                null
-            )
+    private val _employee = MutableStateFlow<Employee?>(null)
+    val employee = _employee.combine(
+        flow {
+            emit(employeeRepository.getEmployee(savedStateHandle.toRoute<Registration>().userId).takeOrNull())
+        }
+    ) { _, new -> new }
+        .onEach { println(it) }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(2.seconds),
+            null
+        )
 
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
@@ -71,6 +76,13 @@ internal class RegistrationFlowViewModel(
 
     fun onOccupationSelected(selectedOccupation: OccupationOption) {
         occupation = if (occupation == selectedOccupation) null else selectedOccupation
+    }
+
+    fun onNameChanged(name: String) {
+    }
+
+    fun onLastNameChanged(lastName: String) {
+
     }
 }
 
