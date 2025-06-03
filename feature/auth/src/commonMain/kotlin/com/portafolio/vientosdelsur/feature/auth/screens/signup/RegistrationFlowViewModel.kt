@@ -4,14 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
-import com.f776.core.common.takeOrNull
+import com.portafolio.vientosdelsur.domain.auth.Email
+import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
-import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
 import kotlinx.coroutines.flow.*
@@ -19,16 +17,19 @@ import kotlinx.datetime.*
 import kotlin.time.Duration.Companion.seconds
 
 internal class RegistrationFlowViewModel(
-    savedStateHandle: SavedStateHandle,
-    private val employeeRepository: EmployeeRepository
+    private val employeeRepository: EmployeeRepository,
+    userRepository: UserRepository
 ) : ViewModel() {
 
     private val _employee = MutableStateFlow<Employee?>(null)
-    val employee = _employee.combine(
-        flow {
-            emit(employeeRepository.getEmployee(savedStateHandle.toRoute<Registration>().userId).takeOrNull())
-        }
-    ) { _, new -> new }
+    val employee = _employee.combine(userRepository.currentUser.filterNotNull()) { _, user ->
+        EmployeeRegistrationData(
+            firstName = user.name,
+            email = user.email,
+            userId = user.id,
+            photoUrl = user.photoUrl
+        )
+    }
         .onEach { println(it) }
         .stateIn(
             viewModelScope,
@@ -39,19 +40,25 @@ internal class RegistrationFlowViewModel(
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
 
+    var dayOfWeek by mutableStateOf<DayOfWeek?>(null)
+        private set
+
+    var hireDate by mutableStateOf<LocalDate?>(null)
+        private set
+
+    var dayOff by mutableStateOf<DayOfWeek?>(null)
+        private set
+
+    var occupation by mutableStateOf<OccupationOption?>(null)
+        private set
+
     fun onNavigationEvent(route: RegistrationRoute) {
         progress = route.progress
     }
 
-    var dayOfWeek by mutableStateOf<DayOfWeek?>(null)
-        private set
-
     fun onDayOfWeekSelected(selectedDay: DayOfWeek?) {
         dayOfWeek = if (dayOfWeek == selectedDay) null else selectedDay
     }
-
-    var hireDate by mutableStateOf<LocalDate?>(null)
-        private set
 
     fun onHireDateSelected(millis: Long?) {
         if (millis == null) {
@@ -64,15 +71,9 @@ internal class RegistrationFlowViewModel(
         hireDate = localDateTime
     }
 
-    var dayOff by mutableStateOf<DayOfWeek?>(null)
-        private set
-
     fun onDayOffSelected(dayOfWeek: DayOfWeek) {
         dayOff = if (dayOff == dayOfWeek) null else dayOfWeek
     }
-
-    var occupation by mutableStateOf<OccupationOption?>(null)
-        private set
 
     fun onOccupationSelected(selectedOccupation: OccupationOption) {
         occupation = if (occupation == selectedOccupation) null else selectedOccupation
@@ -93,3 +94,16 @@ internal val LocalDate.formatted: String
         val year = year
         return "$day/$month/$year"
     }
+
+
+internal data class EmployeeRegistrationData(
+    val firstName: String = "",
+    val lastName: String = "",
+    val occupation: OccupationOption = OccupationOption.HOUSEKEEPER,
+    val dayOff: DayOfWeek = DayOfWeek.SUNDAY,
+    val hireDate: LocalDate = Instant.DISTANT_FUTURE.toLocalDateTime(TimeZone.UTC).date,
+    // From User
+    val email: Email,
+    val userId: String,
+    val photoUrl: String?
+)

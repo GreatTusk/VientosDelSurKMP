@@ -2,10 +2,7 @@ package com.portafolio.vientosdelsur.feature.auth.screens.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
+import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -134,7 +131,8 @@ private fun AuthScreenDetail(
         modifier = modifier,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
-        }
+        },
+        contentWindowInsets =  ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
     ) {
         Column(modifier = Modifier.padding(it)) {
             Image(

@@ -5,9 +5,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,7 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.domain.employee.Employee
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.EmployeeRegistrationData
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.PhotoPicker
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -29,7 +26,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun ProfileStep(
     modifier: Modifier = Modifier,
     onContinue: () -> Unit,
-    initialData: Employee?
+    initialData: EmployeeRegistrationData?
 ) {
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
@@ -49,7 +46,7 @@ internal fun ProfileStep(
             if (initialData?.photoUrl != null) {
                 AsyncImage(
                     modifier = Modifier.size(64.dp).clip(CircleShape),
-                    model = initialData.photoUrl,
+                    model = "http://localhost:8080/user/profile-picture/5WKIIgtatvNE0br3tUulbR823eI3",
                     contentDescription = "Profile picture"
                 )
             } else {
