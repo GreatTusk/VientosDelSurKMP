@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--Auth screen-->
     <string name="already_have_account_question">¿Ya tienes una cuenta?</string>
     <string name="confirm_password">Confirmar contraseña</string>
     <string name="confirm_password_content_description">Confirmar contraseña</string>
@@ -25,11 +26,18 @@
     <string name="toggle_confirm_password_visibility">Alternar visibilidad de la confirmación de contraseña</string>
     <string name="toggle_password_visibility">Alternar visibilidad de la contraseña</string>
 
+    <string name="invalid_email_error">Email inválido.</string>
+    <string name="password_mismatch_error">Las contraseñas no coinciden.</string>
+    <string name="credential_mismatch_error">¡Uy! Contraseña o correo inválidos</string>
+    <string name="remote_error">Algo salió mal. Por favor inténtelo de nuevo</string>
+    <string name="no_google_accounts_error">Su dispositivo no cuenta con cuentas de Google</string>
 
+    <!--Occupation screen-->
     <string name="housekeeper_option">Mucama</string>
     <string name="supervisor_option">Supervisora de mucamas</string>
     <string name="admin_option">Administrador</string>
 
+    <!--Day off screen-->
     <string name="monday">Lunes</string>
     <string name="tuesday">Martes</string>
     <string name="wednesday">Miércoles</string>

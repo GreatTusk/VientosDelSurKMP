@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthScreenType
+import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthValidationErrors
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -47,7 +48,8 @@ internal fun AuthSurface(
     onSignInGoogle: () -> Unit,
     onConfirmPasswordChanged: (String) -> Unit,
     onForgotPassword: () -> Unit,
-    onAuthTypeChanged: () -> Unit
+    onAuthTypeChanged: () -> Unit,
+    validationErrors: AuthValidationErrors
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
@@ -89,6 +91,14 @@ internal fun AuthSurface(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
                 ),
+                supportingText = if (validationErrors.emailError != null) {
+                    {
+                        Text(
+                            text = stringResource(validationErrors.emailError),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                } else null,
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth().semantics {
                     contentType = ContentType.EmailAddress
@@ -113,6 +123,14 @@ internal fun AuthSurface(
                         )
                     }
                 },
+                supportingText = if (validationErrors.passwordError != null) {
+                    {
+                        Text(
+                            text = stringResource(validationErrors.passwordError),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                } else null,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
@@ -147,6 +165,14 @@ internal fun AuthSurface(
                                 )
                             }
                         },
+                        supportingText = if (validationErrors.passwordError != null) {
+                            {
+                                Text(
+                                    text = stringResource(validationErrors.passwordError),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        } else null,
                         visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password,
@@ -249,6 +275,7 @@ private fun SignInSurfacePreview() {
         AuthSurface(
             email = "test@example.com",
             password = "password",
+            authType = AuthScreenType.SIGN_IN,
             confirmPassword = "password",
             onEmailChanged = {},
             onPasswordChanged = {},
@@ -258,18 +285,19 @@ private fun SignInSurfacePreview() {
             onConfirmPasswordChanged = {},
             onForgotPassword = {},
             onAuthTypeChanged = {},
-            authType = AuthScreenType.SIGN_IN
+            validationErrors = AuthValidationErrors()
         )
     }
 }
 
 @Preview
 @Composable
-private fun SignUnSurfacePreview() {
+private fun SignInErrorsSurfacePreview() {
     VientosDelSurTheme {
         AuthSurface(
             email = "test@example.com",
             password = "password",
+            authType = AuthScreenType.SIGN_IN,
             confirmPassword = "password",
             onEmailChanged = {},
             onPasswordChanged = {},
@@ -279,7 +307,58 @@ private fun SignUnSurfacePreview() {
             onConfirmPasswordChanged = {},
             onForgotPassword = {},
             onAuthTypeChanged = {},
-            authType = AuthScreenType.SIGN_UP
+            validationErrors = AuthValidationErrors(
+                emailError = Res.string.invalid_email_error,
+                passwordError = Res.string.credential_mismatch_error
+            )
+        )
+    }
+}
+
+
+@Preview
+@Composable
+private fun SignUpSurfacePreview() {
+    VientosDelSurTheme {
+        AuthSurface(
+            email = "test@example.com",
+            password = "password",
+            authType = AuthScreenType.SIGN_UP,
+            confirmPassword = "password",
+            onEmailChanged = {},
+            onPasswordChanged = {},
+            onSignIn = {},
+            onSignUp = {},
+            onSignInGoogle = {},
+            onConfirmPasswordChanged = {},
+            onForgotPassword = {},
+            onAuthTypeChanged = {},
+            validationErrors = AuthValidationErrors()
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SignUpErrorsSurfacePreview() {
+    VientosDelSurTheme {
+        AuthSurface(
+            email = "test@example.com",
+            password = "password",
+            authType = AuthScreenType.SIGN_UP,
+            confirmPassword = "password",
+            onEmailChanged = {},
+            onPasswordChanged = {},
+            onSignIn = {},
+            onSignUp = {},
+            onSignInGoogle = {},
+            onConfirmPasswordChanged = {},
+            onForgotPassword = {},
+            onAuthTypeChanged = {},
+            validationErrors = AuthValidationErrors(
+                emailError = Res.string.invalid_email_error,
+                passwordError = Res.string.password_mismatch_error
+            )
         )
     }
 }
