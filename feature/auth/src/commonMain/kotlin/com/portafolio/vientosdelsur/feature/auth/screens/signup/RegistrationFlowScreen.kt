@@ -15,9 +15,9 @@ internal fun RegistrationFlowScreenRoot(
     modifier: Modifier = Modifier,
     registrationFlowViewModel: RegistrationFlowViewModel
 ) {
-    val user by registrationFlowViewModel.employee.collectAsStateWithLifecycle()
     val progressState = animateFloatAsState(registrationFlowViewModel.progress)
     val navController = rememberNavController()
+    val data by registrationFlowViewModel.initialData.collectAsStateWithLifecycle()
 
     ProgressScaffold(
         modifier = modifier,
@@ -28,14 +28,18 @@ internal fun RegistrationFlowScreenRoot(
             RegistrationNavHost(
                 modifier = Modifier.padding(it),
                 navController = navController,
-                user = user,
                 onNavigationEvent = registrationFlowViewModel::onNavigationEvent,
                 occupationOption = registrationFlowViewModel.occupation,
                 onOccupationSelected = registrationFlowViewModel::onOccupationSelected,
                 formattedDate = registrationFlowViewModel.hireDate?.formatted,
                 onDateSelected = registrationFlowViewModel::onHireDateSelected,
                 dayOff = registrationFlowViewModel.dayOff,
-                onDayOffSelected = registrationFlowViewModel::onDayOffSelected
+                onDayOffSelected = registrationFlowViewModel::onDayOffSelected,
+                onFirstNameChanged = registrationFlowViewModel::onFirstNameChanged,
+                onLastNameChanged = registrationFlowViewModel::onLastNameChanged,
+                firstName = registrationFlowViewModel.firstName,
+                lastName = registrationFlowViewModel.lastName,
+                profilePhoto = registrationFlowViewModel.profilePhoto
             )
         }
     )

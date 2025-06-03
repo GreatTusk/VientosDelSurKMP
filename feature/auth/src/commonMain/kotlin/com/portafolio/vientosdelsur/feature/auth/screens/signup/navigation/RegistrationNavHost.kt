@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.f776.core.ui.navigation.TransitionAnimation
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.EmployeeRegistrationData
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePhoto
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.*
 import kotlinx.datetime.DayOfWeek
 
@@ -16,14 +16,18 @@ import kotlinx.datetime.DayOfWeek
 internal fun RegistrationNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    user: EmployeeRegistrationData?,
     onNavigationEvent: (RegistrationRoute) -> Unit,
     occupationOption: OccupationOption?,
     onOccupationSelected: (OccupationOption) -> Unit,
     formattedDate: String?,
     onDateSelected: (Long?) -> Unit,
     dayOff: DayOfWeek?,
-    onDayOffSelected: (DayOfWeek) -> Unit
+    onDayOffSelected: (DayOfWeek) -> Unit,
+    firstName: String,
+    lastName: String,
+    profilePhoto: ProfilePhoto,
+    onFirstNameChanged: (String) -> Unit,
+    onLastNameChanged: (String) -> Unit
 ) {
     LaunchedEffect(Unit) {
         navController.currentBackStackEntryFlow.collect {
@@ -58,7 +62,11 @@ internal fun RegistrationNavHost(
         ) {
             ProfileStep(
                 onContinue = navController::navigateToOccupation,
-                initialData = user
+                onFirstNameChanged = onFirstNameChanged,
+                onLastNameChanged = onLastNameChanged,
+                firstName = firstName,
+                lastName = lastName,
+                profilePhoto = profilePhoto
             )
         }
 

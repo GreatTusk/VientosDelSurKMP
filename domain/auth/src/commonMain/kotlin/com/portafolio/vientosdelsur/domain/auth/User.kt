@@ -7,3 +7,16 @@ data class User(
     val email: Email,
     val isActive: Boolean
 )
+
+fun User.getFirstAndLastName(): Pair<String, String> {
+    val words = name.split(" ")
+
+    if (words.isEmpty()) return "" to ""
+    if (words.size == 1) return words[0] to ""
+
+    val middle = words.size / 2
+    val firstName = words.subList(0, middle)
+    val lastName = words.subList(middle, words.size)
+
+    return firstName.joinToString(" ") to lastName.joinToString(" ")
+}

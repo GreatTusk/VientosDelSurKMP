@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup.steps
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,7 +11,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -18,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.EmployeeRegistrationData
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePhoto
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.PhotoPicker
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -26,7 +32,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun ProfileStep(
     modifier: Modifier = Modifier,
     onContinue: () -> Unit,
-    initialData: EmployeeRegistrationData?
+    firstName: String,
+    lastName: String,
+    profilePhoto: ProfilePhoto,
+    onFirstNameChanged: (String) -> Unit,
+    onLastNameChanged: (String) -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize().padding(horizontal = 32.dp)) {
         Text(
@@ -43,24 +53,33 @@ internal fun ProfileStep(
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
 
-            if (initialData?.photoUrl != null) {
-                AsyncImage(
-                    modifier = Modifier.size(64.dp).clip(CircleShape),
-                    model = "http://localhost:8080/user/profile-picture/5WKIIgtatvNE0br3tUulbR823eI3",
-                    contentDescription = "Profile picture"
-                )
-            } else {
-                PhotoPicker(
-                    onClick = {}
-                )
+            when (profilePhoto) {
+                is ProfilePhoto.URL -> {
+                    AsyncImage(
+                        modifier = Modifier.size(64.dp).clip(CircleShape).border(1.dp, Color.Red),
+                        model = profilePhoto.url,
+                        contentDescription = "Profile picture"
+                    )
+                }
+
+                is ProfilePhoto.Image -> {
+                }
+
+                else -> {
+                    PhotoPicker(
+                        onClick = {}
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = initialData?.firstName ?: "",
-                onValueChange = {},
+                modifier = Modifier.fillMaxWidth().semantics {
+                    contentType = ContentType.PersonFirstName
+                },
+                value = firstName,
+                onValueChange = onFirstNameChanged,
                 label = { Text("Nombre") },
                 placeholder = { Text("Ingresa tu nombre") },
                 leadingIcon = {
@@ -75,9 +94,11 @@ internal fun ProfileStep(
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = initialData?.lastName ?: "",
-                onValueChange = {},
+                modifier = Modifier.fillMaxWidth().semantics {
+                    contentType = ContentType.PersonLastName
+                },
+                value = lastName,
+                onValueChange = onLastNameChanged,
                 label = { Text("Apellido") },
                 placeholder = { Text("Ingresa tu apellido") },
                 leadingIcon = {
@@ -119,8 +140,12 @@ private fun ProfileStepPreview() {
             content = {
                 ProfileStep(
                     onContinue = {},
-                    initialData = null,
-                    modifier = Modifier.padding(it)
+                    modifier = Modifier.padding(it),
+                    onFirstNameChanged = {},
+                    onLastNameChanged = {},
+                    firstName = "",
+                    lastName = "",
+                    profilePhoto = ProfilePhoto.None
                 )
             }
         )
