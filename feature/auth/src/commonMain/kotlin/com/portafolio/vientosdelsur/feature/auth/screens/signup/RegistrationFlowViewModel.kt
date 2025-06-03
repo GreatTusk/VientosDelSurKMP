@@ -45,7 +45,6 @@ internal class RegistrationFlowViewModel(
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
 
-
     var dayOfWeek by mutableStateOf<DayOfWeek?>(null)
         private set
 

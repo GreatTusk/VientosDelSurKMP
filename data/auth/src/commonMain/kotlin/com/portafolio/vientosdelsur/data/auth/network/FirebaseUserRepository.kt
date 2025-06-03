@@ -7,10 +7,8 @@ import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import dev.gitlive.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 
 internal class FirebaseUserRepository(
     firebaseAuth: FirebaseAuth,
@@ -26,6 +24,23 @@ internal class FirebaseUserRepository(
 //            isActive = false
 //        )
 //    )
+
+    // infinite flow
+//    override val currentUser: Flow<User?> = flow<User?> {
+//        while (true) {
+//            emit(
+//                User(
+//                    id = "1",
+//                    name = "Fer",
+//                    photoUrl = null,
+//                    email = Email("email@duoc.cl"),
+//                    isActive = false
+//                )
+//            )
+//            delay(1000)
+//        }
+//    }.filterNotNull().onEach { println(it) }
+//
 
     override val currentUser: Flow<User?> = firebaseAuth.authStateChanged
         .flowOn(ioDispatcher)
