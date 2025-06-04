@@ -105,7 +105,7 @@ firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseA
 # Coil
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
-#ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 #ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 #ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 

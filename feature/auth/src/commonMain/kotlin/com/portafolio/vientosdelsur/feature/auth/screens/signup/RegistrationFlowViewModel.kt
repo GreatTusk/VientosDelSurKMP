@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -116,6 +117,6 @@ internal data class EmployeeRegistrationData(
 
 sealed interface ProfilePhoto {
     data class URL(val url: String) : ProfilePhoto
-    data class Image(val image: BitmapImage) : ProfilePhoto
+    data class Image(val image: ImageBitmap) : ProfilePhoto
     data object None : ProfilePhoto
 }

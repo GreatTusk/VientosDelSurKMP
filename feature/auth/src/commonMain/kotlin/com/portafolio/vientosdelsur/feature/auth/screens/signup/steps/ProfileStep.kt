@@ -1,11 +1,13 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup.steps
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -13,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -22,11 +23,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.EmployeeRegistrationData
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePhoto
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.PhotoPicker
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProfilePhotoPicker
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
+import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import vientosdelsur.feature.auth.generated.resources.Res
+import vientosdelsur.feature.auth.generated.resources.apple_icon
 
 @Composable
 internal fun ProfileStep(
@@ -55,20 +58,33 @@ internal fun ProfileStep(
 
             when (profilePhoto) {
                 is ProfilePhoto.URL -> {
-                    AsyncImage(
-                        modifier = Modifier.size(64.dp).clip(CircleShape).border(1.dp, Color.Red),
-                        model = profilePhoto.url,
-                        contentDescription = "Profile picture"
-                    )
+                    ProfilePhotoPicker(onClick = {}) {
+                        AsyncImage(
+                            modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
+                            model = profilePhoto.url,
+                            contentDescription = "Profile picture"
+                        )
+                    }
                 }
 
                 is ProfilePhoto.Image -> {
+                    ProfilePhotoPicker(onClick = {}) {
+                        Image(
+                            modifier = Modifier.size(96.dp).clip(CircleShape),
+                            bitmap = profilePhoto.image,
+                            contentDescription = "Profile picture"
+                        )
+                    }
                 }
 
                 else -> {
-                    PhotoPicker(
-                        onClick = {}
-                    )
+                    ProfilePhotoPicker(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
+                            contentDescription = "Profile picture"
+                        )
+                    }
                 }
             }
 
@@ -122,7 +138,8 @@ internal fun ProfileStep(
             onClick = onContinue,
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 24.dp)
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomCenter),
+            enabled = firstName.isNotBlank() && lastName.isNotBlank()
         ) {
             Text("Continuar")
         }
@@ -139,13 +156,59 @@ private fun ProfileStepPreview() {
             progress = { 0.1f },
             content = {
                 ProfileStep(
-                    onContinue = {},
                     modifier = Modifier.padding(it),
+                    onContinue = {},
                     onFirstNameChanged = {},
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
                     profilePhoto = ProfilePhoto.None
+                )
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileStepURLPreview() {
+    VientosDelSurTheme {
+        ProgressScaffold(
+            onGoBack = {},
+            onSkipStep = null,
+            progress = { 0.1f },
+            content = {
+                ProfileStep(
+                    modifier = Modifier.padding(it),
+                    onContinue = {},
+                    onFirstNameChanged = {},
+                    onLastNameChanged = {},
+                    firstName = "",
+                    lastName = "",
+                    profilePhoto = ProfilePhoto.URL("")
+                )
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileStepImagePreview() {
+    VientosDelSurTheme {
+        ProgressScaffold(
+            onGoBack = {},
+            onSkipStep = null,
+            progress = { 0.1f },
+            content = {
+                ProfileStep(
+                    modifier = Modifier.padding(it),
+                    onContinue = {},
+                    onFirstNameChanged = {},
+                    onLastNameChanged = {},
+                    firstName = "",
+                    lastName = "",
+                    profilePhoto = ProfilePhoto.Image(imageResource(Res.drawable.apple_icon))
                 )
             }
         )
