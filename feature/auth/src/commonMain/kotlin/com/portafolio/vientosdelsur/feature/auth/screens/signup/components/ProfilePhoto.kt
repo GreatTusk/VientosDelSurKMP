@@ -48,3 +48,6 @@ internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () ->
         }
     }
 }
+
+@Composable
+internal expect fun ProfilePhoto(userProfilePicture: UserProfilePicture)
