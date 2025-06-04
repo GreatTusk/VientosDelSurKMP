@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.UserProfilePicture
@@ -24,7 +25,8 @@ internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () ->
                 AsyncImage(
                     modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
                     model = userProfilePicture.url,
-                    contentDescription = "Profile picture"
+                    contentDescription = "Profile picture",
+                    contentScale = ContentScale.Crop
                 )
             }
         }
@@ -34,7 +36,8 @@ internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () ->
                 Image(
                     modifier = Modifier.size(96.dp).clip(CircleShape),
                     bitmap = userProfilePicture.image,
-                    contentDescription = "Profile picture"
+                    contentDescription = "Profile picture",
+                    contentScale = ContentScale.Crop
                 )
             }
         }

@@ -40,7 +40,10 @@ internal class RegistrationFlowViewModel(
             val (first, last) = user.getFirstAndLastName()
             firstName = first
             lastName = last
-            userProfilePicture = user.photoUrl?.let { UserProfilePicture.URL(it) } ?: UserProfilePicture.None
+
+            user.photoUrl?.let {
+                profilePictureProvider.updateProfilePicture(UserProfilePicture.URL(it))
+            }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(2.seconds), null)
 

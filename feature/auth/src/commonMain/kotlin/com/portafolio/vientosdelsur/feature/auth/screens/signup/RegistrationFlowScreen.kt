@@ -2,11 +2,13 @@ package com.portafolio.vientosdelsur.feature.auth.screens.signup
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationNavHost
 
@@ -18,6 +20,7 @@ internal fun RegistrationFlowScreenRoot(
     val progressState = animateFloatAsState(registrationFlowViewModel.progress)
     val navController = rememberNavController()
     val data by registrationFlowViewModel.initialData.collectAsStateWithLifecycle()
+    val userProfilePicture by registrationFlowViewModel.userProfilePicture.collectAsStateWithLifecycle()
 
     ProgressScaffold(
         modifier = modifier,
@@ -39,7 +42,7 @@ internal fun RegistrationFlowScreenRoot(
                 onLastNameChanged = registrationFlowViewModel::onLastNameChanged,
                 firstName = registrationFlowViewModel.firstName,
                 lastName = registrationFlowViewModel.lastName,
-                userProfilePicture = registrationFlowViewModel.userProfilePicture
+                userProfilePicture = userProfilePicture
             )
         }
     )
