@@ -13,29 +13,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.UserProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePicture
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import org.koin.compose.koinInject
 
 @Composable
-internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () -> Unit) {
-    when (userProfilePicture) {
-        is UserProfilePicture.URL -> {
+internal fun ProfilePhoto(profilePicture: ProfilePicture, onClick: () -> Unit) {
+    when (profilePicture) {
+        is ProfilePicture.URL -> {
             ProfilePhotoPicker(onClick = onClick) {
                 AsyncImage(
                     modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
-                    model = userProfilePicture.url,
+                    model = profilePicture.url,
                     contentDescription = "Profile picture",
                     contentScale = ContentScale.Crop
                 )
             }
         }
 
-        is UserProfilePicture.Image -> {
+        is ProfilePicture.Image -> {
             ProfilePhotoPicker(onClick = onClick) {
                 Image(
                     modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
-                    bitmap = userProfilePicture.image,
+                    bitmap = profilePicture.image,
                     contentDescription = "Profile picture",
                     contentScale = ContentScale.Crop
                 )
@@ -56,6 +56,6 @@ internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () ->
 
 @Composable
 internal expect fun ProfilePhoto(
-    userProfilePicture: UserProfilePicture,
+    profilePicture: ProfilePicture,
     profilePictureProvider: ProfilePictureProvider = koinInject()
 )

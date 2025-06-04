@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.UserProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePicture
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProfilePhoto
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.resources.imageResource
@@ -31,7 +31,7 @@ internal fun ProfileStep(
     onContinue: () -> Unit,
     firstName: String,
     lastName: String,
-    userProfilePicture: UserProfilePicture,
+    profilePicture: ProfilePicture,
     onFirstNameChanged: (String) -> Unit,
     onLastNameChanged: (String) -> Unit
 ) {
@@ -50,7 +50,7 @@ internal fun ProfileStep(
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
 
-            ProfilePhoto(userProfilePicture = userProfilePicture)
+            ProfilePhoto(profilePicture = profilePicture)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -126,7 +126,7 @@ private fun ProfileStepPreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    userProfilePicture = UserProfilePicture.None
+                    profilePicture = ProfilePicture.None
                 )
             }
         )
@@ -149,7 +149,7 @@ private fun ProfileStepURLPreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    userProfilePicture = UserProfilePicture.URL("")
+                    profilePicture = ProfilePicture.URL("")
                 )
             }
         )
@@ -172,7 +172,7 @@ private fun ProfileStepImagePreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    userProfilePicture = UserProfilePicture.Image(imageResource(Res.drawable.apple_icon))
+                    profilePicture = ProfilePicture.Image(imageResource(Res.drawable.apple_icon))
                 )
             }
         )

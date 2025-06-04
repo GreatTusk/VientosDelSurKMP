@@ -7,25 +7,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.portafolio.vientosdelsur.domain.auth.AuthService
 import com.portafolio.vientosdelsur.domain.auth.Email
-import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
-import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 internal class RegistrationFlowViewModel(
     private val employeeRepository: EmployeeRepository,
     private val profilePictureProvider: ProfilePictureProvider,
-    userRepository: UserRepository,
-    private val authService: AuthService,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -44,7 +38,7 @@ internal class RegistrationFlowViewModel(
             lastName = last
 
             profilePictureUrl?.let {
-                profilePictureProvider.updateProfilePicture(UserProfilePicture.URL(it))
+                profilePictureProvider.updateProfilePicture(ProfilePicture.URL(it))
             }
         }
     }
@@ -52,9 +46,6 @@ internal class RegistrationFlowViewModel(
     var userProfilePicture = profilePictureProvider.profilePicture
 
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
-        private set
-
-    var dayOfWeek by mutableStateOf<DayOfWeek?>(null)
         private set
 
     var hireDate by mutableStateOf<LocalDate?>(null)
@@ -71,9 +62,6 @@ internal class RegistrationFlowViewModel(
     }
 
     fun onHireDateSelected(millis: Long?) {
-        viewModelScope.launch {
-            authService.logout()
-        }
         if (millis == null) {
             hireDate = null
             return
@@ -122,8 +110,8 @@ internal data class EmployeeRegistrationData(
     val photoUrl: String?
 )
 
-sealed interface UserProfilePicture {
-    data class URL(val url: String) : UserProfilePicture
-    data class Image(val image: ImageBitmap) : UserProfilePicture
-    data object None : UserProfilePicture
+sealed interface ProfilePicture {
+    data class URL(val url: String) : ProfilePicture
+    data class Image(val image: ImageBitmap) : ProfilePicture
+    data object None : ProfilePicture
 }

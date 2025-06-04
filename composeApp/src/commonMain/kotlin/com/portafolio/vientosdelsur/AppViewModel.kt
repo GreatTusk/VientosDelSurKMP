@@ -13,7 +13,7 @@ class AppViewModel(userRepository: UserRepository) : ViewModel() {
 
     val user = userRepository.currentUser
         .onEach { user ->
-            println("Emitted a user! ")
+            println("Emitted a user! $user")
             when (user) {
                 null -> _eventChannel.send(AuthEvent.OnUserLoggedOut)
                 else -> {
