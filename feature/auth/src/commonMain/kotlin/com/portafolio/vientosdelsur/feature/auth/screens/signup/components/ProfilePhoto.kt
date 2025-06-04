@@ -13,6 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.UserProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
+import org.koin.compose.koinInject
 
 @Composable
 internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () -> Unit) {
@@ -50,4 +52,7 @@ internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () ->
 }
 
 @Composable
-internal expect fun ProfilePhoto(userProfilePicture: UserProfilePicture)
+internal expect fun ProfilePhoto(
+    userProfilePicture: UserProfilePicture,
+    profilePictureProvider: ProfilePictureProvider = koinInject()
+)

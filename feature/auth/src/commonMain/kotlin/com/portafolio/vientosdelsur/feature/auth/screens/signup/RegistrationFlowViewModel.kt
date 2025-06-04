@@ -11,6 +11,7 @@ import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
 import kotlinx.coroutines.flow.*
@@ -19,8 +20,13 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class RegistrationFlowViewModel(
     private val employeeRepository: EmployeeRepository,
+    private val profilePictureProvider: ProfilePictureProvider,
     userRepository: UserRepository
 ) : ViewModel() {
+
+    init {
+        addCloseable(profilePictureProvider)
+    }
 
     var firstName by mutableStateOf("")
         private set
@@ -38,8 +44,7 @@ internal class RegistrationFlowViewModel(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(2.seconds), null)
 
-    var userProfilePicture by mutableStateOf<UserProfilePicture>(UserProfilePicture.None)
-        private set
+    var userProfilePicture = profilePictureProvider.profilePicture
 
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
