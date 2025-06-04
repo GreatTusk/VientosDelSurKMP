@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 val AuthModule = module {
     includes(AuthDataModule, PlatformModule)
-    single(named("ioCoroutineScope")) { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
+    factory(named("ioCoroutineScope")) { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
     viewModelOf(::AuthViewModel)
     viewModelOf(::RegistrationFlowViewModel)
 }

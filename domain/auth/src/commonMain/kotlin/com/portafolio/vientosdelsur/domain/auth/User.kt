@@ -8,8 +8,8 @@ data class User(
     val isActive: Boolean
 )
 
-fun User.getFirstAndLastName(): Pair<String, String> {
-    val words = name.split(" ")
+fun String.getFirstAndLastName(): Pair<String, String> {
+    val words = split(" ")
 
     if (words.isEmpty()) return "" to ""
     if (words.size == 1) return words[0] to ""

@@ -5,28 +5,29 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.portafolio.vientosdelsur.domain.auth.AuthService
 import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
+import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import kotlin.time.Duration.Companion.seconds
 
 internal class RegistrationFlowViewModel(
     private val employeeRepository: EmployeeRepository,
     private val profilePictureProvider: ProfilePictureProvider,
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    private val authService: AuthService,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    init {
-        addCloseable(profilePictureProvider)
-    }
 
     var firstName by mutableStateOf("")
         private set
@@ -34,18 +35,19 @@ internal class RegistrationFlowViewModel(
     var lastName by mutableStateOf("")
         private set
 
-    val initialData = userRepository.currentUser
-        .filterNotNull()
-        .onEach { user ->
-            val (first, last) = user.getFirstAndLastName()
+    init {
+        addCloseable(profilePictureProvider)
+
+        savedStateHandle.toRoute<Registration>().run {
+            val (first, last) = userName.getFirstAndLastName()
             firstName = first
             lastName = last
 
-            user.photoUrl?.let {
+            profilePictureUrl?.let {
                 profilePictureProvider.updateProfilePicture(UserProfilePicture.URL(it))
             }
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(2.seconds), null)
+    }
 
     var userProfilePicture = profilePictureProvider.profilePicture
 
@@ -68,11 +70,10 @@ internal class RegistrationFlowViewModel(
         progress = route.progress
     }
 
-    fun onDayOfWeekSelected(selectedDay: DayOfWeek?) {
-        dayOfWeek = if (dayOfWeek == selectedDay) null else selectedDay
-    }
-
     fun onHireDateSelected(millis: Long?) {
+        viewModelScope.launch {
+            authService.logout()
+        }
         if (millis == null) {
             hireDate = null
             return

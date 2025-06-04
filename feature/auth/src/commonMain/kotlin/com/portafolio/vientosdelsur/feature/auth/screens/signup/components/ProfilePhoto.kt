@@ -34,7 +34,7 @@ internal fun ProfilePhoto(userProfilePicture: UserProfilePicture, onClick: () ->
         is UserProfilePicture.Image -> {
             ProfilePhotoPicker(onClick = onClick) {
                 Image(
-                    modifier = Modifier.size(96.dp).clip(CircleShape),
+                    modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
                     bitmap = userProfilePicture.image,
                     contentDescription = "Profile picture",
                     contentScale = ContentScale.Crop

@@ -19,7 +19,6 @@ internal fun RegistrationFlowScreenRoot(
 ) {
     val progressState = animateFloatAsState(registrationFlowViewModel.progress)
     val navController = rememberNavController()
-    val data by registrationFlowViewModel.initialData.collectAsStateWithLifecycle()
     val userProfilePicture by registrationFlowViewModel.userProfilePicture.collectAsStateWithLifecycle()
 
     ProgressScaffold(

@@ -13,20 +13,34 @@ class AppViewModel(userRepository: UserRepository) : ViewModel() {
 
     val user = userRepository.currentUser
         .onEach { user ->
+            println("Emitted a user! ")
             when (user) {
                 null -> _eventChannel.send(AuthEvent.OnUserLoggedOut)
                 else -> {
                     if (user.isActive) {
                         _eventChannel.send(AuthEvent.OnUserAuthenticated(user))
                     } else {
-                        _eventChannel.send(AuthEvent.OnRegistrationPending(user.id))
+                        _eventChannel.send(AuthEvent.OnRegistrationPending(user))
                     }
                 }
             }
         }
+        .flowOnce()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(2.seconds),
             initialValue = null
         )
+}
+
+fun <T> Flow<T>.flowOnce(): Flow<T> {
+    var isComplete = false
+    return flow {
+        if (!isComplete) {
+            collect {
+                emit(it)
+            }
+            isComplete = true
+        }
+    }
 }
