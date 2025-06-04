@@ -7,8 +7,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.BitmapImage
 import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
@@ -36,11 +34,11 @@ internal class RegistrationFlowViewModel(
             val (first, last) = user.getFirstAndLastName()
             firstName = first
             lastName = last
-            profilePhoto = user.photoUrl?.let { ProfilePhoto.URL(it) } ?: ProfilePhoto.None
+            userProfilePicture = user.photoUrl?.let { UserProfilePicture.URL(it) } ?: UserProfilePicture.None
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(2.seconds), null)
 
-    var profilePhoto by mutableStateOf<ProfilePhoto>(ProfilePhoto.None)
+    var userProfilePicture by mutableStateOf<UserProfilePicture>(UserProfilePicture.None)
         private set
 
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
@@ -115,8 +113,8 @@ internal data class EmployeeRegistrationData(
     val photoUrl: String?
 )
 
-sealed interface ProfilePhoto {
-    data class URL(val url: String) : ProfilePhoto
-    data class Image(val image: ImageBitmap) : ProfilePhoto
-    data object None : ProfilePhoto
+sealed interface UserProfilePicture {
+    data class URL(val url: String) : UserProfilePicture
+    data class Image(val image: ImageBitmap) : UserProfilePicture
+    data object None : UserProfilePicture
 }

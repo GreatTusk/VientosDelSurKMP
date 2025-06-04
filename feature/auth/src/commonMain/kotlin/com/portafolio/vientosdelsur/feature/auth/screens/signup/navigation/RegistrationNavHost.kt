@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.f776.core.ui.navigation.TransitionAnimation
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePhoto
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.UserProfilePicture
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.*
 import kotlinx.datetime.DayOfWeek
 
@@ -25,7 +25,7 @@ internal fun RegistrationNavHost(
     onDayOffSelected: (DayOfWeek) -> Unit,
     firstName: String,
     lastName: String,
-    profilePhoto: ProfilePhoto,
+    userProfilePicture: UserProfilePicture,
     onFirstNameChanged: (String) -> Unit,
     onLastNameChanged: (String) -> Unit
 ) {
@@ -66,7 +66,7 @@ internal fun RegistrationNavHost(
                 onLastNameChanged = onLastNameChanged,
                 firstName = firstName,
                 lastName = lastName,
-                profilePhoto = profilePhoto
+                userProfilePicture = userProfilePicture
             )
         }
 

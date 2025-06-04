@@ -22,7 +22,7 @@ internal fun ProfilePhotoPicker(
     onClick: () -> Unit,
     profilePhoto: @Composable BoxScope.() -> Unit
 ) {
-    Box(modifier = Modifier.size(128.dp)) {
+    Box(modifier = modifier.size(128.dp)) {
         profilePhoto()
         FilledIconButton(
             onClick = onClick,

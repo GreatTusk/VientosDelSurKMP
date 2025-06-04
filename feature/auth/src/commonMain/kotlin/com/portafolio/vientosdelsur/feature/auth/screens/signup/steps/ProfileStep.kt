@@ -1,30 +1,24 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup.steps
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Person2
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePhoto
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProfilePhotoPicker
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.UserProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProfilePhoto
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -37,7 +31,7 @@ internal fun ProfileStep(
     onContinue: () -> Unit,
     firstName: String,
     lastName: String,
-    profilePhoto: ProfilePhoto,
+    userProfilePicture: UserProfilePicture,
     onFirstNameChanged: (String) -> Unit,
     onLastNameChanged: (String) -> Unit
 ) {
@@ -56,37 +50,7 @@ internal fun ProfileStep(
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
 
-            when (profilePhoto) {
-                is ProfilePhoto.URL -> {
-                    ProfilePhotoPicker(onClick = {}) {
-                        AsyncImage(
-                            modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
-                            model = profilePhoto.url,
-                            contentDescription = "Profile picture"
-                        )
-                    }
-                }
-
-                is ProfilePhoto.Image -> {
-                    ProfilePhotoPicker(onClick = {}) {
-                        Image(
-                            modifier = Modifier.size(96.dp).clip(CircleShape),
-                            bitmap = profilePhoto.image,
-                            contentDescription = "Profile picture"
-                        )
-                    }
-                }
-
-                else -> {
-                    ProfilePhotoPicker(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Default.AccountCircle,
-                            modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
-                            contentDescription = "Profile picture"
-                        )
-                    }
-                }
-            }
+            ProfilePhoto(userProfilePicture = userProfilePicture)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -162,7 +126,7 @@ private fun ProfileStepPreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    profilePhoto = ProfilePhoto.None
+                    userProfilePicture = UserProfilePicture.None
                 )
             }
         )
@@ -185,7 +149,7 @@ private fun ProfileStepURLPreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    profilePhoto = ProfilePhoto.URL("")
+                    userProfilePicture = UserProfilePicture.URL("")
                 )
             }
         )
@@ -208,7 +172,7 @@ private fun ProfileStepImagePreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    profilePhoto = ProfilePhoto.Image(imageResource(Res.drawable.apple_icon))
+                    userProfilePicture = UserProfilePicture.Image(imageResource(Res.drawable.apple_icon))
                 )
             }
         )
