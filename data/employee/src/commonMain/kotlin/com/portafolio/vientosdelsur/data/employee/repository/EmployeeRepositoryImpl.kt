@@ -7,8 +7,10 @@ import com.portafolio.vientosdelsur.data.employee.network.RemoteEmployeeDataSour
 import com.portafolio.vientosdelsur.domain.employee.CreateEmployee
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
+import com.portafolio.vientosdelsur.domain.employee.UploadPhoto
 
-internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: RemoteEmployeeDataSource) : EmployeeRepository {
+internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: RemoteEmployeeDataSource) :
+    EmployeeRepository {
     override suspend fun getEmployee(userId: String): Result<Employee, DataError> {
         return remoteEmployeeDataSource.getEmployeeByUserId(userId)
             .map { it.toEmployee() }
@@ -24,6 +26,10 @@ internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: Remo
     }
 
     override suspend fun createEmployee(employee: CreateEmployee): EmptyResult<DataError.Remote> {
-        return remoteEmployeeDataSource.createEmployee(employeeDto = employee.toEmployeeDto(), profilePhoto = ByteArray(0))
+        val photo = employee.uploadPhoto as? UploadPhoto.Raw
+        return remoteEmployeeDataSource.createEmployee(
+            employeeDto = employee.toEmployeeDto(),
+            profilePhoto = photo?.byteArray
+        )
     }
 }

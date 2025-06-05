@@ -38,7 +38,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
                 .where { UserTable.id eq userId }
                 .firstOrNull() ?: emptyError("User not found")
 
-            val photo = file[UserTable.profilePicture] ?: error("Column not found")
+            val photo = file[UserTable.profilePicture] ?: emptyError("Column not found")
             photo.bytes
         }
 
@@ -62,7 +62,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
         val userEntity = UserEntity.new(id = employee.userData.id) {
             email = employee.userData.email
             phoneNumber = employee.userData.phoneNumber
-            isEnabled = employee.userData.isEnabled
+            isEnabled = true
             createdAt = now
             updatedAt = now
             profilePictureBytes?.let {

@@ -7,9 +7,10 @@ import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.ReferenceOption
 
 object HousekeeperTable : IdTable<Int>("housekeeper") {
-    val employeeId = reference("employee_id", EmployeeTable)
+    val employeeId = reference("employee_id", EmployeeTable, onDelete = ReferenceOption.CASCADE)
     val housekeeperRole = enumeration<HousekeeperRole>("housekeeper_role")
     val preferredFloor = char("preferred_floor").nullable()
 

@@ -8,15 +8,16 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 object EmployeeTable : IntIdTable("employee") {
-    val userId = reference("user_id", UserTable).uniqueIndex()
+    val userId = reference("user_id", UserTable, onDelete = ReferenceOption.CASCADE).uniqueIndex()
     val firstName = varchar("first_name", 50)
     val lastName = varchar("last_name", 50)
     val hireDate = date("hire_date")
-    val dayOff = integer("day_off").nullable().check { it.between(1, 6) }
+    val dayOff = integer("day_off").nullable().check { it.between(1, 7) }
     val occupation = enumeration<Occupation>("occupation")
 }
 

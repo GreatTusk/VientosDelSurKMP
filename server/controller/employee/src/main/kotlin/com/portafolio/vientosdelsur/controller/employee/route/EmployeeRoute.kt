@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.controller.employee.route
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
+import com.portafolio.vientosdelsur.controller.employee.util.isImage
 import com.portafolio.vientosdelsur.service.employee.EmployeeService
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import io.ktor.http.*
@@ -61,21 +62,21 @@ fun Application.employeeRoute() {
                             }
 
                             is PartData.FileItem -> {
+                                log.debug("Multipart had a file!")
                                 if (part.name == "profile-photo") {
+                                    log.debug("Multipart was profile-photo!")
                                     val contentType = part.contentType
                                     if (contentType?.contentType == "image") {
+                                        log.debug("Multipart was an image!")
                                         try {
                                             val bytes = part.provider().toByteArray()
+                                            log.debug("Received bytes!")
 
-                                            // Check file size first
-                                            if (bytes.size > maxFileSize) {
-                                                part.dispose()
-                                                return@forEachPart
-                                            }
+                                            check(bytes.size <= maxFileSize) { "Image was too large" }
 
-                                            if (bytes.isValidImage()) {
-                                                imageBytes = bytes
-                                            }
+                                            log.debug("Passed size check!")
+                                            check(bytes.isImage()) { "Was not an image" }
+                                            imageBytes = bytes
                                         } finally {
                                             part.dispose()
                                         }
@@ -88,14 +89,12 @@ fun Application.employeeRoute() {
                         }
                     }
                 } catch (e: Exception) {
-                    call.application.environment.log.error("Error processing multipart request for new employee", e)
+                    log.error("Error processing multipart request for new employee", e)
                     return@post call.respond(HttpStatusCode.BadRequest, "Invalid multipart request")
                 }
 
                 val currentEmployeeDto = employeeDto
-                if (currentEmployeeDto == null) {
-                    return@post call.respond(HttpStatusCode.BadRequest, "Employee data is required")
-                }
+                    ?: return@post call.respond(HttpStatusCode.BadRequest, "Employee data is required")
 
                 employeeService.createEmployee(currentEmployeeDto, imageBytes)
                     .onSuccess {
@@ -176,7 +175,7 @@ fun Application.employeeRoute() {
                                     return@forEachPart
                                 }
 
-                                if (bytes.isValidImage()) {
+                                if (bytes.isImage()) {
                                     imageBytes = bytes
                                 }
                             } finally {
@@ -202,17 +201,5 @@ fun Application.employeeRoute() {
                     }
             }
         }
-    }
-}
-
-private fun ByteArray.isValidImage(): Boolean {
-    return when {
-        // JPEG signature
-        size >= 3 && this[0] == 0xFF.toByte() && this[1] == 0xD8.toByte() && this[2] == 0xFF.toByte() -> true
-        // PNG signature
-        size >= 4 && this[0] == 0x89.toByte() && this[1] == 0x50.toByte() &&
-                this[2] == 0x4E.toByte() && this[3] == 0x47.toByte() -> true
-
-        else -> false
     }
 }

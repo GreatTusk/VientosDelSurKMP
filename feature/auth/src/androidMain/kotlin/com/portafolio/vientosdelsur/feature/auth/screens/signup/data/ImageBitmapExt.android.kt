@@ -9,6 +9,6 @@ import java.io.ByteArrayOutputStream
 
 internal actual suspend fun ImageBitmap.toByteArray(): ByteArray = withContext(Dispatchers.IO) {
     val stream = ByteArrayOutputStream()
-    this@toByteArray.asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream)
+    this@toByteArray.asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 70, stream)
     return@withContext stream.toByteArray()
 }
