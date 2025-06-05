@@ -39,7 +39,8 @@ internal fun RegistrationFlowScreenRoot(
                 onLastNameChanged = registrationFlowViewModel::onLastNameChanged,
                 firstName = registrationFlowViewModel.firstName,
                 lastName = registrationFlowViewModel.lastName,
-                profilePicture = userProfilePicture
+                profilePicture = userProfilePicture,
+                onSubmit = registrationFlowViewModel::onSubmit
             )
         }
     )

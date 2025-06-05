@@ -31,7 +31,8 @@ internal fun RegistrationNavHost(
     lastName: String,
     profilePicture: ProfilePicture,
     onFirstNameChanged: (String) -> Unit,
-    onLastNameChanged: (String) -> Unit
+    onLastNameChanged: (String) -> Unit,
+    onSubmit: () -> Unit
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
@@ -119,7 +120,7 @@ internal fun RegistrationNavHost(
                 popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
             ) {
                 DayOffStep(
-                    onContinue = {},
+                    onContinue = onSubmit,
                     dayOfWeek = dayOff,
                     onDayOfWeekSelected = onDayOffSelected
                 )
@@ -130,6 +131,4 @@ internal fun RegistrationNavHost(
             Spacer(modifier = Modifier.weight(1.0f))
         }
     }
-
-
 }

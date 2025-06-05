@@ -83,7 +83,7 @@ internal fun DayOffStep(
                 .align(Alignment.BottomCenter),
             enabled = dayOfWeek != null
         ) {
-            Text("Continuar")
+            Text("Finalizar")
         }
     }
 }

@@ -9,4 +9,6 @@ internal interface RemoteEmployeeDataSource {
     suspend fun getEmployeeByUserId(userId: String): Result<EmployeeDto.Get, DataError.Remote>
     suspend fun getAllEmployees(): Result<List<EmployeeDto.Get>, DataError.Remote>
     suspend fun isUserActive(userId: String): EmptyResult<DataError.Remote>
+
+    suspend fun createEmployee(employeeDto: EmployeeDto.Create): EmptyResult<DataError.Remote>
 }

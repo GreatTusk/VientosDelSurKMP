@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
@@ -15,6 +16,7 @@ import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
+import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
 internal class RegistrationFlowViewModel(
@@ -87,6 +89,12 @@ internal class RegistrationFlowViewModel(
     fun onLastNameChanged(name: String) {
         lastName = name
     }
+
+    fun onSubmit() {
+        viewModelScope.launch {
+            employeeRepository.createEmployee()
+        }
+    }
 }
 
 internal val LocalDate.formatted: String
@@ -96,19 +104,6 @@ internal val LocalDate.formatted: String
         val year = year
         return "$day/$month/$year"
     }
-
-
-internal data class EmployeeRegistrationData(
-    val firstName: String,
-    val lastName: String,
-    val occupation: OccupationOption,
-    val dayOff: DayOfWeek,
-    val hireDate: LocalDate,
-    // From User
-    val email: Email,
-    val userId: String,
-    val photoUrl: String?
-)
 
 sealed interface ProfilePicture {
     data class URL(val url: String) : ProfilePicture
