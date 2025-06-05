@@ -9,6 +9,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
@@ -113,6 +114,9 @@ internal class RegistrationFlowViewModel(
                 housekeeperRole = housekeeperRole
             )
             employeeRepository.createEmployee(employee)
+                .onSuccess {
+                    println("Created successfully!!")
+                }
         }
     }
 }

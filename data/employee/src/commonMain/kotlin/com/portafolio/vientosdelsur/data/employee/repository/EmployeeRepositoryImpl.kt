@@ -24,6 +24,6 @@ internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: Remo
     }
 
     override suspend fun createEmployee(employee: CreateEmployee): EmptyResult<DataError.Remote> {
-        return remoteEmployeeDataSource.createEmployee(employee.toEmployeeDto())
+        return remoteEmployeeDataSource.createEmployee(employeeDto = employee.toEmployeeDto(), profilePhoto = ByteArray(0))
     }
 }

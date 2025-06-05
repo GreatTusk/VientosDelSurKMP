@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.shared.dto.employee
 
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
@@ -9,7 +10,7 @@ sealed interface EmployeeDto {
     val lastName: String
     val phoneNumber: String
     val dayOff: DayOfWeek
-    val hireDate: LocalDateTime
+    val hireDate: LocalDate
     val occupation: EmployeeOccupationDto
 
     @Serializable
@@ -29,7 +30,7 @@ sealed interface EmployeeDto {
             override val lastName: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
-            override val hireDate: LocalDateTime,
+            override val hireDate: LocalDate,
             override val occupation: EmployeeOccupationDto,
             override val userId: String,
             override val email: String,
@@ -44,7 +45,7 @@ sealed interface EmployeeDto {
             override val lastName: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
-            override val hireDate: LocalDateTime,
+            override val hireDate: LocalDate,
             override val occupation: EmployeeOccupationDto,
             override val userId: String,
             override val email: String,
@@ -65,7 +66,7 @@ sealed interface EmployeeDto {
             override val lastName: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
-            override val hireDate: LocalDateTime,
+            override val hireDate: LocalDate,
             override val occupation: EmployeeOccupationDto,
         ) : Create
 
@@ -76,7 +77,7 @@ sealed interface EmployeeDto {
             override val lastName: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
-            override val hireDate: LocalDateTime,
+            override val hireDate: LocalDate,
             override val occupation: EmployeeOccupationDto,
         ) : Create
     }
