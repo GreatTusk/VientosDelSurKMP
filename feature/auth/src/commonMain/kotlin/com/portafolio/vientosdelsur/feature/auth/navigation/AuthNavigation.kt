@@ -19,7 +19,12 @@ data object AuthNavigation
 data object Auth
 
 @Serializable
-data class Registration(val userId: String, val userName: String, val profilePictureUrl: String?)
+data class Registration(
+    val userId: String,
+    val userName: String,
+    val email: String,
+    val profilePictureUrl: String?
+)
 
 fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
     navigation<AuthNavigation>(startDestination = Auth) {
@@ -34,12 +39,18 @@ fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
     }
 }
 
-fun NavHostController.navigateToRegistration(userId: String, profilePictureUrl: String?, userName: String) {
+fun NavHostController.navigateToRegistration(
+    userId: String,
+    profilePictureUrl: String?,
+    userName: String,
+    email: String
+) {
     navigate(
         Registration(
             userId = userId,
             userName = userName,
-            profilePictureUrl = profilePictureUrl
+            profilePictureUrl = profilePictureUrl,
+            email = email
         )
     ) {
     }

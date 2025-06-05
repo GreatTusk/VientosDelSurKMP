@@ -13,6 +13,7 @@ import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.CreateEmployeeFactory
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
@@ -24,6 +25,7 @@ internal class RegistrationFlowViewModel(
     private val profilePictureProvider: ProfilePictureProvider,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    private val user = savedStateHandle.toRoute<Registration>()
 
     var firstName by mutableStateOf("")
         private set
@@ -34,7 +36,7 @@ internal class RegistrationFlowViewModel(
     init {
         addCloseable(profilePictureProvider)
 
-        savedStateHandle.toRoute<Registration>().run {
+        user.run {
             val (first, last) = userName.getFirstAndLastName()
             firstName = first
             lastName = last
@@ -92,7 +94,17 @@ internal class RegistrationFlowViewModel(
 
     fun onSubmit() {
         viewModelScope.launch {
-            employeeRepository.createEmployee()
+            val employee = CreateEmployeeFactory.fromUiState(
+                firstName = firstName,
+                lastName = lastName,
+                userId = user.userId,
+                email = user.email,
+                profilePicture = userProfilePicture.value,
+                hireDate = hireDate,
+                dayOff = dayOff,
+                occupationOption = occupation
+            )
+            employeeRepository.createEmployee(employee)
         }
     }
 }

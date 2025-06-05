@@ -35,7 +35,7 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
             is AuthEvent.OnRegistrationPending -> navHostController.navigateToRegistration(
                 userId = it.user.id,
                 profilePictureUrl = it.user.photoUrl,
-                userName = it.user.name
+                userName = it.user.name,
             )
         }
     }

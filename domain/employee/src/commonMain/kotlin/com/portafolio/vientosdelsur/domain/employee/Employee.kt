@@ -23,7 +23,6 @@ data class CreateEmployee(
     val email: String,
     val hireDate: LocalDate,
     val dayOff: DayOfWeek,
-    val phoneNumber: String?,
     val uploadPhoto: UploadPhoto?
 )
 

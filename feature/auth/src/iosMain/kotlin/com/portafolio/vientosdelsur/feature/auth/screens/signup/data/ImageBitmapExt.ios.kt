@@ -2,7 +2,10 @@ package com.portafolio.vientosdelsur.feature.auth.screens.signup.data
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asSkiaBitmap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
-internal actual fun ImageBitmap.toByteArray(): ByteArray {
-    return asSkiaBitmap().readPixels() ?: ByteArray(size = 0)
+internal actual suspend fun ImageBitmap.toByteArray(): ByteArray = withContext(Dispatchers.IO) {
+    return@withContext asSkiaBitmap().readPixels() ?: ByteArray(size = 0)
 }
