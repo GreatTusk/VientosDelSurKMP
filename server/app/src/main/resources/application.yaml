@@ -6,8 +6,8 @@ ktor:
     port: 8080
 
 database:
-  jdbcUrl: "jdbc:postgresql://localhost:5432/vientosdelsur"
-  driverClassName: "org.postgresql.Driver"
-  username: "postgres"
-  password: "password"
-  maximumPoolSize: 7
+  jdbcUrl: $DATABASE_URL
+  driverClassName: $DATABASE_DRIVER_CLASSNAME
+  username: $DATABASE_USERNAME
+  password: $DATABASE_PASSWORD
+  maximumPoolSize: $MAX_POOL_SIZE

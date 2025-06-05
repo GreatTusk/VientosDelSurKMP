@@ -8,6 +8,5 @@ import org.koin.dsl.module
 
 val UserDataModule = module {
     includes(FirebaseModule)
-
     singleOf(::FirebaseUserRepository)
 }
