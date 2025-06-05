@@ -70,7 +70,8 @@ internal fun EmployeeDto.Create.toEmployee(): Employee {
         phoneNumber = phoneNumber,
         isEnabled = false,
         createdAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+        name = "${baseEmployee.firstName} ${baseEmployee.lastName}"
     )
 
     return when (this) {

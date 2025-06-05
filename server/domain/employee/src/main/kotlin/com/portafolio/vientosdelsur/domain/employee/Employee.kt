@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.domain.employee
 import com.portafolio.vientosdelsur.domain.user.User
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 
 
 sealed interface Employee {

@@ -2,12 +2,17 @@ package com.portafolio.vientosdelsur.service.employee
 
 import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepository
+import com.portafolio.vientosdelsur.domain.user.UserRepository
 import com.portafolio.vientosdelsur.service.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
+import com.portafolio.vientosdelsur.service.employee.mapper.toUser
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 
-internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepository) : EmployeeService {
+internal class EmployeeServiceImpl(
+    private val employeeRepository: EmployeeRepository,
+    private val userRepository: UserRepository
+) : EmployeeService {
     override suspend fun getAllEmployees(): Result<EmployeeListResponse, DataError.Remote> {
         return employeeRepository.allEmployees()
             .flatMap { it.toEmployeeDto() }
@@ -54,7 +59,8 @@ internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepos
         return employeeRepository.createEmployee(
             employee = employeeDto.toEmployee(),
             profilePictureBytes = profilePictureBytes
-        ).map {
+        ).map { employee ->
+            userRepository.updateUser(user = employeeDto.userDto.toUser(employee))
         }
     }
 

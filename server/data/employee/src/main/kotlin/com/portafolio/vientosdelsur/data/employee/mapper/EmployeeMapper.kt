@@ -26,7 +26,8 @@ fun EmployeeEntity.toEmployee(): Employee {
         phoneNumber = user.phoneNumber,
         isEnabled = user.isEnabled,
         createdAt = user.createdAt,
-        updatedAt = user.updatedAt
+        updatedAt = user.updatedAt,
+        name = "${baseEmployee.firstName} ${baseEmployee.lastName}"
     )
 
     return when (occupation) {
