@@ -19,6 +19,7 @@ data class CreateEmployee(
     val firstName: String,
     val lastName: String,
     val occupation: Occupation,
+    val housekeeperRole: HousekeeperRole?,
     val userId: String,
     val email: String,
     val hireDate: LocalDate,

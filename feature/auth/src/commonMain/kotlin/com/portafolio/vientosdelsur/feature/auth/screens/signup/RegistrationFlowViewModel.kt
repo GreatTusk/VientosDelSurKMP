@@ -9,7 +9,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.getFirstAndLastName
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
@@ -110,7 +109,8 @@ internal class RegistrationFlowViewModel(
                 profilePicture = userProfilePicture.value,
                 hireDate = hireDate,
                 dayOff = dayOff,
-                occupationOption = occupation
+                occupationOption = occupation,
+                housekeeperRole = housekeeperRole
             )
             employeeRepository.createEmployee(employee)
         }
