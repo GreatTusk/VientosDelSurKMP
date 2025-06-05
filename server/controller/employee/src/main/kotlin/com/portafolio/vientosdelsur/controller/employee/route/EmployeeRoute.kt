@@ -13,6 +13,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.utils.io.*
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 
 fun Application.employeeRoute() {
@@ -35,20 +37,72 @@ fun Application.employeeRoute() {
             }
 
             post {
-                val dto = try {
-                    call.receive<EmployeeDto.Create>()
-                } catch (_: ContentTransformationException) {
-                    return@post call.respond(HttpStatusCode.BadRequest)
-                } catch (_: Exception) {
-                    return@post call.respond(HttpStatusCode.InternalServerError)
+                var employeeDto: EmployeeDto.Create? = null
+                var imageBytes: ByteArray? = null
+                val maxFileSize = 5 * 1024 * 1024 // 5MB
+
+                try {
+                    val multipart = call.receiveMultipart()
+                    multipart.forEachPart { part ->
+                        when (part) {
+                            is PartData.FormItem -> {
+                                if (part.name == "data") {
+                                    try {
+                                        employeeDto = Json.decodeFromString<EmployeeDto.Create>(part.value)
+                                    } catch (e: SerializationException) {
+                                        // Handle JSON deserialization error
+                                        call.application.environment.log.error(
+                                            "Failed to deserialize EmployeeDto.Create",
+                                            e
+                                        )
+                                        call.respond(HttpStatusCode.BadRequest)
+                                    }
+                                }
+                            }
+
+                            is PartData.FileItem -> {
+                                if (part.name == "profile-photo") {
+                                    val contentType = part.contentType
+                                    if (contentType?.contentType == "image") {
+                                        try {
+                                            val bytes = part.provider().toByteArray()
+
+                                            // Check file size first
+                                            if (bytes.size > maxFileSize) {
+                                                part.dispose()
+                                                return@forEachPart
+                                            }
+
+                                            if (bytes.isValidImage()) {
+                                                imageBytes = bytes
+                                            }
+                                        } finally {
+                                            part.dispose()
+                                        }
+                                    }
+                                }
+                                part.dispose()
+                            }
+
+                            else -> part.dispose()
+                        }
+                    }
+                } catch (e: Exception) {
+                    call.application.environment.log.error("Error processing multipart request for new employee", e)
+                    return@post call.respond(HttpStatusCode.BadRequest, "Invalid multipart request")
                 }
 
-                employeeService.createEmployee(dto)
+                val currentEmployeeDto = employeeDto
+                if (currentEmployeeDto == null) {
+                    return@post call.respond(HttpStatusCode.BadRequest, "Employee data is required")
+                }
+
+                employeeService.createEmployee(currentEmployeeDto, imageBytes)
                     .onSuccess {
                         call.respond(HttpStatusCode.Created)
                     }
                     .onError {
-                        call.respond(HttpStatusCode.InternalServerError)
+                        call.respond(HttpStatusCode.InternalServerError, "Failed to create employee: $it")
                     }
             }
 

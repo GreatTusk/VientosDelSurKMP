@@ -47,8 +47,14 @@ internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepos
             }
     }
 
-    override suspend fun createEmployee(employeeDto: EmployeeDto.Create): EmptyResult<DataError.Remote> {
-        return employeeRepository.createEmployee(employeeDto.toEmployee())
+    override suspend fun createEmployee(
+        employeeDto: EmployeeDto.Create,
+        profilePictureBytes: ByteArray?
+    ): EmptyResult<DataError.Remote> {
+        return employeeRepository.createEmployee(
+            employee = employeeDto.toEmployee(),
+            profilePictureBytes = profilePictureBytes
+        )
     }
 
     override suspend fun isEmployeeActive(userId: String): EmptyResult<DataError.Remote> {

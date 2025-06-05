@@ -56,7 +56,7 @@ internal object DBEmployeeRepository : EmployeeRepository {
             UserEntity.findById(userId)?.employee?.toEmployee() ?: emptyError("Employee not found")
         }
 
-    override suspend fun createEmployee(employee: Employee): EmptyResult<DataError.Remote> = safeSuspendTransaction {
+    override suspend fun createEmployee(employee: Employee, profilePictureBytes: ByteArray?): EmptyResult<DataError.Remote> = safeSuspendTransaction {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
         val userEntity = UserEntity.new(id = employee.userData.id) {
@@ -65,6 +65,9 @@ internal object DBEmployeeRepository : EmployeeRepository {
             isEnabled = employee.userData.isEnabled
             createdAt = now
             updatedAt = now
+            profilePictureBytes?.let {
+                profilePicture = ExposedBlob(it)
+            }
         }
 
         val employeeEntity = EmployeeEntity.new {
