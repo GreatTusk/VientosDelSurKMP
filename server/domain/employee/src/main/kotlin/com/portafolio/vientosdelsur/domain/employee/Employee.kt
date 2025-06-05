@@ -1,7 +1,7 @@
 package com.portafolio.vientosdelsur.domain.employee
 
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalDate
 
 
 sealed interface Employee {
@@ -37,7 +37,7 @@ data class BaseEmployee(
     val lastName: String,
     val phoneNumber: String,
     val dayOff: DayOfWeek,
-    val hireDate: LocalDateTime,
+    val hireDate: LocalDate,
 )
 
 @JvmInline

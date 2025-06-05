@@ -31,15 +31,20 @@ paths:
                 type: "object"
     post:
       description: ""
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Create"
-        required: true
       responses:
         "400":
           description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+              examples:
+                Example#1:
+                  value: "Employee data is required"
+                Example#2:
+                  value: "Invalid multipart request"
+        "201":
+          description: "Created"
           content:
             '*/*':
               schema:
@@ -49,13 +54,10 @@ paths:
           content:
             '*/*':
               schema:
-                type: "object"
-        "201":
-          description: "Created"
-          content:
-            '*/*':
-              schema:
-                type: "object"
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
   /employee/active/{userId}:
     get:
       description: ""
@@ -145,7 +147,7 @@ paths:
                 type: "string"
               examples:
                 Example#1:
-                  value: "No image found in request"
+                  value: "Invalid image format or no image found"
                 Example#2:
                   value: "Invalid id"
         "200":
@@ -234,9 +236,6 @@ components:
           type: "array"
           items:
             $ref: "#/components/schemas/Get"
-    Create:
-      type: "object"
-      properties: { }
     BaseResponseDto_Get:
       type: "object"
       properties:

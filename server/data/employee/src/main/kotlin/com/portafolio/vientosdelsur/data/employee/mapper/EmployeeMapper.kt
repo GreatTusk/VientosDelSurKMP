@@ -16,7 +16,7 @@ fun EmployeeEntity.toEmployee(): Employee {
         lastName = lastName,
         phoneNumber = user.phoneNumber,
         dayOff = DayOfWeek(dayOff ?: 7),
-        hireDate = hireDate,
+        hireDate = hireDate
     )
 
     val user = User(
