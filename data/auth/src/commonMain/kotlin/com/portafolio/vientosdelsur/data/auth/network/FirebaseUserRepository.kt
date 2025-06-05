@@ -15,15 +15,15 @@ internal class FirebaseUserRepository(
     private val employeeRepository: EmployeeRepository,
     ioDispatcher: CoroutineDispatcher
 ) : UserRepository {
-    override val currentUser: Flow<User?> = flowOf(
-        User(
-            id = "1",
-            name = "Fer",
-            photoUrl = null,
-            email = Email("email@duoc.cl"),
-            isActive = false
-        )
-    )
+//    override val currentUser: Flow<User?> = flowOf(
+//        User(
+//            id = "1",
+//            name = "Fer",
+//            photoUrl = null,
+//            email = Email("email@duoc.cl"),
+//            isActive = false
+//        )
+//    )
 
     // infinite flow
 //    override val currentUser: Flow<User?> = flow<User?> {
@@ -42,12 +42,12 @@ internal class FirebaseUserRepository(
 //    }.filterNotNull().onEach { println(it) }
 //
 
-//    override val currentUser: Flow<User?> = firebaseAuth.authStateChanged
-//        .flowOn(ioDispatcher)
-//        .map { user ->
-//            user?.let {
-//                val isActive = employeeRepository.isUserActive(it.uid)
-//                it.toUser(isActive)
-//            }
-//        }
+    override val currentUser: Flow<User?> = firebaseAuth.authStateChanged
+        .flowOn(ioDispatcher)
+        .map { user ->
+            user?.let {
+                val isActive = employeeRepository.isUserActive(it.uid)
+                it.toUser(isActive)
+            }
+        }
 }

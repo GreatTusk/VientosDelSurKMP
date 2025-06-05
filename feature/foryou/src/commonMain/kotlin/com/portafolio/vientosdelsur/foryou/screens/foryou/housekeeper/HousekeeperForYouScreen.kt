@@ -169,8 +169,8 @@ private fun RoomScreenPreview() {
                 rooms = SampleRoomStates.sampleRoomStates.map { it.toRoomUi() },
                 employee = Employee(
                     id = 1,
-                    firstName = "Flow",
-                    lastName = "Gonzals",
+                    firstName = "Flor",
+                    lastName = "Gonzales",
                     occupation = Occupation.HOUSEKEEPER,
                     userId = "emp-123456",
                     email = "flow.gonzals@vientosdelsur.com",
