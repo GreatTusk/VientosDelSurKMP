@@ -8,26 +8,32 @@ internal sealed interface RegistrationRoute {
 
     @Serializable
     data object Profile : RegistrationRoute {
-        override val progress = 0.2f
+        override val progress = 1 / 6f
     }
 
     @Serializable
     data object Occupation : RegistrationRoute {
-        override val progress = 0.4f
+        override val progress = 2 / 6f
     }
 
     @Serializable
-    data object HireDate: RegistrationRoute {
-        override val progress = 0.6f
+    data object HousekeeperRole : RegistrationRoute {
+        override val progress = 3 / 6f
     }
 
     @Serializable
-    data object DayOff: RegistrationRoute {
-        override val progress = 0.8f
+    data object HireDate : RegistrationRoute {
+        override val progress = 4 / 6f
+    }
+
+    @Serializable
+    data object DayOff : RegistrationRoute {
+        override val progress = 5 / 6f
     }
 }
 
 internal fun NavHostController.navigateToProfile() = navigate(RegistrationRoute.Profile)
 internal fun NavHostController.navigateToOccupation() = navigate(RegistrationRoute.Occupation)
+internal fun NavHostController.navigateToHousekeeperRole() = navigate(RegistrationRoute.HousekeeperRole)
 internal fun NavHostController.navigateToHireDate() = navigate(RegistrationRoute.HireDate)
 internal fun NavHostController.navigateToDayOff() = navigate(RegistrationRoute.DayOff)

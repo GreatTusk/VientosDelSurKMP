@@ -36,6 +36,7 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
                 userId = it.user.id,
                 profilePictureUrl = it.user.photoUrl,
                 userName = it.user.name,
+                email = it.user.email.email
             )
         }
     }

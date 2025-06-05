@@ -35,12 +35,14 @@ internal fun RegistrationFlowScreenRoot(
                 onDateSelected = registrationFlowViewModel::onHireDateSelected,
                 dayOff = registrationFlowViewModel.dayOff,
                 onDayOffSelected = registrationFlowViewModel::onDayOffSelected,
-                onFirstNameChanged = registrationFlowViewModel::onFirstNameChanged,
-                onLastNameChanged = registrationFlowViewModel::onLastNameChanged,
                 firstName = registrationFlowViewModel.firstName,
                 lastName = registrationFlowViewModel.lastName,
                 profilePicture = userProfilePicture,
-                onSubmit = registrationFlowViewModel::onSubmit
+                onFirstNameChanged = registrationFlowViewModel::onFirstNameChanged,
+                onLastNameChanged = registrationFlowViewModel::onLastNameChanged,
+                onSubmit = registrationFlowViewModel::onSubmit,
+                roleOption = registrationFlowViewModel.housekeeperRole,
+                onRoleSelected = registrationFlowViewModel::onHousekeeperRoleSelected,
             )
         }
     )

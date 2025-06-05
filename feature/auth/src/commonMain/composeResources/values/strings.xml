@@ -37,6 +37,11 @@
     <string name="supervisor_option">Supervisora de mucamas</string>
     <string name="admin_option">Administrador</string>
 
+    <!--Housekeeper role screen-->
+    <string name="kitchen_option">Encargada cocina</string>
+    <string name="kitchen_support_option">Apoyo cocina</string>
+    <string name="on_call_option">Llamada</string>
+
     <!--Day off screen-->
     <string name="monday">Lunes</string>
     <string name="tuesday">Martes</string>

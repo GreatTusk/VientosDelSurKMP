@@ -32,7 +32,9 @@ internal fun RegistrationNavHost(
     profilePicture: ProfilePicture,
     onFirstNameChanged: (String) -> Unit,
     onLastNameChanged: (String) -> Unit,
-    onSubmit: () -> Unit
+    onSubmit: () -> Unit,
+    roleOption: HousekeeperRoleOption?,
+    onRoleSelected: (HousekeeperRoleOption) -> Unit
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
@@ -46,6 +48,10 @@ internal fun RegistrationNavHost(
 
                     hasRoute<RegistrationRoute.Occupation>() -> {
                         onNavigationEvent(RegistrationRoute.Occupation)
+                    }
+
+                    hasRoute<RegistrationRoute.HousekeeperRole>() -> {
+                        onNavigationEvent(RegistrationRoute.HousekeeperRole)
                     }
 
                     hasRoute<RegistrationRoute.HireDate>() -> {
@@ -93,10 +99,28 @@ internal fun RegistrationNavHost(
                 popEnterTransition = TransitionAnimation.FADE_SLIDE_LTR.popEnterTransition,
                 popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
             ) {
+                val onContinue = if (occupationOption == OccupationOption.HOUSEKEEPER)
+                    navController::navigateToHousekeeperRole
+                else
+                    navController::navigateToHireDate
+
                 OccupationStep(
-                    onContinue = navController::navigateToHireDate,
+                    onContinue = onContinue,
                     occupationOption = occupationOption,
                     onOccupationSelected = onOccupationSelected
+                )
+            }
+
+            composable<RegistrationRoute.HousekeeperRole>(
+                enterTransition = TransitionAnimation.FADE_SLIDE_RTL.enterTransition,
+                exitTransition = TransitionAnimation.FADE_SLIDE_LTR.exitTransition,
+                popEnterTransition = TransitionAnimation.FADE_SLIDE_LTR.popEnterTransition,
+                popExitTransition = TransitionAnimation.FADE_SLIDE_RTL.popExitTransition
+            ) {
+                HousekeeperRoleStep(
+                    onContinue = navController::navigateToHireDate,
+                    roleOption = roleOption,
+                    onRoleSelected = onRoleSelected
                 )
             }
 

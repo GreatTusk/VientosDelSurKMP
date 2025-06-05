@@ -16,6 +16,7 @@ import com.portafolio.vientosdelsur.feature.auth.navigation.Registration
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.CreateEmployeeFactory
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.HousekeeperRoleOption
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
@@ -61,6 +62,9 @@ internal class RegistrationFlowViewModel(
     var occupation by mutableStateOf<OccupationOption?>(null)
         private set
 
+    var housekeeperRole by mutableStateOf<HousekeeperRoleOption?>(null)
+        private set
+
     fun onNavigationEvent(route: RegistrationRoute) {
         progress = route.progress
     }
@@ -82,6 +86,10 @@ internal class RegistrationFlowViewModel(
 
     fun onOccupationSelected(selectedOccupation: OccupationOption) {
         occupation = if (occupation == selectedOccupation) null else selectedOccupation
+    }
+
+    fun onHousekeeperRoleSelected(housekeeperRoleOption: HousekeeperRoleOption) {
+        housekeeperRole = if (housekeeperRole == housekeeperRoleOption) null else housekeeperRoleOption
     }
 
     fun onFirstNameChanged(name: String) {
