@@ -34,7 +34,10 @@ fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
 
         composable<Registration> {
             val registrationFlowViewModel: RegistrationFlowViewModel = koinViewModel()
-            RegistrationFlowScreenRoot(registrationFlowViewModel = registrationFlowViewModel)
+            RegistrationFlowScreenRoot(
+                registrationFlowViewModel = registrationFlowViewModel,
+                onSignIn = onSignIn
+            )
         }
     }
 }

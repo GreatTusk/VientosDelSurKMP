@@ -7,17 +7,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.f776.core.ui.components.ObserveAsEvents
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationNavHost
 
 @Composable
 internal fun RegistrationFlowScreenRoot(
     modifier: Modifier = Modifier,
-    registrationFlowViewModel: RegistrationFlowViewModel
+    registrationFlowViewModel: RegistrationFlowViewModel,
+    onSignIn: () -> Unit
 ) {
     val progressState = animateFloatAsState(registrationFlowViewModel.progress)
     val navController = rememberNavController()
     val userProfilePicture by registrationFlowViewModel.userProfilePicture.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(registrationFlowViewModel.eventChannel) { event ->
+        when (event) {
+            RegistrationEvent.OnSuccessfulRegistration -> onSignIn()
+        }
+    }
 
     ProgressScaffold(
         modifier = modifier,

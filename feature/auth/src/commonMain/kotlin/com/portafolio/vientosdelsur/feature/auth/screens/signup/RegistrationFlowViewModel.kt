@@ -18,6 +18,8 @@ import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePict
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.navigation.RegistrationRoute
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.HousekeeperRoleOption
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 
@@ -27,6 +29,8 @@ internal class RegistrationFlowViewModel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val user = savedStateHandle.toRoute<Registration>()
+    private val _eventChannel = Channel<RegistrationEvent>()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     var firstName by mutableStateOf("")
         private set
@@ -115,7 +119,7 @@ internal class RegistrationFlowViewModel(
             )
             employeeRepository.createEmployee(employee)
                 .onSuccess {
-                    println("Created successfully!!")
+                    _eventChannel.send(RegistrationEvent.OnSuccessfulRegistration)
                 }
         }
     }
