@@ -2,6 +2,7 @@ package com.portafolio.vientosdelsur.data.employee.repository
 
 import com.f776.core.common.*
 import com.portafolio.vientosdelsur.data.employee.mapper.toEmployee
+import com.portafolio.vientosdelsur.data.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.data.employee.network.RemoteEmployeeDataSource
 import com.portafolio.vientosdelsur.domain.employee.CreateEmployee
 import com.portafolio.vientosdelsur.domain.employee.Employee
@@ -23,6 +24,6 @@ internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: Remo
     }
 
     override suspend fun createEmployee(employee: CreateEmployee): EmptyResult<DataError.Remote> {
-        TODO("Not yet implemented")
+        return remoteEmployeeDataSource.createEmployee(employee.toEmployeeDto())
     }
 }
