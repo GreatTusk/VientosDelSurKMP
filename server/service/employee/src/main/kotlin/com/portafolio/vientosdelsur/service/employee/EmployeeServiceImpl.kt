@@ -54,7 +54,8 @@ internal class EmployeeServiceImpl(private val employeeRepository: EmployeeRepos
         return employeeRepository.createEmployee(
             employee = employeeDto.toEmployee(),
             profilePictureBytes = profilePictureBytes
-        )
+        ).map {
+        }
     }
 
     override suspend fun isEmployeeActive(userId: String): EmptyResult<DataError.Remote> {

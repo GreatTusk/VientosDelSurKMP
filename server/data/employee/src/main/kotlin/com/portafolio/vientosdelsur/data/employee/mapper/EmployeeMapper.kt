@@ -6,7 +6,7 @@ import com.portafolio.vientosdelsur.core.database.entity.employee.Occupation
 import com.portafolio.vientosdelsur.domain.employee.BaseEmployee
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Floor
-import com.portafolio.vientosdelsur.domain.employee.User
+import com.portafolio.vientosdelsur.domain.user.User
 import kotlinx.datetime.DayOfWeek
 
 fun EmployeeEntity.toEmployee(): Employee {

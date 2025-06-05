@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
+    api(projects.server.domain.user)
+    implementation(projects.server.core.firebase)
+
     implementation(libs.postgresql)
     implementation(libs.koin.ktor)
     implementation(libs.exposed.core)

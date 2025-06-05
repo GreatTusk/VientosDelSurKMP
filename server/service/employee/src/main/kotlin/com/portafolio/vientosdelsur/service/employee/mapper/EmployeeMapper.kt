@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.service.employee.mapper
 
 import com.portafolio.vientosdelsur.domain.employee.*
+import com.portafolio.vientosdelsur.domain.user.User
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeOccupationDto
 import com.portafolio.vientosdelsur.shared.dto.employee.HousekeeperRoleDto

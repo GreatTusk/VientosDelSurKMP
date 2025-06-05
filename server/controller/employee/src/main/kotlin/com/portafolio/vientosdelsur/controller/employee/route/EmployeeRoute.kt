@@ -52,7 +52,7 @@ fun Application.employeeRoute() {
                                         employeeDto = Json.decodeFromString<EmployeeDto.Create>(part.value)
                                     } catch (e: SerializationException) {
                                         // Handle JSON deserialization error
-                                        call.application.environment.log.error(
+                                        log.error(
                                             "Failed to deserialize EmployeeDto.Create",
                                             e
                                         )
