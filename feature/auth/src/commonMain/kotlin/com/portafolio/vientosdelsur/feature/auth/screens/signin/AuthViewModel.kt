@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.onError
+import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.domain.auth.AuthError
 import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthError
 import com.portafolio.vientosdelsur.domain.auth.oauth.GoogleAuthService

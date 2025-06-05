@@ -29,7 +29,7 @@ data class Registration(
 fun NavGraphBuilder.authGraph(onSignIn: () -> Unit) {
     navigation<AuthNavigation>(startDestination = Auth) {
         composable<Auth> {
-            AuthScreenRoot(modifier = Modifier.fillMaxSize(), onNavigateToHome = onSignIn)
+            AuthScreenRoot(modifier = Modifier.fillMaxSize())
         }
 
         composable<Registration> {

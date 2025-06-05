@@ -27,7 +27,7 @@ import vientosdelsur.feature.auth.generated.resources.Res
 import vientosdelsur.feature.auth.generated.resources.vientos_del_sur_logo
 
 @Composable
-internal fun AuthScreenRoot(modifier: Modifier = Modifier, onNavigateToHome: () -> Unit) {
+internal fun AuthScreenRoot(modifier: Modifier = Modifier) {
     val viewModel = koinViewModel<AuthViewModel>()
     val validationErrors by viewModel.validationErrors.collectAsStateWithLifecycle()
 
@@ -130,9 +130,12 @@ private fun AuthScreenDetail(
     Scaffold(
         modifier = modifier,
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues()),
+                hostState = snackbarHostState
+            )
         },
-        contentWindowInsets =  ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
     ) {
         Column(modifier = Modifier.padding(it)) {
             Image(
