@@ -10,6 +10,8 @@ import com.portafolio.vientosdelsur.core.firebase.util.await
 import com.portafolio.vientosdelsur.domain.user.User
 import com.portafolio.vientosdelsur.domain.user.UserRepository
 
+val BASE_URL = requireNotNull(System.getenv()["BASE_URL"]) { "BASE_URL not found" }
+
 internal class FirebaseUserRepository(private val firebaseAuth: FirebaseAuth) : UserRepository {
     override suspend fun createUser(user: User): EmptyResult<DataError.Remote> {
         val createRequest = CreateRequest()
@@ -22,7 +24,7 @@ internal class FirebaseUserRepository(private val firebaseAuth: FirebaseAuth) : 
 
     override suspend fun updateUser(user: User): EmptyResult<DataError.Remote> {
         val updateRequest = UpdateRequest(user.id)
-            .setPhotoUrl(user.photoUrl)
+            .setPhotoUrl("$BASE_URL/${user.photoUrl}")
             .setDisplayName(user.name)
             .setDisabled(false)
 

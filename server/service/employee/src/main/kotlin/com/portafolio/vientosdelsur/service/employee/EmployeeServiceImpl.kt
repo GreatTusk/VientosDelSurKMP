@@ -5,7 +5,6 @@ import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepositor
 import com.portafolio.vientosdelsur.domain.user.UserRepository
 import com.portafolio.vientosdelsur.service.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
-import com.portafolio.vientosdelsur.service.employee.mapper.toUser
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 
@@ -60,7 +59,7 @@ internal class EmployeeServiceImpl(
             employee = employeeDto.toEmployee(),
             profilePictureBytes = profilePictureBytes
         ).map { employee ->
-            userRepository.updateUser(user = employeeDto.userDto.toUser(employee))
+            userRepository.updateUser(user = employee.userData)
         }
     }
 
