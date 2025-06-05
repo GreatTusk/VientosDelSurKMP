@@ -11,14 +11,14 @@ sealed interface EmployeeDto {
     val dayOff: DayOfWeek
     val hireDate: LocalDateTime
     val occupation: EmployeeOccupationDto
-    val userId: String
-    val email: String
-    val photoUrl: String?
-    val isEnabled: Boolean
 
     @Serializable
     sealed interface Get : EmployeeDto {
         val id: Int
+        val userId: String
+        val email: String
+        val photoUrl: String?
+        val isEnabled: Boolean
 
         @Serializable
         data class Housekeeper(
@@ -42,11 +42,11 @@ sealed interface EmployeeDto {
             override val id: Int,
             override val firstName: String,
             override val lastName: String,
-            override val userId: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
+            override val userId: String,
             override val email: String,
             override val photoUrl: String?,
             override val isEnabled: Boolean,
@@ -63,14 +63,10 @@ sealed interface EmployeeDto {
             override val userDto: UserDto,
             override val firstName: String,
             override val lastName: String,
-            override val userId: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
-            override val email: String,
-            override val photoUrl: String?,
-            override val isEnabled: Boolean,
         ) : Create
 
         @Serializable
@@ -78,14 +74,10 @@ sealed interface EmployeeDto {
             override val userDto: UserDto,
             override val firstName: String,
             override val lastName: String,
-            override val userId: String,
             override val phoneNumber: String,
             override val dayOff: DayOfWeek,
             override val hireDate: LocalDateTime,
             override val occupation: EmployeeOccupationDto,
-            override val email: String,
-            override val photoUrl: String?,
-            override val isEnabled: Boolean,
         ) : Create
     }
 }
