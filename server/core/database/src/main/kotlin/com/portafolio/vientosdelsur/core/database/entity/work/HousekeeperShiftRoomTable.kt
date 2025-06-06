@@ -7,9 +7,10 @@ import org.jetbrains.exposed.dao.CompositeEntityClass
 import org.jetbrains.exposed.dao.id.CompositeID
 import org.jetbrains.exposed.dao.id.CompositeIdTable
 import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.ReferenceOption
 
 object HousekeeperShiftRoomTable : CompositeIdTable("housekeeper_shift") {
-    val wordShiftId = reference("work_shift_id", WorkShiftTable)
+    val wordShiftId = reference("work_shift_id", WorkShiftTable, onDelete = ReferenceOption.CASCADE)
     val roomId = reference("room_id", RoomTable)
     val roomCleaningType = enumeration<RoomCleaningType>("room_cleaning_type")
 
