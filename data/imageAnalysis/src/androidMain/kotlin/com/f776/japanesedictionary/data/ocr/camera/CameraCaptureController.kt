@@ -10,7 +10,7 @@ import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.core.takePicture
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
-import com.f776.japanesedictionary.domain.ocr.ImageDimension
+import com.f776.japanesedictionary.domain.imageanalysis.ImageDimension
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext

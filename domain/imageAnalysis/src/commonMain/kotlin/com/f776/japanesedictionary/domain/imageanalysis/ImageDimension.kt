@@ -1,4 +1,4 @@
-package com.f776.japanesedictionary.domain.ocr
+package com.f776.japanesedictionary.domain.imageanalysis
 
 object ImageDimension {
     const val IMAGE_WIDTH = 720

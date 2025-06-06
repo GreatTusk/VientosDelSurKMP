@@ -1,6 +1,6 @@
 package com.f776.japanesedictionary.imageanalysis.screens.camera.mapper
 
-import com.f776.japanesedictionary.domain.ocr.Rect
+import com.f776.japanesedictionary.domain.imageanalysis.Rect
 
 internal fun Rect.mapToViewCoordinates(
     sourceWidth: Int,

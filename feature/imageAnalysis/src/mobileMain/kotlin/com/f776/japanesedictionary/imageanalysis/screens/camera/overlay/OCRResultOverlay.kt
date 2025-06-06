@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.graphicsLayer
-import com.f776.japanesedictionary.domain.ocr.OCRResult
+import com.f776.japanesedictionary.domain.imageanalysis.OCRResult
 import com.f776.japanesedictionary.imageanalysis.screens.camera.mapper.mapToViewCoordinates
 import com.f776.japanesedictionary.imageanalysis.screens.camera.mapper.toComposeRect
 
