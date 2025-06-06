@@ -4,6 +4,6 @@ import com.f776.japanesedictionary.imageanalysis.screens.fileSelector.OCRViewMod
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-val OCRDesktopModule = module {
+internal actual val PlatformModule = module {
     viewModelOf(::OCRViewModel)
 }

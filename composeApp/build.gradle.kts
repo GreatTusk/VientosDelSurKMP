@@ -15,6 +15,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.koin.android)
             implementation(libs.androidx.core.splashscreen)
+
         }
 
         commonMain.dependencies {
@@ -24,8 +25,8 @@ kotlin {
             implementation(projects.feature.auth)
             implementation(projects.feature.foryou)
             implementation(projects.feature.hotel)
-            implementation(projects.feature.imageAnalysis)
             implementation(projects.feature.room)
+            implementation(projects.feature.imageAnalysis)
 
             implementation(projects.domain.auth)
 

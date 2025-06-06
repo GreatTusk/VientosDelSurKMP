@@ -5,6 +5,6 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-internal actual val PlatformModule: Module = module {
+internal actual val PlatformModule = module {
     viewModelOf(::ImageAnalysisViewModel)
 }

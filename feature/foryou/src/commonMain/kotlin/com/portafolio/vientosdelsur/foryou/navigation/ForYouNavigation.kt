@@ -10,8 +10,8 @@ data object ForYou
 
 fun NavController.navigateToForYou(navOptions: NavOptions? = null) = navigate(route = ForYou, navOptions)
 
-fun NavGraphBuilder.forYouGraph() {
+fun NavGraphBuilder.forYouGraph(onNavigateToImageAnalysis: () -> Unit) {
     composable<ForYou> {
-        ForYouScreenRoot()
+        ForYouScreenRoot(onNavigateToImageAnalysis = onNavigateToImageAnalysis)
     }
 }

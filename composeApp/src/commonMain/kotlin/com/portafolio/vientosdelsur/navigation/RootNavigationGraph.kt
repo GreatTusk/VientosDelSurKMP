@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.f776.core.ui.components.ObserveAsEvents
+import com.f776.japanesedictionary.imageanalysis.navigation.ImageAnalysisRoute
+import com.f776.japanesedictionary.imageanalysis.navigation.imageAnalysisGraph
 import com.portafolio.vientosdelsur.AppViewModel
 import com.portafolio.vientosdelsur.AuthEvent
 import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
@@ -46,6 +48,7 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
         composable<TopLevelNavigation> {
             TopLevelNavigation(navController = rememberNavController())
         }
+        imageAnalysisGraph(onNavigateUp = navHostController::navigateUp)
     }
 }
 
