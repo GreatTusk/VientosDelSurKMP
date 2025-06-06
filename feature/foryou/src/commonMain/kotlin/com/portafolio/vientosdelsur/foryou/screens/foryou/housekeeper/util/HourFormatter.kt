@@ -2,7 +2,7 @@ package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.util
 
 import kotlinx.datetime.LocalTime
 
-object HourFormatter {
+internal object HourFormatter {
     val hourFormatter = LocalTime.Format {
         hour()
         chars(":")

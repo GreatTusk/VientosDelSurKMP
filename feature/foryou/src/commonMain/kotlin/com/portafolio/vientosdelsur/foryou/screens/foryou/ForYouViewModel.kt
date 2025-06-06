@@ -21,7 +21,7 @@ internal class ForYouViewModel(
 
     val user = _user.stateIn(
         viewModelScope,
-        SharingStarted.WhileSubscribed(2.seconds),
+        SharingStarted.WhileSubscribed(5.seconds),
         Result.Loading
     )
 }

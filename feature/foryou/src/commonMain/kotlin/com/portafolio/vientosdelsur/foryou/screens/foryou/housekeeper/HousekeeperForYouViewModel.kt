@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.domain.auth.AuthService
+import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.toRoomUi
@@ -20,8 +21,8 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class HousekeeperForYouViewModel(
     private val roomRepository: RoomRepository,
-    private val employeeRepository: EmployeeRepository,
-    private val authService: AuthService
+    private val employeeId: Int,
+    private val authService: AuthService,
 ) : ViewModel() {
 
     private val _selectedDate =
@@ -30,9 +31,10 @@ internal class HousekeeperForYouViewModel(
 
     fun onSelectDate(date: LocalDate) = _selectedDate.update { date }
 
-    private val rooms = _selectedDate.flatMapLatest { date -> flow { emit(roomRepository.getAllRoomsState(date)) } }
-        .map { it.takeOrNull() }
-        .filterNotNull()
+    private val rooms = _selectedDate.flatMapLatest { date ->
+        flow { emit(roomRepository.getRoomDistributionForHousekeeperOn(employeeId, date)) }
+    }
+        .mapNotNull { it.takeOrNull() }
         .map { rooms -> rooms.map { it.toRoomUi() } }
 
     val uiState = rooms
@@ -47,5 +49,4 @@ internal class HousekeeperForYouViewModel(
             authService.logout()
         }
     }
-
 }

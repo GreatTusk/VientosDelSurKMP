@@ -38,7 +38,7 @@ import vientosdelsur.feature.foryou.generated.resources.photo_fab_cd
 @Composable
 internal fun HousekeeperForYouScreenRoot(
     modifier: Modifier = Modifier,
-    housekeeperForYouViewModel: HousekeeperForYouViewModel = koinInject(),
+    housekeeperForYouViewModel: HousekeeperForYouViewModel,
     employee: Employee
 ) {
     val uiState by housekeeperForYouViewModel.uiState.collectAsStateWithLifecycle()

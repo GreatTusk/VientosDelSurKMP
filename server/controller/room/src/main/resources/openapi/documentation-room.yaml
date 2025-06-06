@@ -6,15 +6,14 @@ info:
 paths:
   /room:
     get:
-      summary: "Get all rooms"
-      description: "Returns a list of all available rooms"
+      description: ""
       responses:
         "200":
           description: "OK"
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_List<RoomDto>"
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends RoomDto>"
         "500":
           description: "Internal Server Error"
           content:
@@ -23,7 +22,7 @@ paths:
                 type: "string"
               examples:
                 Example#1:
-                  value: "Something happened: {error message}"
+                  value: ""
         "404":
           description: "Not Found"
           content:
@@ -33,75 +32,15 @@ paths:
               examples:
                 Example#1:
                   value: "Nothing"
-  /room/distribution/{housekeeperId}:
-    get:
-      summary: "Get room distribution for a specific housekeeper"
-      description: "Returns rooms assigned to a housekeeper on a specific date"
-      parameters:
-        - name: "housekeeperId"
-          in: "path"
-          required: true
-          schema:
-            type: "integer"
-            format: "int32"
-        - name: "date"
-          in: "query"
-          required: false
-          schema:
-            type: "string"
-            format: "date"
-      responses:
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "Invalid housekeeper ID"
-                Example#2:
-                  value: "Invalid date format"
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/RoomDistributionResponse"
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-              examples:
-                Example#1:
-                  value: "No room distribution found"
-        "500":
-          description: "Internal Server Error"
-          content:
-            '*/*':
-              schema:
-                type: "string"
-                enum:
-                  - "REQUEST_TIMEOUT"
-                  - "NOT_FOUND"
-                  - "TOO_MANY_REQUESTS"
-                  - "NO_INTERNET"
-                  - "SERVER"
-                  - "SERIALIZATION"
-                  - "UNKNOWN"
   /room/distribution:
     get:
-      summary: "Get all room statuses on a specific date"
-      description: "Returns the status of all rooms on the specified date"
+      description: ""
       parameters:
         - name: "date"
           in: "query"
           required: false
           schema:
             type: "string"
-            format: "date"
       responses:
         "400":
           description: "Bad Request"
@@ -117,7 +56,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_List<RoomStateDto>"
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends RoomStateDto>"
         "404":
           description: "Not Found"
           content:
@@ -141,17 +80,16 @@ paths:
                   - "SERVER"
                   - "SERIALIZATION"
                   - "UNKNOWN"
+                  - "LOGICAL"
   /room/distribution/generate:
     post:
-      summary: "Generate room distribution for a month"
-      description: "Generates and returns room distribution for the month of the specified date"
+      description: ""
       parameters:
         - name: "date"
           in: "query"
           required: false
           schema:
             type: "string"
-            format: "date"
       responses:
         "400":
           description: "Bad Request"
@@ -191,7 +129,63 @@ paths:
                   - "SERVER"
                   - "SERIALIZATION"
                   - "UNKNOWN"
-
+                  - "LOGICAL"
+  /room/distribution/{housekeeperId}:
+    get:
+      description: ""
+      parameters:
+        - name: "housekeeperId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid date format"
+                Example#2:
+                  value: "Invalid housekeeper ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends RoomStateDto>"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "No room distribution found"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+                enum:
+                  - "REQUEST_TIMEOUT"
+                  - "NOT_FOUND"
+                  - "TOO_MANY_REQUESTS"
+                  - "NO_INTERNET"
+                  - "SERVER"
+                  - "SERIALIZATION"
+                  - "UNKNOWN"
+                  - "LOGICAL"
 components:
   schemas:
     RoomDto:
@@ -208,38 +202,6 @@ components:
         - "id"
         - "roomNumber"
         - "roomType"
-    RoomStateDto:
-      type: "object"
-      properties:
-        roomId:
-          type: "integer"
-          format: "int32"
-        roomNumber:
-          type: "string"
-        status:
-          type: "string"
-          enum: ["CLEAN", "DIRTY", "MAINTENANCE", "OCCUPIED"]
-        assignedTo:
-          type: "integer"
-          format: "int32"
-          nullable: true
-      required:
-        - "roomId"
-        - "roomNumber"
-        - "status"
-    RoomDistributionResponse:
-      type: "object"
-      properties:
-        date:
-          type: "string"
-          format: "date"
-        rooms:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/RoomStateDto"
-      required:
-        - "date"
-        - "rooms"
     BaseResponseDto:
       type: "object"
       properties:
@@ -251,7 +213,7 @@ components:
       required:
         - "message"
         - "timestamp"
-    BaseResponseDto_List<RoomDto>:
+    BaseResponseDto_List<? extends RoomDto>:
       type: "object"
       properties:
         message:
@@ -263,7 +225,36 @@ components:
           type: "array"
           items:
             $ref: "#/components/schemas/RoomDto"
-    BaseResponseDto_List<RoomStateDto>:
+    RoomCleaningStatusDto:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+          enum:
+            - "PENDING"
+            - "IN_PROGRESS"
+            - "IN_REVISION"
+            - "DONE"
+        updatedAt:
+          type: "string"
+          format: "date-time"
+          nullable: true
+      required:
+        - "status"
+    RoomStateDto:
+      type: "object"
+      properties:
+        room:
+          $ref: "#/components/schemas/RoomDto"
+        cleaningType:
+          type: "string"
+        currentStatus:
+          $ref: "#/components/schemas/RoomCleaningStatusDto"
+      required:
+        - "room"
+        - "cleaningType"
+        - "currentStatus"
+    BaseResponseDto_List<? extends RoomStateDto>:
       type: "object"
       properties:
         message:
@@ -275,10 +266,8 @@ components:
           type: "array"
           items:
             $ref: "#/components/schemas/RoomStateDto"
-    Map_LocalDate:
+    Map:
       type: "object"
-      additionalProperties:
-        type: "array"
-        items:
-          $ref: "#/components/schemas/RoomStateDto"
-      description: "Map of dates to room distributions"
+      properties: { }
+    Map_LocalDate:
+      type: "string"

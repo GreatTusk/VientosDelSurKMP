@@ -5,6 +5,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
+@Serializable
 sealed interface EmployeeDto {
     val firstName: String
     val lastName: String
