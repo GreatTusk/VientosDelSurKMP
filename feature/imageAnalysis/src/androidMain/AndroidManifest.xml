@@ -8,15 +8,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application>
-
-        <activity android:name="com.f776.japanesedictionary.MainActivity" android:exported="true">
-            <intent-filter android:label="Scan Japanese text">
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-        </activity>
-
         <!-- Trigger Google Play services to install the backported photo picker module. -->
         <service android:name="com.google.android.gms.metadata.ModuleDependencies"
                  android:enabled="false"

@@ -31,9 +31,8 @@ internal class HousekeeperForYouViewModel(
 
     fun onSelectDate(date: LocalDate) = _selectedDate.update { date }
 
-    private val rooms = _selectedDate.flatMapLatest { date ->
-        flow { emit(roomRepository.getRoomDistributionForHousekeeperOn(employeeId, date)) }
-    }
+    private val rooms = _selectedDate
+        .flatMapLatest { date -> flow { emit(roomRepository.getRoomDistributionForHousekeeperOn(employeeId, date)) } }
         .mapNotNull { it.takeOrNull() }
         .map { rooms -> rooms.map { it.toRoomUi() } }
 
