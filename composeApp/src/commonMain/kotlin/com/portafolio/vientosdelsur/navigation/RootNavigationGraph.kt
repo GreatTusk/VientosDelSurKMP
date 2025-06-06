@@ -48,7 +48,6 @@ fun RootNavigationGraph(navHostController: NavHostController = rememberNavContro
         composable<TopLevelNavigation> {
             TopLevelNavigation(navController = rememberNavController())
         }
-        imageAnalysisGraph(onNavigateUp = navHostController::navigateUp)
     }
 }
 

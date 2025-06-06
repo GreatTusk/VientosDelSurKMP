@@ -5,14 +5,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -51,78 +45,58 @@ internal actual fun ImageAnalysisScreen(
             }
         }
 
-    BoxWithConstraints(modifier = modifier) {
-        val focusBoxSize = remember(maxWidth, maxHeight) {
-            minOf(maxWidth, maxHeight) * 0.7f
-        }
+    Scaffold(
+        modifier = modifier,
+        topBar = { TopBarOverlay(onNavigateUp = onNavigateUp) }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            when (val state = uiState) {
+                ImageAnalysisUiState.Empty -> {
+                    CameraFeed(
+                        imageAnalysisViewModel,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.TopCenter)
+                    )
+                }
 
-        when (val state = uiState) {
-            ImageAnalysisUiState.Empty -> {
-                CameraFeed(imageAnalysisViewModel)
-                FocusBoxOverlay(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(focusBoxSize)
-                )
-            }
+                is ImageAnalysisUiState.ImageSubmitted -> {
+                    Image(
+                        bitmap = state.image.asImageBitmap(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.FillHeight
+                    )
 
-            is ImageAnalysisUiState.ImageSubmitted -> {
-                Image(
-                    bitmap = state.image.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentScale = ContentScale.FillHeight
-                )
+                    when (state.ocrResult) {
+                        LoadingState.Empty, is LoadingState.Error, LoadingState.Loading -> {}
+                        is LoadingState.Success -> {
 
-                when (state.ocrResult) {
-                    LoadingState.Empty, is LoadingState.Error, LoadingState.Loading -> {}
-                    is LoadingState.Success -> {
-                        OCRResultOverlay(
-                            modifier = Modifier
-                                .aspectRatio(state.image.width.toFloat() / state.image.height.toFloat())
-                                .align(Alignment.Center)
-                                .fillMaxSize()
-                                .graphicsLayer {
-                                    val scale =
-                                        this@BoxWithConstraints.maxHeight.toPx() / this.size.height
-
-                                    Log.i(
-                                        "GraphicsLayerScope",
-                                        "Box size ${this@BoxWithConstraints.maxWidth.toPx()}x${this@BoxWithConstraints.maxHeight.toPx()}"
-                                    )
-                                    Log.i(
-                                        "GraphicsLayerScope",
-                                        "Overlay size ${this.size.width}x${this.size.height}"
-                                    )
-                                    Log.i("GraphicsLayerScope", "Scale applied: $scale")
-
-                                    scaleX = scale
-                                    scaleY = scale
-                                },
-                            detectedText = state.ocrResult.data,
-                            originalImageWidth = state.image.width,
-                            originalImageHeight = state.image.height
-                        )
+                        }
                     }
                 }
             }
+
+
+            CameraControlsOverlay(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(
+                        bottom = WindowInsets.systemBars.asPaddingValues()
+                            .calculateBottomPadding() + 12.dp
+                    ),
+                onOpenGallery = {
+                    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                },
+                onImageCaptured = imageAnalysisViewModel::onImageCaptured,
+                showCamera = uiState == ImageAnalysisUiState.Empty
+            )
         }
 
-        TopBarOverlay(onNavigateUp = onNavigateUp)
-
-        CameraControlsOverlay(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(
-                    bottom = WindowInsets.systemBars.asPaddingValues()
-                        .calculateBottomPadding() + 12.dp
-                ),
-            onOpenGallery = {
-                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            },
-            onImageCaptured = imageAnalysisViewModel::onImageCaptured,
-            showCamera = uiState == ImageAnalysisUiState.Empty
-        )
     }
 }

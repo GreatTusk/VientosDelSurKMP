@@ -8,12 +8,14 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.navigation.isRouteInHierarchy
+import com.f776.japanesedictionary.imageanalysis.navigation.ImageAnalysisRoute
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

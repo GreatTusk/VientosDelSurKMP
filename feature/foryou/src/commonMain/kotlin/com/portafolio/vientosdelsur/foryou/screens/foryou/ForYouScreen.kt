@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.foryou.screens.foryou
 
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,7 +27,8 @@ internal fun ForYouScreenRoot(
                 Occupation.HOUSEKEEPER -> HousekeeperForYouScreenRoot(
                     modifier = modifier,
                     housekeeperForYouViewModel = koinViewModel { parametersOf(employee.data.id) },
-                    employee = employee.data
+                    employee = employee.data,
+                    onNavigateToImageAnalysis = onNavigateToImageAnalysis
                 )
 
                 Occupation.SUPERVISOR -> SupervisorForYouScreenRoot(
@@ -38,7 +40,8 @@ internal fun ForYouScreenRoot(
             }
         }
 
-        else -> {}
+        else -> {
+        }
     }
 }
 

@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.f776.japanesedictionary.imageanalysis.navigation.imageAnalysisGraph
 import com.f776.japanesedictionary.imageanalysis.navigation.navigateToImageAnalysis
 import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
 import com.portafolio.vientosdelsur.feature.hotel.navigation.hotelGraph
@@ -19,6 +20,7 @@ fun TopLevelNavigationGraph(modifier: Modifier = Modifier, navController: NavHos
             forYouGraph(onNavigateToImageAnalysis = navController::navigateToImageAnalysis)
             hotelGraph()
         }
+        imageAnalysisGraph(onNavigateUp = navController::navigateUp)
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -27,7 +28,8 @@ internal fun CameraFeed(
     surfaceRequest?.let { request ->
         CameraXViewfinder(
             surfaceRequest = request,
-            modifier = modifier
+            modifier = modifier,
+            contentScale = ContentScale.Fit
         )
     }
 }

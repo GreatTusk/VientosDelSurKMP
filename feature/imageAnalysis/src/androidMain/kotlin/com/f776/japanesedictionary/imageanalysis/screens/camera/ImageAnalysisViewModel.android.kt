@@ -41,14 +41,7 @@ internal actual class ImageAnalysisViewModel(
     application: Application
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ImageAnalysisUiState>(ImageAnalysisUiState.Empty)
-    val uiState = _uiState.onStart {
-        val imageUri = savedStateHandle.toRoute<ImageAnalysisRoute>().imageUri?.toUri() ?: return@onStart
-        onImageSelected(imageUri, application)
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000L),
-        ImageAnalysisUiState.Empty
-    )
+    val uiState = _uiState.asStateFlow()
 
     private val _surfaceRequest = MutableStateFlow<SurfaceRequest?>(null)
     val surfaceRequest = _surfaceRequest.asStateFlow()

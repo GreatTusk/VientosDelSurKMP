@@ -28,7 +28,6 @@ import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.Room
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.koinInject
 import vientosdelsur.feature.foryou.generated.resources.*
 import vientosdelsur.feature.foryou.generated.resources.Res
 import vientosdelsur.feature.foryou.generated.resources.cleaning_checkout
@@ -39,14 +38,16 @@ import vientosdelsur.feature.foryou.generated.resources.photo_fab_cd
 internal fun HousekeeperForYouScreenRoot(
     modifier: Modifier = Modifier,
     housekeeperForYouViewModel: HousekeeperForYouViewModel,
-    employee: Employee
+    employee: Employee,
+    onNavigateToImageAnalysis: () -> Unit
 ) {
     val uiState by housekeeperForYouViewModel.uiState.collectAsStateWithLifecycle()
     HousekeeperForYouScreen(
         modifier = modifier,
         rooms = uiState,
         employee = employee,
-        onSignOut = housekeeperForYouViewModel::onLogout
+        onSignOut = housekeeperForYouViewModel::onLogout,
+        onNavigateToImageAnalysis = onNavigateToImageAnalysis
     )
 }
 
@@ -55,7 +56,8 @@ private fun HousekeeperForYouScreen(
     modifier: Modifier = Modifier,
     rooms: List<RoomStateUi>,
     employee: Employee?,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    onNavigateToImageAnalysis: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var selectedIndex by remember { mutableIntStateOf(-1) }
@@ -98,7 +100,7 @@ private fun HousekeeperForYouScreen(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { /* housekeeper action */ },
+                onClick = onNavigateToImageAnalysis,
                 icon = {
                     Icon(
                         imageVector = Icons.Default.CameraAlt,
@@ -179,6 +181,7 @@ private fun RoomScreenPreview() {
                     isEnabled = true
                 ),
                 onSignOut = {},
+                onNavigateToImageAnalysis = {},
             )
         }
     }

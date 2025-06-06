@@ -20,33 +20,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun TopBarOverlay(modifier: Modifier = Modifier, onNavigateUp: () -> Unit) {
     CenterAlignedTopAppBar(
-        modifier = modifier.drawBehind {
-            drawRect(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0x40000000),
-                        Color(0x35000000),
-                        Color(0x30000000),
-                        Color(0x25000000),
-                        Color(0x20000000),
-                        Color(0x15000000),
-                        Color(0x10000000),
-                        Color(0x05000000),
-                        Color.Transparent
-                    ),
-                    startY = size.height,
-                    endY = size.height + 16.dp.toPx()
-                ),
-                topLeft = Offset(0f, size.height),
-                size = Size(width = size.width, height = 16.dp.toPx())
-            )
-        },
+        modifier = modifier,
         title = {
-            Text("Análisis de aseo", color = Color.White, fontWeight = FontWeight.SemiBold)
+            Text("Análisis de aseo", fontWeight = FontWeight.SemiBold)
         },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors().copy(
-            containerColor = Color(0x40000000)
-        ),
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
                 Icon(
