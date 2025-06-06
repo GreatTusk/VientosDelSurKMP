@@ -1,12 +1,10 @@
 package com.f776.japanesedictionary.data.ocr.di
 
-import com.f776.japanesedictionary.data.ocr.analyzer.OCRAnalyzer
 import com.f776.japanesedictionary.data.ocr.camera.CameraCaptureController
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 internal actual val PlatformModule: Module = module {
-    single { OCRAnalyzer(ioDispatcher = get(named("ioDispatcher"))) }
     single { CameraCaptureController(ioDispatcher = get(named("ioDispatcher"))) }
 }

@@ -12,6 +12,7 @@ import com.f776.core.common.DataError
 import com.f776.core.common.Result
 import com.f776.japanesedictionary.domain.imageanalysis.ImageDimension
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 
@@ -52,7 +53,7 @@ class CameraCaptureController(private val ioDispatcher: CoroutineDispatcher) {
                 Result.Success(bitmap)
             }
         } catch (_: Exception) {
-            coroutineContext.ensureActive()
+            currentCoroutineContext().ensureActive()
             Result.Error(DataError.Local.UNKNOWN)
         }
     }
