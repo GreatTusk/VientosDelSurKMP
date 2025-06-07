@@ -4,5 +4,5 @@ import com.f776.core.common.DataError
 import com.f776.core.common.Result
 
 interface ImageAnalysisService {
-    suspend fun classifyImage(byteArray: ByteArray): Result<ImageAnalysisResult, DataError.Remote>
+    suspend fun classifyImage(byteArray: ByteArray, roomId: Int): Result<ImageAnalysisResult, DataError.Remote>
 }

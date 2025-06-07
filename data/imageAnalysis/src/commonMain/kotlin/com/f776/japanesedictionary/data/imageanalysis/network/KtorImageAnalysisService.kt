@@ -12,7 +12,10 @@ import io.ktor.client.request.forms.*
 import io.ktor.http.*
 
 internal class KtorImageAnalysisService(private val httpClient: HttpClient) : ImageAnalysisService {
-    override suspend fun classifyImage(byteArray: ByteArray): Result<ImageAnalysisResult, DataError.Remote> =
+    override suspend fun classifyImage(
+        byteArray: ByteArray,
+        roomId: Int
+    ): Result<ImageAnalysisResult, DataError.Remote> =
         safeCall<ImageAnalysisResult> {
             httpClient.post("${BuildConfig.BASE_URL}/image-analysis") {
                 setBody(
@@ -24,6 +27,13 @@ internal class KtorImageAnalysisService(private val httpClient: HttpClient) : Im
                                 headers = Headers.build {
                                     append(HttpHeaders.ContentType, "image/png")
                                     append(HttpHeaders.ContentDisposition, "filename=\"room-photo.png\"")
+                                }
+                            )
+                            append(
+                                "roomId",
+                                value = roomId,
+                                headers = Headers.build {
+                                    append(HttpHeaders.ContentType, "plain/text")
                                 }
                             )
                         }
