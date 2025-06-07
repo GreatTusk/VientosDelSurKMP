@@ -13,6 +13,8 @@ kotlin {
         commonMain.dependencies {
             api(projects.domain.imageAnalysis)
             implementation(libs.koin.core)
+            implementation(projects.core.network)
+            implementation(projects.shared)
         }
     }
 }

@@ -21,8 +21,8 @@ import com.f776.core.common.LoadingState
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
-import com.f776.japanesedictionary.data.ocr.analyzer.OCRAnalyzer
-import com.f776.japanesedictionary.data.ocr.camera.CameraCaptureController
+import com.f776.japanesedictionary.data.imageanalysis.analyzer.OCRAnalyzer
+import com.f776.japanesedictionary.data.imageanalysis.camera.CameraCaptureController
 import com.f776.japanesedictionary.imageanalysis.navigation.ImageAnalysisRoute
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation

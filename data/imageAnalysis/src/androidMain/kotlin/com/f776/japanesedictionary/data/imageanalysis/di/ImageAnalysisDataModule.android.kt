@@ -1,6 +1,6 @@
-package com.f776.japanesedictionary.data.ocr.di
+package com.f776.japanesedictionary.data.imageanalysis.di
 
-import com.f776.japanesedictionary.data.ocr.camera.CameraCaptureController
+import com.f776.japanesedictionary.data.imageanalysis.camera.CameraCaptureController
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

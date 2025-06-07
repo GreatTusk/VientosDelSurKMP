@@ -1,4 +1,4 @@
-package com.f776.japanesedictionary.data.ocr.camera
+package com.f776.japanesedictionary.data.imageanalysis.camera
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
