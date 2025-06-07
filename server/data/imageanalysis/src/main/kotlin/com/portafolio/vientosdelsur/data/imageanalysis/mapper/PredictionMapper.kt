@@ -1,8 +1,8 @@
-package com.portafolio.vientosdelsur.service.imageanalysis.mapper
+package com.portafolio.vientosdelsur.data.imageanalysis.mapper
 
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.models.Prediction
-import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisResult
-import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ResultTagDto
+import com.portafolio.vientosdelsur.domain.imageanalysis.ImageAnalysisResult
+import com.portafolio.vientosdelsur.domain.imageanalysis.ResultTag
 
 fun Prediction.toImageAnalysisResult() = ImageAnalysisResult(
     tagName = fromTagName(tagName()),
@@ -11,7 +11,7 @@ fun Prediction.toImageAnalysisResult() = ImageAnalysisResult(
 
 fun fromTagName(tagName: String) =
     when (tagName) {
-        "Desordenada" -> ResultTagDto.UNCLEAN
-        "Ordenada" -> ResultTagDto.CLEAN
+        "Desordenada" -> ResultTag.UNCLEAN
+        "Ordenada" -> ResultTag.CLEAN
         else -> error("Unknown tag")
     }

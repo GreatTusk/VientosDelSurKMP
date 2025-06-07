@@ -6,10 +6,7 @@ dependencies {
     api(projects.shared)
     api(projects.core.common)
 
-    implementation(projects.server.service.employee)
-    api(projects.server.domain.imageanalysis)
-
-    implementation(libs.azure.cognitiveservices.customvision.prediction)
+    implementation(projects.server.data.imageanalysis)
 
     implementation(libs.koin.ktor)
     implementation(libs.kotlinx.datetime)

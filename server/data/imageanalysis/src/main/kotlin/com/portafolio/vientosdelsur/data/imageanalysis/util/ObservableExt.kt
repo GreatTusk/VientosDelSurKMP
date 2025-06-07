@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.service.imageanalysis.util
+package com.portafolio.vientosdelsur.data.imageanalysis.util
 
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

@@ -4,7 +4,6 @@ import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.isImage
 import com.portafolio.vientosdelsur.service.imageanalysis.ImageAnalysisService
-import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisRequest
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
@@ -45,8 +44,8 @@ fun Application.imageAnalysisRoute() {
 
                             is PartData.FileItem -> {
                                 log.debug("Multipart had a file!")
-                                if (part.name == "profile-photo") {
-                                    log.debug("Multipart was profile-photo!")
+                                if (part.name == "room-photo") {
+                                    log.debug("Multipart was room-photo!")
                                     val contentType = part.contentType
                                     if (contentType?.contentType == "image") {
                                         log.debug("Multipart was an image!")
@@ -72,14 +71,13 @@ fun Application.imageAnalysisRoute() {
                     return@post call.respond(HttpStatusCode.BadRequest, "Invalid multipart request")
                 }
 
-
-                imageAnalysisService.analyze(ImageAnalysisRequest(roomId, photoBytes))
+                imageAnalysisService.analyze(photoBytes, roomId)
                     .onSuccess {
                         call.respond(it)
                     }
                     .onError {
                         log.error(it.name)
-                        call.respond(HttpStatusCode.NotFound)
+                        call.respond(HttpStatusCode.InternalServerError)
                     }
             }
         }
