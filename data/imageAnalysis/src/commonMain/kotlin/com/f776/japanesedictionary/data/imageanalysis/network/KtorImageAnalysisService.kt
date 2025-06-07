@@ -30,7 +30,7 @@ internal class KtorImageAnalysisService(private val httpClient: HttpClient) : Im
                                 }
                             )
                             append(
-                                "roomId",
+                                "room-id",
                                 value = roomId,
                                 headers = Headers.build {
                                     append(HttpHeaders.ContentType, "plain/text")

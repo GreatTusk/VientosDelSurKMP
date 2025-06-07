@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.server.core.controller)
+
     implementation(projects.server.service.employee)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.content.negotiation)

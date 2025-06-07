@@ -5,6 +5,7 @@ import com.f776.core.common.Result
 import com.microsoft.azure.cognitiveservices.vision.customvision.prediction.CustomVisionPredictionClient
 import com.portafolio.vientosdelsur.service.imageanalysis.mapper.toImageAnalysisResult
 import com.portafolio.vientosdelsur.service.imageanalysis.util.asFlow
+import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisRequest
 import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisResult
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,7 +17,7 @@ internal class AzureImageAnalysisService(
     private val predictor: CustomVisionPredictionClient,
     private val ioDispatcher: CoroutineDispatcher
 ) : ImageAnalysisService {
-    override suspend fun analyze(analysisRequest: ImageAnalysisRequest): Result<Set<ImageAnalysisResult>, DataError.Remote> =
+    override suspend fun analyze(analysisRequest: ImageAnalysisRequest): Result<BaseResponseDto<Set<ImageAnalysisResult>>, DataError.Remote> =
         try {
             val results = predictor.predictions()
                 .classifyImageAsync(
@@ -29,7 +30,13 @@ internal class AzureImageAnalysisService(
                 .flowOn(ioDispatcher)
                 .single()
 
-            Result.Success(results.predictions().map { it.toImageAnalysisResult() }.toSet())
+
+            Result.Success(
+                BaseResponseDto(
+                    message = "Successful analysis",
+                    data = results.predictions().map { it.toImageAnalysisResult() }.toSet()
+                )
+            )
         } catch (e: Exception) {
             e.printStackTrace()
             Result.Error(DataError.Remote.LOGICAL)

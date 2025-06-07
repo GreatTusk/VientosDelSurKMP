@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.controller.employee.util
+package com.portafolio.vientosdelsur.core.controller.util
 
 enum class ImageFormat(val signature: ByteArray, val offset: Int = 0) {
     JPEG(byteArrayOf(0xFF.toByte(), 0xD8.toByte(), 0xFF.toByte())),
