@@ -22,29 +22,15 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_Set<? extends ImageAnalysisResult>"
-        "404":
-          description: "Not Found"
+                $ref: "#/components/schemas/BaseResponseDto_AnalysisConclusion"
+        "500":
+          description: "Internal Server Error"
           content:
             '*/*':
               schema:
                 type: "object"
 components:
   schemas:
-    ImageAnalysisResult:
-      type: "object"
-      properties:
-        tagName:
-          type: "string"
-          enum:
-            - "CLEAN"
-            - "UNCLEAN"
-        probability:
-          type: "number"
-          format: "float"
-      required:
-        - "tagName"
-        - "probability"
     BaseResponseDto:
       type: "object"
       properties:
@@ -56,7 +42,7 @@ components:
       required:
         - "message"
         - "timestamp"
-    BaseResponseDto_Set<? extends ImageAnalysisResult>:
+    BaseResponseDto_AnalysisConclusion:
       type: "object"
       properties:
         message:
@@ -64,8 +50,3 @@ components:
         timestamp:
           type: "string"
           format: "date-time"
-        data:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/ImageAnalysisResult"
-          uniqueItems: true
