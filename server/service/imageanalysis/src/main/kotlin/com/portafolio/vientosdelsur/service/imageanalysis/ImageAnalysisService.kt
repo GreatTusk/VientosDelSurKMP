@@ -6,5 +6,5 @@ import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisReques
 import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisResult
 
 interface ImageAnalysisService {
-    suspend fun analyze(analysisRequest: ImageAnalysisRequest): Result<ImageAnalysisResult, DataError.Remote>
+    suspend fun analyze(analysisRequest: ImageAnalysisRequest): Result<Set<ImageAnalysisResult>, DataError.Remote>
 }
