@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="968" height="190pt" viewBox="0 0 726 190">
+    <g class="graph">
+        <path fill="#fff" d="M0 190V0h726v190z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M179.75 50H4v36h175.75z"/>
+            <text x="87.88" y="-112.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 186)">:server:service:imageanalysis</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M323.25 4h-55v36h55z"/>
+            <text x="291.75" y="-158.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 186)">:shared</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M173.82 49.56c28.72-6.55 59.68-13.6 83.09-18.94"/>
+            <path d="m256.07 27.22 10.53 1.19-8.97 5.64z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M722 96h-95.5v36H722z"/>
+            <text x="670.25" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 186)">:core:common</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M179.96 64.09C279.91 61.26 448.37 61.61 590.5 87c8.08 1.44 16.46 3.49 24.64 5.82"/>
+            <path d="m616.12 89.46 8.56 6.24-10.58.46z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M375.75 96h-160v36h160z"/>
+            <text x="291.75" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 186)">:server:data:imageanalysis</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M173.82 86.44c10.07 2.3 20.42 4.66 30.62 6.98"/>
+            <path d="m204.98 89.95 8.97 5.64-10.53 1.19z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M546.62 96h-91v36h91z"/>
+            <text x="497.12" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 186)">:core:network</text>
+        </g>
+        <g stroke="#999" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M547.09 114h67.8"/>
+            <path fill="#999" d="m614.69 110.5 10 3.5-10 3.5z"/>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M375.96 114h67.93"/>
+            <path fill="#ccc" d="m443.67 110.5 10 3.5-10 3.5z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M590.5 150H411.75v36H590.5z"/>
+            <text x="497.12" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 186)">:server:domain:imageanalysis</text>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M366.17 132.43c17.25 4.58 35.88 9.53 53.6 14.24"/>
+            <path fill="#ccc" d="m420.44 143.22 8.77 5.95-10.56.82z"/>
+        </g>
+        <g stroke="#999" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M563.02 149.56c9.22-2.84 18.61-5.76 27.48-8.56 8.02-2.53 16.45-5.24 24.75-7.92"/>
+            <path fill="#999" d="m614.01 129.8 10.59.24-8.43 6.42z"/>
+        </g>
+    </g>
+</svg>
