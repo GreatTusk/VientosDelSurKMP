@@ -26,6 +26,7 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.core.ui)
+            implementation(projects.core.mediapicker)
             implementation(projects.data.imageAnalysis)
 
             implementation(libs.jetbrains.compose.navigation)

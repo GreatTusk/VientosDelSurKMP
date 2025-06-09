@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -21,8 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.common.LoadingState
 import com.f776.japanesedictionary.imageanalysis.screens.camera.feed.CameraFeed
 import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.CameraControlsOverlay
-import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.FocusBoxOverlay
-import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.OCRResultOverlay
 import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.TopBarOverlay
 
 @Composable

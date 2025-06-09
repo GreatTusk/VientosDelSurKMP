@@ -11,6 +11,7 @@ import androidx.camera.core.Preview
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -19,8 +20,9 @@ import com.f776.core.common.LoadingState
 import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
-import com.f776.japanesedictionary.data.imageanalysis.analyzer.OCRAnalyzer
 import com.f776.japanesedictionary.data.imageanalysis.camera.CameraCaptureController
+import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisService
+import com.portafolio.vientosdelsur.core.mediapicker.data.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +31,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal actual class ImageAnalysisViewModel(
-    private val ocrAnalyzer: OCRAnalyzer,
+    private val imageAnalysisService: ImageAnalysisService,
     private val cameraCaptureController: CameraCaptureController,
     savedStateHandle: SavedStateHandle,
     application: Application
@@ -67,9 +69,11 @@ internal actual class ImageAnalysisViewModel(
     // First the bitmap is available, then the results
     private suspend fun analyze(bitmap: Bitmap) {
         _uiState.update { ImageAnalysisUiState.ImageSubmitted(bitmap, LoadingState.Loading) }
-            ocrAnalyzer.analyze(bitmap = bitmap)
+        imageAnalysisService.classifyImage(
+            byteArray = bitmap.asImageBitmap().toByteArray(),
+            roomId = 1
+        )
             .onSuccess { result ->
-//                _uiState.update { OCRUiState.ImageSubmitted(bitmap, LoadingState.Success(result)) }
                 _uiState.update {
                     (it as ImageAnalysisUiState.ImageSubmitted).copy(
                         ocrResult = LoadingState.Success(result)
