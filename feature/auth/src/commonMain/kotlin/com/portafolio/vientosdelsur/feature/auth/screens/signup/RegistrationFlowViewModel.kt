@@ -47,12 +47,12 @@ internal class RegistrationFlowViewModel(
             lastName = last
 
             profilePictureUrl?.let {
-                profilePictureProvider.updateProfilePicture(ProfilePicture.URL(it))
+                profilePictureProvider.updateProfilePicture(Picture.URL(it))
             }
         }
     }
 
-    var userProfilePicture = profilePictureProvider.profilePicture
+    var userProfilePicture = profilePictureProvider.picture
 
     var progress by mutableFloatStateOf(RegistrationRoute.Profile.progress)
         private set
@@ -111,7 +111,7 @@ internal class RegistrationFlowViewModel(
                 lastName = lastName,
                 userId = user.userId,
                 email = user.email,
-                profilePicture = userProfilePicture.value,
+                picture = userProfilePicture.value,
                 hireDate = hireDate,
                 dayOff = dayOff,
                 occupationOption = occupation,
@@ -133,8 +133,3 @@ internal val LocalDate.formatted: String
         return "$day/$month/$year"
     }
 
-sealed interface ProfilePicture {
-    data class URL(val url: String) : ProfilePicture
-    data class Image(val image: ImageBitmap) : ProfilePicture
-    data object None : ProfilePicture
-}

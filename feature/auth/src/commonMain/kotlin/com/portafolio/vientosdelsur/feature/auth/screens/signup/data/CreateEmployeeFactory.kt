@@ -4,7 +4,7 @@ import com.portafolio.vientosdelsur.domain.employee.CreateEmployee
 import com.portafolio.vientosdelsur.domain.employee.HousekeeperRole
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.employee.UploadPhoto
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.HousekeeperRoleOption
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
 import kotlinx.datetime.DayOfWeek
@@ -16,7 +16,7 @@ internal object CreateEmployeeFactory {
         lastName: String,
         userId: String,
         email: String,
-        profilePicture: ProfilePicture,
+        picture: Picture,
         hireDate: LocalDate?,
         dayOff: DayOfWeek?,
         occupationOption: OccupationOption?,
@@ -31,17 +31,17 @@ internal object CreateEmployeeFactory {
             occupation = checkNotNull(occupationOption).toOccupation(),
             userId = userId,
             email = email,
-            uploadPhoto = profilePicture.toUploadPhoto(),
+            uploadPhoto = picture.toUploadPhoto(),
             hireDate = checkNotNull(hireDate),
             dayOff = checkNotNull(dayOff),
             housekeeperRole = housekeeperRole?.toHousekeeperRole()
         )
     }
 
-    private suspend fun ProfilePicture.toUploadPhoto(): UploadPhoto? = when (this) {
-        is ProfilePicture.Image -> UploadPhoto.Raw(image.toByteArray())
-        is ProfilePicture.URL -> UploadPhoto.URL(url)
-        ProfilePicture.None -> null
+    private suspend fun Picture.toUploadPhoto(): UploadPhoto? = when (this) {
+        is Picture.Image -> UploadPhoto.Raw(image.toByteArray())
+        is Picture.URL -> UploadPhoto.URL(url)
+        Picture.None -> null
     }
 
     private fun OccupationOption.toOccupation(): Occupation = when (this) {

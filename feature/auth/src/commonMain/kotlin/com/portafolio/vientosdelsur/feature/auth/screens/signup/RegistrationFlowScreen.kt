@@ -45,7 +45,7 @@ internal fun RegistrationFlowScreenRoot(
                 onDayOffSelected = registrationFlowViewModel::onDayOffSelected,
                 firstName = registrationFlowViewModel.firstName,
                 lastName = registrationFlowViewModel.lastName,
-                profilePicture = userProfilePicture,
+                picture = userProfilePicture,
                 onFirstNameChanged = registrationFlowViewModel::onFirstNameChanged,
                 onLastNameChanged = registrationFlowViewModel::onLastNameChanged,
                 onSubmit = registrationFlowViewModel::onSubmit,

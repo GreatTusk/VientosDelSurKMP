@@ -1,9 +1,9 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup.data
 
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
 import kotlinx.coroutines.flow.StateFlow
 
 internal expect class ProfilePictureProvider: AutoCloseable {
-    val profilePicture: StateFlow<ProfilePicture>
-    fun updateProfilePicture(profilePicture: ProfilePicture)
+    val picture: StateFlow<Picture>
+    fun updateProfilePicture(picture: Picture)
 }

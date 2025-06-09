@@ -3,20 +3,20 @@ package com.portafolio.vientosdelsur.feature.auth.screens.signup.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.awt.ComposeWindow
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.data.ProfilePictureProvider
 import java.awt.FileDialog
 import java.io.File
 
 @Composable
 internal actual fun ProfilePhoto(
-    profilePicture: ProfilePicture,
+    picture: Picture,
     profilePictureProvider: ProfilePictureProvider
 ) {
     val imageFileRegex = remember { ".+\\.(jpg|jpeg|png)$".toRegex() }
 
     ProfilePhoto(
-        profilePicture = profilePicture,
+        picture = picture,
         onClick = {
             with(FileDialog(ComposeWindow())) {
                 isVisible = true

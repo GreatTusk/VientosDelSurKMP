@@ -4,7 +4,7 @@ import android.app.Application
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.ui.graphics.asImageBitmap
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.ProfilePicture
+import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +17,8 @@ internal actual class ProfilePictureProvider(
     private val application: Application
 ) : AutoCloseable {
 
-    private val _profilePicture = MutableStateFlow<ProfilePicture>(ProfilePicture.None)
-    actual val profilePicture = _profilePicture.asStateFlow()
+    private val _Picture = MutableStateFlow<Picture>(Picture.None)
+    actual val picture = _Picture.asStateFlow()
 
     fun onPhotoSelected(uri: Uri?) {
         if (uri == null) return
@@ -26,14 +26,14 @@ internal actual class ProfilePictureProvider(
         coroutineScope.launch {
             val inputStream = application.contentResolver.openInputStream(uri)
             val bitmap = BitmapFactory.decodeStream(inputStream).asImageBitmap()
-            _profilePicture.update {
-                ProfilePicture.Image(bitmap)
+            _Picture.update {
+                Picture.Image(bitmap)
             }
         }
     }
 
-    actual fun updateProfilePicture(profilePicture: ProfilePicture) {
-        _profilePicture.update { profilePicture }
+    actual fun updateProfilePicture(picture: Picture) {
+        _Picture.update { picture }
     }
 
     override fun close() = coroutineScope.cancel()

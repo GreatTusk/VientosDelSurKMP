@@ -1,0 +1,23 @@
+plugins {
+    alias(libs.plugins.f776.kotlinMultiplatform)
+    alias(libs.plugins.f776.androidLibrary)
+    alias(libs.plugins.f776.composeMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.core.ui)
+
+            implementation(libs.ktor.client.cio)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+
+
+            implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.kotlinx.serialization.json)
+        }
+    }
+}

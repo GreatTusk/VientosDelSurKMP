@@ -10,11 +10,6 @@ import com.portafolio.vientosdelsur.controller.room.route.roomRoute
 import com.portafolio.vientosdelsur.controller.shift.route.shiftRoute
 import com.portafolio.vientosdelsur.core.database.entity.SchemaCreation
 import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import kotlinx.coroutines.*
-import java.time.Duration
-import java.time.LocalDateTime
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
