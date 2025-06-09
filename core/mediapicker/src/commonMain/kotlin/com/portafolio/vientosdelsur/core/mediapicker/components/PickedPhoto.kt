@@ -24,11 +24,11 @@ import com.portafolio.vientosdelsur.core.mediapicker.data.PhotoProvider
 import com.portafolio.vientosdelsur.core.mediapicker.model.Photo
 import org.koin.compose.koinInject
 
+
+fun getAsyncImageLoader(context: PlatformContext) =
+    ImageLoader.Builder(context).crossfade(true).logger(DebugLogger()).build()
 @Composable
 internal fun PickedPhoto(photo: Photo, onClick: () -> Unit) {
-    fun getAsyncImageLoader(context: PlatformContext)=
-        ImageLoader.Builder(context).crossfade(true).logger(DebugLogger()).build()
-
     setSingletonImageLoaderFactory { context ->
         getAsyncImageLoader(context)
     }
@@ -37,7 +37,7 @@ internal fun PickedPhoto(photo: Photo, onClick: () -> Unit) {
         is Photo.URL -> {
             PhotoPicker(onClick = onClick) {
                 AsyncImage(
-                    modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center).border(1.dp, Color.Black),
+                    modifier = Modifier.size(96.dp).clip(CircleShape).align(Alignment.Center),
                     model = photo.url,
                     contentDescription = "https://avatars.githubusercontent.com/u/131561675?v=4",
                     contentScale = ContentScale.Crop
