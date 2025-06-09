@@ -9,7 +9,7 @@ import java.awt.FileDialog
 import java.io.File
 
 @Composable
-internal actual fun PickedPhoto(
+actual fun PickedPhoto(
     photo: Photo,
     photoProvider: PhotoProvider
 ) {

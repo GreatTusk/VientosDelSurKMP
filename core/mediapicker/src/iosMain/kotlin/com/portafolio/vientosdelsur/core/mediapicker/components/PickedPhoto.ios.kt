@@ -5,7 +5,7 @@ import com.portafolio.vientosdelsur.core.mediapicker.data.PhotoProvider
 import com.portafolio.vientosdelsur.core.mediapicker.model.Photo
 
 @Composable
-internal actual fun PickedPhoto(
+actual fun PickedPhoto(
     photo: Photo,
     photoProvider: PhotoProvider
 ) {

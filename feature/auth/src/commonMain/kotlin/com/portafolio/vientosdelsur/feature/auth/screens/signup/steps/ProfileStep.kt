@@ -17,8 +17,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProfilePhoto
+import com.portafolio.vientosdelsur.core.mediapicker.components.PickedPhoto
+import com.portafolio.vientosdelsur.core.mediapicker.model.Photo
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -31,7 +31,7 @@ internal fun ProfileStep(
     onContinue: () -> Unit,
     firstName: String,
     lastName: String,
-    picture: Picture,
+    photo: Photo,
     onFirstNameChanged: (String) -> Unit,
     onLastNameChanged: (String) -> Unit
 ) {
@@ -50,7 +50,7 @@ internal fun ProfileStep(
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
 
-            ProfilePhoto(picture = picture)
+            PickedPhoto(photo = photo)
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -126,7 +126,7 @@ private fun ProfileStepPreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    picture = Picture.None
+                    photo = Photo.None
                 )
             }
         )
@@ -149,7 +149,7 @@ private fun ProfileStepURLPreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    picture = Picture.URL("")
+                    photo = Photo.URL("")
                 )
             }
         )
@@ -172,7 +172,7 @@ private fun ProfileStepImagePreview() {
                     onLastNameChanged = {},
                     firstName = "",
                     lastName = "",
-                    picture = Picture.Image(imageResource(Res.drawable.apple_icon))
+                    photo = Photo.Image(imageResource(Res.drawable.apple_icon))
                 )
             }
         )

@@ -55,7 +55,7 @@ internal fun PickedPhoto(photo: Photo, onClick: () -> Unit) {
 }
 
 @Composable
-internal expect fun PickedPhoto(
+expect fun PickedPhoto(
     photo: Photo,
     photoProvider: PhotoProvider = koinInject()
 )

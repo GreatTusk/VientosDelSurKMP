@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.navigation.TransitionAnimation
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
+import com.portafolio.vientosdelsur.core.mediapicker.model.Photo
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.*
 import kotlinx.datetime.DayOfWeek
 
@@ -29,7 +29,7 @@ internal fun RegistrationNavHost(
     onDayOffSelected: (DayOfWeek) -> Unit,
     firstName: String,
     lastName: String,
-    picture: Picture,
+    photo: Photo,
     onFirstNameChanged: (String) -> Unit,
     onLastNameChanged: (String) -> Unit,
     onSubmit: () -> Unit,
@@ -89,7 +89,7 @@ internal fun RegistrationNavHost(
                     onLastNameChanged = onLastNameChanged,
                     firstName = firstName,
                     lastName = lastName,
-                    picture = picture
+                    photo = photo
                 )
             }
 

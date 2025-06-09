@@ -3,7 +3,7 @@ package com.portafolio.vientosdelsur.core.mediapicker.data
 import com.portafolio.vientosdelsur.core.mediapicker.model.Photo
 import kotlinx.coroutines.flow.StateFlow
 
-internal actual class PhotoProvider : AutoCloseable {
+actual class PhotoProvider : AutoCloseable {
     actual val photo: StateFlow<Photo>
         get() = TODO("Not yet implemented")
 

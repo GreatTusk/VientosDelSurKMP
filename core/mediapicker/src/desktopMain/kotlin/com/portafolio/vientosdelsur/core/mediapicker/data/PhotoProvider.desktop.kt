@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
 
-internal actual class PhotoProvider(
+actual class PhotoProvider(
     private val coroutineScope: CoroutineScope
 ) : AutoCloseable {
 
