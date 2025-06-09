@@ -2,10 +2,14 @@ package com.f776.japanesedictionary.data.imageanalysis.network
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
+import com.f776.core.common.map
 import com.f776.core.network.safeCall
+import com.f776.japanesedictionary.data.imageanalysis.mapper.toImageAnalysisResult
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisService
 import com.portafolio.vientosdelsur.network.BuildConfig
+import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
+import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisResultDto
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -16,7 +20,7 @@ internal class KtorImageAnalysisService(private val httpClient: HttpClient) : Im
         byteArray: ByteArray,
         roomId: Int
     ): Result<ImageAnalysisResult, DataError.Remote> =
-        safeCall<ImageAnalysisResult> {
+        safeCall<BaseResponseDto<ImageAnalysisResultDto>> {
             httpClient.post("${BuildConfig.BASE_URL}/image-analysis") {
                 setBody(
                     MultiPartFormDataContent(
@@ -40,5 +44,5 @@ internal class KtorImageAnalysisService(private val httpClient: HttpClient) : Im
                     )
                 )
             }
-        }
+        }.map { it.data.toImageAnalysisResult() }
 }

@@ -1,5 +1,9 @@
 package com.f776.japanesedictionary.domain.imageanalysis
 
-data class ImageAnalysisResult(
-    val tagName: ResultTag
-)
+enum class ImageAnalysisResult {
+    CLEAN,
+    SLIGHTLY_DIRTY,
+    MODERATELY_DIRTY,
+    VERY_DIRTY,
+    EXTREMELY_DIRTY
+}

@@ -1,6 +1,5 @@
 package com.f776.japanesedictionary.imageanalysis.screens.camera
 
-import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,7 +12,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.LoadingState
@@ -33,8 +31,6 @@ import kotlinx.coroutines.launch
 internal actual class ImageAnalysisViewModel(
     private val imageAnalysisService: ImageAnalysisService,
     private val cameraCaptureController: CameraCaptureController,
-    savedStateHandle: SavedStateHandle,
-    application: Application
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ImageAnalysisUiState>(ImageAnalysisUiState.Empty)
     val uiState = _uiState.asStateFlow()
@@ -76,9 +72,10 @@ internal actual class ImageAnalysisViewModel(
             .onSuccess { result ->
                 _uiState.update {
                     (it as ImageAnalysisUiState.ImageSubmitted).copy(
-                        ocrResult = LoadingState.Success(result)
+                        imageAnalysisResult = LoadingState.Success(result)
                     )
                 }
+                Log.i("ImageAnalysisViewModel", result.name)
             }
             .onEmpty {
                 _uiState.update { ImageAnalysisUiState.ImageSubmitted(bitmap, LoadingState.Empty) }

@@ -6,9 +6,10 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -17,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.common.LoadingState
+import com.f776.japanesedictionary.imageanalysis.components.ImageAnalysisResultDialog
 import com.f776.japanesedictionary.imageanalysis.screens.camera.feed.CameraFeed
 import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.CameraControlsOverlay
 import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.TopBarOverlay
@@ -40,6 +42,17 @@ internal actual fun ImageAnalysisScreen(
                 Log.d("PhotoPicker", "No media selected")
             }
         }
+
+    var showResultDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(uiState) {
+        val ready = (uiState as? ImageAnalysisUiState.ImageSubmitted)?.imageAnalysisResult as? LoadingState.Success
+        if (ready != null) {
+            showResultDialog = true
+        }
+    }
 
     Scaffold(
         modifier = modifier,
@@ -69,11 +82,21 @@ internal actual fun ImageAnalysisScreen(
                         contentScale = ContentScale.FillHeight
                     )
 
-                    when (state.ocrResult) {
-                        LoadingState.Empty, is LoadingState.Error, LoadingState.Loading -> {}
-                        is LoadingState.Success -> {
-
+                    when (state.imageAnalysisResult) {
+                        LoadingState.Loading -> {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                         }
+
+                        is LoadingState.Success -> {
+                            if (showResultDialog) {
+                                ImageAnalysisResultDialog(
+                                    result = state.imageAnalysisResult.data,
+                                    onDismissRequest = { showResultDialog = false }
+                                )
+                            }
+                        }
+
+                        else -> {}
                     }
                 }
             }

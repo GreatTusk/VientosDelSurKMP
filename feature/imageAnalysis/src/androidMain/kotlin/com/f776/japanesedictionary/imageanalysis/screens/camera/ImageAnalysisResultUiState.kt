@@ -6,5 +6,5 @@ import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
 
 sealed interface ImageAnalysisUiState {
     data object Empty: ImageAnalysisUiState
-    data class ImageSubmitted(val image: Bitmap, val ocrResult: LoadingState<ImageAnalysisResult>) : ImageAnalysisUiState
+    data class ImageSubmitted(val image: Bitmap, val imageAnalysisResult: LoadingState<ImageAnalysisResult>) : ImageAnalysisUiState
 }
