@@ -111,7 +111,7 @@ internal class RegistrationFlowViewModel(
                 lastName = lastName,
                 userId = user.userId,
                 email = user.email,
-                picture = userProfilePicture.value,
+                photo = userProfilePicture.value,
                 hireDate = hireDate,
                 dayOff = dayOff,
                 occupationOption = occupation,

@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.feature.auth.di
 
+import com.portafolio.vientosdelsur.core.mediapicker.di.PhotoPickerModule
 import com.portafolio.vientosdelsur.data.auth.di.AuthDataModule
 import com.portafolio.vientosdelsur.feature.auth.screens.signin.AuthViewModel
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.RegistrationFlowViewModel
@@ -13,10 +14,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val AuthModule = module {
-    includes(AuthDataModule, PlatformModule)
-    factory(named("ioCoroutineScope")) { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
+    includes(AuthDataModule, PhotoPickerModule)
     viewModelOf(::AuthViewModel)
     viewModelOf(::RegistrationFlowViewModel)
 }
-
-internal expect val PlatformModule: Module

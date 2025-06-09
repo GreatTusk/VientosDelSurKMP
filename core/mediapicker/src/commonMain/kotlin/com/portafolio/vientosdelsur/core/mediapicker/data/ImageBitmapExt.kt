@@ -2,4 +2,4 @@ package com.portafolio.vientosdelsur.core.mediapicker.data
 
 import androidx.compose.ui.graphics.ImageBitmap
 
-internal expect suspend fun ImageBitmap.toByteArray(): ByteArray
+expect suspend fun ImageBitmap.toByteArray(): ByteArray

@@ -105,6 +105,7 @@ internal fun HireDateStep(
                         onClick = {
                             onDateSelected(datePickerState.selectedDateMillis)
                             showDatePickerDialog = false
+                            onContinue()
                         }
                     ) {
                         Text("Aceptar")

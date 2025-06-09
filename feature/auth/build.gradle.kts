@@ -14,6 +14,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.jetbrains.compose.navigation)
 
             implementation(libs.kotlinx.serialization.json)
         }

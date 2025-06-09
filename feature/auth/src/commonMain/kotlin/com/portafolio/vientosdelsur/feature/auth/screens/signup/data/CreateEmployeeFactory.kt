@@ -1,10 +1,11 @@
 package com.portafolio.vientosdelsur.feature.auth.screens.signup.data
 
+import com.portafolio.vientosdelsur.core.mediapicker.data.toByteArray
+import com.portafolio.vientosdelsur.core.mediapicker.model.Photo
 import com.portafolio.vientosdelsur.domain.employee.CreateEmployee
 import com.portafolio.vientosdelsur.domain.employee.HousekeeperRole
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.employee.UploadPhoto
-import com.portafolio.vientosdelsur.feature.auth.screens.signup.Picture
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.HousekeeperRoleOption
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.steps.OccupationOption
 import kotlinx.datetime.DayOfWeek
@@ -16,7 +17,7 @@ internal object CreateEmployeeFactory {
         lastName: String,
         userId: String,
         email: String,
-        picture: Picture,
+        photo: Photo,
         hireDate: LocalDate?,
         dayOff: DayOfWeek?,
         occupationOption: OccupationOption?,
@@ -31,17 +32,17 @@ internal object CreateEmployeeFactory {
             occupation = checkNotNull(occupationOption).toOccupation(),
             userId = userId,
             email = email,
-            uploadPhoto = picture.toUploadPhoto(),
+            uploadPhoto = photo.toUploadPhoto(),
             hireDate = checkNotNull(hireDate),
             dayOff = checkNotNull(dayOff),
             housekeeperRole = housekeeperRole?.toHousekeeperRole()
         )
     }
 
-    private suspend fun Picture.toUploadPhoto(): UploadPhoto? = when (this) {
-        is Picture.Image -> UploadPhoto.Raw(image.toByteArray())
-        is Picture.URL -> UploadPhoto.URL(url)
-        Picture.None -> null
+    private suspend fun Photo.toUploadPhoto(): UploadPhoto? = when (this) {
+        is Photo.Image -> UploadPhoto.Raw(image.toByteArray())
+        is Photo.URL -> UploadPhoto.URL(url)
+        Photo.None -> null
     }
 
     private fun OccupationOption.toOccupation(): Occupation = when (this) {

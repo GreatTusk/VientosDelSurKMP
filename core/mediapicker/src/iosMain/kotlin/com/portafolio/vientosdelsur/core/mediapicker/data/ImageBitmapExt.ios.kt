@@ -6,6 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
-internal actual suspend fun ImageBitmap.toByteArray(): ByteArray = withContext(Dispatchers.IO) {
+actual suspend fun ImageBitmap.toByteArray(): ByteArray = withContext(Dispatchers.IO) {
     return@withContext asSkiaBitmap().readPixels() ?: ByteArray(size = 0)
 }
