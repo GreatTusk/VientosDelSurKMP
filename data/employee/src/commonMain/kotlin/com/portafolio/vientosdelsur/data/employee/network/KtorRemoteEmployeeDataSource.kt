@@ -12,6 +12,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.Json
 
 internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) : RemoteEmployeeDataSource {
@@ -23,6 +24,13 @@ internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) 
     override suspend fun getAllEmployees(): Result<List<EmployeeDto.Get>, DataError.Remote> =
         safeCall<BaseResponseDto<List<EmployeeDto.Get>>> {
             httpClient.get("${BuildConfig.BASE_URL}/employee")
+        }.map { it.data }
+
+    override suspend fun getEmployeesToday(today: LocalDate): Result<List<EmployeeDto.Get>, DataError.Remote> =
+        safeCall<BaseResponseDto<List<EmployeeDto.Get>>> {
+            httpClient.get("${BuildConfig.BASE_URL}/employee") {
+                parameter("today", today)
+            }
         }.map { it.data }
 
     override suspend fun isUserActive(userId: String): EmptyResult<DataError.Remote> = safeCall<Unit> {

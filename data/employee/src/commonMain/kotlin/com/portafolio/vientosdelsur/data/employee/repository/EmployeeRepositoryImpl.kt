@@ -8,9 +8,13 @@ import com.portafolio.vientosdelsur.domain.employee.CreateEmployee
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import com.portafolio.vientosdelsur.domain.employee.UploadPhoto
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 
-internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: RemoteEmployeeDataSource) :
-    EmployeeRepository {
+internal class EmployeeRepositoryImpl(
+    private val remoteEmployeeDataSource: RemoteEmployeeDataSource
+) : EmployeeRepository {
     override suspend fun getEmployee(userId: String): Result<Employee, DataError> {
         return remoteEmployeeDataSource.getEmployeeByUserId(userId)
             .map { it.toEmployee() }
@@ -18,6 +22,12 @@ internal class EmployeeRepositoryImpl(private val remoteEmployeeDataSource: Remo
 
     override suspend fun getEmployees(): Result<List<Employee>, DataError> {
         return remoteEmployeeDataSource.getAllEmployees()
+            .flatMap { it.toEmployee() }
+    }
+
+    override suspend fun getEmployeesToday(): Result<List<Employee>, DataError> {
+        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        return remoteEmployeeDataSource.getEmployeesToday(today = today)
             .flatMap { it.toEmployee() }
     }
 
