@@ -9,16 +9,14 @@ import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.employee.HousekeeperEntity
 import com.portafolio.vientosdelsur.core.database.entity.user.UserEntity
 import com.portafolio.vientosdelsur.core.database.entity.user.UserTable
+import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.data.employee.mapper.occupationEntity
 import com.portafolio.vientosdelsur.data.employee.mapper.toEmployee
 import com.portafolio.vientosdelsur.data.employee.mapper.toHousekeeperRoleEntity
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.repository.EmployeeRepository
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.isoDayNumber
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.update
 
@@ -56,7 +54,10 @@ internal object DBEmployeeRepository : EmployeeRepository {
             UserEntity.findById(userId)?.employee?.toEmployee() ?: emptyError("Employee not found")
         }
 
-    override suspend fun createEmployee(employee: Employee, profilePictureBytes: ByteArray?): Result<Employee, DataError.Remote> = safeSuspendTransaction {
+    override suspend fun createEmployee(
+        employee: Employee,
+        profilePictureBytes: ByteArray?
+    ): Result<Employee, DataError.Remote> = safeSuspendTransaction {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
         val userEntity = UserEntity.new(id = employee.userData.id) {

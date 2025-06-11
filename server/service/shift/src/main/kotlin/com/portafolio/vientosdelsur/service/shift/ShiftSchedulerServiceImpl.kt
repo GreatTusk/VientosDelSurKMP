@@ -34,8 +34,14 @@ internal class ShiftSchedulerServiceImpl(
             }
     }
 
-    override suspend fun getEmployeesWorkingOn(date: LocalDate): Result<List<EmployeeDto>, DataError.Remote> {
+    override suspend fun getEmployeesWorkingOn(date: LocalDate): Result<BaseResponseDto<List<EmployeeDto>>, DataError.Remote> {
         return shiftRepository.getEmployeesWorkingOn(date)
             .flatMap { it.toEmployeeDto() }
+            .map {
+                BaseResponseDto(
+                    message = "Retrieved successfully",
+                    data = it
+                )
+            }
     }
 }

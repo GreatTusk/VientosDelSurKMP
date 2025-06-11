@@ -4,6 +4,7 @@ import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
 import com.portafolio.vientosdelsur.domain.employee.Employee
+import kotlinx.datetime.LocalDate
 
 interface EmployeeRepository {
     suspend fun allEmployees(): Result<List<Employee>, DataError.Remote>

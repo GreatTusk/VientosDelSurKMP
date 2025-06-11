@@ -3,6 +3,8 @@ package com.portafolio.vientosdelsur.data.shift.repository
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftTable
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
@@ -17,6 +19,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.batchInsert
 
 internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatcher) : ShiftRepository {
@@ -48,8 +51,12 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
 
     override suspend fun getEmployeesWorkingOn(date: LocalDate): Result<List<Employee>, DataError.Remote> =
         safeSuspendTransaction {
-            WorkShiftEntity.find { WorkShiftTable.date eq date }
-                .map { it.employee }
-                .map { it.toEmployee() }
+            val query = EmployeeTable.innerJoin(WorkShiftTable)
+                .select(EmployeeTable.columns)
+                .where {
+                    WorkShiftTable.date eq date
+                }
+
+            EmployeeEntity.wrapRows(query).toList().map { it.toEmployee() }
         }
 }

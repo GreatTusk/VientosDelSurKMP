@@ -4,14 +4,13 @@ import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.parseDateFromQueryParams
+import com.portafolio.vientosdelsur.core.controller.util.today
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.datetime.LocalDate
-import org.koin.ktor.ext.get
 import org.koin.ktor.ext.inject
 
 fun Application.shiftRoute() {
@@ -21,15 +20,9 @@ fun Application.shiftRoute() {
         swaggerUI("swagger/shift", swaggerFile = "openapi/documentation-shift.yaml")
         route("/shifts") {
             get("/employees-working") {
-                val dateParam = call.request.queryParameters["date"]
-                if (dateParam == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Date parameter is required")
-                    return@get
-                }
-
                 val date = try {
-                    call.parseDateFromQueryParams()
-                } catch (e: Exception) {
+                    call.parseDateFromQueryParams() ?: today()
+                } catch (e: IllegalArgumentException) {
                     return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
                 }
 

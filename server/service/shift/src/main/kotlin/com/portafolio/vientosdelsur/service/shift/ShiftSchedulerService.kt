@@ -11,5 +11,5 @@ typealias MonthlyShiftDistributionResponse = BaseResponseDto<List<MonthlyShiftDi
 
 interface ShiftSchedulerService {
     suspend fun scheduleShifts(): Result<MonthlyShiftDistributionResponse, DataError.Remote>
-    suspend fun getEmployeesWorkingOn(date: LocalDate): Result<List<EmployeeDto>, DataError.Remote>
+    suspend fun getEmployeesWorkingOn(date: LocalDate): Result<BaseResponseDto<List<EmployeeDto>>, DataError.Remote>
 }

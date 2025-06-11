@@ -4,6 +4,7 @@ import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.parseDateFromQueryParams
+import com.portafolio.vientosdelsur.core.controller.util.today
 import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
 import com.portafolio.vientosdelsur.service.housekeeping.RoomService
 import io.ktor.http.*
@@ -11,6 +12,9 @@ import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.ktor.ext.inject
 
 fun Application.roomRoute() {
@@ -37,8 +41,8 @@ fun Application.roomRoute() {
                         ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid housekeeper ID")
 
                     val date = try {
-                        call.parseDateFromQueryParams()
-                    } catch (e: Exception) {
+                        call.parseDateFromQueryParams() ?: today()
+                    } catch (e: IllegalArgumentException) {
                         return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
                     }
 
@@ -56,8 +60,8 @@ fun Application.roomRoute() {
 
                 get {
                     val date = try {
-                        call.parseDateFromQueryParams()
-                    } catch (e: Exception) {
+                        call.parseDateFromQueryParams() ?: today()
+                    } catch (e: IllegalArgumentException) {
                         return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
                     }
 
@@ -74,8 +78,8 @@ fun Application.roomRoute() {
 
                 post("/generate") {
                     val date = try {
-                        call.parseDateFromQueryParams()
-                    } catch (e: Exception) {
+                        call.parseDateFromQueryParams() ?: today()
+                    } catch (e: IllegalArgumentException) {
                         return@post call.respond(HttpStatusCode.BadRequest, "Invalid date format")
                     }
 
