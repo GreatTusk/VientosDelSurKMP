@@ -13,7 +13,9 @@ data class Employee(
     val photoUrl: String?,
     val phoneNumber: String,
     val isEnabled: Boolean
-)
+) {
+    val fullName: String get() = "$firstName $lastName"
+}
 
 data class CreateEmployee(
     val firstName: String,

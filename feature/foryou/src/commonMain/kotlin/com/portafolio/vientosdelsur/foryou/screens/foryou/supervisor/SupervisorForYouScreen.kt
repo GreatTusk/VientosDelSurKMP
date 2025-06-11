@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.filled.Person
@@ -24,6 +25,7 @@ import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
+import com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.components.EmployeeCard
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -32,13 +34,14 @@ internal fun SupervisorForYouScreenRoot(
     modifier: Modifier = Modifier,
     employee: Employee
 ) {
-    SupervisorForYouScreen(modifier = modifier, employee = employee)
+    SupervisorForYouScreen(modifier = modifier, employee = employee, employeesToday = listOf())
 }
 
 @Composable
 private fun SupervisorForYouScreen(
     modifier: Modifier = Modifier,
-    employee: Employee
+    employee: Employee,
+    employeesToday: List<Employee>
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -86,7 +89,9 @@ private fun SupervisorForYouScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             forYouHeader(employee = employee)
-
+            items(items = employeesToday, key = { it.id }) {
+                EmployeeCard(employee = it)
+            }
         }
     }
 }
@@ -108,6 +113,19 @@ private fun RoomScreenPreview() {
                     phoneNumber = "+1234567890",
                     isEnabled = true
                 ),
+                employeesToday = List(5) {
+                    Employee(
+                        id = 1,
+                        firstName = "Flor",
+                        lastName = "Gonzales",
+                        occupation = Occupation.SUPERVISOR,
+                        userId = "emp-123456",
+                        email = "flow.gonzals@vientosdelsur.com",
+                        photoUrl = "https://example.com/photos/employee1.jpg",
+                        phoneNumber = "+1234567890",
+                        isEnabled = true
+                    )
+                }
             )
         }
     }
