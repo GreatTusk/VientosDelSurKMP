@@ -1,6 +1,5 @@
 package com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -51,7 +50,7 @@ internal fun EmployeeCard(modifier: Modifier = Modifier, employee: Employee) {
             Box {
                 employee.photoUrl?.let {
                     AsyncImage(
-                        modifier = Modifier.size(48.dp).clip(CircleShape),
+                        modifier = Modifier.size(96.dp).clip(CircleShape),
                         model = it,
                         contentDescription = "Profile picture",
                         contentScale = ContentScale.Crop

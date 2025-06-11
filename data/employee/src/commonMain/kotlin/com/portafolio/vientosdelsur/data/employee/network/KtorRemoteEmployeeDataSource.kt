@@ -28,7 +28,7 @@ internal class KtorRemoteEmployeeDataSource(private val httpClient: HttpClient) 
 
     override suspend fun getEmployeesToday(today: LocalDate): Result<List<EmployeeDto.Get>, DataError.Remote> =
         safeCall<BaseResponseDto<List<EmployeeDto.Get>>> {
-            httpClient.get("${BuildConfig.BASE_URL}/employee") {
+            httpClient.get("${BuildConfig.BASE_URL}/shifts/employees-working") {
                 parameter("date", today)
             }
         }.map { it.data }

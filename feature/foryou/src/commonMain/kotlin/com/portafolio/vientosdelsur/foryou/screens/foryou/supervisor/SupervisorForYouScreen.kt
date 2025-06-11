@@ -15,11 +15,13 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
@@ -28,13 +30,16 @@ import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
 import com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.components.EmployeeCard
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun SupervisorForYouScreenRoot(
     modifier: Modifier = Modifier,
-    employee: Employee
+    employee: Employee,
+    supervisorForYouViewModel: SupervisorForYouViewModel = koinViewModel()
 ) {
-    SupervisorForYouScreen(modifier = modifier, employee = employee, employeesToday = listOf())
+    val employees by supervisorForYouViewModel.employees.collectAsStateWithLifecycle()
+    SupervisorForYouScreen(modifier = modifier, employee = employee, employeesToday = employees)
 }
 
 @Composable
