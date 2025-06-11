@@ -30,8 +30,9 @@ internal class FirebaseAuthService(
         try {
             firebaseAuth.signInWithEmailAndPassword(signInRequest.email.email, signInRequest.password)
             Result.Success(Unit)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
             currentCoroutineContext().ensureActive()
+            e.printStackTrace()
             Result.Error(DataError.Remote.UNKNOWN)
         }
     }

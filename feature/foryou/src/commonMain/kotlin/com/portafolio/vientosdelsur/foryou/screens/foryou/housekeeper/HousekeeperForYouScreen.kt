@@ -55,7 +55,7 @@ internal fun HousekeeperForYouScreenRoot(
 private fun HousekeeperForYouScreen(
     modifier: Modifier = Modifier,
     rooms: List<RoomStateUi>,
-    employee: Employee?,
+    employee: Employee,
     onSignOut: () -> Unit,
     onNavigateToImageAnalysis: () -> Unit
 ) {

@@ -31,52 +31,48 @@ import vientosdelsur.feature.foryou.generated.resources.housekeeper_room_header
 import vientosdelsur.feature.foryou.generated.resources.supervisor_header
 
 
-internal fun LazyGridScope.forYouHeader(employee: Employee?) {
+internal fun LazyGridScope.forYouHeader(employee: Employee) {
     item(span = { GridItemSpan(maxLineSpan) }) {
-        employee?.let {
-            Column {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(Res.string.greeting, "${employee.firstName} ${employee.lastName}"),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    employee.photoUrl?.let {
-                        AsyncImage(
-                            modifier = Modifier.size(48.dp).clip(CircleShape),
-                            model = it,
-                            contentDescription = "Profile picture",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(
-                        text = stringResource(
-                            when (employee.occupation) {
-                                Occupation.HOUSEKEEPER -> Res.string.housekeeper_room_header
-                                Occupation.SUPERVISOR -> Res.string.supervisor_header
-                                Occupation.ADMIN -> Res.string.admin_header
-                            }
-                        ),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                    Text(
-                        text = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                            .format(localeDateFormatter),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.secondary
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(Res.string.greeting, "${employee.firstName} ${employee.lastName}"),
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                employee.photoUrl?.let {
+                    AsyncImage(
+                        modifier = Modifier.size(48.dp).clip(CircleShape),
+                        model = it,
+                        contentDescription = "Profile picture",
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
-        } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    text = stringResource(
+                        when (employee.occupation) {
+                            Occupation.HOUSEKEEPER -> Res.string.housekeeper_room_header
+                            Occupation.SUPERVISOR -> Res.string.supervisor_header
+                            Occupation.ADMIN -> Res.string.admin_header
+                        }
+                    ),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+                Text(
+                    text = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                        .format(localeDateFormatter),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
         }
     }
 }
