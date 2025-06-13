@@ -77,8 +77,7 @@ private fun SupervisorForYouScreen(
                 icon = { Icon(Icons.Default.ImageSearch, contentDescription = "Supervisor action") },
                 text = { Text("Revisar") },
             )
-        }
-
+        },
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
         val currentSize = currentWindowAdaptiveInfo()
@@ -120,13 +119,13 @@ private fun RoomScreenPreview() {
                 ),
                 employeesToday = List(5) {
                     Employee(
-                        id = 1,
+                        id = it,
                         firstName = "Flor",
                         lastName = "Gonzales",
                         occupation = Occupation.SUPERVISOR,
                         userId = "emp-123456",
                         email = "flow.gonzals@vientosdelsur.com",
-                        photoUrl = "https://example.com/photos/employee1.jpg",
+                        photoUrl = null,
                         phoneNumber = "+1234567890",
                         isEnabled = true
                     )

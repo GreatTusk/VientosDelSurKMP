@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -20,7 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun EmployeeCard(modifier: Modifier = Modifier, employee: Employee) {
-    Card(modifier = modifier) {
+    ElevatedCard(modifier = modifier) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -46,7 +47,6 @@ internal fun EmployeeCard(modifier: Modifier = Modifier, employee: Employee) {
                     onClick = {}
                 )
             }
-
             Box {
                 employee.photoUrl?.let {
                     AsyncImage(
@@ -63,25 +63,27 @@ internal fun EmployeeCard(modifier: Modifier = Modifier, employee: Employee) {
             }
         }
     }
-
 }
 
 @Preview
 @Composable
 private fun EmployeeCardPreview() {
     VientosDelSurTheme {
-        EmployeeCard(
-            employee = Employee(
-                id = 1,
-                firstName = "Flor",
-                lastName = "Gonzales",
-                occupation = Occupation.SUPERVISOR,
-                userId = "emp-123456",
-                email = "flow.gonzals@vientosdelsur.com",
-                photoUrl = null,
-                phoneNumber = "+1234567890",
-                isEnabled = true
+        Surface {
+            EmployeeCard(
+                modifier = Modifier.padding(24.dp),
+                employee = Employee(
+                    id = 1,
+                    firstName = "Flor",
+                    lastName = "Gonzales",
+                    occupation = Occupation.SUPERVISOR,
+                    userId = "emp-123456",
+                    email = "flow.gonzals@vientosdelsur.com",
+                    photoUrl = null,
+                    phoneNumber = "+1234567890",
+                    isEnabled = true
+                )
             )
-        )
+        }
     }
 }
