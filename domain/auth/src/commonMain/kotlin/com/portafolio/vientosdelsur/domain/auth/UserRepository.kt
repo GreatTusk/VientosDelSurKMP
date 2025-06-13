@@ -1,7 +1,7 @@
 package com.portafolio.vientosdelsur.domain.auth
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface UserRepository {
-    val currentUser: Flow<User?>
+    val currentUser: StateFlow<User?>
 }

@@ -17,6 +17,7 @@ import com.f776.core.ui.components.ObserveAsEvents
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.foryou.screens.foryou.ForYouEvent
 import com.portafolio.vientosdelsur.foryou.screens.foryou.ForYouViewModel
+import com.portafolio.vientosdelsur.foryou.screens.foryou.admin.AdminForYouScreenRoot
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.HousekeeperForYouScreenRoot
 import com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.SupervisorForYouScreenRoot
 import org.koin.compose.viewmodel.koinViewModel
@@ -29,7 +30,7 @@ internal fun OccupationNavigation(
     onNavigateToImageAnalysis: () -> Unit
 ) {
     val forYouViewModel = koinViewModel<ForYouViewModel>()
-    val employee by forYouViewModel.employee.collectAsStateWithLifecycle()
+    val employee by forYouViewModel.employee.collectAsStateWithLifecycle(null)
 
     ObserveAsEvents(forYouViewModel.navChannel) {
         when (it) {
@@ -62,6 +63,7 @@ internal fun OccupationNavigation(
                 )
             }
             composable<OccupationRoute.Admin> {
+                AdminForYouScreenRoot(employee = employee!!)
             }
         }
     }

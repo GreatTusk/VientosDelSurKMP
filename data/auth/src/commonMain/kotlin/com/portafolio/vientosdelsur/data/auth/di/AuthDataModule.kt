@@ -21,7 +21,8 @@ val AuthDataModule = module {
         FirebaseUserRepository(
             firebaseAuth = get(),
             employeeRepository = get(),
-            ioDispatcher = get(named("ioDispatcher"))
+            ioDispatcher = get(named("ioDispatcher")),
+            coroutineScope = get(named("defaultCoroutineScope"))
         )
     }.bind<UserRepository>()
     factory { SignUpUseCase(get(), get(named("defaultDispatcher"))) }

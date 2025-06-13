@@ -17,6 +17,7 @@ val AppModule = module {
     single(named("ioDispatcher")) { Dispatchers.IO }
     single(named("defaultDispatcher")) { Dispatchers.Default }
     factory(named("ioCoroutineScope")) { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
+    factory(named("defaultCoroutineScope")) { CoroutineScope(Dispatchers.Default + SupervisorJob()) }
 
     viewModelOf(::AppViewModel)
 }

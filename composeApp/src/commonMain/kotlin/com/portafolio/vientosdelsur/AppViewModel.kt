@@ -1,11 +1,12 @@
 package com.portafolio.vientosdelsur
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
-import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class AppViewModel(userRepository: UserRepository) : ViewModel() {
     private val _eventChannel = Channel<AuthEvent>()
@@ -26,11 +27,6 @@ class AppViewModel(userRepository: UserRepository) : ViewModel() {
             }
         }
         .flowOnce()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(2.seconds),
-            initialValue = null
-        )
 }
 
 fun <T> Flow<T>.flowOnce(): Flow<T> {
