@@ -97,7 +97,12 @@ private fun ImageAnalysisContent(
 ) {
     Scaffold(
         modifier = modifier,
-        topBar = { TopBarOverlay(onNavigateUp = onNavigateUp) },
+        topBar = {
+            TopBarOverlay(
+                onNavigateUp = onNavigateUp,
+                selectedRoomSelectionUi = selectedRoom
+            )
+        },
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { innerPadding ->
         Box(
