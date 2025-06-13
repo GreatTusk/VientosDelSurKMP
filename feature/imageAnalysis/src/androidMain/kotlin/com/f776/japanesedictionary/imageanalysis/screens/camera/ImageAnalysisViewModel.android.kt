@@ -85,7 +85,7 @@ internal actual class ImageAnalysisViewModel(
         _uiState.update { ImageAnalysisUiState.ImageSubmitted(bitmap, LoadingState.Loading) }
         imageAnalysisService.classifyImage(
             byteArray = bitmap.asImageBitmap().toByteArray(),
-            roomId = 1
+            roomId = checkNotNull(selectedRoom?.id) { Log.wtf("ImageAnalysisViewModel", "Room cannot be null") }
         )
             .onSuccess { result ->
                 _uiState.update {
