@@ -51,19 +51,25 @@ internal fun OccupationNavigation(
                 }
             }
             composable<OccupationRoute.Housekeeper> {
-                HousekeeperForYouScreenRoot(
-                    housekeeperForYouViewModel = koinViewModel { parametersOf(employee!!.id) },
-                    employee = employee!!,
-                    onNavigateToImageAnalysis = onNavigateToImageAnalysis
-                )
+                employee?.let {
+                    HousekeeperForYouScreenRoot(
+                        housekeeperForYouViewModel = koinViewModel { parametersOf(it.id) },
+                        employee = it,
+                        onNavigateToImageAnalysis = onNavigateToImageAnalysis
+                    )
+                }
             }
             composable<OccupationRoute.Supervisor> {
-                SupervisorForYouScreenRoot(
-                    employee = employee!!
-                )
+                employee?.let {
+                    SupervisorForYouScreenRoot(
+                        employee = it
+                    )
+                }
             }
             composable<OccupationRoute.Admin> {
-                AdminForYouScreenRoot(employee = employee!!)
+                employee?.let {
+                    AdminForYouScreenRoot(employee = it)
+                }
             }
         }
     }
