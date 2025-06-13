@@ -4,6 +4,7 @@ import androidx.camera.compose.CameraXViewfinder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -29,7 +30,7 @@ internal fun CameraFeed(
         CameraXViewfinder(
             surfaceRequest = request,
             modifier = modifier,
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.FillHeight,
         )
     }
 }

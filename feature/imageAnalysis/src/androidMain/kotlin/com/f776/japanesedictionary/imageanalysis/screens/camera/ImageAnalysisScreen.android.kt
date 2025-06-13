@@ -6,12 +6,16 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -56,7 +60,8 @@ internal actual fun ImageAnalysisScreen(
 
     Scaffold(
         modifier = modifier,
-        topBar = { TopBarOverlay(onNavigateUp = onNavigateUp) }
+        topBar = { TopBarOverlay(onNavigateUp = onNavigateUp) },
+        containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -66,10 +71,8 @@ internal actual fun ImageAnalysisScreen(
             when (val state = uiState) {
                 ImageAnalysisUiState.Empty -> {
                     CameraFeed(
-                        imageAnalysisViewModel,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .align(Alignment.TopCenter)
+                        viewModel = imageAnalysisViewModel,
+                        modifier = Modifier.clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
                     )
                 }
 
@@ -105,10 +108,7 @@ internal actual fun ImageAnalysisScreen(
             CameraControlsOverlay(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(
-                        bottom = WindowInsets.systemBars.asPaddingValues()
-                            .calculateBottomPadding() + 12.dp
-                    ),
+                    .padding(12.dp),
                 onOpenGallery = {
                     pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 },

@@ -29,7 +29,6 @@ internal fun TopBarOverlay(modifier: Modifier = Modifier, onNavigateUp: () -> Un
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Exit camera screen",
-                    tint = Color.White
                 )
             }
         }
