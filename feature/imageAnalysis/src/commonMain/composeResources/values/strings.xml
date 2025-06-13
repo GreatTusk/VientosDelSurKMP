@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="select_room">Seleccionar Habitación</string>
+    <string name="floor">Piso %1$s</string>
+    <string name="cancel">Cancelar</string>
+</resources>

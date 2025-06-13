@@ -10,27 +10,30 @@ import androidx.camera.core.Preview
 import androidx.camera.core.SurfaceRequest
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.f776.core.common.LoadingState
-import com.f776.core.common.onEmpty
-import com.f776.core.common.onError
-import com.f776.core.common.onSuccess
+import com.f776.core.common.*
 import com.f776.japanesedictionary.data.imageanalysis.camera.CameraCaptureController
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisService
+import com.f776.japanesedictionary.imageanalysis.model.RoomSelectionUi
+import com.f776.japanesedictionary.imageanalysis.model.toRoomSelectionUi
 import com.portafolio.vientosdelsur.core.mediapicker.data.toByteArray
+import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 internal actual class ImageAnalysisViewModel(
     private val imageAnalysisService: ImageAnalysisService,
     private val cameraCaptureController: CameraCaptureController,
+    private val roomRepository: RoomRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ImageAnalysisUiState>(ImageAnalysisUiState.Empty)
     val uiState = _uiState.asStateFlow()
@@ -42,6 +45,21 @@ internal actual class ImageAnalysisViewModel(
         setSurfaceProvider { newSurfaceRequest ->
             _surfaceRequest.update { newSurfaceRequest }
         }
+    }
+
+    val rooms = flow { emit(roomRepository.getAllRooms().takeOrNull()) }
+        .mapNotNull { rooms -> rooms?.map { it.toRoomSelectionUi() } }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5.seconds),
+            initialValue = emptyList()
+        )
+
+    var selectedRoom by mutableStateOf<RoomSelectionUi?>(null)
+        private set
+
+    fun onRoomSelected(roomSelectionUi: RoomSelectionUi) {
+        selectedRoom = roomSelectionUi
     }
 
     suspend fun bindToCamera(appContext: Context, lifecycleOwner: LifecycleOwner) {

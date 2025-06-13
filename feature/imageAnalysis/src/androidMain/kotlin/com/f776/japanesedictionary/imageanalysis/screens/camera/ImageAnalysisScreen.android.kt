@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.common.LoadingState
 import com.f776.japanesedictionary.imageanalysis.components.ImageAnalysisResultDialog
+import com.f776.japanesedictionary.imageanalysis.components.RoomSelectionDialog
+import com.f776.japanesedictionary.imageanalysis.model.RoomSelectionUi
 import com.f776.japanesedictionary.imageanalysis.screens.camera.feed.CameraFeed
 import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.CameraControlsOverlay
 import com.f776.japanesedictionary.imageanalysis.screens.camera.overlay.TopBarOverlay
@@ -35,11 +36,11 @@ internal actual fun ImageAnalysisScreen(
 ) {
     val appContext = LocalContext.current.applicationContext
     val uiState by imageAnalysisViewModel.uiState.collectAsStateWithLifecycle()
+    val rooms by imageAnalysisViewModel.rooms.collectAsStateWithLifecycle()
+    val selectedRoom = imageAnalysisViewModel.selectedRoom
 
     val pickMedia =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            // Callback is invoked after the user selects a media item or closes the
-            // photo picker.
             if (uri != null) {
                 imageAnalysisViewModel.onImageSelected(uri, appContext)
             } else {
@@ -47,9 +48,8 @@ internal actual fun ImageAnalysisScreen(
             }
         }
 
-    var showResultDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var showResultDialog by rememberSaveable { mutableStateOf(false) }
+    var showSelectRoomDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(uiState) {
         val ready = (uiState as? ImageAnalysisUiState.ImageSubmitted)?.imageAnalysisResult as? LoadingState.Success
@@ -58,6 +58,43 @@ internal actual fun ImageAnalysisScreen(
         }
     }
 
+    ImageAnalysisContent(
+        modifier = modifier,
+        uiState = uiState,
+        rooms = rooms,
+        selectedRoom = selectedRoom,
+        showResultDialog = showResultDialog,
+        showSelectRoomDialog = showSelectRoomDialog,
+        onNavigateUp = onNavigateUp,
+        onOpenGallery = {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        },
+        onImageCaptured = imageAnalysisViewModel::onImageCaptured,
+        onRoomSelection = { showSelectRoomDialog = true },
+        onRoomSelected = imageAnalysisViewModel::onRoomSelected,
+        onDismissResultDialog = { showResultDialog = false },
+        onDismissRoomDialog = { showSelectRoomDialog = false },
+        imageAnalysisViewModel = imageAnalysisViewModel
+    )
+}
+
+@Composable
+private fun ImageAnalysisContent(
+    modifier: Modifier,
+    uiState: ImageAnalysisUiState,
+    rooms: List<RoomSelectionUi>,
+    selectedRoom: RoomSelectionUi?,
+    showResultDialog: Boolean,
+    showSelectRoomDialog: Boolean,
+    onNavigateUp: () -> Unit,
+    onOpenGallery: () -> Unit,
+    onImageCaptured: () -> Unit,
+    onRoomSelection: () -> Unit,
+    onRoomSelected: (RoomSelectionUi) -> Unit,
+    onDismissResultDialog: () -> Unit,
+    onDismissRoomDialog: () -> Unit,
+    imageAnalysisViewModel: ImageAnalysisViewModel
+) {
     Scaffold(
         modifier = modifier,
         topBar = { TopBarOverlay(onNavigateUp = onNavigateUp) },
@@ -68,24 +105,32 @@ internal actual fun ImageAnalysisScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            when (val state = uiState) {
+            when (uiState) {
                 ImageAnalysisUiState.Empty -> {
                     CameraFeed(
                         viewModel = imageAnalysisViewModel,
                         modifier = Modifier.clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
                     )
+
+                    if (showSelectRoomDialog) {
+                        RoomSelectionDialog(
+                            rooms = rooms,
+                            selectedRoom = selectedRoom,
+                            onRoomSelected = onRoomSelected,
+                            onDismissRequest = onDismissRoomDialog
+                        )
+                    }
                 }
 
                 is ImageAnalysisUiState.ImageSubmitted -> {
                     Image(
-                        bitmap = state.image.asImageBitmap(),
+                        bitmap = uiState.image.asImageBitmap(),
                         contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.FillHeight
                     )
 
-                    when (state.imageAnalysisResult) {
+                    when (uiState.imageAnalysisResult) {
                         LoadingState.Loading -> {
                             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                         }
@@ -93,8 +138,8 @@ internal actual fun ImageAnalysisScreen(
                         is LoadingState.Success -> {
                             if (showResultDialog) {
                                 ImageAnalysisResultDialog(
-                                    result = state.imageAnalysisResult.data,
-                                    onDismissRequest = { showResultDialog = false }
+                                    result = uiState.imageAnalysisResult.data,
+                                    onDismissRequest = onDismissResultDialog
                                 )
                             }
                         }
@@ -104,18 +149,15 @@ internal actual fun ImageAnalysisScreen(
                 }
             }
 
-
             CameraControlsOverlay(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(12.dp),
-                onOpenGallery = {
-                    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                },
-                onImageCaptured = imageAnalysisViewModel::onImageCaptured,
-                showCamera = uiState == ImageAnalysisUiState.Empty
+                onOpenGallery = onOpenGallery,
+                onImageCaptured = onImageCaptured,
+                onRoomSelection = onRoomSelection,
+                isRoomSelected = selectedRoom != null
             )
         }
-
     }
 }
