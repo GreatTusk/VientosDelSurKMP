@@ -2,6 +2,7 @@ package com.portafolio.vientosdelsur.data.room.repository
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
+import com.f776.core.common.throwIfEmpty
 import com.portafolio.vientosdelsur.core.database.entity.booking.RoomBookingTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTypeTable
@@ -43,5 +44,6 @@ internal object DBRoomBookingRepository : RoomBookingRepository {
                         }
                     )
                 }
+                .throwIfEmpty()
         }
 }

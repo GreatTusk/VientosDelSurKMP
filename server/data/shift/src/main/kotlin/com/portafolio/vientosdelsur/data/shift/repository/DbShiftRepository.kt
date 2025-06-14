@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.data.shift.repository
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
+import com.f776.core.common.throwIfEmpty
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
@@ -57,6 +58,9 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
                     WorkShiftTable.date eq date
                 }
 
-            EmployeeEntity.wrapRows(query).toList().map { it.toEmployee() }
+            EmployeeEntity.wrapRows(query)
+                .toList()
+                .map { it.toEmployee() }
+                .throwIfEmpty()
         }
 }

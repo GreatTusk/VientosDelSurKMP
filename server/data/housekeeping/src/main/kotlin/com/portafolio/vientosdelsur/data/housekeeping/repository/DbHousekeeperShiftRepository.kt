@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.data.housekeeping.repository
 import com.f776.core.common.DataError
 import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
+import com.f776.core.common.throwIfEmpty
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.Shift
 import com.portafolio.vientosdelsur.core.database.entity.work.WorkShiftEntity
@@ -67,7 +68,7 @@ internal class DbHousekeeperShiftRepository(
                 }
             )
             it.date to shift
-        }
+        }.throwIfEmpty()
 
         val groupedShifts = shifts.groupBy({ it.first }, { it.second })
         groupedShifts

@@ -1,9 +1,6 @@
 package com.portafolio.vientosdelsur.data.imageanalysis.repository
 
-import com.f776.core.common.DataError
-import com.f776.core.common.EmptyResult
-import com.f776.core.common.Result
-import com.f776.core.common.emptyError
+import com.f776.core.common.*
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisEntity
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
@@ -38,6 +35,7 @@ internal object DbImageStorageRepository : ImageStorageRepository {
         safeSuspendTransaction {
             ImageAnalysisEntity.find { ImageAnalysisTable.uploadedAt.date() eq date }
                 .map { it.toImageAnalysis() }
+                .throwIfEmpty()
         }
 
     override suspend fun getImageAnalysisFromRoomOn(
@@ -46,6 +44,7 @@ internal object DbImageStorageRepository : ImageStorageRepository {
     ): Result<List<ImageAnalysis>, DataError.Remote> = safeSuspendTransaction {
         ImageAnalysisEntity.find { (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.roomId eq roomId) }
             .map { it.toImageAnalysis() }
+            .throwIfEmpty()
     }
 
     override suspend fun getApprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> =
@@ -53,13 +52,14 @@ internal object DbImageStorageRepository : ImageStorageRepository {
             ImageAnalysisEntity.find {
                 (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.cleanProbability greater ImageAnalysisTable.uncleanProbability)
             }.map { it.toImageAnalysis() }
+                .throwIfEmpty()
         }
 
     override suspend fun getDisapprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> =
         safeSuspendTransaction {
             ImageAnalysisEntity.find {
                 (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.cleanProbability lessEq ImageAnalysisTable.uncleanProbability)
-            }.map { it.toImageAnalysis() }
+            }.map { it.toImageAnalysis() }.throwIfEmpty()
         }
 
     override suspend fun getImageById(analysisId: Int): Result<ByteArray, DataError.Remote> = safeSuspendTransaction {

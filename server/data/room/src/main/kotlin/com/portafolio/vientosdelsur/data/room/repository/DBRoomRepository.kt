@@ -3,6 +3,7 @@ package com.portafolio.vientosdelsur.data.room.repository
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
 import com.f776.core.common.emptyError
+import com.f776.core.common.throwIfEmpty
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable
 import com.portafolio.vientosdelsur.core.database.entity.work.HousekeeperShiftRoomTable
@@ -20,7 +21,7 @@ import org.jetbrains.exposed.sql.selectAll
 internal object DBRoomRepository : RoomRepository {
 
     override suspend fun getAllRooms(): Result<List<Room>, DataError.Remote> = safeSuspendTransaction {
-        RoomEntity.all().map { it.toRoom() }
+        RoomEntity.all().map { it.toRoom() }.throwIfEmpty()
     }
 
     override suspend fun getRoomDistributionForHousekeeperOn(
@@ -33,7 +34,7 @@ internal object DBRoomRepository : RoomRepository {
             .selectAll()
             .where { (WorkShiftTable.employeeId eq housekeeperId) and (WorkShiftTable.date eq date) }
             .map(::mapShiftRoomsToRoomState)
-            .ifEmpty { emptyError("No data to show") }
+            .throwIfEmpty()
     }
 
     override suspend fun getAllRoomStatusOn(date: LocalDate): Result<List<RoomState>, DataError.Remote> =
@@ -44,6 +45,6 @@ internal object DBRoomRepository : RoomRepository {
                 .selectAll()
                 .where { WorkShiftTable.date eq date }
                 .map(::mapShiftRoomsToRoomState)
-                .ifEmpty { emptyError("No data to show") }
+                .throwIfEmpty()
         }
 }

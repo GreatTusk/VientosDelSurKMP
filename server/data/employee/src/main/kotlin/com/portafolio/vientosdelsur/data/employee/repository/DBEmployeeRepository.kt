@@ -1,9 +1,6 @@
 package com.portafolio.vientosdelsur.data.employee.repository
 
-import com.f776.core.common.DataError
-import com.f776.core.common.EmptyResult
-import com.f776.core.common.Result
-import com.f776.core.common.emptyError
+import com.f776.core.common.*
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.employee.HousekeeperEntity
@@ -22,7 +19,7 @@ import org.jetbrains.exposed.sql.update
 
 internal object DBEmployeeRepository : EmployeeRepository {
     override suspend fun allEmployees(): Result<List<Employee>, DataError.Remote> = safeSuspendTransaction {
-        EmployeeEntity.all().map { it.toEmployee() }
+        EmployeeEntity.all().map { it.toEmployee() }.throwIfEmpty()
     }
 
     override suspend fun getEmployeeById(id: Int): Result<Employee, DataError.Remote> = safeSuspendTransaction {
