@@ -1,6 +1,6 @@
 package com.portafolio.vientosdelsur.domain.imageanalysis.storage
 
-import com.portafolio.vientosdelsur.domain.room.Room
+import com.portafolio.vientosdelsur.domain.room.model.Room
 import kotlinx.datetime.LocalDateTime
 
 data class ImageAnalysis(

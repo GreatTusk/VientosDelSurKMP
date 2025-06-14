@@ -15,4 +15,5 @@ interface ImageStorageRepository {
     suspend fun getImageAnalysisFromRoomOn(roomId: Int, date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote>
     suspend fun getApprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote>
     suspend fun getDisapprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote>
+    suspend fun getImageById(analysisId: Int): Result<ByteArray, DataError.Remote>
 }

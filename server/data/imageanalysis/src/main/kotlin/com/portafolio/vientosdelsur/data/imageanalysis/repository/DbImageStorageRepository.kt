@@ -17,6 +17,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 
@@ -25,12 +26,12 @@ internal object DbImageStorageRepository : ImageStorageRepository {
         saveImageAnalysis: SaveImageAnalysis,
         bytes: ByteArray
     ): EmptyResult<DataError.Remote> = safeSuspendTransaction {
-        ImageAnalysisEntity.new {
-            room = RoomEntity.findById(saveImageAnalysis.roomId) ?: emptyError("Room not found")
-            image = ExposedBlob(bytes)
-            uploadedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-            cleanProbability = saveImageAnalysis.cleanProbability
-            uncleanProbability = saveImageAnalysis.uncleanProbability
+        ImageAnalysisTable.insert {
+            it[roomId] = saveImageAnalysis.roomId
+            it[image] = ExposedBlob(bytes)
+            it[uploadedAt] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+            it[cleanProbability] = saveImageAnalysis.cleanProbability
+            it[uncleanProbability] = saveImageAnalysis.uncleanProbability
         }
     }
 
@@ -44,7 +45,7 @@ internal object DbImageStorageRepository : ImageStorageRepository {
         roomId: Int,
         date: LocalDate
     ): Result<List<ImageAnalysis>, DataError.Remote> = safeSuspendTransaction {
-        ImageAnalysisEntity.find { (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.room eq roomId) }
+        ImageAnalysisEntity.find { (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.roomId eq roomId) }
             .map { it.toImageAnalysis() }
     }
 
@@ -61,4 +62,12 @@ internal object DbImageStorageRepository : ImageStorageRepository {
                 (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.cleanProbability lessEq ImageAnalysisTable.uncleanProbability)
             }.map { it.toImageAnalysis() }
         }
+
+    override suspend fun getImageById(analysisId: Int): Result<ByteArray, DataError.Remote> = safeSuspendTransaction {
+        val image = ImageAnalysisTable.select(ImageAnalysisTable.image)
+            .where { ImageAnalysisTable.id eq analysisId }
+            .firstOrNull() ?: emptyError("Analysis not found")
+
+        image[ImageAnalysisTable.image].bytes
+    }
 }

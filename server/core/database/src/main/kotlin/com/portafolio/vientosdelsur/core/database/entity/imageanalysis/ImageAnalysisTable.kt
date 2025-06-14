@@ -10,7 +10,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 
 object ImageAnalysisTable: IntIdTable("image_analysis") {
-    val room = reference("room_id", RoomTable)
+    val roomId = reference("room_id", RoomTable)
     val image = blob("image")
     val uploadedAt = datetime("uploaded_at")
     val cleanProbability = double("clean_prob")

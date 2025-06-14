@@ -1,5 +1,6 @@
 package com.portafolio.vientosdelsur.controller.imageanalysis.route
 
+import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.isImage
@@ -78,6 +79,25 @@ fun Application.imageAnalysisRoute() {
                     .onError {
                         log.error(it.name)
                         call.respond(HttpStatusCode.InternalServerError)
+                    }
+            }
+
+            get("/{id}") {
+                val imageAnalysisId =
+                    call.pathParameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.BadRequest)
+
+                imageAnalysisService.serveImage(analysisId = imageAnalysisId)
+                    .onSuccess { imageBytes ->
+                        call.respondBytes(
+                            bytes = imageBytes,
+                            contentType = ContentType.Image.JPEG
+                        )
+                    }
+                    .onError {
+                        call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+                    }
+                    .onEmpty {
+                        call.respond(HttpStatusCode.NotFound)
                     }
             }
         }

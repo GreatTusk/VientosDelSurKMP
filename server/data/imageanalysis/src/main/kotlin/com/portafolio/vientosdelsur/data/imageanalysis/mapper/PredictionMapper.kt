@@ -6,7 +6,7 @@ import com.portafolio.vientosdelsur.domain.imageanalysis.ResultTag
 
 fun PredictionDto.toImageAnalysisResult() = ImageAnalysisResult(
     tagName = fromTagName(tagName),
-    probability = probability.toFloat()
+    probability = probability
 )
 
 fun fromTagName(tagName: String) =

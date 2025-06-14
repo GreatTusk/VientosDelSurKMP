@@ -22,9 +22,47 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_AnalysisConclusion"
+                $ref: "#/components/schemas/BaseResponseDto_ImageAnalysisResultDto"
         "500":
           description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /image-analysis/{id}:
+    get:
+      description: ""
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "200":
+          description: "OK"
+          content:
+            image/jpeg:
+              schema:
+                type: "string"
+                format: "byte"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
+        "404":
+          description: "Not Found"
           content:
             '*/*':
               schema:
@@ -42,7 +80,7 @@ components:
       required:
         - "message"
         - "timestamp"
-    BaseResponseDto_AnalysisConclusion:
+    BaseResponseDto_ImageAnalysisResultDto:
       type: "object"
       properties:
         message:
@@ -50,3 +88,11 @@ components:
         timestamp:
           type: "string"
           format: "date-time"
+        data:
+          type: "string"
+          enum:
+            - "CLEAN"
+            - "SLIGHTLY_DIRTY"
+            - "MODERATELY_DIRTY"
+            - "VERY_DIRTY"
+            - "EXTREMELY_DIRTY"
