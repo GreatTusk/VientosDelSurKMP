@@ -83,7 +83,7 @@ fun Application.imageAnalysisRoute() {
                     }
             }
 
-            get("/{id}") {
+            get("/image/{id}") {
                 val imageAnalysisId =
                     call.pathParameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.BadRequest)
 

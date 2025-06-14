@@ -6,6 +6,7 @@ dependencies {
     api(projects.shared)
     api(projects.core.common)
 
+    implementation(projects.server.domain.room)
     implementation(projects.server.data.imageanalysis)
     implementation(projects.server.service.housekeeping)
 

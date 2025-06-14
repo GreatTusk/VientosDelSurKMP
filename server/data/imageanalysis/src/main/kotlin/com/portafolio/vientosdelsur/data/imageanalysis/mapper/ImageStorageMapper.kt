@@ -10,5 +10,5 @@ internal fun ImageAnalysisEntity.toImageAnalysis() = ImageAnalysis(
     updatedAt = uploadedAt,
     cleanProbability = cleanProbability,
     uncleanProbability = uncleanProbability,
-    image = "/image-analysis/${id.value}"
+    image = "/image-analysis/image/${id.value}"
 )

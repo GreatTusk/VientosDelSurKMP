@@ -20,7 +20,7 @@ object ImageAnalysisTable: IntIdTable("image_analysis") {
 class ImageAnalysisEntity(id: EntityID<Int>): IntEntity(id) {
     companion object : IntEntityClass<ImageAnalysisEntity>(ImageAnalysisTable)
 
-    var room by RoomEntity referencedOn RoomStatusTable.roomId
+    var room by RoomEntity referencedOn ImageAnalysisTable
     var image by ImageAnalysisTable.image
     var uploadedAt by ImageAnalysisTable.uploadedAt
     var cleanProbability by ImageAnalysisTable.cleanProbability

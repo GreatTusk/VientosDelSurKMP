@@ -6,6 +6,7 @@ import com.f776.core.common.Result
 import com.f776.core.common.emptyError
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisEntity
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
+import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.data.imageanalysis.mapper.toImageAnalysis
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageAnalysis
@@ -16,7 +17,6 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 
@@ -25,12 +25,12 @@ internal object DbImageStorageRepository : ImageStorageRepository {
         saveImageAnalysis: SaveImageAnalysis,
         bytes: ByteArray
     ): EmptyResult<DataError.Remote> = safeSuspendTransaction {
-        ImageAnalysisTable.insert {
-            it[roomId] = saveImageAnalysis.roomId
-            it[image] = ExposedBlob(bytes)
-            it[uploadedAt] = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-            it[cleanProbability] = saveImageAnalysis.cleanProbability
-            it[uncleanProbability] = saveImageAnalysis.uncleanProbability
+        ImageAnalysisEntity.new {
+            room = RoomEntity.findById(saveImageAnalysis.roomId) ?: emptyError("Room not found")
+            image = ExposedBlob(bytes)
+            uploadedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+            cleanProbability = saveImageAnalysis.cleanProbability
+            uncleanProbability = saveImageAnalysis.uncleanProbability
         }
     }
 

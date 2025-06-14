@@ -184,7 +184,7 @@ paths:
             '*/*':
               schema:
                 type: "object"
-  /image-analysis/{id}:
+  /image-analysis/image/{id}:
     get:
       description: ""
       parameters:
