@@ -8,6 +8,7 @@ import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnal
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
+import com.portafolio.vientosdelsur.data.imageanalysis.mapper.toImageAnalysis
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageAnalysis
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageStorageRepository
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.SaveImageAnalysis
@@ -15,9 +16,11 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 
-internal object DbImageStorageRepository: ImageStorageRepository {
+internal object DbImageStorageRepository : ImageStorageRepository {
     override suspend fun saveImageAnalysis(
         saveImageAnalysis: SaveImageAnalysis,
         bytes: ByteArray
@@ -31,22 +34,31 @@ internal object DbImageStorageRepository: ImageStorageRepository {
         }
     }
 
-    override suspend fun getImageAnalysisTakenOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getImageAnalysisTakenOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> =
+        safeSuspendTransaction {
+            ImageAnalysisEntity.find { ImageAnalysisTable.uploadedAt.date() eq date }
+                .map { it.toImageAnalysis() }
+        }
 
     override suspend fun getImageAnalysisFromRoomOn(
         roomId: Int,
         date: LocalDate
-    ): Result<List<ImageAnalysis>, DataError.Remote> {
-        TODO("Not yet implemented")
+    ): Result<List<ImageAnalysis>, DataError.Remote> = safeSuspendTransaction {
+        ImageAnalysisEntity.find { (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.room eq roomId) }
+            .map { it.toImageAnalysis() }
     }
 
-    override suspend fun getApprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getApprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> =
+        safeSuspendTransaction {
+            ImageAnalysisEntity.find {
+                (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.cleanProbability greater ImageAnalysisTable.uncleanProbability)
+            }.map { it.toImageAnalysis() }
+        }
 
-    override suspend fun getDisapprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getDisapprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote> =
+        safeSuspendTransaction {
+            ImageAnalysisEntity.find {
+                (ImageAnalysisTable.uploadedAt.date() eq date) and (ImageAnalysisTable.cleanProbability lessEq ImageAnalysisTable.uncleanProbability)
+            }.map { it.toImageAnalysis() }
+        }
 }

@@ -6,6 +6,8 @@ plugins {
 dependencies {
     api(projects.server.domain.imageanalysis)
     implementation(projects.server.core.database)
+    implementation(projects.server.data.room)
+
     implementation(libs.koin.ktor)
     implementation(libs.kotlinx.serialization.json)
     implementation(projects.core.network)
