@@ -5,14 +5,14 @@ plugins {
 dependencies {
     api(projects.core.common)
 
-    implementation(libs.postgresql)
+    api(libs.postgresql)
     implementation(libs.koin.ktor)
 
-    implementation(libs.exposed.core)
+    api(libs.exposed.core)
     implementation(libs.exposed.migration)
-    implementation(libs.exposed.kotlin.datetime)
-    implementation(libs.exposed.dao)
-    implementation(libs.exposed.jdbc)
+    api(libs.exposed.kotlin.datetime)
+    api(libs.exposed.dao)
+    api(libs.exposed.jdbc)
 
-    implementation(libs.h2database.h2)
+    api(libs.h2database.h2)
 }

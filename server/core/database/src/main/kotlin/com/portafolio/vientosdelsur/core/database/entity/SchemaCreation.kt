@@ -5,6 +5,7 @@ import com.portafolio.vientosdelsur.core.database.entity.booking.GuestTable
 import com.portafolio.vientosdelsur.core.database.entity.booking.RoomBookingTable
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.employee.HousekeeperTable
+import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
 import com.portafolio.vientosdelsur.core.database.entity.room.*
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable.roomNumber
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomTable.roomTypeId
@@ -30,7 +31,8 @@ object SchemaCreation {
             RoomBookingTable,
             WorkShiftTable,
             HousekeeperShiftRoomTable,
-            RoomStatusTable
+            RoomStatusTable,
+            ImageAnalysisTable
         ).forEach(::exec)
 
         if (RoomTypeEntity.count() == 0L) {

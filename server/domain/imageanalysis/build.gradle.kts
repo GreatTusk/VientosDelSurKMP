@@ -4,4 +4,6 @@ plugins {
 
 dependencies {
     api(projects.core.common)
+    implementation(projects.domain.room)
+    api(libs.kotlinx.datetime)
 }
