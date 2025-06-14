@@ -10,12 +10,13 @@ enum class AnalysisConclusion {
 
 fun List<ImageAnalysisResult>.drawAnalysisConclusion(): AnalysisConclusion {
     val cleanConfidence = first { it.tagName == ResultTag.CLEAN }.probability
+    return drawConclusion(cleanConfidence)
+}
 
-    return when {
-        cleanConfidence >= 0.8f -> AnalysisConclusion.CLEAN
-        cleanConfidence >= 0.6f -> AnalysisConclusion.SLIGHTLY_DIRTY
-        cleanConfidence >= 0.4f -> AnalysisConclusion.MODERATELY_DIRTY
-        cleanConfidence >= 0.2f -> AnalysisConclusion.VERY_DIRTY
-        else -> AnalysisConclusion.EXTREMELY_DIRTY
-    }
+internal fun drawConclusion(cleanConfidence: Double) = when {
+    cleanConfidence >= 0.8 -> AnalysisConclusion.CLEAN
+    cleanConfidence >= 0.6 -> AnalysisConclusion.SLIGHTLY_DIRTY
+    cleanConfidence >= 0.4 -> AnalysisConclusion.MODERATELY_DIRTY
+    cleanConfidence >= 0.2 -> AnalysisConclusion.VERY_DIRTY
+    else -> AnalysisConclusion.EXTREMELY_DIRTY
 }

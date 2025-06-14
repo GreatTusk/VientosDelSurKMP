@@ -6,11 +6,7 @@ import com.f776.core.common.EmptyResult
 import kotlinx.datetime.LocalDate
 
 interface ImageStorageRepository {
-    suspend fun saveImageAnalysis(
-        saveImageAnalysis: SaveImageAnalysis,
-        bytes: ByteArray,
-    ): EmptyResult<DataError.Remote>
-
+    suspend fun saveImageAnalysis(saveImageAnalysis: SaveImageAnalysis, bytes: ByteArray): EmptyResult<DataError.Remote>
     suspend fun getImageAnalysisTakenOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote>
     suspend fun getImageAnalysisFromRoomOn(roomId: Int, date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote>
     suspend fun getApprovedAnalysisOn(date: LocalDate): Result<List<ImageAnalysis>, DataError.Remote>

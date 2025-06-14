@@ -8,7 +8,7 @@ import com.portafolio.vientosdelsur.shared.dto.room.RoomDto
 import com.portafolio.vientosdelsur.shared.dto.room.RoomStateDto
 import com.portafolio.vientosdelsur.shared.dto.room.RoomStatusDto
 
-internal fun Room.toRoomDto() = RoomDto(
+fun Room.toRoomDto() = RoomDto(
     id = id,
     roomNumber = number.toString(),
     roomType = roomType.roomType.name

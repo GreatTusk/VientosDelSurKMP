@@ -15,5 +15,5 @@ val AppModule = module {
     includes(EmployeeControllerModule, RoomControllerModule, ShiftControllerModule, ImageAnalysisControllerModule)
     single(named("defaultDispatcher")) { Dispatchers.Default }
     single(named("ioDispatcher")) { Dispatchers.IO }
-    single { CoroutineScope(SupervisorJob()) }
+    single { CoroutineScope(Dispatchers.Default + SupervisorJob()) }
 }

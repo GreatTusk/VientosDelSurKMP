@@ -4,6 +4,7 @@ import com.f776.core.common.onEmpty
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.isImage
+import com.portafolio.vientosdelsur.core.controller.util.parseDateFromQueryParams
 import com.portafolio.vientosdelsur.service.imageanalysis.ImageAnalysisService
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -99,6 +100,66 @@ fun Application.imageAnalysisRoute() {
                     .onEmpty {
                         call.respond(HttpStatusCode.NotFound)
                     }
+            }
+
+            get("/taken-on") {
+                val date = call.parseDateFromQueryParams() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Missing or invalid date query parameter"
+                )
+                imageAnalysisService.getImageAnalysisTakenOn(date)
+                    .onSuccess { call.respond(it) }
+                    .onError {
+                        log.error(it.name)
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                    .onEmpty { call.respond(HttpStatusCode.NotFound) }
+            }
+
+            get("/room/{roomId}/on") {
+                val roomId = call.parameters["roomId"]?.toIntOrNull() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Invalid room ID"
+                )
+                val date = call.parseDateFromQueryParams() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Missing or invalid date query parameter"
+                )
+                imageAnalysisService.getImageAnalysisFromRoomOn(roomId, date)
+                    .onSuccess { call.respond(it) }
+                    .onError {
+                        log.error(it.name)
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                    .onEmpty { call.respond(HttpStatusCode.NotFound) }
+            }
+
+            get("/approved/on") {
+                val date = call.parseDateFromQueryParams() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Missing or invalid date query parameter"
+                )
+                imageAnalysisService.getApprovedAnalysisOn(date)
+                    .onSuccess { call.respond(it) }
+                    .onError {
+                        log.error(it.name)
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                    .onEmpty { call.respond(HttpStatusCode.NotFound) }
+            }
+
+            get("/disapproved/on") {
+                val date = call.parseDateFromQueryParams() ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Missing or invalid date query parameter"
+                )
+                imageAnalysisService.getDisapprovedAnalysisOn(date)
+                    .onSuccess { call.respond(it) }
+                    .onError {
+                        log.error(it.name)
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                    .onEmpty { call.respond(HttpStatusCode.NotFound) }
             }
         }
     }

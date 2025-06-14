@@ -6,7 +6,6 @@ import com.f776.core.common.Result
 import com.f776.core.common.emptyError
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisEntity
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
-import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.data.imageanalysis.mapper.toImageAnalysis
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageAnalysis

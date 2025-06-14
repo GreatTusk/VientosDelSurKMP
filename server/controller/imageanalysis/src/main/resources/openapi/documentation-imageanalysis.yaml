@@ -29,6 +29,161 @@ paths:
             '*/*':
               schema:
                 type: "object"
+  /image-analysis/approved/on:
+    get:
+      description: ""
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Missing or invalid date query parameter"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends ImageAnalysisDto>"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /image-analysis/disapproved/on:
+    get:
+      description: ""
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Missing or invalid date query parameter"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends ImageAnalysisDto>"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /image-analysis/room/{roomId}/on:
+    get:
+      description: ""
+      parameters:
+        - name: "roomId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Missing or invalid date query parameter"
+                Example#2:
+                  value: "Invalid room ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends ImageAnalysisDto>"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /image-analysis/taken-on:
+    get:
+      description: ""
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Missing or invalid date query parameter"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends ImageAnalysisDto>"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
   /image-analysis/{id}:
     get:
       description: ""
@@ -96,3 +251,56 @@ components:
             - "MODERATELY_DIRTY"
             - "VERY_DIRTY"
             - "EXTREMELY_DIRTY"
+    RoomDto:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        roomNumber:
+          type: "string"
+        roomType:
+          type: "string"
+      required:
+        - "id"
+        - "roomNumber"
+        - "roomType"
+    ImageAnalysisDto:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        room:
+          $ref: "#/components/schemas/RoomDto"
+        updatedAt:
+          type: "string"
+          format: "date-time"
+        imageAnalysisResultDto:
+          type: "string"
+          enum:
+            - "CLEAN"
+            - "SLIGHTLY_DIRTY"
+            - "MODERATELY_DIRTY"
+            - "VERY_DIRTY"
+            - "EXTREMELY_DIRTY"
+        imageUrl:
+          type: "string"
+      required:
+        - "id"
+        - "room"
+        - "updatedAt"
+        - "imageAnalysisResultDto"
+        - "imageUrl"
+    BaseResponseDto_List<? extends ImageAnalysisDto>:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ImageAnalysisDto"
