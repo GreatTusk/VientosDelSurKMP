@@ -1,7 +1,7 @@
 package com.f776.japanesedictionary.data.imageanalysis.di
 
 import com.f776.core.network.di.NetworkModule
-import com.f776.japanesedictionary.data.imageanalysis.network.KtorImageAnalysisService
+import com.f776.japanesedictionary.data.imageanalysis.repository.KtorImageAnalysisService
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisService
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf

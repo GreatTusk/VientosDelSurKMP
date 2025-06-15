@@ -1,4 +1,4 @@
-package com.f776.japanesedictionary.data.imageanalysis.network
+package com.f776.japanesedictionary.data.imageanalysis.repository
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
