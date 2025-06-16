@@ -10,13 +10,12 @@ import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisDto
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.datetime.LocalDate
-import org.koin.core.parameter.parametersOf
 
 internal class KtorImageAnalysisDataSource(private val httpClient: HttpClient) : ImageAnalysisDataSource {
     override suspend fun getRoomsSubmittedOn(date: LocalDate): Result<List<ImageAnalysisDto>, DataError.Remote> =
         safeCall<BaseResponseDto<List<ImageAnalysisDto>>> {
             httpClient.get("${BuildConfig.BASE_URL}/image-analysis/taken-on") {
-                parametersOf("date", date)
+                parameter("date", date)
             }
         }.map { it.data }
 }

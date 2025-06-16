@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.RoomAnalysisScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,6 +16,6 @@ fun NavHostController.navigateToHotel(navOptions: NavOptions) {
 
 fun NavGraphBuilder.hotelGraph() {
     composable<Hotel> {
-
+        RoomAnalysisScreenRoot()
     }
 }

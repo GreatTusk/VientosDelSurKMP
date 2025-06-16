@@ -11,7 +11,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-internal class KtorImageAnalysisRepository(
+internal class ImageAnalysisRepositoryImpl(
     private val imageAnalysisDataSource: ImageAnalysisDataSource
 ) : ImageAnalysisRepository {
     override suspend fun getRoomsSubmittedToday(): Result<List<ImageAnalysis>, DataError.Remote> {
