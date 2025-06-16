@@ -6,6 +6,7 @@ import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.parseDateFromQueryParams
 import com.portafolio.vientosdelsur.core.controller.util.today
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerService
+import com.portafolio.vientosdelsur.service.shift.ShiftService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
@@ -15,6 +16,7 @@ import org.koin.ktor.ext.inject
 
 fun Application.shiftRoute() {
     val shiftSchedulerService by inject<ShiftSchedulerService>()
+    val shiftService by inject<ShiftService>()
 
     routing {
         swaggerUI("swagger/shift", swaggerFile = "openapi/documentation-shift.yaml")
@@ -26,7 +28,7 @@ fun Application.shiftRoute() {
                     return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
                 }
 
-                shiftSchedulerService.getEmployeesWorkingOn(date)
+                shiftService.getEmployeesWorkingOn(date)
                     .onSuccess {
                         call.respond(it)
                     }
@@ -35,6 +37,22 @@ fun Application.shiftRoute() {
                     }
                     .onEmpty {
                         call.respond(HttpStatusCode.NotFound, "No employees on shift")
+                    }
+            }
+
+            get("/employee/{id}") {
+                val employeeId =
+                    call.pathParameters["id"]?.toIntOrNull() ?: return@get call.respond(HttpStatusCode.BadRequest)
+
+                shiftService.getMonthlyShiftsFor(employeeId)
+                    .onSuccess {
+                        call.respond(it)
+                    }
+                    .onError {
+                        call.respond(HttpStatusCode.InternalServerError, "Error retrieving shifts: $it")
+                    }
+                    .onEmpty {
+                        call.respond(HttpStatusCode.NotFound, "No shifts found")
                     }
             }
 

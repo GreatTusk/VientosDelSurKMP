@@ -50,6 +50,9 @@ val LocalDate.sundays: List<LocalDate>
 val LocalDate.workingDays: Sequence<LocalDate>
     get() = firstSunday.minus(6, DateTimeUnit.DAY).dateUntil(lastSunday)
 
+val LocalDate.workingDaysRange: ClosedRange<LocalDate>
+    get() = firstSunday.minus(6, DateTimeUnit.DAY)..lastSunday
+
 fun LocalDate.isSameWeekAs(other: LocalDate): Boolean {
     return this.toJavaLocalDate().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) == other.toJavaLocalDate().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
 }

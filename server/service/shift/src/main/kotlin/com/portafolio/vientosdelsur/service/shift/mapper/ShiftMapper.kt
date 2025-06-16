@@ -15,7 +15,7 @@ internal fun Map.Entry<EmployeeDaysOff, List<ShiftDate>>.toMonthlyShiftsDto() = 
 )
 
 
-private fun ShiftDate.toShiftDateDto() = ShiftDateDto(
+internal fun ShiftDate.toShiftDateDto() = ShiftDateDto(
     shift = shift.toShiftDto(),
     date = date
 )

@@ -5,6 +5,8 @@ import com.portafolio.vientosdelsur.data.shift.di.ShiftDataModule
 import com.portafolio.vientosdelsur.domain.shift.usecase.ScheduleShiftUseCase
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerService
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerServiceImpl
+import com.portafolio.vientosdelsur.service.shift.ShiftService
+import com.portafolio.vientosdelsur.service.shift.ShiftServiceImpl
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -20,4 +22,5 @@ val ShiftSchedulerServiceModule = module {
         )
     }
     singleOf(::ShiftSchedulerServiceImpl).bind<ShiftSchedulerService>()
+    singleOf(::ShiftServiceImpl).bind<ShiftService>()
 }
