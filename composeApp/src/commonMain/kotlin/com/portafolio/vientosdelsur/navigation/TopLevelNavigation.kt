@@ -24,17 +24,14 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
     val navigationSuiteType = with(adaptiveInfo) {
-        if (
-            windowPosture.isTabletop ||
+        if (windowPosture.isTabletop ||
             windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
         ) {
-            NavigationSuiteType.NavigationRail
-        } else if (
+            NavigationSuiteType.NavigationBar
+        } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED ||
             windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
         ) {
             NavigationSuiteType.NavigationRail
-        } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
-            NavigationSuiteType.NavigationDrawer
         } else {
             NavigationSuiteType.NavigationBar
         }
@@ -43,7 +40,8 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
         modifier = modifier,
         navigationSuiteItems = {
             TopLevelDestination.entries.forEach { destination ->
-                val isSelected = (backStackEntry?.destination?.isRouteInHierarchy(destination.route)) ?: (destination == TopLevelDestination.FOR_YOU)
+                val isSelected = (backStackEntry?.destination?.isRouteInHierarchy(destination.route))
+                    ?: (destination == TopLevelDestination.FOR_YOU)
                 item(
                     icon = {
                         if (isSelected) {

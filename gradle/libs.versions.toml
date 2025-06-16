@@ -46,6 +46,7 @@ wire = "5.3.1"
 build-konfig = "0.17.1"
 coil = "3.0.4"
 moduleGraph = "2.8.0"
+zoomable = "2.8.0"
 
 # JVM only
 wanakanaCommon = "1.0.1"
@@ -110,6 +111,8 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.re
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
+
+zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 
 # Testing
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }
@@ -240,7 +243,7 @@ room = { id = "androidx.room", version.ref = "room" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 squareup-wire = { id = "com.squareup.wire", version.ref = "wire" }
 build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
-google-services= { id = "com.google.gms.google-services", version.ref = "google-services"}
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 
 # Server
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

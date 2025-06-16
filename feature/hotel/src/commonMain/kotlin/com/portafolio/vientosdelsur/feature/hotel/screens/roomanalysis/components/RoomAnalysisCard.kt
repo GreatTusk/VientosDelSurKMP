@@ -21,8 +21,12 @@ import kotlinx.datetime.format.char
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun RoomAnalysisCard(modifier: Modifier = Modifier, roomAnalysis: ImageAnalysis) {
-    OutlinedCard(modifier = modifier, border = BorderStroke(0.dp, Color.Transparent)) {
+internal fun RoomAnalysisCard(modifier: Modifier = Modifier, roomAnalysis: ImageAnalysis, onImageSelected: () -> Unit) {
+    OutlinedCard(
+        modifier = modifier,
+        border = BorderStroke(0.dp, Color.Transparent),
+        onClick = onImageSelected
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -83,7 +87,8 @@ private fun RoomAnalysisCardPreview() {
     VientosDelSurTheme {
         Surface {
             RoomAnalysisCard(
-                roomAnalysis = sampleImageAnalysis
+                roomAnalysis = sampleImageAnalysis,
+                onImageSelected = { }
             )
         }
     }

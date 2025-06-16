@@ -17,6 +17,8 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.ktor.client.cio)
 
+            implementation(libs.zoomable)
+
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.adaptive.navigation)
 
