@@ -15,10 +15,12 @@ internal fun List<WorkShiftEntity>.toEmployeeSchedule(range: ClosedRange<LocalDa
         )
     }
 
+    val workingDates = workingDays.map { it.date }.toSet()
+
     return EmployeeSchedule(
         workingDays = workingDays,
         daysOff = range.start.dateUntil(range.endInclusive)
-            .filterNot { day -> day in workingDays.map { it.date } }
+            .filterNot { day -> day in workingDates }
             .toList()
     )
 }
