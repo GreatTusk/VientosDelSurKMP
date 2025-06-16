@@ -14,6 +14,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,11 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.f776.core.ui.adaptive.ThreePaneScaffoldPredictiveBackHandler
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
 import com.portafolio.vientosdelsur.domain.room.Room
 import com.portafolio.vientosdelsur.domain.room.RoomType
+import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.NoRoomSelected
 import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.RoomAnalysisCard
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -74,6 +77,9 @@ private fun RoomAnalysisScreen(
     ) { innerPadding ->
         val navigator = rememberListDetailPaneScaffoldNavigator()
         val scope = rememberCoroutineScope()
+
+        ThreePaneScaffoldPredictiveBackHandler(navigator)
+
         ListDetailPaneScaffold(
             directive = navigator.scaffoldDirective,
             value = navigator.scaffoldValue,
@@ -109,17 +115,24 @@ private fun RoomAnalysisScreen(
             detailPane = {
                 AnimatedPane {
                     if (selectedImage != null) {
-                        val zoomState = rememberZoomState()
-                        Box(modifier = Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
-                            AsyncImage(
-                                modifier = Modifier.fillMaxSize().zoomable(zoomState),
-                                model = selectedImage.imageUrl,
-                                contentDescription = "Limpieza de la habitación ${selectedImage.room.roomNumber}",
-                                contentScale = ContentScale.Fit
-                            )
+                        key(selectedImage.id) {
+                            val zoomState = rememberZoomState()
+                            Box(
+                                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AsyncImage(
+                                    modifier = Modifier.fillMaxSize().zoomable(zoomState),
+                                    model = selectedImage.imageUrl,
+                                    contentDescription = "Limpieza de la habitación ${selectedImage.room.roomNumber}",
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
                         }
                     } else {
-                        // No image selected
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            NoRoomSelected()
+                        }
                     }
                 }
             }

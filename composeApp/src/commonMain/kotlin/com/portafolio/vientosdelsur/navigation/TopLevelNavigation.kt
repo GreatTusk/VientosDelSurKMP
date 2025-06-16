@@ -23,17 +23,13 @@ fun TopLevelNavigation(modifier: Modifier = Modifier, navController: NavHostCont
     val backStackEntry by navController.currentBackStackEntryAsState()
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
-    val navigationSuiteType = with(adaptiveInfo) {
-        if (windowPosture.isTabletop ||
-            windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
-        ) {
-            NavigationSuiteType.NavigationBar
-        } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED ||
-            windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
-        ) {
-            NavigationSuiteType.NavigationRail
-        } else {
-            NavigationSuiteType.NavigationBar
+    val navigationSuiteType = with(adaptiveInfo.windowSizeClass) {
+        when {
+            windowWidthSizeClass == WindowWidthSizeClass.EXPANDED &&
+                    windowHeightSizeClass == WindowHeightSizeClass.COMPACT || windowWidthSizeClass == WindowWidthSizeClass.EXPANDED ||
+                    windowWidthSizeClass == WindowWidthSizeClass.MEDIUM -> NavigationSuiteType.NavigationRail
+
+            else -> NavigationSuiteType.NavigationBar
         }
     }
     NavigationSuiteScaffold(
