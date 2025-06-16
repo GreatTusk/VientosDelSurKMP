@@ -7,6 +7,7 @@ import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.room.MonthlyShiftDistributionDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDateDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDto
+import com.portafolio.vientosdelsur.shared.dto.room.ShiftTypeDto
 
 internal fun Map.Entry<EmployeeDaysOff, List<ShiftDate>>.toMonthlyShiftsDto() = MonthlyShiftDistributionDto(
     employee = key.employee.toEmployeeDto(),
@@ -20,9 +21,12 @@ internal fun ShiftDate.toShiftDateDto() = ShiftDateDto(
     date = date
 )
 
-
 private fun Shift.toShiftDto() = ShiftDto(
     startTime = startTime,
     endTime = endTime,
-    name = name
+    type = when(this) {
+        Shift.GENERAL_DUTY -> ShiftTypeDto.GENERAL_DUTY
+        Shift.KITCHEN_ASSISTANT -> ShiftTypeDto.KITCHEN_ASSISTANT
+        Shift.KITCHEN_LEAD -> ShiftTypeDto.KITCHEN_LEAD
+    }
 )

@@ -16,7 +16,7 @@ data class MonthlyShiftDistributionDto(
 data class ShiftDto(
     val startTime: LocalTime,
     val endTime: LocalTime,
-    val name: String
+    val type: ShiftTypeDto
 )
 
 @Serializable
@@ -24,3 +24,10 @@ data class ShiftDateDto(
     val shift: ShiftDto,
     val date: LocalDate
 )
+
+@Serializable
+enum class ShiftTypeDto {
+    GENERAL_DUTY,
+    KITCHEN_ASSISTANT,
+    KITCHEN_LEAD
+}
