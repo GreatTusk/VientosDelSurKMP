@@ -2,12 +2,16 @@
 
 package com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
@@ -24,8 +28,11 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowWidthSizeClass
 import coil3.compose.AsyncImage
 import com.f776.core.ui.adaptive.ThreePaneScaffoldPredictiveBackHandler
+import com.f776.core.ui.navigation.isDetailPaneVisible
+import com.f776.core.ui.navigation.isListPaneVisible
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
@@ -39,6 +46,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -66,17 +74,36 @@ private fun RoomAnalysisScreen(
     onImageSelected: (ImageAnalysis) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val navigator = rememberListDetailPaneScaffoldNavigator()
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("Análisis de habitaciones", fontWeight = FontWeight.SemiBold) },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                navigationIcon = {
+                    AnimatedVisibility(
+                        visible = navigator.canNavigateBack(),
+                        enter = scaleIn() + fadeIn(),
+                        exit = scaleOut() + fadeOut()
+                    ) {
+                        IconButton(
+                            onClick = {
+                                scope.launch { navigator.navigateBack() }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                contentDescription = "Volver a la lista de habitaciones"
+                            )
+                        }
+                    }
+                }
             )
         }
     ) { innerPadding ->
-        val navigator = rememberListDetailPaneScaffoldNavigator()
-        val scope = rememberCoroutineScope()
 
         ThreePaneScaffoldPredictiveBackHandler(navigator)
 
