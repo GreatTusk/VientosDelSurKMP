@@ -51,7 +51,7 @@ internal class FirebaseUserRepository(
     override val currentUser: StateFlow<User?> = firebaseAuth.authStateChanged
         .flowOn(ioDispatcher)
         .map { user ->
-            println("Running mapping on ${currentCoroutineContext()[CoroutineDispatcher]}!")
+//            println("Running mapping on ${currentCoroutineContext()[CoroutineDispatcher]}!")
             user?.let {
                 val isActive = employeeRepository.isUserActive(it.uid)
                 it.toUser(isActive)
