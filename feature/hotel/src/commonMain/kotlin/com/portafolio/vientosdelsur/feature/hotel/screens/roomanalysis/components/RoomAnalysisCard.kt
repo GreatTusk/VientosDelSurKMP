@@ -49,10 +49,11 @@ internal fun RoomAnalysisCard(
                     contentScale = ContentScale.Crop
                 )
                 RevisionStateChip(
-                    modifier = Modifier.align(Alignment.TopEnd).padding(end = 4.dp, top = 4.dp),
+                    modifier = Modifier.align(Alignment.TopEnd).padding(end = 6.dp, top = 6.dp),
                     roomApprovalStatus = roomAnalysis.approvalStatus
                 )
             }
+            
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(text = stringResource(roomAnalysis.result.toStringRes()), style = MaterialTheme.typography.bodyLarge)
