@@ -17,6 +17,8 @@ import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
 import com.f776.japanesedictionary.domain.imageanalysis.RoomApprovalStatus
+import com.portafolio.vientosdelsur.domain.employee.Employee
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.room.Room
 import com.portafolio.vientosdelsur.domain.room.RoomType
 import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.toStringRes
@@ -53,10 +55,16 @@ internal fun RoomAnalysisCard(
                     roomApprovalStatus = roomAnalysis.approvalStatus
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(text = stringResource(roomAnalysis.result.toStringRes()), style = MaterialTheme.typography.bodyLarge)
+
+            Text(
+                text = roomAnalysis.housekeeper.fullName,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.secondary
+            )
 
             Text(
                 text = formattedDateTime,
@@ -98,7 +106,18 @@ private fun RoomAnalysisCardPreview() {
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
         result = ImageAnalysisResult.CLEAN, // assuming this enum exists
         imageUrl = "https://example.com/images/room101.jpg",
-        approvalStatus = RoomApprovalStatus.APPROVED
+        approvalStatus = RoomApprovalStatus.APPROVED,
+        housekeeper = Employee(
+            id = 1,
+            firstName = "Flor",
+            lastName = "Gonzales",
+            occupation = Occupation.HOUSEKEEPER,
+            userId = "emp-123456",
+            email = "flow.gonzals@vientosdelsur.com",
+            photoUrl = "https://example.com/photos/employee1.jpg",
+            phoneNumber = "+1234567890",
+            isEnabled = true
+        )
     )
     VientosDelSurTheme {
         Surface {

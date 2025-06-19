@@ -9,6 +9,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -29,10 +32,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.f776.core.ui.adaptive.ThreePaneScaffoldPredictiveBackHandler
+import com.f776.core.ui.navigation.isDetailPaneVisible
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
 import com.f776.japanesedictionary.domain.imageanalysis.RoomApprovalStatus
+import com.portafolio.vientosdelsur.domain.employee.Employee
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.room.Room
 import com.portafolio.vientosdelsur.domain.room.RoomType
 import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.NoRoomSelected
@@ -98,6 +104,28 @@ private fun RoomAnalysisScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                AnimatedVisibility(
+                    visible = navigator.isDetailPaneVisible(),
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
+                ) {
+                    FloatingActionButton(onClick = {}) {
+                        Icon(imageVector = Icons.Default.Check, contentDescription = "Aprobar habitación")
+                    }
+                }
+                AnimatedVisibility(
+                    visible = navigator.isDetailPaneVisible(),
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
+                ) {
+                    FloatingActionButton(onClick = {}, containerColor = MaterialTheme.colorScheme.errorContainer) {
+                        Icon(imageVector = Icons.Default.Close, contentDescription = "Rechazar habitación")
+                    }
+                }
+            }
         }
     ) { innerPadding ->
 
@@ -179,7 +207,18 @@ private fun RoomAnalysisScreenPreview() {
                     updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
                     result = ImageAnalysisResult.CLEAN, // assuming this enum exists
                     imageUrl = "https://example.com/images/room101.jpg",
-                    approvalStatus = RoomApprovalStatus.APPROVED
+                    approvalStatus = RoomApprovalStatus.APPROVED,
+                    housekeeper = Employee(
+                        id = 1,
+                        firstName = "Flor",
+                        lastName = "Gonzales",
+                        occupation = Occupation.HOUSEKEEPER,
+                        userId = "emp-123456",
+                        email = "flow.gonzals@vientosdelsur.com",
+                        photoUrl = "https://example.com/photos/employee1.jpg",
+                        phoneNumber = "+1234567890",
+                        isEnabled = true
+                    )
                 )
             },
             selectedImage = null,
