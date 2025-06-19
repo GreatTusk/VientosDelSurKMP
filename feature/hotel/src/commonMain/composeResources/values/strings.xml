@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- Room cleanliness status titles -->
+    <string name="room_status_clean_title">Impecable</string>
+    <string name="room_status_slightly_dirty_title">Aceptable</string>
+    <string name="room_status_moderately_dirty_title">Debe Revisarse</string>
+    <string name="room_status_very_dirty_title">Suciedad Notoria</string>
+    <string name="room_status_extremely_dirty_title">Condiciones Inaceptables</string>
+
+    <!-- Room cleanliness status messages -->
+    <string name="room_status_clean_message">La habitación está limpia.</string>
+    <string name="room_status_slightly_dirty_message">La habitación presenta leves detalles, pero está aceptable.</string>
+    <string name="room_status_moderately_dirty_message">La habitación tiene señales visibles de suciedad y debe ser revisada.</string>
+    <string name="room_status_very_dirty_message">La habitación está visiblemente sucia y requiere limpieza.</string>
+    <string name="room_status_extremely_dirty_message">La habitación está en condiciones inaceptables y requiere una limpieza profunda urgente.</string>
+
+    <!-- Room revision state -->
+    <string name="room_approved_state">Aprobada</string>
+    <string name="room_rejected_state">Rechazada</string>
+    <string name="room_pending_state">Pendiente</string>
+
+</resources>

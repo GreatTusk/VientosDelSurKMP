@@ -30,8 +30,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.f776.core.ui.adaptive.ThreePaneScaffoldPredictiveBackHandler
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysis
+import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
+import com.f776.japanesedictionary.domain.imageanalysis.RoomApprovalStatus
 import com.portafolio.vientosdelsur.domain.room.Room
 import com.portafolio.vientosdelsur.domain.room.RoomType
 import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.NoRoomSelected
@@ -64,9 +65,9 @@ internal fun RoomAnalysisScreenRoot(
 @Composable
 private fun RoomAnalysisScreen(
     modifier: Modifier = Modifier,
-    analyzedRooms: List<ImageAnalysis>,
-    selectedImage: ImageAnalysis?,
-    onImageSelected: (ImageAnalysis) -> Unit
+    analyzedRooms: List<RoomAnalysis>,
+    selectedImage: RoomAnalysis?,
+    onImageSelected: (RoomAnalysis) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val navigator = rememberListDetailPaneScaffoldNavigator()
@@ -120,7 +121,7 @@ private fun RoomAnalysisScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(items = analyzedRooms, key = ImageAnalysis::id) { imageAnalysis ->
+                        items(items = analyzedRooms, key = RoomAnalysis::id) { imageAnalysis ->
                             RoomAnalysisCard(
                                 roomAnalysis = imageAnalysis,
                                 onImageSelected = {
@@ -159,8 +160,6 @@ private fun RoomAnalysisScreen(
                 }
             }
         )
-
-
     }
 }
 
@@ -170,7 +169,7 @@ private fun RoomAnalysisScreenPreview() {
     VientosDelSurTheme {
         RoomAnalysisScreen(
             analyzedRooms = List(10) {
-                ImageAnalysis(
+                RoomAnalysis(
                     id = it,
                     room = Room(
                         id = 101,
@@ -179,7 +178,8 @@ private fun RoomAnalysisScreenPreview() {
                     ),
                     updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
                     result = ImageAnalysisResult.CLEAN, // assuming this enum exists
-                    imageUrl = "https://example.com/images/room101.jpg"
+                    imageUrl = "https://example.com/images/room101.jpg",
+                    approvalStatus = RoomApprovalStatus.APPROVED
                 )
             },
             selectedImage = null,

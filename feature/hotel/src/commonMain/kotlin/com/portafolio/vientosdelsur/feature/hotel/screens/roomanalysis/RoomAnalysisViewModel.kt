@@ -3,7 +3,7 @@ package com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
-import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysis
+import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisRepository
 import kotlinx.coroutines.flow.*
 import kotlin.time.Duration.Companion.seconds
@@ -22,13 +22,13 @@ internal class RoomAnalysisViewModel(
             initialValue = emptyList()
         )
 
-    private val _selectedRoomImage = MutableStateFlow<ImageAnalysis?>(null)
+    private val _selectedRoomImage = MutableStateFlow<RoomAnalysis?>(null)
     val selectedRoomImage = _selectedRoomImage.asStateFlow()
 
-    fun onImageSelected(imageAnalysis: ImageAnalysis) {
-        if (imageAnalysis.id == _selectedRoomImage.value?.id) {
+    fun onImageSelected(roomAnalysis: RoomAnalysis) {
+        if (roomAnalysis.id == _selectedRoomImage.value?.id) {
             return
         }
-        _selectedRoomImage.update { imageAnalysis }
+        _selectedRoomImage.update { roomAnalysis }
     }
 }
