@@ -28,6 +28,7 @@ import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.Room
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.model.toRoomUi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import vientosdelsur.feature.foryou.generated.resources.*
 import vientosdelsur.feature.foryou.generated.resources.Res
 import vientosdelsur.feature.foryou.generated.resources.cleaning_checkout
@@ -37,7 +38,7 @@ import vientosdelsur.feature.foryou.generated.resources.photo_fab_cd
 @Composable
 internal fun HousekeeperForYouScreenRoot(
     modifier: Modifier = Modifier,
-    housekeeperForYouViewModel: HousekeeperForYouViewModel,
+    housekeeperForYouViewModel: HousekeeperForYouViewModel = koinViewModel(),
     employee: Employee,
     onNavigateToImageAnalysis: () -> Unit
 ) {

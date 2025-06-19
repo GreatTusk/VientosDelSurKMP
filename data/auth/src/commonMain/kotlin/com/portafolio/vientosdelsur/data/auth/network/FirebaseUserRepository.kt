@@ -2,10 +2,12 @@
 
 package com.portafolio.vientosdelsur.data.auth.network
 
+import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.data.auth.mapper.toUser
 import com.portafolio.vientosdelsur.domain.auth.Email
 import com.portafolio.vientosdelsur.domain.auth.User
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
+import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.EmployeeRepository
 import dev.gitlive.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineDispatcher
@@ -48,15 +50,10 @@ internal class FirebaseUserRepository(
 //    }.filterNotNull().onEach { println(it) }
 //
 
-    override val currentUser: StateFlow<User?> = firebaseAuth.authStateChanged
+    override val currentUser: StateFlow<Employee?> = firebaseAuth.authStateChanged
         .flowOn(ioDispatcher)
         .map { user ->
-//            println("Running mapping on ${currentCoroutineContext()[CoroutineDispatcher]}!")
-            // It'd be great to include the employee id as well
-            user?.let {
-                val isActive = employeeRepository.isUserActive(it.uid)
-                it.toUser(isActive)
-            }
+            user?.let { employeeRepository.getEmployeeByUserId(userId = it.uid).takeOrNull() }
         }
         .stateIn(
             scope = coroutineScope,

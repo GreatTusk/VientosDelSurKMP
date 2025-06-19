@@ -29,6 +29,7 @@ kotlin {
             implementation(projects.feature.imageAnalysis)
 
             implementation(projects.domain.auth)
+            implementation(projects.domain.employee)
 
             implementation(libs.jetbrains.compose.navigation)
 

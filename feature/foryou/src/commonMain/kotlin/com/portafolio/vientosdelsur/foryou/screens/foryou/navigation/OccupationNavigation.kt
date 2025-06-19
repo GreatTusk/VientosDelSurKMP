@@ -8,70 +8,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
-import com.f776.core.ui.components.ObserveAsEvents
 import com.portafolio.vientosdelsur.domain.employee.Occupation
-import com.portafolio.vientosdelsur.foryou.screens.foryou.ForYouEvent
 import com.portafolio.vientosdelsur.foryou.screens.foryou.ForYouViewModel
 import com.portafolio.vientosdelsur.foryou.screens.foryou.admin.AdminForYouScreenRoot
 import com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper.HousekeeperForYouScreenRoot
 import com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.SupervisorForYouScreenRoot
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun OccupationNavigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
     onNavigateToImageAnalysis: () -> Unit
 ) {
     val forYouViewModel = koinViewModel<ForYouViewModel>()
-    val employee by forYouViewModel.employee.collectAsStateWithLifecycle(null)
+    val employee by forYouViewModel.employee.collectAsStateWithLifecycle()
 
-    ObserveAsEvents(forYouViewModel.navChannel) {
-        when (it) {
-            is ForYouEvent.Navigation -> when (it.occupation) {
-                Occupation.HOUSEKEEPER -> navController.navigate(OccupationRoute.Housekeeper)
-                Occupation.SUPERVISOR -> navController.navigate(OccupationRoute.Supervisor)
-                Occupation.ADMIN -> navController.navigate(OccupationRoute.Admin)
-                null -> navController.navigate(OccupationRoute.Loading)
-            }
+    when (employee) {
+        null -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+
+        else -> when (employee!!.occupation) {
+            Occupation.HOUSEKEEPER -> HousekeeperForYouScreenRoot(
+                modifier = modifier,
+                employee = employee!!,
+                onNavigateToImageAnalysis = onNavigateToImageAnalysis
+            )
+
+            Occupation.SUPERVISOR -> SupervisorForYouScreenRoot(
+                modifier = modifier,
+                employee = employee!!
+            )
+
+            Occupation.ADMIN -> AdminForYouScreenRoot(modifier = modifier, employee = employee!!)
         }
     }
-
-    NavHost(modifier = modifier, navController = navController, startDestination = ForYouNavigation) {
-        navigation<ForYouNavigation>(startDestination = OccupationRoute.Loading) {
-            composable<OccupationRoute.Loading> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-            composable<OccupationRoute.Housekeeper> {
-                employee?.let {
-                    HousekeeperForYouScreenRoot(
-                        housekeeperForYouViewModel = koinViewModel { parametersOf(it.id) },
-                        employee = it,
-                        onNavigateToImageAnalysis = onNavigateToImageAnalysis
-                    )
-                }
-            }
-            composable<OccupationRoute.Supervisor> {
-                employee?.let {
-                    SupervisorForYouScreenRoot(
-                        employee = it
-                    )
-                }
-            }
-            composable<OccupationRoute.Admin> {
-                employee?.let {
-                    AdminForYouScreenRoot(employee = it)
-                }
-            }
-        }
-    }
-
 }

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package com.portafolio.vientosdelsur.foryou.screens.foryou.housekeeper
 
 import androidx.lifecycle.ViewModel
@@ -21,8 +19,8 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class HousekeeperForYouViewModel(
     private val roomRepository: RoomRepository,
-    private val employeeId: Int,
     private val authService: AuthService,
+    userRepository: UserRepository
 ) : ViewModel() {
 
     private val _selectedDate =
@@ -31,10 +29,11 @@ internal class HousekeeperForYouViewModel(
 
     fun onSelectDate(date: LocalDate) = _selectedDate.update { date }
 
-    private val rooms = _selectedDate
-        .flatMapLatest { date -> flow { emit(roomRepository.getRoomDistributionForHousekeeperOn(employeeId, date)) } }
-        .mapNotNull { it.takeOrNull() }
-        .map { rooms -> rooms.map { it.toRoomUi() } }
+    private val rooms = _selectedDate.combine(userRepository.currentUser) { date, employee ->
+        employee?.let {
+            roomRepository.getRoomDistributionForHousekeeperOn(employee.id, date).takeOrNull()
+        }
+    }.filterNotNull().map { rooms -> rooms.map { it.toRoomUi() } }
 
     val uiState = rooms
         .stateIn(
