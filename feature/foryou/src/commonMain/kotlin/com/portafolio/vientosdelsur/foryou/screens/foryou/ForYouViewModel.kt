@@ -18,7 +18,7 @@ internal class ForYouViewModel(
     val navChannel = _navChannel.receiveAsFlow()
 
     val employee = userRepository.currentUser.mapNotNull { user ->
-        user?.let { employeeRepository.getEmployee(it.id).takeOrNull() }
+        user?.let { employeeRepository.getEmployeeByUserId(it.id).takeOrNull() }
     }.onEach { employee ->
         _navChannel.send(ForYouEvent.Navigation(employee.occupation))
     }

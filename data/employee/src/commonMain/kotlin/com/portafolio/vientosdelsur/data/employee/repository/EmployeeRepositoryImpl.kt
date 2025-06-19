@@ -15,7 +15,7 @@ import kotlinx.datetime.todayIn
 internal class EmployeeRepositoryImpl(
     private val remoteEmployeeDataSource: RemoteEmployeeDataSource
 ) : EmployeeRepository {
-    override suspend fun getEmployee(userId: String): Result<Employee, DataError> {
+    override suspend fun getEmployeeByUserId(userId: String): Result<Employee, DataError> {
         return remoteEmployeeDataSource.getEmployeeByUserId(userId)
             .map { it.toEmployee() }
     }

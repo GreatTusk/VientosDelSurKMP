@@ -52,6 +52,7 @@ internal class FirebaseUserRepository(
         .flowOn(ioDispatcher)
         .map { user ->
 //            println("Running mapping on ${currentCoroutineContext()[CoroutineDispatcher]}!")
+            // It'd be great to include the employee id as well
             user?.let {
                 val isActive = employeeRepository.isUserActive(it.uid)
                 it.toUser(isActive)
