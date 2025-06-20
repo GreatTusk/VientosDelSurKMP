@@ -23,3 +23,9 @@ internal fun RoomAnalysisStatusDto.toRoomApprovalStatus() = when (this) {
     RoomAnalysisStatusDto.REJECTED -> RoomApprovalStatus.REJECTED
     RoomAnalysisStatusDto.PENDING -> RoomApprovalStatus.PENDING
 }
+
+internal fun RoomApprovalStatus.toRoomAnalysisStatusDto() = when (this) {
+    RoomApprovalStatus.APPROVED -> RoomAnalysisStatusDto.APPROVED
+    RoomApprovalStatus.REJECTED -> RoomAnalysisStatusDto.REJECTED
+    RoomApprovalStatus.PENDING -> RoomAnalysisStatusDto.PENDING
+}

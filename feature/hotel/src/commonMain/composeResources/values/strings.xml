@@ -19,4 +19,9 @@
     <string name="room_rejected_state">Rechazada</string>
     <string name="room_pending_state">Pendiente</string>
 
+    <!-- Snackbar event messages -->
+    <string name="approved_successfully">Limpieza aprobada con éxito</string>
+    <string name="rejected_successfully">Limpieza rechazada con éxito</string>
+    <string name="revision_error">Ha ocurrido un error. Por favor inténtelo de nuevo</string>
+
 </resources>

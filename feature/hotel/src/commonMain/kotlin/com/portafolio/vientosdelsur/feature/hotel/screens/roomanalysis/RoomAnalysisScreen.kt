@@ -11,17 +11,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -32,10 +28,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.f776.core.ui.adaptive.ThreePaneScaffoldPredictiveBackHandler
+import com.f776.core.ui.components.ObserveAsEvents
 import com.f776.core.ui.navigation.isDetailPaneVisible
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
+import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.RoomApprovalStatus
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
@@ -49,6 +46,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -59,12 +57,23 @@ internal fun RoomAnalysisScreenRoot(
 ) {
     val analyzedRooms by roomAnalysisViewModel.analyzedRooms.collectAsStateWithLifecycle()
     val selectedImage by roomAnalysisViewModel.selectedRoomImage.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    ObserveAsEvents(roomAnalysisViewModel.eventChannel) {
+        scope.launch {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            snackbarHostState.showSnackbar(getString(it))
+        }
+    }
 
     RoomAnalysisScreen(
         modifier = modifier,
         analyzedRooms = analyzedRooms,
         selectedImage = selectedImage,
-        onImageSelected = roomAnalysisViewModel::onImageSelected
+        onImageSelected = roomAnalysisViewModel::onImageSelected,
+        onRoomCleaningRevision = roomAnalysisViewModel::onRoomCleaningRevision,
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -73,7 +82,9 @@ private fun RoomAnalysisScreen(
     modifier: Modifier = Modifier,
     analyzedRooms: List<RoomAnalysis>,
     selectedImage: RoomAnalysis?,
-    onImageSelected: (RoomAnalysis) -> Unit
+    onImageSelected: (RoomAnalysis) -> Unit,
+    onRoomCleaningRevision: (Int, RoomApprovalStatus) -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val navigator = rememberListDetailPaneScaffoldNavigator()
@@ -108,24 +119,36 @@ private fun RoomAnalysisScreen(
         floatingActionButton = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 AnimatedVisibility(
-                    visible = navigator.isDetailPaneVisible(),
+                    visible = navigator.isDetailPaneVisible() && selectedImage != null,
                     enter = scaleIn() + fadeIn(),
                     exit = scaleOut() + fadeOut()
                 ) {
-                    FloatingActionButton(onClick = {}) {
+                    FloatingActionButton(
+                        onClick = {
+                            onRoomCleaningRevision(selectedImage!!.id, RoomApprovalStatus.APPROVED)
+                        }
+                    ) {
                         Icon(imageVector = Icons.Default.Check, contentDescription = "Aprobar habitación")
                     }
                 }
                 AnimatedVisibility(
-                    visible = navigator.isDetailPaneVisible(),
+                    visible = navigator.isDetailPaneVisible() && selectedImage != null,
                     enter = scaleIn() + fadeIn(),
                     exit = scaleOut() + fadeOut()
                 ) {
-                    FloatingActionButton(onClick = {}, containerColor = MaterialTheme.colorScheme.errorContainer) {
+                    FloatingActionButton(
+                        onClick = {
+                            onRoomCleaningRevision(selectedImage!!.id, RoomApprovalStatus.REJECTED)
+                        },
+                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    ) {
                         Icon(imageVector = Icons.Default.Close, contentDescription = "Rechazar habitación")
                     }
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
         }
     ) { innerPadding ->
 
@@ -222,7 +245,9 @@ private fun RoomAnalysisScreenPreview() {
                 )
             },
             selectedImage = null,
-            onImageSelected = {}
+            onImageSelected = {},
+            onRoomCleaningRevision = { _, _ -> },
+            snackbarHostState = SnackbarHostState()
         )
     }
 }
