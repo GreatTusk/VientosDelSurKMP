@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis
 
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,7 @@ import com.f776.core.common.takeOrNull
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisRepository
 import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.RoomApprovalStatus
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -25,8 +28,12 @@ internal class RoomAnalysisViewModel(
     private val _eventChannel = Channel<StringResource>()
     val eventChannel = _eventChannel.receiveAsFlow()
 
-    private val _analyzedRooms = flow { emit(imageAnalysisRepository.getRoomsSubmittedToday().takeOrNull()) }
-        .filterNotNull()
+    private val _refreshTrigger = MutableStateFlow(0)
+
+    private val _analyzedRooms = _refreshTrigger.flatMapLatest {
+        flow { emit(imageAnalysisRepository.getRoomsSubmittedToday().takeOrNull()) }
+            .filterNotNull()
+    }
 
     val analyzedRooms = _analyzedRooms
         .stateIn(
@@ -56,6 +63,7 @@ internal class RoomAnalysisViewModel(
                             RoomApprovalStatus.PENDING -> error("Impossible state")
                         }
                     )
+                    _refreshTrigger.update { it + 1 }
                 }
                 .onError {
                     _eventChannel.send(Res.string.revision_error)

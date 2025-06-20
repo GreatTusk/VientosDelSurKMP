@@ -25,3 +25,4 @@ data class SaveImageAnalysis(
     val cleanProbability: Double,
     val uncleanProbability: Double
 )
+

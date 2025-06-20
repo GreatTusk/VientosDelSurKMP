@@ -24,7 +24,7 @@ internal class AzureImageAnalysisRepository(private val httpClient: HttpClient) 
         }.body()
     }.map { predictionResponse -> predictionResponse.predictions.map { it.toImageAnalysisResult() } }
 
-    companion object {
+    private companion object {
         private val PROJECT_ID =
             UUID.fromString(System.getenv("CUSTOM_VISION_PROJECT_ID")) ?: error("Missing CUSTOM_VISION_PROJECT_ID")
         private val PUBLISHED_NAME =

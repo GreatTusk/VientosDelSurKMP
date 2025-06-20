@@ -6,6 +6,7 @@ import com.f776.core.common.onSuccess
 import com.portafolio.vientosdelsur.core.controller.util.isImage
 import com.portafolio.vientosdelsur.core.controller.util.parseDateFromQueryParams
 import com.portafolio.vientosdelsur.service.imageanalysis.ImageAnalysisService
+import com.portafolio.vientosdelsur.shared.dto.imageanalysis.RoomCleaningReviewDto
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
@@ -93,6 +94,21 @@ fun Application.imageAnalysisRoute() {
                     .onError {
                         log.error(it.name)
                         call.respond(HttpStatusCode.InternalServerError)
+                    }
+            }
+
+            post("/review") {
+                val roomCleaningReviewDto = call.receive<RoomCleaningReviewDto>()
+
+                imageAnalysisService.updateRoomCleaningStatus(roomCleaningReviewDto)
+                    .onSuccess {
+                        call.respond(HttpStatusCode.OK)
+                    }
+                    .onError {
+                        call.respond(HttpStatusCode.InternalServerError)
+                    }
+                    .onEmpty {
+                        call.respond(HttpStatusCode.NotFound)
                     }
             }
 

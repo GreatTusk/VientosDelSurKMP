@@ -2,12 +2,13 @@ package com.portafolio.vientosdelsur.data.imageanalysis.repository
 
 import com.f776.core.common.*
 import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
-import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisEntity
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
 import com.portafolio.vientosdelsur.core.database.util.safeSuspendTransaction
 import com.portafolio.vientosdelsur.data.imageanalysis.mapper.toImageAnalysis
+import com.portafolio.vientosdelsur.data.imageanalysis.mapper.toRoomAnalysisEntity
+import com.portafolio.vientosdelsur.domain.imageanalysis.RoomAnalysisState
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageAnalysis
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageStorageRepository
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.SaveImageAnalysis
@@ -72,5 +73,12 @@ internal object DbImageStorageRepository : ImageStorageRepository {
             .firstOrNull() ?: emptyError("Analysis not found")
 
         image[ImageAnalysisTable.image].bytes
+    }
+
+    override suspend fun updateRoomCleaningStatus(analysisId: Int, roomAnalysisState: RoomAnalysisState) = safeSuspendTransaction {
+        ImageAnalysisEntity.findByIdAndUpdate(analysisId) {
+            it.roomAnalysisStatus = roomAnalysisState.toRoomAnalysisEntity()
+        }
+        Unit
     }
 }

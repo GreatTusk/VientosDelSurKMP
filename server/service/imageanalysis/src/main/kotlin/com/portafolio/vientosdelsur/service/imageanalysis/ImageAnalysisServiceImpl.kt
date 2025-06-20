@@ -1,9 +1,6 @@
 package com.portafolio.vientosdelsur.service.imageanalysis
 
-import com.f776.core.common.DataError
-import com.f776.core.common.Result
-import com.f776.core.common.flatMap
-import com.f776.core.common.map
+import com.f776.core.common.*
 import com.portafolio.vientosdelsur.domain.imageanalysis.ImageAnalysisRepository
 import com.portafolio.vientosdelsur.domain.imageanalysis.drawAnalysisConclusion
 import com.portafolio.vientosdelsur.domain.imageanalysis.storage.ImageStorageRepository
@@ -11,8 +8,10 @@ import com.portafolio.vientosdelsur.domain.imageanalysis.storage.SaveImageAnalys
 import com.portafolio.vientosdelsur.service.imageanalysis.mapper.extractProbabilities
 import com.portafolio.vientosdelsur.service.imageanalysis.mapper.toImageAnalysisDto
 import com.portafolio.vientosdelsur.service.imageanalysis.mapper.toImageAnalysisResultDto
+import com.portafolio.vientosdelsur.service.imageanalysis.mapper.toRoomAnalysisState
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.imageanalysis.ImageAnalysisResultDto
+import com.portafolio.vientosdelsur.shared.dto.imageanalysis.RoomCleaningReviewDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -98,5 +97,12 @@ internal class ImageAnalysisServiceImpl(
                     data = it
                 )
             }
+    }
+
+    override suspend fun updateRoomCleaningStatus(roomCleaningReviewDto: RoomCleaningReviewDto): EmptyResult<DataError.Remote> {
+        return imageStorageRepository.updateRoomCleaningStatus(
+            roomCleaningReviewDto.roomAnalysisId,
+            roomCleaningReviewDto.roomAnalysisStatusDto.toRoomAnalysisState()
+        )
     }
 }

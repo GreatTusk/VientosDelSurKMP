@@ -23,3 +23,9 @@ private fun RoomAnalysisState.toRoomAnalysisStateDto() = when (this) {
     RoomAnalysisState.REJECTED -> RoomAnalysisStatusDto.REJECTED
     RoomAnalysisState.PENDING -> RoomAnalysisStatusDto.PENDING
 }
+
+internal fun RoomAnalysisStatusDto.toRoomAnalysisState() = when (this) {
+    RoomAnalysisStatusDto.APPROVED -> RoomAnalysisState.APPROVED
+    RoomAnalysisStatusDto.REJECTED -> RoomAnalysisState.REJECTED
+    RoomAnalysisStatusDto.PENDING -> RoomAnalysisState.PENDING
+}
