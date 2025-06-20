@@ -23,6 +23,7 @@ import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisService
 import com.f776.japanesedictionary.imageanalysis.model.RoomSelectionUi
 import com.f776.japanesedictionary.imageanalysis.model.toRoomSelectionUi
 import com.portafolio.vientosdelsur.core.mediapicker.data.toByteArray
+import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
@@ -33,7 +34,8 @@ import kotlin.time.Duration.Companion.seconds
 internal actual class ImageAnalysisViewModel(
     private val imageAnalysisService: ImageAnalysisService,
     private val cameraCaptureController: CameraCaptureController,
-    private val roomRepository: RoomRepository
+    private val roomRepository: RoomRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ImageAnalysisUiState>(ImageAnalysisUiState.Empty)
     val uiState = _uiState.asStateFlow()
@@ -85,7 +87,8 @@ internal actual class ImageAnalysisViewModel(
         _uiState.update { ImageAnalysisUiState.ImageSubmitted(bitmap, LoadingState.Loading) }
         imageAnalysisService.classifyImage(
             byteArray = bitmap.asImageBitmap().toByteArray(),
-            roomId = checkNotNull(selectedRoom?.id) { Log.wtf("ImageAnalysisViewModel", "Room cannot be null") }
+            roomId = checkNotNull(selectedRoom?.id) { Log.wtf("ImageAnalysisViewModel", "Room cannot be null") },
+            housekeeperId = checkNotNull(userRepository.currentUser.value) { "No user found!" }.id
         )
             .onSuccess { result ->
                 _uiState.update {

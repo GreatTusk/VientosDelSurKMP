@@ -15,6 +15,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(projects.core.network)
             implementation(projects.data.room)
+            implementation(projects.data.employee)
             implementation(projects.shared)
         }
     }

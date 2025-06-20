@@ -18,7 +18,8 @@ import io.ktor.http.*
 internal class KtorImageAnalysisService(private val httpClient: HttpClient) : ImageAnalysisService {
     override suspend fun classifyImage(
         byteArray: ByteArray,
-        roomId: Int
+        roomId: Int,
+        housekeeperId: Int
     ): Result<ImageAnalysisResult, DataError.Remote> =
         safeCall<BaseResponseDto<ImageAnalysisResultDto>> {
             httpClient.post("${BuildConfig.BASE_URL}/image-analysis") {
@@ -36,6 +37,13 @@ internal class KtorImageAnalysisService(private val httpClient: HttpClient) : Im
                             append(
                                 "room-id",
                                 value = roomId,
+                                headers = Headers.build {
+                                    append(HttpHeaders.ContentType, "plain/text")
+                                }
+                            )
+                            append(
+                                "housekeeper-id",
+                                value = housekeeperId,
                                 headers = Headers.build {
                                     append(HttpHeaders.ContentType, "plain/text")
                                 }

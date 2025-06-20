@@ -29,6 +29,7 @@ kotlin {
             implementation(projects.core.mediapicker)
             implementation(projects.data.imageAnalysis)
             implementation(projects.data.room)
+            implementation(projects.data.auth)
 
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.adaptive.navigation)
