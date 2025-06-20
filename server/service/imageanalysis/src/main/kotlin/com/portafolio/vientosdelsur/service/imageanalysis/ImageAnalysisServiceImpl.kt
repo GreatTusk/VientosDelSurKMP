@@ -24,7 +24,8 @@ internal class ImageAnalysisServiceImpl(
 ) : ImageAnalysisService {
     override suspend fun analyze(
         imageBytes: ByteArray,
-        roomId: Int
+        roomId: Int,
+        housekeeperId: Int
     ): Result<BaseResponseDto<ImageAnalysisResultDto>, DataError.Remote> {
         return imageAnalysisRepository.analyze(imageBytes)
             .map { imageAnalysisResults ->
@@ -34,7 +35,8 @@ internal class ImageAnalysisServiceImpl(
                         SaveImageAnalysis(
                             roomId = roomId,
                             cleanProbability = cleanProb,
-                            uncleanProbability = uncleanProb
+                            uncleanProbability = uncleanProb,
+                            housekeeperId = housekeeperId
                         ),
                         bytes = imageBytes
                     )

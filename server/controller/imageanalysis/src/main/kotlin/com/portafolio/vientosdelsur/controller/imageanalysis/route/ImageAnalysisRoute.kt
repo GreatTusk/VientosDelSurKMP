@@ -27,6 +27,7 @@ fun Application.imageAnalysisRoute() {
                 val maxFileSize = 5 * 1024 * 1024 // 5MB
                 lateinit var photoBytes: ByteArray
                 var roomId by Delegates.notNull<Int>()
+                var housekeeperId by Delegates.notNull<Int>()
 
                 try {
                     val multipart = call.receiveMultipart()
@@ -41,6 +42,14 @@ fun Application.imageAnalysisRoute() {
                                         )
                                     }
                                     roomId = id
+                                } else if (part.name == "housekeeper-id") {
+                                    val id = part.value.toIntOrNull() ?: run {
+                                        part.dispose()
+                                        return@forEachPart call.respond(
+                                            HttpStatusCode.BadRequest
+                                        )
+                                    }
+                                    housekeeperId = id
                                 }
                             }
 
@@ -73,7 +82,11 @@ fun Application.imageAnalysisRoute() {
                     return@post call.respond(HttpStatusCode.BadRequest, "Invalid multipart request")
                 }
 
-                imageAnalysisService.analyze(photoBytes, roomId)
+                imageAnalysisService.analyze(
+                    imageBytes = photoBytes,
+                    roomId = roomId,
+                    housekeeperId = housekeeperId
+                )
                     .onSuccess {
                         call.respond(it)
                     }

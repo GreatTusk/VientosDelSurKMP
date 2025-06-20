@@ -10,7 +10,7 @@ import kotlinx.datetime.LocalDate
 typealias ImageAnalysisResponse = BaseResponseDto<List<ImageAnalysisDto>>
 
 interface ImageAnalysisService {
-    suspend fun analyze(imageBytes: ByteArray, roomId: Int): Result<BaseResponseDto<ImageAnalysisResultDto>, DataError.Remote>
+    suspend fun analyze(imageBytes: ByteArray, roomId: Int, housekeeperId: Int): Result<BaseResponseDto<ImageAnalysisResultDto>, DataError.Remote>
     suspend fun serveImage(analysisId: Int): Result<ByteArray, DataError.Remote>
     suspend fun getImageAnalysisTakenOn(date: LocalDate): Result<ImageAnalysisResponse, DataError.Remote>
     suspend fun getImageAnalysisFromRoomOn(roomId: Int, date: LocalDate): Result<ImageAnalysisResponse, DataError.Remote>

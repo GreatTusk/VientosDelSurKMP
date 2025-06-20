@@ -1,6 +1,8 @@
 package com.portafolio.vientosdelsur.data.imageanalysis.repository
 
 import com.f776.core.common.*
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeEntity
+import com.portafolio.vientosdelsur.core.database.entity.employee.EmployeeTable
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisEntity
 import com.portafolio.vientosdelsur.core.database.entity.imageanalysis.ImageAnalysisTable
 import com.portafolio.vientosdelsur.core.database.entity.room.RoomEntity
@@ -28,6 +30,8 @@ internal object DbImageStorageRepository : ImageStorageRepository {
             uploadedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
             cleanProbability = saveImageAnalysis.cleanProbability
             uncleanProbability = saveImageAnalysis.uncleanProbability
+            housekeeper =
+                checkNotNull(EmployeeEntity.findById(saveImageAnalysis.housekeeperId)) { emptyError("Employee not found") }
         }
     }
 
