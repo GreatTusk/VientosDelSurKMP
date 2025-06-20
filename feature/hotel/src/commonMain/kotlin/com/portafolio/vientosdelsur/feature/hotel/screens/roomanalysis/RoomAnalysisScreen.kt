@@ -9,8 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -18,6 +17,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -40,6 +40,7 @@ import com.portafolio.vientosdelsur.domain.room.Room
 import com.portafolio.vientosdelsur.domain.room.RoomType
 import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.NoRoomSelected
 import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.RoomAnalysisCard
+import com.portafolio.vientosdelsur.feature.hotel.screens.roomanalysis.components.RoomCleaningReviewDialog
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -90,6 +91,29 @@ private fun RoomAnalysisScreen(
     val navigator = rememberListDetailPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
 
+    var showConfirmationDialog by rememberSaveable { mutableStateOf(false) }
+    var pendingApprovalStatus by rememberSaveable { mutableStateOf<RoomApprovalStatus?>(null) }
+
+    if (showConfirmationDialog && selectedImage != null && pendingApprovalStatus != null) {
+        RoomCleaningReviewDialog(
+            onDismissRequest = { showConfirmationDialog = false },
+            onConfirmation = {
+                pendingApprovalStatus?.let { status ->
+                    onRoomCleaningRevision(selectedImage.id, status)
+                    showConfirmationDialog = false
+                    pendingApprovalStatus = null
+                }
+            },
+            dialogTitle = if (pendingApprovalStatus == RoomApprovalStatus.APPROVED)
+                "Confirmar aprobación" else "Confirmar rechazo",
+            dialogText = if (pendingApprovalStatus == RoomApprovalStatus.APPROVED)
+                "¿Está seguro que desea aprobar la limpieza de la habitación ${selectedImage.room.roomNumber}?"
+            else "¿Está seguro que desea rechazar la limpieza de la habitación ${selectedImage.room.roomNumber}?",
+            dialogIcon = if (pendingApprovalStatus == RoomApprovalStatus.APPROVED)
+                Icons.Default.AssignmentTurnedIn else  Icons.Default.AssignmentReturned
+        )
+    }
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -125,7 +149,8 @@ private fun RoomAnalysisScreen(
                 ) {
                     FloatingActionButton(
                         onClick = {
-                            onRoomCleaningRevision(selectedImage!!.id, RoomApprovalStatus.APPROVED)
+                            pendingApprovalStatus = RoomApprovalStatus.APPROVED
+                            showConfirmationDialog = true
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Check, contentDescription = "Aprobar habitación")
@@ -138,7 +163,8 @@ private fun RoomAnalysisScreen(
                 ) {
                     FloatingActionButton(
                         onClick = {
-                            onRoomCleaningRevision(selectedImage!!.id, RoomApprovalStatus.REJECTED)
+                            pendingApprovalStatus = RoomApprovalStatus.REJECTED
+                            showConfirmationDialog = true
                         },
                         containerColor = MaterialTheme.colorScheme.errorContainer
                     ) {
@@ -251,4 +277,3 @@ private fun RoomAnalysisScreenPreview() {
         )
     }
 }
-
