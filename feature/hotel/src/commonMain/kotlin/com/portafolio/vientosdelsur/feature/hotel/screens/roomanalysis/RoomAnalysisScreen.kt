@@ -110,7 +110,7 @@ private fun RoomAnalysisScreen(
                 "¿Está seguro que desea aprobar la limpieza de la habitación ${selectedImage.room.roomNumber}?"
             else "¿Está seguro que desea rechazar la limpieza de la habitación ${selectedImage.room.roomNumber}?",
             dialogIcon = if (pendingApprovalStatus == RoomApprovalStatus.APPROVED)
-                Icons.Default.AssignmentTurnedIn else  Icons.Default.AssignmentReturned
+                Icons.Default.AssignmentTurnedIn else Icons.Default.AssignmentReturned
         )
     }
 
@@ -182,7 +182,7 @@ private fun RoomAnalysisScreen(
 
         ListDetailPaneScaffold(
             directive = navigator.scaffoldDirective,
-            value = navigator.scaffoldValue,
+            scaffoldState = navigator.scaffoldState,
             listPane = {
                 AnimatedPane {
                     val localLayout = LocalLayoutDirection.current
