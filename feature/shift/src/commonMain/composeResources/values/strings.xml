@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- Shift types -->
+    <string name="general_duty">Turno completo</string>
+    <string name="kitchen_assistant">Asistente cocina</string>
+    <string name="kitchen_lead">Encargada cocina</string>
+</resources>

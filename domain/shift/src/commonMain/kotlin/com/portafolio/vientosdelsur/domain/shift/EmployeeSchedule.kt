@@ -16,5 +16,11 @@ data class ShiftDate(
 data class Shift(
     val startTime: LocalTime,
     val endTime: LocalTime,
-    val type: String
+    val type: ShiftType
 )
+
+enum class ShiftType {
+    GENERAL_DUTY,
+    KITCHEN_ASSISTANT,
+    KITCHEN_LEAD
+}

@@ -3,8 +3,10 @@ package com.portafolio.vientosdelsur.data.shift.mapper
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
+import com.portafolio.vientosdelsur.domain.shift.ShiftType
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDateDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDto
+import com.portafolio.vientosdelsur.shared.dto.room.ShiftTypeDto
 import com.portafolio.vientosdelsur.shared.dto.shift.EmployeeScheduleDto
 
 internal fun EmployeeScheduleDto.toDomain(): EmployeeSchedule = EmployeeSchedule(
@@ -20,5 +22,11 @@ private fun ShiftDateDto.toDomain(): ShiftDate = ShiftDate(
 private fun ShiftDto.toDomain(): Shift = Shift(
     startTime = startTime,
     endTime = endTime,
-    type = type.name
+    type = type.toShiftType()
 )
+
+private fun ShiftTypeDto.toShiftType() = when(this) {
+    ShiftTypeDto.GENERAL_DUTY -> ShiftType.GENERAL_DUTY
+    ShiftTypeDto.KITCHEN_ASSISTANT -> ShiftType.KITCHEN_ASSISTANT
+    ShiftTypeDto.KITCHEN_LEAD -> ShiftType.KITCHEN_LEAD
+}

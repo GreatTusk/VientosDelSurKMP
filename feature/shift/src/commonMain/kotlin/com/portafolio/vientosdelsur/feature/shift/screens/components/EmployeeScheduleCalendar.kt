@@ -25,20 +25,14 @@ import com.kizitonwose.calendar.core.*
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
+import com.portafolio.vientosdelsur.domain.shift.ShiftType
 import kotlinx.datetime.*
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-object ScheduleColors {
-    val MORNING = Color(0xFFE8F5E8)     // Light Green
-    val AFTERNOON = Color(0xFFFFF3E0)   // Light Orange
-    val NIGHT = Color(0xFFE3F2FD)       // Light Blue
-    val OVERTIME = Color(0xFFFCE4EC)    // Light Pink
-    val WEEKEND = Color(0xFFF3E5F5)     // Light Purple
-    val DAY_OFF = Color(0xFFEEEEEE)     // Light Gray
-    val DEFAULT = Color(0xFFE1F5FE)     // Light Cyan
-}
+import vientosdelsur.feature.shift.generated.resources.general_duty
+import vientosdelsur.feature.shift.generated.resources.kitchen_assistant
+import vientosdelsur.feature.shift.generated.resources.kitchen_lead
 
 @Composable
 fun EmployeeScheduleCalendar(
@@ -63,13 +57,10 @@ fun EmployeeScheduleCalendar(
         schedule.workingDays.map { it.shift.type }.distinct().sorted()
     }
 
-    val startMonth = remember { currentMonth.minusMonths(6) }
-    val endMonth = remember { currentMonth.plusMonths(6) }
     val daysOfWeek = remember { DayOfWeek.entries }
 
     val state = rememberCalendarState(
-        startMonth = startMonth,
-        endMonth = endMonth,
+        startMonth = currentMonth,
         firstVisibleMonth = currentMonth,
         firstDayOfWeek = daysOfWeek.first()
     )
@@ -155,8 +146,8 @@ fun ScheduleDay(
     onClick: (() -> Unit)? = null
 ) {
     val backgroundColor = when {
-        isDayOff -> ScheduleColors.DAY_OFF
-        shiftDate != null -> getShiftColor(shiftDate.shift)
+        isDayOff -> Color(0xFFEEEEEE)
+        shiftDate != null -> getShiftColorByType(shiftDate.shift.type)
         else -> Color.Transparent
     }
 
@@ -228,7 +219,7 @@ fun ScheduleDay(
 
 @Composable
 fun ScheduleLegend(
-    shiftTypes: List<String>,
+    shiftTypes: List<ShiftType>,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -241,7 +232,7 @@ fun ScheduleLegend(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "Schedule Legend",
+                text = "Turnos",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 12.dp)
@@ -249,7 +240,7 @@ fun ScheduleLegend(
 
             // Days off
             LegendItem(
-                color = ScheduleColors.DAY_OFF,
+                color = Color(0xFFEEEEEE),
                 label = "Día libre",
                 modifier = Modifier.padding(vertical = 2.dp)
             )
@@ -258,9 +249,7 @@ fun ScheduleLegend(
             shiftTypes.forEach { shiftType ->
                 LegendItem(
                     color = getShiftColorByType(shiftType),
-                    label = shiftType.replaceFirstChar {
-                        if (it.isLowerCase()) it.titlecase() else it.toString()
-                    },
+                    label = stringResource(shiftType.displayName),
                     modifier = Modifier.padding(vertical = 2.dp)
                 )
             }
@@ -296,19 +285,12 @@ fun LegendItem(
     }
 }
 
-// Helper functions
-fun getShiftColor(shift: Shift): Color {
-    return getShiftColorByType(shift.type)
-}
-
-fun getShiftColorByType(shiftType: String): Color {
-    return when (shiftType.lowercase()) {
-        "morning", "am", "day" -> ScheduleColors.MORNING
-        "afternoon", "pm" -> ScheduleColors.AFTERNOON
-        "night", "overnight", "graveyard" -> ScheduleColors.NIGHT
-        "overtime", "ot" -> ScheduleColors.OVERTIME
-        "weekend" -> ScheduleColors.WEEKEND
-        else -> ScheduleColors.DEFAULT
+@Composable
+fun getShiftColorByType(shiftType: ShiftType): Color {
+    return when (shiftType) {
+        ShiftType.GENERAL_DUTY -> MaterialTheme.colorScheme.primaryContainer
+        ShiftType.KITCHEN_ASSISTANT -> MaterialTheme.colorScheme.secondaryContainer
+        ShiftType.KITCHEN_LEAD -> MaterialTheme.colorScheme.tertiaryContainer
     }
 }
 
@@ -355,6 +337,13 @@ private val Month.displayName: StringResource
         else -> error("Expected enums must have an else branch to be considered exhaustive")
     }
 
+private val ShiftType.displayName: StringResource
+    get() = when (this) {
+        ShiftType.GENERAL_DUTY -> vientosdelsur.feature.shift.generated.resources.Res.string.general_duty
+        ShiftType.KITCHEN_ASSISTANT -> vientosdelsur.feature.shift.generated.resources.Res.string.kitchen_assistant
+        ShiftType.KITCHEN_LEAD -> vientosdelsur.feature.shift.generated.resources.Res.string.kitchen_lead
+    }
+
 @Preview
 @Composable
 fun EmployeeSchedulePreview() {
@@ -364,7 +353,7 @@ fun EmployeeSchedulePreview() {
                 shift = Shift(
                     startTime = LocalTime.parse("08:00:00"),
                     endTime = LocalTime.parse("16:00:00"),
-                    type = "Morning"
+                    type = ShiftType.KITCHEN_LEAD
                 ),
                 date = LocalDate.parse("2025-06-20")
             ),
@@ -372,7 +361,7 @@ fun EmployeeSchedulePreview() {
                 shift = Shift(
                     startTime = LocalTime.parse("14:00:00"),
                     endTime = LocalTime.parse("22:00:00"),
-                    type = "Evening"
+                    type = ShiftType.GENERAL_DUTY
                 ),
                 date = LocalDate.parse("2025-06-21")
             )

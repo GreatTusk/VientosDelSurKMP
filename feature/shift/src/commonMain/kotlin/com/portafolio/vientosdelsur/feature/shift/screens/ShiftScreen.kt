@@ -19,6 +19,7 @@ import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
+import com.portafolio.vientosdelsur.domain.shift.ShiftType
 import com.portafolio.vientosdelsur.feature.shift.screens.components.EmployeeScheduleCalendar
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -70,7 +71,7 @@ private fun ShiftScreenPreview() {
                 shift = Shift(
                     startTime = LocalTime.parse("08:00:00"),
                     endTime = LocalTime.parse("16:00:00"),
-                    type = "Morning"
+                    type = ShiftType.GENERAL_DUTY
                 ),
                 date = LocalDate.parse("2025-06-20")
             ),
@@ -78,7 +79,7 @@ private fun ShiftScreenPreview() {
                 shift = Shift(
                     startTime = LocalTime.parse("14:00:00"),
                     endTime = LocalTime.parse("22:00:00"),
-                    type = "Evening"
+                    type = ShiftType.KITCHEN_LEAD
                 ),
                 date = LocalDate.parse("2025-06-21")
             )
