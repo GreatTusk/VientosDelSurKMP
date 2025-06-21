@@ -18,28 +18,30 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.f776.japanesedictionary.core.resource.*
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
-import com.kizitonwose.calendar.core.*
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
+import com.kizitonwose.calendar.core.YearMonth
+import com.kizitonwose.calendar.core.now
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.ShiftType
-import kotlinx.datetime.*
-import org.jetbrains.compose.resources.StringResource
+import com.portafolio.vientosdelsur.feature.shift.screens.ui.displayName
+import com.portafolio.vientosdelsur.feature.shift.screens.ui.formatShiftTime
+import com.portafolio.vientosdelsur.feature.shift.screens.ui.getShiftColorByType
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import vientosdelsur.feature.shift.generated.resources.general_duty
-import vientosdelsur.feature.shift.generated.resources.kitchen_assistant
-import vientosdelsur.feature.shift.generated.resources.kitchen_lead
 
 @Composable
-fun EmployeeScheduleCalendar(
+internal fun EmployeeScheduleCalendar(
     schedule: EmployeeSchedule,
     modifier: Modifier = Modifier,
     currentMonth: YearMonth = YearMonth.now(),
-    showLegend: Boolean = true,
     onDateClick: ((LocalDate, ShiftDate?) -> Unit)? = null,
     contentPadding: PaddingValues
 ) {
@@ -86,17 +88,15 @@ fun EmployeeScheduleCalendar(
             contentPadding = contentPadding
         )
 
-        if (showLegend) {
-            ScheduleLegend(
-                shiftTypes = shiftTypes,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-        }
+        ScheduleLegend(
+            shiftTypes = shiftTypes,
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
 }
 
 @Composable
-fun MonthNavigationHeader(
+internal fun MonthNavigationHeader(
     currentMonth: YearMonth,
     modifier: Modifier = Modifier
 ) {
@@ -117,7 +117,7 @@ fun MonthNavigationHeader(
 }
 
 @Composable
-fun DaysOfWeekHeader(daysOfWeek: List<DayOfWeek>) {
+internal fun DaysOfWeekHeader(daysOfWeek: List<DayOfWeek>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -139,7 +139,7 @@ fun DaysOfWeekHeader(daysOfWeek: List<DayOfWeek>) {
 }
 
 @Composable
-fun ScheduleDay(
+internal fun ScheduleDay(
     day: CalendarDay,
     shiftDate: ShiftDate?,
     isDayOff: Boolean,
@@ -152,7 +152,7 @@ fun ScheduleDay(
     }
 
     val isToday = day.date == LocalDate.now()
-    val isCurrentMonth = day.position == DayPosition.MonthDate
+    val isCurrentWorkMonth = day.position == DayPosition.MonthDate || shiftDate != null
 
     Box(
         modifier = Modifier
@@ -170,7 +170,7 @@ fun ScheduleDay(
                 } else Modifier
             )
             .then(
-                if (onClick != null && isCurrentMonth) {
+                if (onClick != null && isCurrentWorkMonth) {
                     Modifier.clickable { onClick() }
                 } else Modifier
             ),
@@ -186,7 +186,7 @@ fun ScheduleDay(
                 fontSize = 14.sp,
                 fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
                 color = when {
-                    !isCurrentMonth -> Color.Gray
+                    !isCurrentWorkMonth -> Color.Gray
                     isDayOff -> Color.Gray
                     else -> Color.Black
                 }
@@ -218,7 +218,7 @@ fun ScheduleDay(
 }
 
 @Composable
-fun ScheduleLegend(
+internal fun ScheduleLegend(
     shiftTypes: List<ShiftType>,
     modifier: Modifier = Modifier
 ) {
@@ -258,7 +258,7 @@ fun ScheduleLegend(
 }
 
 @Composable
-fun LegendItem(
+internal fun LegendItem(
     color: Color,
     label: String,
     modifier: Modifier = Modifier
@@ -285,68 +285,10 @@ fun LegendItem(
     }
 }
 
-@Composable
-fun getShiftColorByType(shiftType: ShiftType): Color {
-    return when (shiftType) {
-        ShiftType.GENERAL_DUTY -> MaterialTheme.colorScheme.primaryContainer
-        ShiftType.KITCHEN_ASSISTANT -> MaterialTheme.colorScheme.secondaryContainer
-        ShiftType.KITCHEN_LEAD -> MaterialTheme.colorScheme.tertiaryContainer
-    }
-}
-
-private val hourFormatter = LocalTime.Format {
-    hour()
-    chars(":")
-    minute()
-}
-
-fun formatShiftTime(shift: Shift): String {
-    val startFormatted = shift.startTime.format(hourFormatter)
-    val endFormatted = shift.endTime.format(hourFormatter)
-    return "$startFormatted-$endFormatted"
-}
-
-private val DayOfWeek.displayName: StringResource
-    get() {
-        return when (this) {
-            DayOfWeek.MONDAY -> Res.string.monday
-            DayOfWeek.TUESDAY -> Res.string.tuesday
-            DayOfWeek.WEDNESDAY -> Res.string.wednesday
-            DayOfWeek.THURSDAY -> Res.string.thursday
-            DayOfWeek.FRIDAY -> Res.string.friday
-            DayOfWeek.SATURDAY -> Res.string.saturday
-            DayOfWeek.SUNDAY -> Res.string.sunday
-            else -> error("Expected enums must have an else branch to be considered exhaustive")
-        }
-    }
-
-private val Month.displayName: StringResource
-    get() = when (this) {
-        Month.JANUARY -> Res.string.january
-        Month.FEBRUARY -> Res.string.february
-        Month.MARCH -> Res.string.march
-        Month.APRIL -> Res.string.april
-        Month.MAY -> Res.string.may
-        Month.JUNE -> Res.string.june
-        Month.JULY -> Res.string.july
-        Month.AUGUST -> Res.string.august
-        Month.SEPTEMBER -> Res.string.september
-        Month.OCTOBER -> Res.string.october
-        Month.NOVEMBER -> Res.string.november
-        Month.DECEMBER -> Res.string.december
-        else -> error("Expected enums must have an else branch to be considered exhaustive")
-    }
-
-private val ShiftType.displayName: StringResource
-    get() = when (this) {
-        ShiftType.GENERAL_DUTY -> vientosdelsur.feature.shift.generated.resources.Res.string.general_duty
-        ShiftType.KITCHEN_ASSISTANT -> vientosdelsur.feature.shift.generated.resources.Res.string.kitchen_assistant
-        ShiftType.KITCHEN_LEAD -> vientosdelsur.feature.shift.generated.resources.Res.string.kitchen_lead
-    }
 
 @Preview
 @Composable
-fun EmployeeSchedulePreview() {
+private fun EmployeeSchedulePreview() {
     val mockSchedule = EmployeeSchedule(
         workingDays = listOf(
             ShiftDate(
