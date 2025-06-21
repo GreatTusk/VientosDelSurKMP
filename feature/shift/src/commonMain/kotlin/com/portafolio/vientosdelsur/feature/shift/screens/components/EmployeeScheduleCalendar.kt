@@ -46,7 +46,8 @@ fun EmployeeScheduleCalendar(
     modifier: Modifier = Modifier,
     currentMonth: YearMonth = YearMonth.now(),
     showLegend: Boolean = true,
-    onDateClick: ((LocalDate, ShiftDate?) -> Unit)? = null
+    onDateClick: ((LocalDate, ShiftDate?) -> Unit)? = null,
+    contentPadding: PaddingValues
 ) {
     // Create maps for quick lookup
     val workingDaysMap = remember(schedule.workingDays) {
@@ -64,7 +65,7 @@ fun EmployeeScheduleCalendar(
 
     val startMonth = remember { currentMonth.minusMonths(6) }
     val endMonth = remember { currentMonth.plusMonths(6) }
-    val daysOfWeek = remember { daysOfWeek() }
+    val daysOfWeek = remember { DayOfWeek.entries }
 
     val state = rememberCalendarState(
         startMonth = startMonth,
@@ -90,7 +91,8 @@ fun EmployeeScheduleCalendar(
                     }
                 )
             },
-            calendarScrollPaged = true
+            calendarScrollPaged = true,
+            contentPadding = contentPadding
         )
 
         if (showLegend) {
@@ -110,15 +112,13 @@ fun MonthNavigationHeader(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val monthName = remember(currentMonth) {
-            Month(currentMonth.month.ordinal).name.lowercase().replaceFirstChar { it.titlecase() }
-        }
+        val monthName = remember(currentMonth) { currentMonth.month.displayName }
         Text(
-            text = "$monthName ${currentMonth.year}",
+            text = "${stringResource(monthName)} ${currentMonth.year}",
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
@@ -130,16 +130,18 @@ fun DaysOfWeekHeader(daysOfWeek: List<DayOfWeek>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp)
+            .padding(horizontal = 16.dp),
     ) {
         for (dayOfWeek in daysOfWeek) {
             Text(
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Medium,
                 color = Color.Gray,
-                text = stringResource(dayOfWeek.displayName)
+                text = stringResource(dayOfWeek.displayName),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -336,6 +338,23 @@ private val DayOfWeek.displayName: StringResource
         }
     }
 
+private val Month.displayName: StringResource
+    get() = when (this) {
+        Month.JANUARY -> Res.string.january
+        Month.FEBRUARY -> Res.string.february
+        Month.MARCH -> Res.string.march
+        Month.APRIL -> Res.string.april
+        Month.MAY -> Res.string.may
+        Month.JUNE -> Res.string.june
+        Month.JULY -> Res.string.july
+        Month.AUGUST -> Res.string.august
+        Month.SEPTEMBER -> Res.string.september
+        Month.OCTOBER -> Res.string.october
+        Month.NOVEMBER -> Res.string.november
+        Month.DECEMBER -> Res.string.december
+        else -> error("Expected enums must have an else branch to be considered exhaustive")
+    }
+
 @Preview
 @Composable
 fun EmployeeSchedulePreview() {
@@ -369,7 +388,8 @@ fun EmployeeSchedulePreview() {
             EmployeeScheduleCalendar(
                 schedule = mockSchedule,
                 onDateClick = { _, _ ->
-                }
+                },
+                contentPadding = PaddingValues(horizontal = 16.dp)
             )
         }
     }

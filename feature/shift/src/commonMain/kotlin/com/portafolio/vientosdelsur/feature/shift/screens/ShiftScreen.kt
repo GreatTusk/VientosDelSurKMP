@@ -1,8 +1,19 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.portafolio.vientosdelsur.feature.shift.screens
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
@@ -17,12 +28,37 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 internal fun ShiftScreenRoot(modifier: Modifier = Modifier, shiftViewModel: ShiftViewModel = koinViewModel()) {
     val employeeSchedule by shiftViewModel.employeeSchedule.collectAsStateWithLifecycle()
-    ShiftScreen(employeeSchedule = employeeSchedule)
+    ShiftScreen(modifier = modifier, employeeSchedule = employeeSchedule)
 }
 
 @Composable
 private fun ShiftScreen(modifier: Modifier = Modifier, employeeSchedule: EmployeeSchedule) {
-    EmployeeScheduleCalendar(employeeSchedule)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val layoutDirection = LocalLayoutDirection.current
+
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Tus turnos",
+                        fontWeight = FontWeight.SemiBold
+                    )
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+    ) { innerPadding ->
+        EmployeeScheduleCalendar(
+            contentPadding = PaddingValues(
+                start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
+            ),
+            modifier = Modifier.padding(top = innerPadding.calculateTopPadding(), bottom = innerPadding.calculateBottomPadding()),
+            schedule = employeeSchedule
+        )
+    }
 }
 
 @Preview

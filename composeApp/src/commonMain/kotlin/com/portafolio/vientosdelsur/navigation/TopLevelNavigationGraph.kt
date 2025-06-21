@@ -10,6 +10,7 @@ import com.f776.japanesedictionary.imageanalysis.navigation.imageAnalysisGraph
 import com.f776.japanesedictionary.imageanalysis.navigation.navigateToImageAnalysis
 import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
 import com.portafolio.vientosdelsur.feature.hotel.navigation.hotelGraph
+import com.portafolio.vientosdelsur.feature.shift.navigation.shiftGraph
 import com.portafolio.vientosdelsur.foryou.navigation.ForYou
 import com.portafolio.vientosdelsur.foryou.navigation.forYouGraph
 
@@ -19,6 +20,7 @@ fun TopLevelNavigationGraph(modifier: Modifier = Modifier, navController: NavHos
         navigation<TopLevelNavigation>(startDestination = ForYou) {
             forYouGraph(onNavigateToImageAnalysis = navController::navigateToImageAnalysis)
             hotelGraph()
+            shiftGraph()
         }
         imageAnalysisGraph(onNavigateUp = navController::navigateUp)
     }

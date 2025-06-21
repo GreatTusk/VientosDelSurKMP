@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="app_name">Vientos del Sur</string>
-    <string name="for_you_title">For you</string>
+    <string name="for_you_title">Para ti</string>
     <string name="rooms_title">Hotel</string>
+    <string name="shift_title">Turnos</string>
 </resources>
