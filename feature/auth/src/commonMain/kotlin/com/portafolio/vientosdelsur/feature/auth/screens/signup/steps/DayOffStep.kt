@@ -12,12 +12,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.f776.japanesedictionary.core.resource.*
 import com.portafolio.vientosdelsur.feature.auth.screens.signup.components.ProgressScaffold
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import vientosdelsur.feature.auth.generated.resources.*
+
 
 private val DayOfWeek.displayName: StringResource
     get() {

@@ -27,6 +27,7 @@ kotlin {
             implementation(projects.feature.hotel)
             implementation(projects.feature.room)
             implementation(projects.feature.imageAnalysis)
+            implementation(projects.feature.shift)
 
             implementation(projects.domain.auth)
             implementation(projects.domain.employee)

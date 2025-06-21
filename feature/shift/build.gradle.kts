@@ -14,6 +14,8 @@ kotlin {
             implementation(projects.data.shift)
             implementation(projects.data.auth)
 
+            implementation(libs.calendar.compose)
+
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.adaptive.navigation)
 

@@ -41,13 +41,4 @@
     <string name="kitchen_option">Encargada cocina</string>
     <string name="kitchen_support_option">Apoyo cocina</string>
     <string name="on_call_option">Llamada</string>
-
-    <!--Day off screen-->
-    <string name="monday">Lunes</string>
-    <string name="tuesday">Martes</string>
-    <string name="wednesday">Miércoles</string>
-    <string name="thursday">Jueves</string>
-    <string name="friday">Viernes</string>
-    <string name="saturday">Sábado</string>
-    <string name="sunday">Domingo</string>
 </resources>

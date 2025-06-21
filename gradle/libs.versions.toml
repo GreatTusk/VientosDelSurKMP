@@ -47,7 +47,7 @@ build-konfig = "0.17.1"
 coil = "3.0.4"
 moduleGraph = "2.8.0"
 zoomable = "2.8.0"
-
+calendar-compose-version="2.7.0"
 # JVM only
 wanakanaCommon = "1.0.1"
 composeHotReload = "1.0.0-alpha03"
@@ -113,6 +113,7 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-java = { group = "io.ktor", name = "ktor-client-java", version.ref = "ktor" }
 
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
+calendar-compose = { module = "com.kizitonwose.calendar:compose-multiplatform", version.ref="calendar-compose-version"}
 
 # Testing
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4Android" }

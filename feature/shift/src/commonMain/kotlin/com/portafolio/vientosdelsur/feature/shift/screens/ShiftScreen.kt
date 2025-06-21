@@ -8,6 +8,7 @@ import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
+import com.portafolio.vientosdelsur.feature.shift.screens.components.EmployeeScheduleCalendar
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -21,8 +22,7 @@ internal fun ShiftScreenRoot(modifier: Modifier = Modifier, shiftViewModel: Shif
 
 @Composable
 private fun ShiftScreen(modifier: Modifier = Modifier, employeeSchedule: EmployeeSchedule) {
-
-
+    EmployeeScheduleCalendar(employeeSchedule)
 }
 
 @Preview

@@ -9,6 +9,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.ui)
+            implementation(projects.core.resource)
             implementation(projects.core.mediapicker)
             implementation(projects.data.auth)
             implementation(libs.kotlinx.datetime)
