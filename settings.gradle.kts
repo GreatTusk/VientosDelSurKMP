@@ -59,6 +59,7 @@ include(":feature:room")
 include(":feature:hotel")
 include(":feature:auth")
 include(":feature:shift")
+include(":feature:shiftadmin")
 
 // Server
 include(":server:app")
