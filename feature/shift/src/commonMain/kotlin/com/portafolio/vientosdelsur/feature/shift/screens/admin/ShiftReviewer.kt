@@ -5,6 +5,7 @@ package com.portafolio.vientosdelsur.feature.shift.screens.admin
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,14 +57,14 @@ private fun ShiftReviewerScreen(modifier: Modifier = Modifier, monthlyShifts: Li
     ) { innerPadding ->
         LazyColumn(
             contentPadding = PaddingValues(
-                top= innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding(),
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding() + 16.dp,
                 start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
                 end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
             ),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(items = monthlyShifts, key = { it.employee.id }) { employeeSchedule ->
+            itemsIndexed(items = monthlyShifts, key = { _, employee -> employee.employee.id }) { i, employeeSchedule ->
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = employeeSchedule.employee.fullName,
@@ -74,6 +75,9 @@ private fun ShiftReviewerScreen(modifier: Modifier = Modifier, monthlyShifts: Li
                         contentPadding = PaddingValues(),
                         schedule = employeeSchedule.schedule
                     )
+                    if (i != monthlyShifts.lastIndex) {
+                        HorizontalDivider(modifier = Modifier.padding(8.dp))
+                    }
                 }
             }
         }
