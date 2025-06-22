@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="337pt" height="152pt" viewBox="0 0 336.5 152">
+    <g class="graph">
+        <path fill="#fff" d="M0 152V0h336.5v152z"/>
+        <g class="node">
+            <path fill="#90ee90" stroke="#000" d="M74 58H4v36h70z"/>
+            <text x="35" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:data:shift</text>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M201 4h-91v36h91z"/>
+            <text x="151.5" y="-120.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:network</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="m74.35 59.8 30.79-14.52"/>
+            <path d="m103.44 42.21 10.54-1.1-7.55 7.43z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M199.88 58h-88.76v36h88.76z"/>
+            <text x="151.5" y="-66.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:domain:shift</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M74.35 76h24.97"/>
+            <path d="m99.3 72.5 10 3.5-10 3.5z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M183 112h-55v36h55z"/>
+            <text x="151.5" y="-12.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:shared</text>
+        </g>
+        <g stroke="#000" class="edge">
+            <path fill="none" d="M74.35 92.2c13.65 6.44 29.38 13.86 43.27 20.4"/>
+            <path d="m118.89 109.34 7.55 7.43-10.53-1.1z"/>
+        </g>
+        <g class="node">
+            <path fill="#add8e6" stroke="#000" d="M332.5 31H237v36h95.5z"/>
+            <text x="280.75" y="-93.95" font-family="Times New Roman,serif" font-size="14" text-anchor="middle" transform="translate(4 148)">:core:common</text>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="m201.36 31.52 24.33 5.16"/>
+            <path fill="#ccc" d="m226.17 33.2 9.06 5.5-10.51 1.35z"/>
+        </g>
+        <g stroke="#ccc" class="edge">
+            <path fill="none" stroke-dasharray="5,2" d="M200.29 66.71c8.2-1.74 16.89-3.58 25.44-5.4"/>
+            <path fill="#ccc" d="m224.85 57.92 10.5 1.35-9.05 5.5z"/>
+        </g>
+    </g>
+</svg>
