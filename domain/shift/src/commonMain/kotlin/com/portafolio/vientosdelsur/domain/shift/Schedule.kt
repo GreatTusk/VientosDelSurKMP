@@ -1,9 +1,15 @@
 package com.portafolio.vientosdelsur.domain.shift
 
+import com.portafolio.vientosdelsur.domain.employee.Employee
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
 data class EmployeeSchedule(
+    val employee: Employee,
+    val schedule: Schedule
+)
+
+data class Schedule(
     val workingDays: List<ShiftDate>,
     val daysOff: List<LocalDate>
 )

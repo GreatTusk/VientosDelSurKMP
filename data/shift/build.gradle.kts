@@ -8,6 +8,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.shared)
             implementation(projects.core.network)
+            implementation(projects.data.employee)
             implementation(libs.koin.core)
             api(projects.domain.shift)
         }

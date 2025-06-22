@@ -1,6 +1,6 @@
 package com.portafolio.vientosdelsur.data.shift.mapper
 
-import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
+import com.portafolio.vientosdelsur.domain.shift.Schedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.ShiftType
@@ -9,7 +9,7 @@ import com.portafolio.vientosdelsur.shared.dto.room.ShiftDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftTypeDto
 import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 
-internal fun ScheduleDto.toDomain(): EmployeeSchedule = EmployeeSchedule(
+internal fun ScheduleDto.toDomain(): Schedule = Schedule(
     workingDays = workingDays.map { it.toDomain() },
     daysOff = daysOff
 )

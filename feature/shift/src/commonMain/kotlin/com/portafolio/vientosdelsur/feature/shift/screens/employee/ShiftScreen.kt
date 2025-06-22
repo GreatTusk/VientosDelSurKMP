@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
+import com.portafolio.vientosdelsur.domain.shift.Schedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.ShiftType
@@ -28,12 +28,12 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun ShiftScreenRoot(modifier: Modifier = Modifier, shiftViewModel: ShiftViewModel = koinViewModel()) {
-    val employeeSchedule by shiftViewModel.employeeSchedule.collectAsStateWithLifecycle()
-    ShiftScreen(modifier = modifier, employeeSchedule = employeeSchedule)
+    val employeeSchedule by shiftViewModel.schedule.collectAsStateWithLifecycle()
+    ShiftScreen(modifier = modifier, schedule = employeeSchedule)
 }
 
 @Composable
-private fun ShiftScreen(modifier: Modifier = Modifier, employeeSchedule: EmployeeSchedule) {
+private fun ShiftScreen(modifier: Modifier = Modifier, schedule: Schedule) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val layoutDirection = LocalLayoutDirection.current
 
@@ -57,7 +57,7 @@ private fun ShiftScreen(modifier: Modifier = Modifier, employeeSchedule: Employe
                 end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
             ),
             modifier = Modifier.padding(top = innerPadding.calculateTopPadding(), bottom = innerPadding.calculateBottomPadding()),
-            schedule = employeeSchedule
+            schedule = schedule
         )
     }
 }
@@ -65,7 +65,7 @@ private fun ShiftScreen(modifier: Modifier = Modifier, employeeSchedule: Employe
 @Preview
 @Composable
 private fun ShiftScreenPreview() {
-    val mockSchedule = EmployeeSchedule(
+    val mockSchedule = Schedule(
         workingDays = listOf(
             ShiftDate(
                 shift = Shift(
@@ -91,6 +91,6 @@ private fun ShiftScreenPreview() {
     )
 
     VientosDelSurTheme {
-        ShiftScreen(employeeSchedule = mockSchedule)
+        ShiftScreen(schedule = mockSchedule)
     }
 }

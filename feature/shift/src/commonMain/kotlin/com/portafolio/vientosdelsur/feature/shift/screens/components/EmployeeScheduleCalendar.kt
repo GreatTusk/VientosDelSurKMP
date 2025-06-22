@@ -23,7 +23,7 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.YearMonth
 import com.kizitonwose.calendar.core.now
-import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
+import com.portafolio.vientosdelsur.domain.shift.Schedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.ShiftType
@@ -38,7 +38,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun EmployeeScheduleCalendar(
-    schedule: EmployeeSchedule,
+    schedule: Schedule,
     modifier: Modifier = Modifier,
     currentMonth: YearMonth = YearMonth.now(),
     onDateClick: ((LocalDate, ShiftDate?) -> Unit)? = null,
@@ -293,7 +293,7 @@ internal fun LegendItem(
 @Preview
 @Composable
 private fun EmployeeSchedulePreview() {
-    val mockSchedule = EmployeeSchedule(
+    val mockSchedule = Schedule(
         workingDays = listOf(
             ShiftDate(
                 shift = Shift(

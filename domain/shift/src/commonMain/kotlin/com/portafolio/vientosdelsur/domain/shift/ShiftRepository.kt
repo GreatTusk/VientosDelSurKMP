@@ -4,7 +4,7 @@ import com.f776.core.common.DataError
 import com.f776.core.common.Result
 
 interface ShiftRepository {
-    suspend fun getEmployeeSchedule(employeeId: Int): Result<EmployeeSchedule, DataError.Remote>
+    suspend fun getEmployeeSchedule(employeeId: Int): Result<Schedule, DataError.Remote>
 
     suspend fun getAllEmployeeSchedule(): Result<List<EmployeeSchedule>, DataError.Remote>
 }

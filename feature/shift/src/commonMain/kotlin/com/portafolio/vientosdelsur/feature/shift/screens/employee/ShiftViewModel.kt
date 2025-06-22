@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.f776.core.common.takeOrNull
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
-import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
+import com.portafolio.vientosdelsur.domain.shift.Schedule
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import kotlinx.coroutines.flow.*
 import kotlin.time.Duration.Companion.seconds
@@ -22,9 +22,9 @@ internal class ShiftViewModel(
             )
         }.filterNotNull()
 
-    val employeeSchedule = _employeeSchedule.stateIn(
+    val schedule = _employeeSchedule.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5.seconds),
-        initialValue = EmployeeSchedule(emptyList(), emptyList())
+        initialValue = Schedule(emptyList(), emptyList())
     )
 }
