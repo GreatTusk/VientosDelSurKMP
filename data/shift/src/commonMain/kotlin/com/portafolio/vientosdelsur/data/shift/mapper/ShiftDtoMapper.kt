@@ -7,9 +7,9 @@ import com.portafolio.vientosdelsur.domain.shift.ShiftType
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDateDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftTypeDto
-import com.portafolio.vientosdelsur.shared.dto.shift.EmployeeScheduleDto
+import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 
-internal fun EmployeeScheduleDto.toDomain(): EmployeeSchedule = EmployeeSchedule(
+internal fun ScheduleDto.toDomain(): EmployeeSchedule = EmployeeSchedule(
     workingDays = workingDays.map { it.toDomain() },
     daysOff = daysOff
 )

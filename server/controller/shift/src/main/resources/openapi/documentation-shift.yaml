@@ -25,7 +25,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_EmployeeScheduleDto"
+                $ref: "#/components/schemas/BaseResponseDto_ScheduleDto"
         "500":
           description: "Internal Server Error"
           content:
@@ -96,7 +96,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_Map<Get, ? extends EmployeeScheduleDto>"
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends EmployeeScheduleDto>"
         "500":
           description: "Internal Server Error"
           content:
@@ -196,7 +196,7 @@ components:
       required:
         - "shift"
         - "date"
-    EmployeeScheduleDto:
+    ScheduleDto:
       type: "object"
       properties:
         workingDays:
@@ -219,7 +219,7 @@ components:
       required:
         - "message"
         - "timestamp"
-    BaseResponseDto_EmployeeScheduleDto:
+    BaseResponseDto_ScheduleDto:
       type: "object"
       properties:
         message:
@@ -228,7 +228,7 @@ components:
           type: "string"
           format: "date-time"
         data:
-          $ref: "#/components/schemas/EmployeeScheduleDto"
+          $ref: "#/components/schemas/ScheduleDto"
     EmployeeDto:
       type: "object"
       properties: { }
@@ -247,7 +247,17 @@ components:
     Get:
       type: "object"
       properties: { }
-    BaseResponseDto_Map<Get, ? extends EmployeeScheduleDto>:
+    EmployeeScheduleDto:
+      type: "object"
+      properties:
+        employeeDto:
+          $ref: "#/components/schemas/Get"
+        scheduleDto:
+          $ref: "#/components/schemas/ScheduleDto"
+      required:
+        - "employeeDto"
+        - "scheduleDto"
+    BaseResponseDto_List<? extends EmployeeScheduleDto>:
       type: "object"
       properties:
         message:
@@ -256,7 +266,9 @@ components:
           type: "string"
           format: "date-time"
         data:
-          $ref: "#/components/schemas/Get"
+          type: "array"
+          items:
+            $ref: "#/components/schemas/EmployeeScheduleDto"
     MonthlyShiftDistributionDto:
       type: "object"
       properties:

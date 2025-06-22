@@ -11,6 +11,7 @@ import com.portafolio.vientosdelsur.service.shift.mapper.toEmployeeScheduleDto
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
 import com.portafolio.vientosdelsur.shared.dto.shift.EmployeeScheduleDto
+import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -28,7 +29,7 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
             }
     }
 
-    override suspend fun getMonthlyShiftsFor(employeeId: Int): Result<BaseResponseDto<EmployeeScheduleDto>, DataError.Remote> {
+    override suspend fun getMonthlyShiftsFor(employeeId: Int): Result<BaseResponseDto<ScheduleDto>, DataError.Remote> {
         val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         return shiftRepository.getShiftsDuring(employeeId, currentDate.workingDaysRange)
             .map { it.toEmployeeScheduleDto() }
@@ -40,7 +41,7 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
             }
     }
 
-    override suspend fun getMonthlyShifts(): Result<BaseResponseDto<Map<EmployeeDto.Get, EmployeeScheduleDto>>, DataError.Remote> {
+    override suspend fun getMonthlyShifts(): Result<BaseResponseDto<List<EmployeeScheduleDto>>, DataError.Remote> {
         val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
         return shiftRepository.getMonthlyShifts(currentDate.workingDaysRange)
@@ -48,6 +49,11 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
                 shifts
                     .mapKeys { (key, _) -> key.toEmployeeDto() }
                     .mapValues { (_, value) -> value.toEmployeeScheduleDto() }
+            }
+            .map { shifts ->
+                shifts.map { (key, value) ->
+                    EmployeeScheduleDto(key, value)
+                }
             }
             .map {
                 BaseResponseDto(

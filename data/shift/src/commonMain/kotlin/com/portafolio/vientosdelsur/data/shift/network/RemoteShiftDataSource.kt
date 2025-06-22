@@ -2,10 +2,10 @@ package com.portafolio.vientosdelsur.data.shift.network
 
 import com.f776.core.common.DataError
 import com.f776.core.common.Result
-import com.portafolio.vientosdelsur.shared.dto.shift.EmployeeScheduleDto
+import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 
 interface RemoteShiftDataSource {
-    suspend fun getEmployeeSchedule(employeeId: Int): Result<EmployeeScheduleDto, DataError.Remote>
+    suspend fun getEmployeeSchedule(employeeId: Int): Result<ScheduleDto, DataError.Remote>
 
-    suspend fun getAllEmployeeSchedule(): Result<List<EmployeeScheduleDto>, DataError.Remote>
+    suspend fun getAllEmployeeSchedule(): Result<List<ScheduleDto>, DataError.Remote>
 }
