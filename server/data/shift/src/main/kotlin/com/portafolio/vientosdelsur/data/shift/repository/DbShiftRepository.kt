@@ -50,7 +50,7 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
     ): Result<EmployeeSchedule, DataError.Remote> = safeSuspendTransaction {
         WorkShiftEntity.find {
             (WorkShiftTable.employeeId eq employeeId) and
-            (WorkShiftTable.date.between(during.start, during.endInclusive))
+                    (WorkShiftTable.date.between(during.start, during.endInclusive))
         }.toList().toEmployeeSchedule(during)
     }
 
@@ -67,4 +67,12 @@ internal class DbShiftRepository(private val defaultDispatcher: CoroutineDispatc
                 .map { it.toEmployee() }
                 .throwIfEmpty()
         }
+
+    override suspend fun getMonthlyShifts(month: ClosedRange<LocalDate>): Result<Map<Employee, EmployeeSchedule>, DataError.Remote> =
+        safeSuspendTransaction {
+            WorkShiftEntity.find { WorkShiftTable.date.between(month.start, month.endInclusive) }
+                .groupBy { it.employee.toEmployee() }
+                .mapValues { (_, shifts) -> shifts.toEmployeeSchedule(month) }
+        }
+
 }

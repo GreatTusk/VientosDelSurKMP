@@ -87,6 +87,25 @@ paths:
               examples:
                 Example#1:
                   value: "No employees on shift"
+  /shifts/scheduling:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BaseResponseDto_Map<Get, ? extends EmployeeScheduleDto>"
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: ""
   /shifts/scheduling/generate:
     post:
       description: ""
@@ -228,6 +247,16 @@ components:
     Get:
       type: "object"
       properties: { }
+    BaseResponseDto_Map<Get, ? extends EmployeeScheduleDto>:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        timestamp:
+          type: "string"
+          format: "date-time"
+        data:
+          $ref: "#/components/schemas/Get"
     MonthlyShiftDistributionDto:
       type: "object"
       properties:

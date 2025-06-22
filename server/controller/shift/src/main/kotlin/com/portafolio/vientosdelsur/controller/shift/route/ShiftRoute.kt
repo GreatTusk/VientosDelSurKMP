@@ -59,6 +59,17 @@ fun Application.shiftRoute() {
             }
 
             route("/scheduling") {
+
+                get {
+                    shiftService.getMonthlyShifts()
+                        .onSuccess {
+                            call.respond(it)
+                        }
+                        .onError {
+                            call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+                        }
+                }
+
                 post("/generate") {
                     shiftSchedulerService.generateDraftSchedule()
                         .onSuccess {

@@ -10,4 +10,5 @@ import kotlinx.datetime.LocalDate
 interface ShiftService {
     suspend fun getEmployeesWorkingOn(date: LocalDate): Result<BaseResponseDto<List<EmployeeDto>>, DataError.Remote>
     suspend fun getMonthlyShiftsFor(employeeId: Int): Result<BaseResponseDto<EmployeeScheduleDto>, DataError.Remote>
+    suspend fun getMonthlyShifts(): Result<BaseResponseDto<Map<EmployeeDto.Get, EmployeeScheduleDto>>, DataError.Remote>
 }

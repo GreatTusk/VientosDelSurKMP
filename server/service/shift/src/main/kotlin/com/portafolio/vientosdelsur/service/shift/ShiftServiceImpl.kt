@@ -39,4 +39,21 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
                 )
             }
     }
+
+    override suspend fun getMonthlyShifts(): Result<BaseResponseDto<Map<EmployeeDto.Get, EmployeeScheduleDto>>, DataError.Remote> {
+        val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+        return shiftRepository.getMonthlyShifts(currentDate.workingDaysRange)
+            .map { shifts ->
+                shifts
+                    .mapKeys { (key, _) -> key.toEmployeeDto() }
+                    .mapValues { (_, value) -> value.toEmployeeScheduleDto() }
+            }
+            .map {
+                BaseResponseDto(
+                    message = "Retrieved successfully",
+                    data = it
+                )
+            }
+    }
 }
