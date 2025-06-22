@@ -19,11 +19,7 @@ import com.portafolio.vientosdelsur.foryou.navigation.ForYou
 import com.portafolio.vientosdelsur.foryou.navigation.navigateToForYou
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.StringResource
-import vientosdelsur.composeapp.generated.resources.Res
-import vientosdelsur.composeapp.generated.resources.app_name
-import vientosdelsur.composeapp.generated.resources.for_you_title
-import vientosdelsur.composeapp.generated.resources.rooms_title
-import vientosdelsur.composeapp.generated.resources.shift_title
+import vientosdelsur.composeapp.generated.resources.*
 import kotlin.reflect.KClass
 
 @Serializable
