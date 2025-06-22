@@ -13,16 +13,16 @@ import com.portafolio.vientosdelsur.shared.dto.room.ShiftTypeDto
 internal fun List<MonthlyShiftDistributionDto>.toEmployeeShiftsMap(): Map<EmployeeDaysOff, List<ShiftDate>> {
     return associate { monthlyShiftDto ->
         val employeeDaysOff = monthlyShiftDto.toEmployeeDaysOff()
-        val shiftDates = monthlyShiftDto.shiftDate.map { it.toDomainShiftDate() }
+        val shiftDates = monthlyShiftDto.scheduleDto.workingDays.map { it.toDomainShiftDate() }
         employeeDaysOff to shiftDates
     }
 }
 
 internal fun MonthlyShiftDistributionDto.toEmployeeDaysOff(): EmployeeDaysOff {
-    check(sundaysOff.size == 2)
+    check(this.scheduleDto.daysOff.size == 2)
     return EmployeeDaysOff(
         employee = employee.toEmployee(),
-        sundaysOff = SundaysOff(this.sundaysOff.first(), this.sundaysOff.last())
+        sundaysOff = SundaysOff(this.scheduleDto.daysOff.first(), this.scheduleDto.daysOff.last())
     )
 }
 

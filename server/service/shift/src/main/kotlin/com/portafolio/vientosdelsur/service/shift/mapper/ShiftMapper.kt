@@ -8,11 +8,14 @@ import com.portafolio.vientosdelsur.shared.dto.room.MonthlyShiftDistributionDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDateDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftDto
 import com.portafolio.vientosdelsur.shared.dto.room.ShiftTypeDto
+import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 
 internal fun Map.Entry<EmployeeDaysOff, List<ShiftDate>>.toMonthlyShiftsDto() = MonthlyShiftDistributionDto(
     employee = key.employee.toEmployeeDto(),
-    sundaysOff = key.sundaysOff.daysOff,
-    shiftDate = value.map { it.toShiftDateDto() }
+    scheduleDto = ScheduleDto(
+        value.map { it.toShiftDateDto() },
+        key.sundaysOff.daysOff.toList()
+    ),
 )
 
 

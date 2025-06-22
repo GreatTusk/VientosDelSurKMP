@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.shared.dto.room
 
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
+import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.Serializable
@@ -8,8 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MonthlyShiftDistributionDto(
     val employee: EmployeeDto.Get,
-    val sundaysOff: Set<LocalDate>,
-    val shiftDate: List<ShiftDateDto>
+    val scheduleDto: ScheduleDto
 )
 
 @Serializable

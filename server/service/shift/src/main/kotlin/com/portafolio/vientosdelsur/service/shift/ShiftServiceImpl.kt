@@ -10,7 +10,7 @@ import com.portafolio.vientosdelsur.service.employee.mapper.toEmployeeDto
 import com.portafolio.vientosdelsur.service.shift.mapper.toEmployeeScheduleDto
 import com.portafolio.vientosdelsur.shared.dto.BaseResponseDto
 import com.portafolio.vientosdelsur.shared.dto.employee.EmployeeDto
-import com.portafolio.vientosdelsur.shared.dto.shift.EmployeeScheduleDto
+import com.portafolio.vientosdelsur.shared.dto.room.MonthlyShiftDistributionDto
 import com.portafolio.vientosdelsur.shared.dto.shift.ScheduleDto
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
@@ -41,7 +41,7 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
             }
     }
 
-    override suspend fun getMonthlyShifts(): Result<BaseResponseDto<List<EmployeeScheduleDto>>, DataError.Remote> {
+    override suspend fun getMonthlyShifts(): Result<BaseResponseDto<List<MonthlyShiftDistributionDto>>, DataError.Remote> {
         val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
         return shiftRepository.getMonthlyShifts(currentDate.workingDaysRange)
@@ -52,7 +52,7 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
             }
             .map { shifts ->
                 shifts.map { (key, value) ->
-                    EmployeeScheduleDto(key, value)
+                    MonthlyShiftDistributionDto(key, value)
                 }
             }
             .map {
