@@ -105,6 +105,56 @@ internal fun EmployeeDto.Create.toEmployee(): Employee {
     }
 }
 
+fun EmployeeDto.Get.toEmployee(): Employee {
+    val baseEmployee = BaseEmployee(
+        id = id,
+        firstName = firstName,
+        lastName = lastName,
+        phoneNumber = phoneNumber,
+        dayOff = dayOff,
+        hireDate = hireDate
+    )
+
+    val user = User(
+        id = userId,
+        email = email,
+        photoUrl = photoUrl,
+        phoneNumber = phoneNumber,
+        isEnabled = isEnabled,
+        // Not included in get dto!
+        createdAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+        name = "$firstName $lastName"
+    )
+
+    return when (this) {
+        is EmployeeDto.Get.Housekeeper -> Employee.Housekeeper(
+            data = baseEmployee,
+            userData = user,
+            housekeeperRole = role?.toHousekeeperRole() ?: HousekeeperRole.ON_CALL,
+            preferredFloor = preferredFloor?.let { Floor(it) }
+        )
+
+        is EmployeeDto.Get.StandardEmployee -> {
+            when (occupation) {
+                EmployeeOccupationDto.HousekeeperSupervisor -> Employee.HousekeeperSupervisor(
+                    data = baseEmployee,
+                    userData = user
+                )
+                EmployeeOccupationDto.Admin -> Employee.Admin(
+                    data = baseEmployee,
+                    userData = user
+                )
+                EmployeeOccupationDto.Cook -> Employee.Cook(
+                    data = baseEmployee,
+                    userData = user
+                )
+                EmployeeOccupationDto.Housekeeper -> error("StandardEmployee cannot have Housekeeper occupation")
+            }
+        }
+    }
+}
+
 private fun HousekeeperRoleDto.toHousekeeperRole() =
     when (this) {
         HousekeeperRoleDto.Kitchen -> HousekeeperRole.KITCHEN

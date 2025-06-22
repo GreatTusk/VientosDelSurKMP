@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MonthlyShiftDistributionDto(
-    val employee: EmployeeDto,
+    val employee: EmployeeDto.Get,
     val sundaysOff: Set<LocalDate>,
     val shiftDate: List<ShiftDateDto>
 )
