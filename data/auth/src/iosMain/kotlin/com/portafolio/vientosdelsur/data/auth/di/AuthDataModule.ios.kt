@@ -1,6 +1,18 @@
 package com.portafolio.vientosdelsur.data.auth.di
 
-import org.koin.core.module.Module
+import com.portafolio.vientosdelsur.data.auth.network.FirebaseUserRepository
+import com.portafolio.vientosdelsur.domain.auth.UserRepository
+import org.koin.core.qualifier.named
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-internal actual val PlatformModule: Module
-    get() = TODO("Not yet implemented")
+internal actual val PlatformModule = module {
+    single {
+        FirebaseUserRepository(
+            firebaseAuth = get(),
+            employeeRepository = get(),
+            ioDispatcher = get(named("ioDispatcher")),
+            coroutineScope = get(named("defaultCoroutineScope"))
+        )
+    }.bind<UserRepository>()
+}
