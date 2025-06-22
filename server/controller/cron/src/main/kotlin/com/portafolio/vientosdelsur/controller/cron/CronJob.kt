@@ -13,17 +13,23 @@ import kotlin.time.Duration.Companion.milliseconds
 fun Application.cronJob() {
     val shiftSchedulerService by inject<ShiftSchedulerService>()
     val roomDistributionService by inject<RoomDistributionService>()
-    val log = environment.log
 
     val job = CoroutineScope(Dispatchers.IO).launch {
         while (isActive) {
             val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
             if (now.dayOfMonth == 1) {
-                shiftSchedulerService.scheduleShifts()
+                shiftSchedulerService.generateDraftSchedule()
                     .onSuccess {
-                        roomDistributionService.distributeRoomsMonth(now.date).onError {
-                            log.error("Something went wrong with room distribution $it")
+                        coroutineScope {
+                            launch {
+                                shiftSchedulerService.publishSchedule(it.data)
+                            }
+                            launch {
+                                roomDistributionService.distributeRoomsMonth(now.date).onError {
+                                    log.error("Something went wrong with room distribution $it")
+                                }
+                            }
                         }
                     }.onError {
                         log.error("Something went wrong with shift scheduling $it")

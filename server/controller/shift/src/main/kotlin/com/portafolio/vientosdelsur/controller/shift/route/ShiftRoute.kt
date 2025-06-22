@@ -56,9 +56,8 @@ fun Application.shiftRoute() {
                     }
             }
 
-
             post("/distribute") {
-                shiftSchedulerService.scheduleShifts()
+                shiftSchedulerService.generateDraftSchedule()
                     .onSuccess {
                         call.respond(it)
                     }.onError {
