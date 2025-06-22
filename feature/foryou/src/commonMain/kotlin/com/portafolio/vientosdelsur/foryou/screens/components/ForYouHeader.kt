@@ -61,6 +61,7 @@ internal fun LazyGridScope.forYouHeader(employee: Employee) {
                             Occupation.HOUSEKEEPER -> Res.string.housekeeper_room_header
                             Occupation.SUPERVISOR -> Res.string.supervisor_header
                             Occupation.ADMIN -> Res.string.admin_header
+                            Occupation.COOK -> Res.string.greeting
                         }
                     ),
                     style = MaterialTheme.typography.titleMedium,

@@ -24,5 +24,5 @@ private fun EmployeeOccupationDto.toOccupation() = when (this) {
     EmployeeOccupationDto.HousekeeperSupervisor -> Occupation.SUPERVISOR
     EmployeeOccupationDto.Housekeeper -> Occupation.HOUSEKEEPER
     EmployeeOccupationDto.Admin -> Occupation.ADMIN
-    EmployeeOccupationDto.Cook -> TODO("Cooks won't use the app")
+    EmployeeOccupationDto.Cook -> Occupation.COOK
 }

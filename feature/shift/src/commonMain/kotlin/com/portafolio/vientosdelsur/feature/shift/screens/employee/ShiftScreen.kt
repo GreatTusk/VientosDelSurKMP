@@ -16,18 +16,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.portafolio.vientosdelsur.domain.auth.UserRepository
+import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.shift.Schedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.ShiftType
+import com.portafolio.vientosdelsur.feature.shift.screens.admin.ShiftReviewerScreenRoot
 import com.portafolio.vientosdelsur.feature.shift.screens.components.EmployeeScheduleCalendar
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal fun ShiftScreenRoot(modifier: Modifier = Modifier, shiftViewModel: ShiftViewModel = koinViewModel()) {
+internal fun OccupationShiftScreenRoot(modifier: Modifier = Modifier, userRepository: UserRepository = koinInject()) {
+    val user by userRepository.currentUser.collectAsStateWithLifecycle()
+
+    user?.let {
+        when (it.occupation) {
+            Occupation.ADMIN -> {
+                ShiftReviewerScreenRoot(modifier = modifier)
+            }
+
+            Occupation.HOUSEKEEPER, Occupation.SUPERVISOR, Occupation.COOK -> {
+                ShiftScreenRoot(modifier = modifier)
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShiftScreenRoot(modifier: Modifier = Modifier, shiftViewModel: ShiftViewModel = koinViewModel()) {
     val employeeSchedule by shiftViewModel.schedule.collectAsStateWithLifecycle()
     ShiftScreen(modifier = modifier, schedule = employeeSchedule)
 }
@@ -56,7 +77,10 @@ private fun ShiftScreen(modifier: Modifier = Modifier, schedule: Schedule) {
                 start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
                 end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
             ),
-            modifier = Modifier.padding(top = innerPadding.calculateTopPadding(), bottom = innerPadding.calculateBottomPadding()),
+            modifier = Modifier.padding(
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding()
+            ),
             schedule = schedule
         )
     }

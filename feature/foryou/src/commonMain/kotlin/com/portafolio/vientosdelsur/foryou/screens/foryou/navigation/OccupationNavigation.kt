@@ -29,7 +29,7 @@ internal fun OccupationNavigation(
         }
 
         else -> when (employee!!.occupation) {
-            Occupation.HOUSEKEEPER -> HousekeeperForYouScreenRoot(
+            Occupation.HOUSEKEEPER, Occupation.COOK -> HousekeeperForYouScreenRoot(
                 modifier = modifier,
                 employee = employee!!,
                 onNavigateToImageAnalysis = onNavigateToImageAnalysis

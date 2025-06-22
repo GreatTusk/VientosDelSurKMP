@@ -14,7 +14,7 @@ class AppViewModel(userRepository: UserRepository) : ViewModel() {
     private val _eventChannel = Channel<AuthEvent>()
     val events = _eventChannel.receiveAsFlow()
 
-    val user = userRepository.currentUser
+    val employee = userRepository.currentUser
         .onEach { user ->
             println("Emitted a user! $user")
             when (user) {

@@ -10,8 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.f776.core.ui.components.ObserveAsEvents
-import com.f776.japanesedictionary.imageanalysis.navigation.ImageAnalysisRoute
-import com.f776.japanesedictionary.imageanalysis.navigation.imageAnalysisGraph
 import com.portafolio.vientosdelsur.AppViewModel
 import com.portafolio.vientosdelsur.AuthEvent
 import com.portafolio.vientosdelsur.feature.auth.navigation.AuthNavigation
@@ -22,7 +20,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun RootNavigationGraph(navHostController: NavHostController = rememberNavController()) {
     val appViewModel = koinViewModel<AppViewModel>()
-    val user by appViewModel.user.collectAsStateWithLifecycle(null)
+    val employee by appViewModel.employee.collectAsStateWithLifecycle(null)
     val backstack by navHostController.currentBackStackEntryAsState()
 
     ObserveAsEvents(appViewModel.events) {

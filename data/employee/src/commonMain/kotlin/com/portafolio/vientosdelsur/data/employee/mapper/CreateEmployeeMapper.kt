@@ -54,4 +54,5 @@ private fun Occupation.toOccupationDto() = when (this) {
     Occupation.HOUSEKEEPER -> EmployeeOccupationDto.Housekeeper
     Occupation.SUPERVISOR ->  EmployeeOccupationDto.HousekeeperSupervisor
     Occupation.ADMIN ->  EmployeeOccupationDto.Admin
+    Occupation.COOK -> EmployeeOccupationDto.Cook
 }
