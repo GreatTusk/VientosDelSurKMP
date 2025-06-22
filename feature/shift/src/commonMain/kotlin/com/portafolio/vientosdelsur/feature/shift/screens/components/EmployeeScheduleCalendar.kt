@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -111,7 +110,8 @@ internal fun MonthNavigationHeader(
         Text(
             text = "${stringResource(monthName)} ${currentMonth.year}",
             style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -129,7 +129,7 @@ internal fun DaysOfWeekHeader(daysOfWeek: List<DayOfWeek>) {
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Medium,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 text = stringResource(dayOfWeek.displayName),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -146,7 +146,7 @@ internal fun ScheduleDay(
     onClick: (() -> Unit)? = null
 ) {
     val backgroundColor = when {
-        isDayOff -> Color(0xFFEEEEEE)
+        isDayOff -> MaterialTheme.colorScheme.surfaceContainerHighest
         shiftDate != null -> getShiftColorByType(shiftDate.shift.type)
         else -> Color.Transparent
     }
@@ -183,12 +183,12 @@ internal fun ScheduleDay(
             // Day number
             Text(
                 text = day.date.dayOfMonth.toString(),
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
                 color = when {
-                    !isCurrentWorkMonth -> Color.Gray
-                    isDayOff -> Color.Gray
-                    else -> Color.Black
+                    !isCurrentWorkMonth -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                    isDayOff -> MaterialTheme.colorScheme.onSurfaceVariant
+                    else -> MaterialTheme.colorScheme.onSurface
                 }
             )
 
@@ -197,17 +197,19 @@ internal fun ScheduleDay(
                 isDayOff -> {
                     Text(
                         text = "Libre",
-                        fontSize = 8.sp,
-                        color = Color.Gray,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.Medium
                     )
                 }
 
                 shiftDate != null -> {
                     Text(
                         text = formatShiftTime(shiftDate.shift),
-                        fontSize = 7.sp,
-                        color = Color.Black,
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontSize = MaterialTheme.typography.labelSmall.fontSize * 0.6f
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -235,12 +237,13 @@ internal fun ScheduleLegend(
                 text = "Turnos",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 
             // Days off
             LegendItem(
-                color = Color(0xFFEEEEEE),
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
                 label = "Día libre",
                 modifier = Modifier.padding(vertical = 2.dp)
             )
@@ -273,14 +276,15 @@ internal fun LegendItem(
                 .background(color, RoundedCornerShape(4.dp))
                 .border(
                     width = 1.dp,
-                    color = Color.Gray.copy(alpha = 0.3f),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
                     shape = RoundedCornerShape(4.dp)
                 )
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
