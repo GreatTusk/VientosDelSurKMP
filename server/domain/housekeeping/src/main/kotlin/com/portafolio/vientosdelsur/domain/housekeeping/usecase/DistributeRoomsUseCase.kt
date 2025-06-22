@@ -56,8 +56,8 @@ class DistributeRoomsUseCase(
                             }
                     }
                 }
-                .mapValues { (_, values) -> values.await().takeOrNull() ?: emptyError("No rooms to work with") }
-
+                .mapValues { (_, values) -> values.await().takeOrNull() ?: emptyList() }
+                .filterValues { it.isNotEmpty() }
 
             Result.Success(
                 getRoomsMonthlyDistribution(
