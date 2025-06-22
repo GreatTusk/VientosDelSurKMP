@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.feature.shift.screens
+package com.portafolio.vientosdelsur.feature.shift.screens.employee
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

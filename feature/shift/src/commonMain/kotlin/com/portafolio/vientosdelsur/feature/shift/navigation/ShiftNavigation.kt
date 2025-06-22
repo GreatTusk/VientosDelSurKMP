@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.portafolio.vientosdelsur.feature.shift.screens.ShiftScreenRoot
+import com.portafolio.vientosdelsur.feature.shift.screens.employee.ShiftScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -1,4 +1,4 @@
-package com.portafolio.vientosdelsur.feature.shift.screens.ui
+package com.portafolio.vientosdelsur.feature.shift.screens.employee.ui
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

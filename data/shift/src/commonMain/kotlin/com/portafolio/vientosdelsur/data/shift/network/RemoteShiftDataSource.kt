@@ -6,4 +6,6 @@ import com.portafolio.vientosdelsur.shared.dto.shift.EmployeeScheduleDto
 
 interface RemoteShiftDataSource {
     suspend fun getEmployeeSchedule(employeeId: Int): Result<EmployeeScheduleDto, DataError.Remote>
+
+    suspend fun getAllEmployeeSchedule(): Result<List<EmployeeScheduleDto>, DataError.Remote>
 }

@@ -18,4 +18,6 @@ interface ShiftRepository {
     ): Result<EmployeeSchedule, DataError.Remote>
 
     suspend fun getEmployeesWorkingOn(date: LocalDate): Result<List<Employee>, DataError.Remote>
+
+    suspend fun getMonthlyShifts(month: ClosedRange<LocalDate>): Result<Map<Employee, EmployeeSchedule>, DataError.Remote>
 }

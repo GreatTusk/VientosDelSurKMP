@@ -27,9 +27,9 @@ import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Shift
 import com.portafolio.vientosdelsur.domain.shift.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.ShiftType
-import com.portafolio.vientosdelsur.feature.shift.screens.ui.displayName
-import com.portafolio.vientosdelsur.feature.shift.screens.ui.formatShiftTime
-import com.portafolio.vientosdelsur.feature.shift.screens.ui.getShiftColorByType
+import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.displayName
+import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.formatShiftTime
+import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.getShiftColorByType
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime

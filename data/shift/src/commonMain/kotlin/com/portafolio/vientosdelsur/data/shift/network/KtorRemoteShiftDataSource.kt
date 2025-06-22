@@ -15,4 +15,10 @@ internal class KtorRemoteShiftDataSource(private val httpClient: HttpClient) : R
         safeCall<BaseResponseDto<EmployeeScheduleDto>> {
             httpClient.get("${BuildConfig.BASE_URL}/shifts/employee/$employeeId")
         }.map { it.data }
+
+    override suspend fun getAllEmployeeSchedule(): Result<List<EmployeeScheduleDto>, DataError.Remote> {
+        safeCall<BaseResponseDto<EmployeeScheduleDto>> {
+            httpClient.get("${BuildConfig.BASE_URL}/shifts/employee")
+        }.map { it.data }
+    }
 }

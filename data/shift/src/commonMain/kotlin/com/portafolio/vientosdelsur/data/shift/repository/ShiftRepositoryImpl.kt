@@ -13,4 +13,8 @@ internal class ShiftRepositoryImpl(private val remoteShiftDataSource: RemoteShif
         return remoteShiftDataSource.getEmployeeSchedule(employeeId)
             .map { it.toDomain() }
     }
+
+    override suspend fun getAllEmployeeSchedule(): Result<List<EmployeeSchedule>, DataError.Remote> {
+        TODO("Not yet implemented")
+    }
 }

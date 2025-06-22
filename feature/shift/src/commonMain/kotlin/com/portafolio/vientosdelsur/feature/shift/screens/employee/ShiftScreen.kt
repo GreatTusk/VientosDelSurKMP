@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.portafolio.vientosdelsur.feature.shift.screens
+package com.portafolio.vientosdelsur.feature.shift.screens.employee
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
