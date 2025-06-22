@@ -100,11 +100,11 @@ class ScheduleShiftUseCaseTest : KoinTest {
         val kitchenHours = mutableMapOf<LocalDate, Double>()
 
         // Act & Assert - Test day off (Sunday)
-        val sundayShift = useCase.assignShift(employeeDaysOff, SUNDAY_MAY_7, kitchenHours)
+        val sundayShift = useCase.assignShift(employeeDaysOff, SUNDAY_MAY_7, kitchenHours, mutex)
         assertNull(sundayShift, "Should not assign shift on a Sunday off")
 
         // Act & Assert - Test regular day
-        val mondayShift = useCase.assignShift(employeeDaysOff, MONDAY_MAY_8, kitchenHours)
+        val mondayShift = useCase.assignShift(employeeDaysOff, MONDAY_MAY_8, kitchenHours, mutex)
         assertNotNull(mondayShift, "Should assign shift on a regular work day")
         assertEquals(Shift.GENERAL_DUTY, mondayShift)
 
@@ -117,7 +117,7 @@ class ScheduleShiftUseCaseTest : KoinTest {
             )
         )
 
-        val shiftForMaria = useCase.assignShift(employeeWithMondayOff, MONDAY_MAY_8, kitchenHours)
+        val shiftForMaria = useCase.assignShift(employeeWithMondayOff, MONDAY_MAY_8, kitchenHours, mutex)
         assertNull(shiftForMaria, "Should not assign shift on employee's day off")
     }
 
@@ -132,7 +132,7 @@ class ScheduleShiftUseCaseTest : KoinTest {
         )
 
         // Act
-        val cookShift = useCase.assignShift(cookDaysOff, TUESDAY_MAY_9, kitchenHours)
+        val cookShift = useCase.assignShift(cookDaysOff, TUESDAY_MAY_9, kitchenHours, mutex)
 
         // Assert
         assertEquals(Shift.GENERAL_DUTY, cookShift, "Cook should be assigned to general duty")
@@ -150,7 +150,7 @@ class ScheduleShiftUseCaseTest : KoinTest {
         )
 
         // Act
-        val kitchenShift = useCase.assignShift(kitchenDaysOff, TUESDAY_MAY_9, kitchenHours)
+        val kitchenShift = useCase.assignShift(kitchenDaysOff, TUESDAY_MAY_9, kitchenHours, mutex)
 
         // Assert
         assertEquals(Shift.KITCHEN_LEAD, kitchenShift, "Kitchen housekeeper should lead kitchen")
@@ -170,7 +170,7 @@ class ScheduleShiftUseCaseTest : KoinTest {
         )
 
         // Act
-        val kitchenShift = useCase.assignShift(kitchenDaysOff, TUESDAY_MAY_9, kitchenHours)
+        val kitchenShift = useCase.assignShift(kitchenDaysOff, TUESDAY_MAY_9, kitchenHours, mutex)
 
         // Assert
         assertEquals(

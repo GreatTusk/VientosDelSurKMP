@@ -16,6 +16,8 @@ import com.portafolio.vientosdelsur.domain.shift.workingDays
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
 
@@ -35,12 +37,25 @@ class ScheduleShiftUseCase(
     ): Map<EmployeeDaysOff, List<ShiftDate>> = withContext(defaultDispatcher) {
         val employeeShifts = assignSundaysOff(month, employees)
         val kitchenHours = mutableMapOf<LocalDate, Double>()
+        val mutex = Mutex()
 
         employeeShifts.map { employee ->
             async {
-                employee to month.workingDays.mapNotNull { date ->
-                    assignShift(employee, date, kitchenHours)?.let { ShiftDate(it, date) }
-                }.toList()
+                val shifts = mutableListOf<ShiftDate>()
+
+                for (date in month.workingDays) {
+                    val shift = assignShift(
+                        employeeDaysOff = employee,
+                        date = date,
+                        kitchenHours = kitchenHours,
+                        mutex = mutex
+                    )
+                    if (shift != null) {
+                        shifts.add(ShiftDate(shift, date))
+                    }
+                }
+
+                employee to shifts
             }
         }.awaitAll().toMap()
     }
@@ -60,15 +75,18 @@ class ScheduleShiftUseCase(
         }
     }
 
-    internal fun assignShift(
+    internal suspend fun assignShift(
         employeeDaysOff: EmployeeDaysOff,
         date: LocalDate,
-        kitchenHours: MutableMap<LocalDate, Double>
+        kitchenHours: MutableMap<LocalDate, Double>,
+        mutex: Mutex
     ): Shift? {
         if (date in employeeDaysOff.sundaysOff.daysOff || date.dayOfWeek == employeeDaysOff.employee.data.dayOff)
             return null
 
-        var count = kitchenHours.getOrPut(date) { 0.0 }
+        var count = mutex.withLock {
+            kitchenHours.getOrPut(date) { 0.0 }
+        }
 
         return when (val employee = employeeDaysOff.employee) {
             is Employee.Housekeeper -> {
@@ -104,7 +122,9 @@ class ScheduleShiftUseCase(
             else -> {
                 Shift.GENERAL_DUTY
             }
-        }.also { kitchenHours[date] = count }
+        }.also {
+            mutex.withLock { kitchenHours[date] = count }
+        }
     }
 
 
