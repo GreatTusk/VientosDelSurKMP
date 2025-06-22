@@ -7,9 +7,11 @@ import com.portafolio.vientosdelsur.core.controller.util.parseDateFromQueryParam
 import com.portafolio.vientosdelsur.core.controller.util.today
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerService
 import com.portafolio.vientosdelsur.service.shift.ShiftService
+import com.portafolio.vientosdelsur.shared.dto.room.MonthlyShiftDistributionDto
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
@@ -56,13 +58,32 @@ fun Application.shiftRoute() {
                     }
             }
 
-            post("/distribute") {
-                shiftSchedulerService.generateDraftSchedule()
-                    .onSuccess {
-                        call.respond(it)
-                    }.onError {
-                        call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+            route("/scheduling") {
+                post("/generate") {
+                    shiftSchedulerService.generateDraftSchedule()
+                        .onSuccess {
+                            call.respond(it)
+                        }
+                        .onError {
+                            call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+                        }
+                }
+
+                post("/publish") {
+                    val draft = try {
+                        call.receive<List<MonthlyShiftDistributionDto>>()
+                    } catch (_: ContentTransformationException) {
+                        return@post call.respond(HttpStatusCode.BadRequest, "Malformed body")
                     }
+
+                    shiftSchedulerService.publishSchedule(draft)
+                        .onSuccess {
+                            call.respond(HttpStatusCode.OK, "Saved draft successfully")
+                        }
+                        .onError {
+                            call.respond(HttpStatusCode.InternalServerError, "Something happened: $it")
+                        }
+                }
             }
         }
     }
