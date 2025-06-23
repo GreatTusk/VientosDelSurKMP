@@ -15,6 +15,7 @@ import com.portafolio.vientosdelsur.domain.room.RoomRepository
 import com.portafolio.vientosdelsur.domain.room.model.Room
 import com.portafolio.vientosdelsur.domain.room.model.RoomState
 import kotlinx.datetime.LocalDate
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.selectAll
 
@@ -33,6 +34,7 @@ internal object DBRoomRepository : RoomRepository {
             .innerJoin(WorkShiftTable)
             .selectAll()
             .where { (WorkShiftTable.employeeId eq housekeeperId) and (WorkShiftTable.date eq date) }
+            .orderBy(RoomTable.roomNumber to SortOrder.DESC)
             .map(::mapShiftRoomsToRoomState)
             .throwIfEmpty()
     }
