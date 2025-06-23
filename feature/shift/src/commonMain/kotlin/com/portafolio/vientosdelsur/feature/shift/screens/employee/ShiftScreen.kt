@@ -2,15 +2,13 @@
 
 package com.portafolio.vientosdelsur.feature.shift.screens.employee
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -74,17 +72,19 @@ private fun ShiftScreen(modifier: Modifier = Modifier, schedule: Schedule) {
             )
         },
     ) { innerPadding ->
-        EmployeeScheduleCalendar(
-            contentPadding = PaddingValues(
-                start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
-                end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
-            ),
-            modifier = Modifier.padding(
-                top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding()
-            ).verticalScroll(rememberScrollState()),
-            schedule = schedule
-        )
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            EmployeeScheduleCalendar(
+                contentPadding = PaddingValues(
+                    start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
+                    end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
+                ),
+                modifier = Modifier.padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding()
+                ).verticalScroll(rememberScrollState()).sizeIn(maxWidth = 600.dp, maxHeight = 800.dp),
+                schedule = schedule
+            )
+        }
     }
 }
 
