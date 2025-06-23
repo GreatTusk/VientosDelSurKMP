@@ -40,6 +40,9 @@ internal actual class FirebaseUserRepository(
     )
 
     private companion object {
-        private const val USER_ID = "2oJjFDXkLlQxKoZ4rB7gQ3avAnJ2"
+        private const val SUPERVISOR_USER_ID = "2oJjFDXkLlQxKoZ4rB7gQ3avAnJ2"
+        private const val ADMIN_USER_ID = "4vAiM2MbIDQeTt82KOEsXkI7J1v1"
+
+        private val USER_ID = if (System.getenv()["ROLE"] == "admin") ADMIN_USER_ID else SUPERVISOR_USER_ID
     }
 }
