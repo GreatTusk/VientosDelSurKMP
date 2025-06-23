@@ -3,9 +3,9 @@
 package com.portafolio.vientosdelsur.feature.shift.screens.admin
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,14 +55,16 @@ private fun ShiftReviewerScreen(modifier: Modifier = Modifier, monthlyShifts: Li
             )
         },
     ) { innerPadding ->
-        LazyColumn(
+        LazyVerticalGrid(
             contentPadding = PaddingValues(
                 top = innerPadding.calculateTopPadding(),
                 bottom = innerPadding.calculateBottomPadding() + 16.dp,
                 start = innerPadding.calculateStartPadding(layoutDirection) + 16.dp,
                 end = innerPadding.calculateEndPadding(layoutDirection) + 16.dp,
             ),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            columns = GridCells.Adaptive(400.dp)
         ) {
             itemsIndexed(items = monthlyShifts, key = { _, employee -> employee.employee.id }) { i, employeeSchedule ->
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
