@@ -29,13 +29,15 @@ import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.foryou.screens.components.forYouHeader
+import com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.SupervisorForYouScreenRoot
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun AdminForYouScreenRoot(modifier: Modifier = Modifier, employee: Employee) {
-    AdminForYouScreen(modifier = modifier, employee = employee)
-}
+internal fun AdminForYouScreenRoot(modifier: Modifier = Modifier, employee: Employee) = SupervisorForYouScreenRoot(
+    modifier = modifier,
+    employee = employee
+)
 
 @Composable
 private fun AdminForYouScreen(
