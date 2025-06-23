@@ -247,24 +247,6 @@ private fun OAuthButtonRow(
                 contentDescription = stringResource(if (showRegister) Res.string.sign_up_google else Res.string.sign_in_google)
             )
         }
-        OutlinedIconButton(
-            onClick = { /* TODO: Implement Microsoft Sign In/Up */ },
-            border = outlinedIconBorder
-        ) {
-            Image(
-                imageVector = vectorResource(Res.drawable.microsoft_icon),
-                contentDescription = stringResource(if (showRegister) Res.string.sign_up_microsoft else Res.string.sign_in_microsoft)
-            )
-        }
-        OutlinedIconButton(
-            onClick = { /* TODO: Implement Apple Sign In/Up */ },
-            border = outlinedIconBorder
-        ) {
-            Image(
-                imageVector = vectorResource(Res.drawable.apple_icon),
-                contentDescription = stringResource(if (showRegister) Res.string.sign_up_apple else Res.string.sign_in_apple)
-            )
-        }
     }
 }
 

@@ -35,6 +35,7 @@ import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.domain.imageanalysis.ImageAnalysisResult
 import com.f776.japanesedictionary.domain.imageanalysis.RoomAnalysis
 import com.f776.japanesedictionary.domain.imageanalysis.RoomApprovalStatus
+import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.room.Room
@@ -50,6 +51,7 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -86,11 +88,13 @@ private fun RoomAnalysisScreen(
     selectedImage: RoomAnalysis?,
     onImageSelected: (RoomAnalysis) -> Unit,
     onRoomCleaningRevision: (Int, RoomApprovalStatus) -> Unit,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    userRepository: UserRepository = koinInject()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val navigator = rememberListDetailPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
+    val user by userRepository.currentUser.collectAsStateWithLifecycle()
 
     var showConfirmationDialog by rememberSaveable { mutableStateOf(false) }
     var pendingApprovalStatus by rememberSaveable { mutableStateOf<RoomApprovalStatus?>(null) }
@@ -142,34 +146,36 @@ private fun RoomAnalysisScreen(
             )
         },
         floatingActionButton = {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                AnimatedVisibility(
-                    visible = navigator.isDetailPaneVisible() && selectedImage != null,
-                    enter = scaleIn() + fadeIn(),
-                    exit = scaleOut() + fadeOut()
-                ) {
-                    FloatingActionButton(
-                        onClick = {
-                            pendingApprovalStatus = RoomApprovalStatus.APPROVED
-                            showConfirmationDialog = true
+            if (user?.occupation == Occupation.SUPERVISOR) {
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    AnimatedVisibility(
+                        visible = navigator.isDetailPaneVisible() && selectedImage != null,
+                        enter = scaleIn() + fadeIn(),
+                        exit = scaleOut() + fadeOut()
+                    ) {
+                        FloatingActionButton(
+                            onClick = {
+                                pendingApprovalStatus = RoomApprovalStatus.APPROVED
+                                showConfirmationDialog = true
+                            }
+                        ) {
+                            Icon(imageVector = Icons.Default.Check, contentDescription = "Aprobar habitación")
                         }
-                    ) {
-                        Icon(imageVector = Icons.Default.Check, contentDescription = "Aprobar habitación")
                     }
-                }
-                AnimatedVisibility(
-                    visible = navigator.isDetailPaneVisible() && selectedImage != null,
-                    enter = scaleIn() + fadeIn(),
-                    exit = scaleOut() + fadeOut()
-                ) {
-                    FloatingActionButton(
-                        onClick = {
-                            pendingApprovalStatus = RoomApprovalStatus.REJECTED
-                            showConfirmationDialog = true
-                        },
-                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    AnimatedVisibility(
+                        visible = navigator.isDetailPaneVisible() && selectedImage != null,
+                        enter = scaleIn() + fadeIn(),
+                        exit = scaleOut() + fadeOut()
                     ) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = "Rechazar habitación")
+                        FloatingActionButton(
+                            onClick = {
+                                pendingApprovalStatus = RoomApprovalStatus.REJECTED
+                                showConfirmationDialog = true
+                            },
+                            containerColor = MaterialTheme.colorScheme.errorContainer
+                        ) {
+                            Icon(imageVector = Icons.Default.Close, contentDescription = "Rechazar habitación")
+                        }
                     }
                 }
             }

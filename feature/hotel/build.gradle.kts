@@ -11,6 +11,7 @@ kotlin {
             implementation(projects.core.ui)
             implementation(projects.data.room)
             implementation(projects.data.imageAnalysis)
+            implementation(projects.data.auth)
             implementation(libs.kotlinx.datetime)
 
             implementation(libs.coil.compose)
