@@ -32,7 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun OccupationShiftScreenRoot(modifier: Modifier = Modifier, userRepository: UserRepository = koinInject()) {
-    val user by userRepository.currentUser.collectAsStateWithLifecycle()
+    val user by userRepository.currentEmployee.collectAsStateWithLifecycle()
 
     user?.let {
         when (it.occupation) {

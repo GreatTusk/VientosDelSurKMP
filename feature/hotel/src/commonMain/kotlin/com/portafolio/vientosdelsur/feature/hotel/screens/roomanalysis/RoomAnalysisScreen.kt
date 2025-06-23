@@ -94,7 +94,7 @@ private fun RoomAnalysisScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val navigator = rememberListDetailPaneScaffoldNavigator()
     val scope = rememberCoroutineScope()
-    val user by userRepository.currentUser.collectAsStateWithLifecycle()
+    val user by userRepository.currentEmployee.collectAsStateWithLifecycle()
 
     var showConfirmationDialog by rememberSaveable { mutableStateOf(false) }
     var pendingApprovalStatus by rememberSaveable { mutableStateOf<RoomApprovalStatus?>(null) }

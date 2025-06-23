@@ -88,7 +88,7 @@ internal actual class ImageAnalysisViewModel(
         imageAnalysisService.classifyImage(
             byteArray = bitmap.asImageBitmap().toByteArray(),
             roomId = checkNotNull(selectedRoom?.id) { Log.wtf("ImageAnalysisViewModel", "Room cannot be null") },
-            housekeeperId = checkNotNull(userRepository.currentUser.value) { "No user found!" }.id
+            housekeeperId = checkNotNull(userRepository.currentEmployee.value) { "No user found!" }.id
         )
             .onSuccess { result ->
                 _uiState.update {

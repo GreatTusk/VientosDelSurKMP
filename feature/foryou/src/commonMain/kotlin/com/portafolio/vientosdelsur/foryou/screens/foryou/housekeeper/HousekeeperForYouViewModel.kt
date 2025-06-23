@@ -29,7 +29,7 @@ internal class HousekeeperForYouViewModel(
 
     fun onSelectDate(date: LocalDate) = _selectedDate.update { date }
 
-    private val rooms = _selectedDate.combine(userRepository.currentUser) { date, employee ->
+    private val rooms = _selectedDate.combine(userRepository.currentEmployee) { date, employee ->
         employee?.let {
             roomRepository.getRoomDistributionForHousekeeperOn(employee.id, date).takeOrNull()
         }

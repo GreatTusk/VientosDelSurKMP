@@ -20,7 +20,6 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun RootNavigationGraph(navHostController: NavHostController = rememberNavController()) {
     val appViewModel = koinViewModel<AppViewModel>()
-    val employee by appViewModel.employee.collectAsStateWithLifecycle(null)
     val backstack by navHostController.currentBackStackEntryAsState()
 
     ObserveAsEvents(appViewModel.events) {
