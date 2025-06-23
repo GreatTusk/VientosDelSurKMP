@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.f776.core.ui.adaptive.ThreePaneScaffoldPredictiveBackHandler
+import com.f776.core.ui.components.HintMessage
 import com.f776.core.ui.components.ObserveAsEvents
 import com.f776.core.ui.navigation.isDetailPaneVisible
 import com.f776.core.ui.theme.VientosDelSurTheme
@@ -192,22 +193,33 @@ private fun RoomAnalysisScreen(
                         top = innerPadding.calculateTopPadding() + 8.dp,
                         bottom = innerPadding.calculateBottomPadding() + 8.dp
                     )
-                    LazyVerticalGrid(
-                        columns = GridCells.Adaptive(150.dp),
-                        contentPadding = padding,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(items = analyzedRooms, key = RoomAnalysis::id) { imageAnalysis ->
-                            RoomAnalysisCard(
-                                roomAnalysis = imageAnalysis,
-                                onImageSelected = {
-                                    onImageSelected(imageAnalysis)
-                                    scope.launch {
-                                        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
-                                    }
-                                }
+
+                    if (analyzedRooms.isEmpty()) {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            HintMessage(
+                                icon = Icons.Default.SearchOff,
+                                title = "No se han subido imágenes hoy",
+                                subtitle = "Por favor revise más tarde."
                             )
+                        }
+                    } else {
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(150.dp),
+                            contentPadding = padding,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(items = analyzedRooms, key = RoomAnalysis::id) { imageAnalysis ->
+                                RoomAnalysisCard(
+                                    roomAnalysis = imageAnalysis,
+                                    onImageSelected = {
+                                        onImageSelected(imageAnalysis)
+                                        scope.launch {
+                                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                                        }
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -270,6 +282,21 @@ private fun RoomAnalysisScreenPreview() {
                     )
                 )
             },
+            selectedImage = null,
+            onImageSelected = {},
+            onRoomCleaningRevision = { _, _ -> },
+            snackbarHostState = SnackbarHostState()
+        )
+    }
+}
+
+
+@Preview
+@Composable
+private fun RoomAnalysisScreenEmptyPreview() {
+    VientosDelSurTheme {
+        RoomAnalysisScreen(
+            analyzedRooms = emptyList(),
             selectedImage = null,
             onImageSelected = {},
             onRoomCleaningRevision = { _, _ -> },

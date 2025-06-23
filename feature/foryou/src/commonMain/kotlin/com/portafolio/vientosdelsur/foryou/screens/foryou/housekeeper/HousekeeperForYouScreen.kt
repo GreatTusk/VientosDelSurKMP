@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.*
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowWidthSizeClass
+import com.f776.core.ui.components.HintMessage
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.f776.japanesedictionary.core.resource.app_name
 import com.portafolio.vientosdelsur.domain.employee.Employee
@@ -156,8 +158,21 @@ private fun HousekeeperForYouScreen(
                     }
                 }
             }
-            items(items = filteredRooms, key = { it.id }) { room ->
-                RoomStateCard(room)
+
+            if (filteredRooms.isEmpty()) {
+                item {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        HintMessage(
+                            icon = Icons.Default.SearchOff,
+                            title = "No cuenta con habitaciones hoy",
+                            subtitle = "Por favor revise otro día."
+                        )
+                    }
+                }
+            } else {
+                items(items = filteredRooms, key = { it.id }) { room ->
+                    RoomStateCard(room)
+                }
             }
         }
     }
