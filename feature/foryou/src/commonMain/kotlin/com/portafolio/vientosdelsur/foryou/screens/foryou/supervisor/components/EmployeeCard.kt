@@ -10,56 +10,76 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
+import com.portafolio.vientosdelsur.foryou.screens.foryou.supervisor.ui.displayName
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun EmployeeCard(modifier: Modifier = Modifier, employee: Employee) {
-    ElevatedCard(modifier = modifier) {
+internal fun EmployeeCard(
+    modifier: Modifier = Modifier,
+    employee: Employee,
+) {
+    ElevatedCard(modifier = modifier.fillMaxWidth()) {
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column {
-                Text(
-                    text = employee.occupation.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Text(
-                    text = employee.fullName,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                AssistChip(
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Default.Phone, contentDescription = null)
-                    },
-                    label = {
-                        Text(text = employee.phoneNumber, style = MaterialTheme.typography.bodyMedium)
-                    },
-                    onClick = {}
-                )
-            }
-            Box {
+            // Profile Picture
+            Box(
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
                 employee.photoUrl?.let {
                     AsyncImage(
-                        modifier = Modifier.size(96.dp).clip(CircleShape),
                         model = it,
-                        contentDescription = "Profile picture",
-                        contentScale = ContentScale.Crop
+                        contentDescription = employee.fullName,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
                     )
                 } ?: Icon(
                     imageVector = Icons.Default.AccountCircle,
-                    modifier = Modifier.size(96.dp).align(Alignment.Center),
-                    contentDescription = "Profile picture"
+                    contentDescription = "Default profile picture",
+                    modifier = Modifier.size(48.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
+
+            // Employee Information
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = employee.fullName,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = employee.occupation.displayName,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(Modifier.height(8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Phone,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = employee.phoneNumber,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }

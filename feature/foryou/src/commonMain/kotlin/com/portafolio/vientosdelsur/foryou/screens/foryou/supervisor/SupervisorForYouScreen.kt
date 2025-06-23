@@ -70,14 +70,7 @@ private fun SupervisorForYouScreen(
                 },
                 scrollBehavior = scrollBehavior
             )
-        },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { /* supervisor action */ },
-                icon = { Icon(Icons.Default.ImageSearch, contentDescription = "Supervisor action") },
-                text = { Text("Revisar") },
-            )
-        },
+        }
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
         val currentSize = currentWindowAdaptiveInfo()
