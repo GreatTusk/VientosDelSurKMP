@@ -15,7 +15,7 @@ internal fun ImageAnalysisEntity.toImageAnalysis() = ImageAnalysis(
     cleanProbability = cleanProbability,
     uncleanProbability = uncleanProbability,
     imageUrl = "/image-analysis/image/${id.value}",
-    uploadedBy = requireNotNull(housekeeper.toEmployee() as Employee.Housekeeper) { "Uploader is not a housekeeper" },
+    uploadedBy = requireNotNull(housekeeper.toEmployee() as? Employee.Housekeeper) { "Uploader is not a housekeeper" },
     roomAnalysisState = roomAnalysisStatus.toRoomAnalysisState()
 )
 
