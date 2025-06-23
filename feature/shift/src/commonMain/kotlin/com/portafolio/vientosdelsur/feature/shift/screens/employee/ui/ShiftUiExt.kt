@@ -24,7 +24,7 @@ internal fun getShiftColorByType(shiftType: ShiftType): Color {
     }
 }
 
-private val hourFormatter = LocalTime.Format {
+internal val hourFormatter = LocalTime.Format {
     hour()
     chars(":")
     minute()

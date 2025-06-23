@@ -19,7 +19,7 @@ internal actual class FirebaseUserRepository(
         emit(
             User(
                 id = USER_ID,
-                name = "FERNANDO BELMAR",
+                name = "",
                 photoUrl = "",
                 email = Email("fern.belmar@duocuc.cl"),
                 isActive = true
@@ -40,6 +40,6 @@ internal actual class FirebaseUserRepository(
     )
 
     private companion object {
-        private const val USER_ID = "KMgluXQy7Da43RCGIwbqpUNZlNN2"
+        private const val USER_ID = "2oJjFDXkLlQxKoZ4rB7gQ3avAnJ2"
     }
 }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.window.core.layout.WindowWidthSizeClass
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -32,9 +30,11 @@ import com.portafolio.vientosdelsur.domain.shift.ShiftType
 import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.displayName
 import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.formatShiftTime
 import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.getShiftColorByType
+import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.hourFormatter
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.format
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -57,7 +57,7 @@ internal fun EmployeeScheduleCalendar(
 
     // Get unique shift types for legend
     val shiftTypes = remember(schedule.workingDays) {
-        schedule.workingDays.map { it.shift.type }.distinct().sorted()
+        schedule.workingDays.map { it.shift }.distinct()
     }
 
     val daysOfWeek = remember { DayOfWeek.entries }
@@ -90,7 +90,7 @@ internal fun EmployeeScheduleCalendar(
         )
 
         ScheduleLegend(
-            shiftTypes = shiftTypes,
+            shifts = shiftTypes,
             modifier = Modifier.padding(top = 16.dp)
         )
     }
@@ -223,14 +223,13 @@ internal fun ScheduleDay(
 
 @Composable
 internal fun ScheduleLegend(
-    shiftTypes: List<ShiftType>,
+    shifts: List<Shift>,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .padding(horizontal = 16.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -251,10 +250,10 @@ internal fun ScheduleLegend(
             )
 
             // Shift types
-            shiftTypes.forEach { shiftType ->
+            shifts.forEach { shift ->
                 LegendItem(
-                    color = getShiftColorByType(shiftType),
-                    label = stringResource(shiftType.displayName),
+                    color = getShiftColorByType(shift.type),
+                    label = "${stringResource(shift.type.displayName)} (${shift.startTime.format(hourFormatter)} - ${shift.endTime.format(hourFormatter)})",
                     modifier = Modifier.padding(vertical = 2.dp)
                 )
             }
