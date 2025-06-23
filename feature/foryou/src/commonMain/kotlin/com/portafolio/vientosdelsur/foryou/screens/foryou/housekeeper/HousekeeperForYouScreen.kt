@@ -202,3 +202,28 @@ private fun RoomScreenPreview() {
         }
     }
 }
+
+@Composable
+@Preview
+private fun RoomScreenEmptyPreview() {
+    VientosDelSurTheme {
+        Surface {
+            HousekeeperForYouScreen(
+                rooms = emptyList(),
+                employee = Employee(
+                    id = 1,
+                    firstName = "Flor",
+                    lastName = "Gonzales",
+                    occupation = Occupation.HOUSEKEEPER,
+                    userId = "emp-123456",
+                    email = "flow.gonzals@vientosdelsur.com",
+                    photoUrl = "https://example.com/photos/employee1.jpg",
+                    phoneNumber = "+1234567890",
+                    isEnabled = true
+                ),
+                onSignOut = {},
+                onNavigateToImageAnalysis = {},
+            )
+        }
+    }
+}

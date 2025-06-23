@@ -89,12 +89,12 @@ internal fun EmployeeDto.Create.toEmployee(): Employee {
                     userData = user,
                 )
 
-                EmployeeOccupationDto.Admin -> Employee.HousekeeperSupervisor(
+                EmployeeOccupationDto.Admin -> Employee.Admin(
                     data = baseEmployee,
                     userData = user,
                 )
 
-                EmployeeOccupationDto.Cook -> Employee.HousekeeperSupervisor(
+                EmployeeOccupationDto.Cook -> Employee.Cook(
                     data = baseEmployee,
                     userData = user,
                 )
