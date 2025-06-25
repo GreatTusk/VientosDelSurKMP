@@ -1,6 +1,6 @@
 -keep class org.sqlite.** { *; }
 
--keepclasseswithmembers public class com.f776.japanesedictionary.MainKt {  # <-- Change com.company to yours
+-keepclasseswithmembers public class com.portafolio.vientosdelsur.MainKt {  # <-- Change com.company to yours
     public static void main(java.lang.String[]);
 }
 
@@ -13,7 +13,7 @@
 -keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
     <fields>;
 }
-#-keep class com.f776.japanesedictionary.** { *; }
+#-keep class com.portafolio.vientosdelsur.** { *; }
 
 # Keep Kuromoji classes
 -keep class com.atilika.kuromoji.** { *; }
@@ -71,11 +71,11 @@
 
 # Keep Serializers
 
--keep,includedescriptorclasses class com.f776.japanesedictionary.**$$serializer { *; }  # <-- Change com.f776.japanesedictionary
--keepclassmembers class com.f776.japanesedictionary.** {  # <-- Change com.f776.japanesedictionary to yours
+-keep,includedescriptorclasses class com.portafolio.vientosdelsur.**$$serializer { *; }  # <-- Change com.portafolio.vientosdelsur
+-keepclassmembers class com.portafolio.vientosdelsur.** {  # <-- Change com.portafolio.vientosdelsur to yours
     *** Companion;
 }
--keepclasseswithmembers class com.f776.japanesedictionary.** { # <-- Change com.f776.japanesedictionary to yours
+-keepclasseswithmembers class com.portafolio.vientosdelsur.** { # <-- Change com.portafolio.vientosdelsur to yours
     kotlinx.serialization.KSerializer serializer(...);
 }
 
