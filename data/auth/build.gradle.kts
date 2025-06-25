@@ -37,5 +37,11 @@ buildkonfig {
     defaultConfigs {
         buildConfigField(FieldSpec.Type.STRING, "GOOGLE_OAUTH_CLIENT_ID", "${secretKeyProperties["GOOGLE_OAUTH_CLIENT_ID"]}")
     }
+
+    targetConfigs {
+        create("desktop") {
+            buildConfigField(FieldSpec.Type.STRING, "DEMO_ROLE", "${secretKeyProperties["DEMO_ROLE"]}")
+        }
+    }
     exposeObjectWithName = "BuildConfig"
 }
