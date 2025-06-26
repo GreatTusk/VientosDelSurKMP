@@ -13,12 +13,9 @@ import com.portafolio.vientosdelsur.domain.shift.model.ShiftDate
 import com.portafolio.vientosdelsur.domain.shift.model.SundaysOff
 import com.portafolio.vientosdelsur.domain.shift.sundays
 import com.portafolio.vientosdelsur.domain.shift.workingDays
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
 
 class ScheduleShiftUseCase(

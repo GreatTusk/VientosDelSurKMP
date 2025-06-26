@@ -96,7 +96,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/BaseResponseDto_List<? extends EmployeeScheduleDto>"
+                $ref: "#/components/schemas/BaseResponseDto_List<? extends MonthlyShiftDistributionDto>"
         "500":
           description: "Internal Server Error"
           content:
@@ -109,7 +109,22 @@ paths:
   /shifts/scheduling/generate:
     post:
       description: ""
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid date format"
         "200":
           description: "OK"
           content:
@@ -247,43 +262,16 @@ components:
     Get:
       type: "object"
       properties: { }
-    EmployeeScheduleDto:
-      type: "object"
-      properties:
-        employeeDto:
-          $ref: "#/components/schemas/Get"
-        scheduleDto:
-          $ref: "#/components/schemas/ScheduleDto"
-      required:
-        - "employeeDto"
-        - "scheduleDto"
-    BaseResponseDto_List<? extends EmployeeScheduleDto>:
-      type: "object"
-      properties:
-        message:
-          type: "string"
-        timestamp:
-          type: "string"
-          format: "date-time"
-        data:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/EmployeeScheduleDto"
     MonthlyShiftDistributionDto:
       type: "object"
       properties:
         employee:
           $ref: "#/components/schemas/Get"
-        sundaysOff:
-          type: "array"
-        shiftDate:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/ShiftDateDto"
+        scheduleDto:
+          $ref: "#/components/schemas/ScheduleDto"
       required:
         - "employee"
-        - "sundaysOff"
-        - "shiftDate"
+        - "scheduleDto"
     BaseResponseDto_List<? extends MonthlyShiftDistributionDto>:
       type: "object"
       properties:
