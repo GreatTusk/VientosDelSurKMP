@@ -41,10 +41,8 @@ internal class ShiftServiceImpl(private val shiftRepository: ShiftRepository) : 
             }
     }
 
-    override suspend fun getMonthlyShifts(): Result<BaseResponseDto<List<MonthlyShiftDistributionDto>>, DataError.Remote> {
-        val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-
-        return shiftRepository.getMonthlyShifts(currentDate.workingDaysRange)
+    override suspend fun getMonthlyShifts(date: LocalDate): Result<BaseResponseDto<List<MonthlyShiftDistributionDto>>, DataError.Remote> {
+        return shiftRepository.getMonthlyShifts(date.workingDaysRange)
             .map { shifts ->
                 shifts
                     .mapKeys { (key, _) -> key.toEmployeeDto() }

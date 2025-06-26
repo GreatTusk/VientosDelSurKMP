@@ -90,7 +90,22 @@ paths:
   /shifts/scheduling:
     get:
       description: ""
+      parameters:
+        - name: "date"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid date format"
         "200":
           description: "OK"
           content:

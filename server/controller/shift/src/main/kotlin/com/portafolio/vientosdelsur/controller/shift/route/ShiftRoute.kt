@@ -63,7 +63,13 @@ fun Application.shiftRoute() {
             route("/scheduling") {
 
                 get {
-                    shiftService.getMonthlyShifts()
+                    val date = try {
+                        call.parseDateFromQueryParams() ?: today()
+                    } catch (e: IllegalArgumentException) {
+                        return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                    }
+
+                    shiftService.getMonthlyShifts(date)
                         .onSuccess {
                             call.respond(it)
                         }
