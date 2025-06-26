@@ -19,3 +19,4 @@ captures
 
 secrets.properties
 .env
+composeApp/release
