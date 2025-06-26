@@ -14,6 +14,8 @@ import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toKotlinLocalDate
 import org.koin.ktor.ext.inject
 
 fun Application.shiftRoute() {
@@ -71,7 +73,13 @@ fun Application.shiftRoute() {
                 }
 
                 post("/generate") {
-                    shiftSchedulerService.generateDraftSchedule()
+                    val date = try {
+                        call.parseDateFromQueryParams() ?: nextMonth()
+                    } catch (e: IllegalArgumentException) {
+                        return@post call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                    }
+
+                    shiftSchedulerService.generateDraftSchedule(date)
                         .onSuccess {
                             call.respond(it)
                         }
@@ -99,3 +107,9 @@ fun Application.shiftRoute() {
         }
     }
 }
+
+private fun nextMonth() = today()
+    .toJavaLocalDate()
+    .withDayOfMonth(15)
+    .plusMonths(1)
+    .toKotlinLocalDate()
