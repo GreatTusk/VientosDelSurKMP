@@ -4,25 +4,10 @@
     public static void main(java.lang.String[]);
 }
 
-# JNA
--keep class com.sun.jna.** { *; }
--keep class * implements com.sun.jna.** { *; }
-
-# wire protobuf
--keep class com.squareup.wire.** { *; }
--keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
-    <fields>;
-}
-#-keep class com.portafolio.vientosdelsur.** { *; }
-
-# Keep Kuromoji classes
--keep class com.atilika.kuromoji.** { *; }
-
-# Room
--keep class androidx.sqlite.** { *; }
--keep class * extends androidx.room.RoomDatabase
--keep @androidx.room.Entity class *
--dontwarn androidx.room.paging.**
+# Keep Ktor serialization provider used by ServiceLoader
+-keep class io.ktor.serialization.kotlinx.json.KotlinxSerializationJsonExtensionProvider { *; }
+# Keep Firebase component registrars, which are discovered at runtime.
+-keep public class * implements com.google.firebase.components.ComponentRegistrar
 
 -dontwarn kotlinx.coroutines.debug.*
 

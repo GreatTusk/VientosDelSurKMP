@@ -1,4 +1,3 @@
-
 import com.f776.convention.getVersionCodeAndNameProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -21,6 +20,9 @@ class DesktopApplicationConventionPlugin : Plugin<Project> {
                         packageVersion = versionNameProperty
                         description = "Vientos del Sur"
                         copyright = "Copyright (c) 2025, GreatTusk"
+
+                        // Required by desktop FirebaseSDK
+                        modules("java.management")
 
                         windows {
                             iconFile.set(project.file("ic_launcher-playstore.ico"))
