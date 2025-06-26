@@ -10,6 +10,7 @@ import com.portafolio.vientosdelsur.data.shift.network.RemoteShiftDataSource
 import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.Schedule
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
+import kotlinx.datetime.LocalDate
 
 internal class ShiftRepositoryImpl(private val remoteShiftDataSource: RemoteShiftDataSource) : ShiftRepository {
     override suspend fun getEmployeeSchedule(employeeId: Int): Result<Schedule, DataError.Remote> {
@@ -17,8 +18,8 @@ internal class ShiftRepositoryImpl(private val remoteShiftDataSource: RemoteShif
             .map { it.toDomain() }
     }
 
-    override suspend fun getAllEmployeeSchedule(): Result<List<EmployeeSchedule>, DataError.Remote> {
-        return remoteShiftDataSource.getAllEmployeeSchedule()
+    override suspend fun getAllEmployeeSchedule(date: LocalDate): Result<List<EmployeeSchedule>, DataError.Remote> {
+        return remoteShiftDataSource.getAllEmployeeSchedule(date = date)
             .flatMap {
                 EmployeeSchedule(
                     employee = it.employee.toEmployee(),

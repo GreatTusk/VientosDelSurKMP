@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -17,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.kizitonwose.calendar.core.now
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.shift.*
@@ -37,7 +41,10 @@ internal fun ShiftReviewerScreenRoot(
 }
 
 @Composable
-private fun ShiftReviewerScreen(modifier: Modifier = Modifier, monthlyShifts: List<EmployeeSchedule>) {
+private fun ShiftReviewerScreen(
+    modifier: Modifier = Modifier,
+    monthlyShifts: List<EmployeeSchedule>
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val layoutDirection = LocalLayoutDirection.current
 
@@ -45,6 +52,15 @@ private fun ShiftReviewerScreen(modifier: Modifier = Modifier, monthlyShifts: Li
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
+                navigationIcon = {
+                    Row {
+                        Icon(imageVector = Icons.Default.CalendarMonth, contentDescription = null)
+                        Text("")
+                    }
+                },
+                actions = {
+
+                },
                 title = {
                     Text(
                         text = "Turnos del personal",
