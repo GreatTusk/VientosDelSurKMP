@@ -2,6 +2,7 @@ package com.portafolio.vientosdelsur.controller.cron
 
 import com.f776.core.common.onError
 import com.f776.core.common.onSuccess
+import com.portafolio.vientosdelsur.core.controller.util.today
 import com.portafolio.vientosdelsur.service.housekeeping.RoomDistributionService
 import com.portafolio.vientosdelsur.service.shift.ShiftSchedulerService
 import io.ktor.server.application.*
@@ -19,14 +20,15 @@ fun Application.cronJob() {
             val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
             if (now.dayOfMonth == 1) {
-                shiftSchedulerService.generateDraftSchedule()
+                val middleOfMonth = middleOfCurrentMonth()
+                shiftSchedulerService.generateDraftSchedule(middleOfMonth)
                     .onSuccess {
                         coroutineScope {
                             launch {
                                 shiftSchedulerService.publishSchedule(it.data)
                             }
                             launch {
-                                roomDistributionService.distributeRoomsMonth(now.date).onError {
+                                roomDistributionService.distributeRoomsMonth(middleOfMonth).onError {
                                     log.error("Something went wrong with room distribution $it")
                                 }
                             }
@@ -58,7 +60,9 @@ fun Application.cronJob() {
     }
 }
 
-// Extension function to get the next month
+// Needed to avoid invalid working days range generation
+private fun middleOfCurrentMonth() = today().toJavaLocalDate().withDayOfMonth(15).toKotlinLocalDate()
+
 private fun Month.next(): Month {
     return Month.of(ordinal + 2)
 }

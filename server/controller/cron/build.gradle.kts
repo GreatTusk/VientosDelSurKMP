@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.server.core.controller)
     implementation(projects.server.service.housekeeping)
     implementation(projects.server.service.shift)
 
