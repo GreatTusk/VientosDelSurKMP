@@ -12,9 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -24,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.components.HintMessage
 import com.f776.core.ui.theme.VientosDelSurTheme
-import com.kizitonwose.calendar.core.plusMonths
+import com.kizitonwose.calendar.core.YearMonth
 import com.portafolio.vientosdelsur.domain.employee.Employee
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.shift.*
@@ -32,10 +30,10 @@ import com.portafolio.vientosdelsur.feature.shift.screens.components.EmployeeSch
 import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.displayName
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.format
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.reflect.KFunction0
 
 @Composable
 internal fun ShiftReviewerScreenRoot(
@@ -46,6 +44,7 @@ internal fun ShiftReviewerScreenRoot(
     val currentMonth by shiftReviewerViewModel.currentMonth.collectAsStateWithLifecycle()
     val canGoBack by shiftReviewerViewModel.canGoBack.collectAsStateWithLifecycle()
     val canGoForward by shiftReviewerViewModel.canGoForward.collectAsStateWithLifecycle()
+    val scheduleDraft by shiftReviewerViewModel.shiftsDraft.collectAsStateWithLifecycle()
 
     ShiftReviewerScreen(
         modifier = modifier,
@@ -54,7 +53,10 @@ internal fun ShiftReviewerScreenRoot(
         onPreviousMonth = shiftReviewerViewModel::onPreviousMonth,
         onNextMonth = shiftReviewerViewModel::onNextMonth,
         canGoBack = canGoBack,
-        canGoForward = canGoForward
+        canGoForward = canGoForward,
+        scheduleDraft = scheduleDraft,
+        onGenerateDraft = shiftReviewerViewModel::onGenerateDistribution,
+        onSaveDraft = shiftReviewerViewModel::onSaveDistribution
     )
 }
 
@@ -66,7 +68,10 @@ private fun ShiftReviewerScreen(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     canGoBack: Boolean,
-    canGoForward: Boolean
+    canGoForward: Boolean,
+    scheduleDraft: List<EmployeeSchedule>?,
+    onGenerateDraft: () -> Unit,
+    onSaveDraft: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val layoutDirection = LocalLayoutDirection.current
@@ -104,7 +109,7 @@ private fun ShiftReviewerScreen(
         floatingActionButton = {
             AnimatedVisibility(visible = canGoBack) {
                 Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FloatingActionButton(onClick = {}) {
+                    FloatingActionButton(onClick = onSaveDraft) {
                         Icon(imageVector = Icons.Default.Save, contentDescription = null)
                     }
                     ExtendedFloatingActionButton(
@@ -114,14 +119,25 @@ private fun ShiftReviewerScreen(
                         icon = {
                             Icon(imageVector = Icons.Default.Brush, contentDescription = null)
                         },
-                        onClick = {}
+                        onClick = onGenerateDraft
                     )
                 }
             }
         }
     ) { innerPadding ->
-        AnimatedContent(monthlyShifts.isNotEmpty()) {
-            if (it) {
+        val shouldShowScheduleGrid = when {
+            !canGoForward -> scheduleDraft != null
+            !canGoBack -> monthlyShifts.isNotEmpty()
+            else -> monthlyShifts.isNotEmpty()
+        }
+
+        AnimatedContent(shouldShowScheduleGrid) { showGrid ->
+            if (showGrid) {
+                val dataToShow = when {
+                    !canGoForward && scheduleDraft != null -> scheduleDraft
+                    else -> monthlyShifts
+                }
+
                 LazyVerticalGrid(
                     contentPadding = PaddingValues(
                         top = innerPadding.calculateTopPadding(),
@@ -134,7 +150,7 @@ private fun ShiftReviewerScreen(
                     columns = GridCells.Adaptive(400.dp)
                 ) {
                     itemsIndexed(
-                        items = monthlyShifts,
+                        items = dataToShow,
                         key = { _, employee -> employee.employee.id }) { i, employeeSchedule ->
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(
@@ -144,9 +160,10 @@ private fun ShiftReviewerScreen(
 
                             EmployeeScheduleCalendar(
                                 contentPadding = PaddingValues(),
-                                schedule = employeeSchedule.schedule
+                                schedule = employeeSchedule.schedule,
+                                currentMonth = YearMonth(year = currentMonth.year, month = currentMonth.month)
                             )
-                            if (i != monthlyShifts.lastIndex) {
+                            if (i != dataToShow.lastIndex) {
                                 HorizontalDivider(modifier = Modifier.padding(8.dp))
                             }
                         }
@@ -214,7 +231,10 @@ private fun ShiftReviewerScreenPreview() {
             onPreviousMonth = {},
             onNextMonth = {},
             canGoBack = false,
-            canGoForward = true
+            canGoForward = true,
+            scheduleDraft = null,
+            onGenerateDraft = {},
+            onSaveDraft = {}
         )
     }
 }

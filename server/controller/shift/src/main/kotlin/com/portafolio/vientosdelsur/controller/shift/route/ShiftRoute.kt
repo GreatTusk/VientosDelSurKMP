@@ -78,11 +78,11 @@ fun Application.shiftRoute() {
                         }
                 }
 
-                post("/generate") {
+                get("/generate") {
                     val date = try {
                         call.parseDateFromQueryParams() ?: nextMonth()
                     } catch (e: IllegalArgumentException) {
-                        return@post call.respond(HttpStatusCode.BadRequest, "Invalid date format")
+                        return@get call.respond(HttpStatusCode.BadRequest, "Invalid date format")
                     }
 
                     shiftSchedulerService.generateDraftSchedule(date)

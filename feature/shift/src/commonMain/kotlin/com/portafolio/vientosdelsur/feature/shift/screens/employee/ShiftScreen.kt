@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.theme.VientosDelSurTheme
+import com.kizitonwose.calendar.core.YearMonth
 import com.portafolio.vientosdelsur.domain.auth.UserRepository
 import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.shift.Schedule
@@ -82,7 +83,8 @@ private fun ShiftScreen(modifier: Modifier = Modifier, schedule: Schedule) {
                     top = innerPadding.calculateTopPadding(),
                     bottom = innerPadding.calculateBottomPadding()
                 ).verticalScroll(rememberScrollState()).sizeIn(maxWidth = 600.dp, maxHeight = 800.dp),
-                schedule = schedule
+                schedule = schedule,
+                currentMonth = YearMonth.now()
             )
         }
     }

@@ -42,7 +42,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun EmployeeScheduleCalendar(
     schedule: Schedule,
     modifier: Modifier = Modifier,
-    currentMonth: YearMonth = YearMonth.now(),
+    currentMonth: YearMonth,
     onDateClick: ((LocalDate, ShiftDate?) -> Unit)? = null,
     contentPadding: PaddingValues
 ) {
@@ -325,7 +325,8 @@ private fun EmployeeSchedulePreview() {
                 schedule = mockSchedule,
                 onDateClick = { _, _ ->
                 },
-                contentPadding = PaddingValues(horizontal = 16.dp)
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                currentMonth = YearMonth.now()
             )
         }
     }

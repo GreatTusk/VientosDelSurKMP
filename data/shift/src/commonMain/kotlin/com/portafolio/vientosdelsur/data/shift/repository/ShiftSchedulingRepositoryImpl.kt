@@ -27,7 +27,7 @@ internal class ShiftSchedulingRepositoryImpl(
             }
     }
 
-    override suspend fun saveDraft(shiftSchedule: List<EmployeeSchedule>): EmptyResult<DataError.Remote> {
+    override suspend fun saveDraft(): EmptyResult<DataError.Remote> {
         val draftToSave = _generatedDraft.value
         if (draftToSave != null) {
             return remoteShiftDataSource.saveShiftScheduleDraft(draftToSave)
