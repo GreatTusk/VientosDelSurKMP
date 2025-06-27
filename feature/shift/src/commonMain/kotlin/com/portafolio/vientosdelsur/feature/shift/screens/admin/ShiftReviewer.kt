@@ -13,6 +13,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.f776.core.ui.components.HintMessage
+import com.f776.core.ui.components.ObserveAsEvents
 import com.f776.core.ui.theme.VientosDelSurTheme
 import com.kizitonwose.calendar.core.YearMonth
 import com.portafolio.vientosdelsur.domain.employee.Employee
@@ -28,12 +31,14 @@ import com.portafolio.vientosdelsur.domain.employee.Occupation
 import com.portafolio.vientosdelsur.domain.shift.*
 import com.portafolio.vientosdelsur.feature.shift.screens.components.EmployeeScheduleCalendar
 import com.portafolio.vientosdelsur.feature.shift.screens.employee.ui.displayName
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.reflect.KFunction0
 
 @Composable
 internal fun ShiftReviewerScreenRoot(
@@ -56,7 +61,8 @@ internal fun ShiftReviewerScreenRoot(
         canGoForward = canGoForward,
         scheduleDraft = scheduleDraft,
         onGenerateDraft = shiftReviewerViewModel::onGenerateDistribution,
-        onSaveDraft = shiftReviewerViewModel::onSaveDistribution
+        onSaveDraft = shiftReviewerViewModel::onSaveDistribution,
+        events = shiftReviewerViewModel.eventChannel
     )
 }
 
@@ -71,10 +77,20 @@ private fun ShiftReviewerScreen(
     canGoForward: Boolean,
     scheduleDraft: List<EmployeeSchedule>?,
     onGenerateDraft: () -> Unit,
-    onSaveDraft: () -> Unit
+    onSaveDraft: () -> Unit,
+    events: Flow<String>
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val layoutDirection = LocalLayoutDirection.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    ObserveAsEvents(events) {
+        scope.launch {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            snackbarHostState.showSnackbar(it)
+        }
+    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -123,9 +139,13 @@ private fun ShiftReviewerScreen(
                     )
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
         }
     ) { innerPadding ->
         val shouldShowScheduleGrid = when {
+            !canGoForward && monthlyShifts.isNotEmpty() -> true
             !canGoForward -> scheduleDraft != null
             !canGoBack -> monthlyShifts.isNotEmpty()
             else -> monthlyShifts.isNotEmpty()
@@ -134,6 +154,7 @@ private fun ShiftReviewerScreen(
         AnimatedContent(shouldShowScheduleGrid) { showGrid ->
             if (showGrid) {
                 val dataToShow = when {
+                    !canGoForward && monthlyShifts.isNotEmpty() -> monthlyShifts
                     !canGoForward && scheduleDraft != null -> scheduleDraft
                     else -> monthlyShifts
                 }
@@ -234,7 +255,8 @@ private fun ShiftReviewerScreenPreview() {
             canGoForward = true,
             scheduleDraft = null,
             onGenerateDraft = {},
-            onSaveDraft = {}
+            onSaveDraft = {},
+            events = emptyFlow()
         )
     }
 }

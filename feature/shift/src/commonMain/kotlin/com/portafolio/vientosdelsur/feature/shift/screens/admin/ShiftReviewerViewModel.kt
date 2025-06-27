@@ -12,6 +12,7 @@ import com.portafolio.vientosdelsur.domain.shift.EmployeeSchedule
 import com.portafolio.vientosdelsur.domain.shift.ShiftRepository
 import com.portafolio.vientosdelsur.domain.shift.ShiftSchedulingRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -58,6 +59,9 @@ internal class ShiftReviewerViewModel(
             initialValue = true
         )
 
+    private val _eventChannel = Channel<String>()
+    val eventChannel = _eventChannel.receiveAsFlow()
+
     fun onPreviousMonth() {
         _currentMonth.update { it.minusMonths(1) }
     }
@@ -71,6 +75,7 @@ internal class ShiftReviewerViewModel(
             shiftSchedulingRepository.generateDraft()
                 .onSuccess { data ->
                     _shiftsDraft.update { data }
+                    _eventChannel.send("Se ha generado una nueva distribución")
                 }
         }
     }
@@ -78,7 +83,10 @@ internal class ShiftReviewerViewModel(
     fun onSaveDistribution() {
         viewModelScope.launch {
             shiftSchedulingRepository.saveDraft()
-            _refreshTrigger.update { it + 1 }
+                .onSuccess {
+                    _refreshTrigger.update { it + 1 }
+                    _eventChannel.send("Se ha guardado la distribución correctamente")
+                }
         }
     }
 }
