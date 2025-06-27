@@ -1,6 +1,7 @@
 package com.portafolio.vientosdelsur.data.shift.network
 
 import com.f776.core.common.DataError
+import com.f776.core.common.EmptyResult
 import com.f776.core.common.Result
 import com.f776.core.common.map
 import com.f776.core.network.safeCall
@@ -24,5 +25,15 @@ internal class KtorRemoteShiftDataSource(private val httpClient: HttpClient) : R
                 parameter("date", date)
             }
         }.map { it.data }
-    
+
+    override suspend fun generateShiftScheduleDraft(): Result<List<MonthlyShiftDistributionDto>, DataError.Remote> =
+        safeCall<BaseResponseDto<List<MonthlyShiftDistributionDto>>> {
+            httpClient.get("${BuildConfig.BASE_URL}/shifts/scheduling/generate")
+        }.map { it.data }
+
+    override suspend fun saveShiftScheduleDraft(shiftSchedule: List<MonthlyShiftDistributionDto>): EmptyResult<DataError.Remote> = safeCall<Unit> {
+        httpClient.post("${BuildConfig.BASE_URL}/shifts/scheduling/publish") {
+            setBody(shiftSchedule)
+        }
+    }
 }

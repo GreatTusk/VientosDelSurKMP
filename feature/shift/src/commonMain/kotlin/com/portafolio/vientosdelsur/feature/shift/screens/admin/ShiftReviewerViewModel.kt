@@ -31,6 +31,14 @@ internal class ShiftReviewerViewModel(private val shiftRepository: ShiftReposito
         initialValue = emptyList()
     )
 
+    private val _shiftsDraft = flow { emit(shiftRepository) }
+
+    val shiftsDraft = _shiftsDraft.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5.seconds),
+        initialValue = emptyList()
+    )
+
     val canGoBack = _currentMonth.map { it.month != initialDate.month }
         .stateIn(
             scope = viewModelScope,
@@ -51,5 +59,13 @@ internal class ShiftReviewerViewModel(private val shiftRepository: ShiftReposito
 
     fun onNextMonth() {
         _currentMonth.update { it.plusMonths(1) }
+    }
+
+    fun onGenerateDistribution() {
+
+    }
+
+    fun onSaveDistribution() {
+
     }
 }
