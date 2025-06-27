@@ -18,11 +18,12 @@ internal fun List<MonthlyShiftDistributionDto>.toEmployeeShiftsMap(): Map<Employ
     }
 }
 
+// Fragile -- should improve
 internal fun MonthlyShiftDistributionDto.toEmployeeDaysOff(): EmployeeDaysOff {
-    check(this.scheduleDto.daysOff.size == 2)
+    check(this.scheduleDto.daysOff.size >= 2)
     return EmployeeDaysOff(
         employee = employee.toEmployee(),
-        sundaysOff = SundaysOff(this.scheduleDto.daysOff.first(), this.scheduleDto.daysOff.last())
+        sundaysOff = SundaysOff(this.scheduleDto.daysOff[0], this.scheduleDto.daysOff[1])
     )
 }
 

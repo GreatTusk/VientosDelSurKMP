@@ -18,7 +18,7 @@ internal class ShiftSchedulerServiceImpl(
 ) : ShiftSchedulerService {
     override suspend fun generateDraftSchedule(month: LocalDate): Result<MonthlyShiftDistributionResponse, DataError.Remote> {
         return scheduleShiftUseCase(date = month)
-            .map { shifts -> shifts.map { it.toMonthlyShiftsDto() } }
+            .map { shifts -> shifts.map { it.toMonthlyShiftsDto(month) } }
             .map { BaseResponseDto(message = "Distribution as follows", data = it) }
     }
 

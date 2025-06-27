@@ -151,8 +151,8 @@ private fun ShiftReviewerScreen(
                 ) {
                     itemsIndexed(
                         items = dataToShow,
-                        key = { _, employee -> employee.employee.id }) { i, employeeSchedule ->
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        key = { _, employee -> "${employee.employee.id}$currentMonth" }) { i, employeeSchedule ->
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.animateItem()) {
                             Text(
                                 text = employeeSchedule.employee.fullName,
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
