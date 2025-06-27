@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.f776.core.ui.theme.VientosDelSurTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -35,12 +36,14 @@ fun HintMessage(modifier: Modifier = Modifier, icon: ImageVector, title: String,
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
         )
         Text(
             text = subtitle,
             style = MaterialTheme.typography.bodyLarge,
-            color = LocalContentColor.current.copy(alpha = 0.8f)
+            color = LocalContentColor.current.copy(alpha = 0.8f),
+            textAlign = TextAlign.Center
         )
     }
 }

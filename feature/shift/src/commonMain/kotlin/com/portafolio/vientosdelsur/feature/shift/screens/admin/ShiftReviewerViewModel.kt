@@ -16,9 +16,9 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.seconds
 
 internal class ShiftReviewerViewModel(private val shiftRepository: ShiftRepository) : ViewModel() {
-    private val _currentMonth =
-        MutableStateFlow(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date)
+    private val initialDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
+    private val _currentMonth = MutableStateFlow(initialDate)
     val currentMonth = _currentMonth.asStateFlow()
 
     private val _monthlyShifts = currentMonth.flatMapLatest { date ->
@@ -31,12 +31,25 @@ internal class ShiftReviewerViewModel(private val shiftRepository: ShiftReposito
         initialValue = emptyList()
     )
 
-    fun updateMonth(monthSelector: MonthSelector) {
-        when (monthSelector) {
-            MonthSelector.NEXT -> _currentMonth.update { it.plusMonths(1) }
-            MonthSelector.PREVIOUS -> _currentMonth.update { it.minusMonths(1) }
-        }
+    val canGoBack = _currentMonth.map { it.month != initialDate.month }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5.seconds),
+            initialValue = false
+        )
+
+    val canGoForward = _currentMonth.map { it.month != initialDate.plusMonths(1).month }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5.seconds),
+            initialValue = true
+        )
+
+    fun onPreviousMonth() {
+        _currentMonth.update { it.minusMonths(1) }
+    }
+
+    fun onNextMonth() {
+        _currentMonth.update { it.plusMonths(1) }
     }
 }
-
-internal enum class MonthSelector { NEXT, PREVIOUS }
